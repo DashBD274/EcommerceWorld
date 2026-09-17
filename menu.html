@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="theme-color" content="#f5f5f5">
+    <title>Menu - UMALL247</title>
+    <link rel="stylesheet" href="detail.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* ================= Menu (Markets) পেজ ================= */
+        .menu-container {
+            max-width: 500px;
+            margin: 0 auto;
+            padding: 24px 16px 30px 16px;
+        }
+
+        /* টাইটেল */
+        .menu-title {
+            font-size: 24px;
+            font-weight: 800;
+            color: var(--text);
+            text-align: center;
+            margin-bottom: 8px;
+            letter-spacing: 0.3px;
+        }
+
+        .menu-subtitle {
+            font-size: 13px;
+            color: var(--text-light);
+            text-align: center;
+            margin-bottom: 20px;
+            line-height: 1.4;
+        }
+
+        /* ফিল্টার ট্যাব */
+        .filter-tabs {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 6px;
+            background: var(--card);
+            border-radius: 14px;
+            padding: 6px;
+            margin-bottom: 20px;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border);
+        }
+
+        .filter-tab {
+            padding: 10px 4px;
+            text-align: center;
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--text-light);
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.2s;
+            background: transparent;
+            border: none;
+            font-family: inherit;
+            -webkit-tap-highlight-color: transparent;
+            touch-action: manipulation;
+        }
+
+        .filter-tab.active {
+            background: #fde4d0;
+            color: #e65c00;
+        }
+
+        body.dark-mode .filter-tab.active {
+            background: rgba(230, 92, 0, 0.2);
+            color: #ff8c42;
+        }
+
+        /* Market কার্ড */
+        .market-card {
+            background: var(--card);
+            border-radius: 14px;
+            padding: 16px;
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            margin-bottom: 12px;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border);
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            -webkit-tap-highlight-color: transparent;
+            touch-action: manipulation;
+        }
+
+        .market-card:active {
+            transform: scale(0.98);
+            box-shadow: 0 6px 16px rgba(139, 92, 246, 0.15);
+        }
+
+        /* লোগো */
+        .market-logo {
+            width: 56px;
+            height: 56px;
+            border-radius: 12px;
+            background: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            overflow: hidden;
+            border: 1px solid var(--border);
+            padding: 6px;
+        }
+
+        body.dark-mode .market-logo {
+            background: #f8fafc;
+        }
+
+        .market-logo img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            display: block;
+        }
+
+        /* কনটেন্ট */
+        .market-content {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .market-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 8px;
+            margin-bottom: 6px;
+        }
+
+        .market-name {
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--text);
+            margin: 0;
+        }
+
+        .vip-badge {
+            background: #e65c00;
+            color: #fff;
+            padding: 3px 10px;
+            border-radius: 10px;
+            font-size: 10.5px;
+            font-weight: 700;
+            letter-spacing: 0.3px;
+            flex-shrink: 0;
+        }
+
+        .market-balance {
+            font-size: 12px;
+            color: var(--text-light);
+            margin-bottom: 4px;
+            line-height: 1.3;
+        }
+
+        .market-balance strong {
+            color: var(--text);
+            font-weight: 600;
+        }
+
+        .market-commission {
+            font-size: 12px;
+            color: var(--text-light);
+            line-height: 1.3;
+        }
+
+        .market-commission .rate {
+            color: #10b981;
+            font-weight: 700;
+        }
+
+        /* Arrow */
+        .market-arrow {
+            color: var(--text-light);
+            font-size: 14px;
+            flex-shrink: 0;
+            padding-left: 4px;
+        }
+
+        /* RTL */
+        body.rtl .market-card {
+            flex-direction: row-reverse;
+        }
+
+        body.rtl .market-header {
+            flex-direction: row-reverse;
+        }
+
+        body.rtl .market-arrow {
+            padding-left: 0;
+            padding-right: 4px;
+            transform: rotate(180deg);
+        }
+
+        /* মোবাইল */
+        @media (max-width: 360px) {
+            .menu-title { font-size: 21px; }
+            .menu-subtitle { font-size: 12px; }
+            .filter-tab { font-size: 12px; padding: 8px 2px; }
+            .market-logo { width: 48px; height: 48px; padding: 5px; }
+            .market-name { font-size: 14.5px; }
+            .vip-badge { font-size: 10px; padding: 2px 8px; }
+            .market-balance, .market-commission { font-size: 11px; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ================= হেডার ================= -->
+    <header class="dash-header">
+        <div class="brand-logo">
+            <span class="logo-icon">U<span class="fire-flame"></span></span>
+            <span class="logo-text">UMALL<span class="logo-24">247</span></span>
+        </div>
+        <div class="header-controls">
+            <div class="lang-selector-sm">
+                <select id="dashLanguageSelect">
+                    <option value="en">US English</option>
+                    <option value="es">Español</option>
+                    <option value="fr">Français</option>
+                    <option value="de">Deutsch</option>
+                    <option value="it">Italiano</option>
+                    <option value="pt">Português</option>
+                    <option value="nl">Nederlands</option>
+                    <option value="ru">Русский</option>
+                    <option value="tr">Türkçe</option>
+                    <option value="ar">العربية</option>
+                    <option value="fa">فارسی</option>
+                </select>
+            </div>
+            <button id="dashThemeToggle" class="theme-toggle-sm" type="button">
+                <i class="fa-solid fa-moon"></i>
+            </button>
+        </div>
+    </header>
+
+    <!-- ================= Menu কনটেন্ট ================= -->
+    <main class="menu-container">
+
+        <h1 class="menu-title" data-key="marketsTitle">Markets</h1>
+        <p class="menu-subtitle" data-key="marketsSubtitle">Select a market level to start working</p>
+
+        <!-- ফিল্টার ট্যাব -->
+        <div class="filter-tabs">
+            <button class="filter-tab active" data-filter="all" data-key="filterAll">All</button>
+            <button class="filter-tab" data-filter="vip1">VIP 1</button>
+            <button class="filter-tab" data-filter="vip2">VIP 2</button>
+            <button class="filter-tab" data-filter="vip3">VIP 3</button>
+        </div>
+
+        <!-- Market Cards -->
+        <div class="market-list" id="marketList">
+
+            <!-- Amazon — VIP 1 -->
+            <div class="market-card" data-vip="vip1">
+                <div class="market-logo">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/a/a9/Amazon_logo.svg" alt="Amazon">
+                </div>
+                <div class="market-content">
+                    <div class="market-header">
+                        <h3 class="market-name">Amazon</h3>
+                        <span class="vip-badge">VIP 1</span>
+                    </div>
+                    <p class="market-balance">
+                        <span data-key="availableBalance">Available balance</span>:
+                        <strong>20 USDT - 498 USDT</strong>
+                    </p>
+                    <p class="market-commission">
+                        <span data-key="commissionRate">Commission rate</span>:
+                        <span class="rate">4%</span>
+                    </p>
+                </div>
+                <i class="fa-solid fa-chevron-right market-arrow"></i>
+            </div>
+
+            <!-- Alibaba — VIP 2 -->
+            <div class="market-card" data-vip="vip2">
+                <div class="market-logo">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/8a/Alibaba_Logo.svg/512px-Alibaba_Logo.svg.png" alt="Alibaba">
+                </div>
+                <div class="market-content">
+                    <div class="market-header">
+                        <h3 class="market-name">Alibaba</h3>
+                        <span class="vip-badge">VIP 2</span>
+                    </div>
+                    <p class="market-balance">
+                        <span data-key="availableBalance">Available balance</span>:
+                        <strong>499 USDT - 898 USDT</strong>
+                    </p>
+                    <p class="market-commission">
+                        <span data-key="commissionRate">Commission rate</span>:
+                        <span class="rate">8%</span>
+                    </p>
+                </div>
+                <i class="fa-solid fa-chevron-right market-arrow"></i>
+            </div>
+
+            <!-- AliExpress — VIP 3 -->
+            <div class="market-card" data-vip="vip3">
+                <div class="market-logo">
+                    <img src="https://cdn.jsdelivr.net/gh/glincker/thesvg@main/public/icons/aliexpress/default.svg" alt="AliExpress">
+                </div>
+                <div class="market-content">
+                    <div class="market-header">
+                        <h3 class="market-name">AliExpress</h3>
+                        <span class="vip-badge">VIP 3</span>
+                    </div>
+                    <p class="market-balance">
+                        <span data-key="availableBalance">Available balance</span>:
+                        <strong>899 USDT - Unlimited</strong>
+                    </p>
+                    <p class="market-commission">
+                        <span data-key="commissionRate">Commission rate</span>:
+                        <span class="rate">12%</span>
+                    </p>
+                </div>
+                <i class="fa-solid fa-chevron-right market-arrow"></i>
+            </div>
+
+        </div>
+
+    </main>
+
+    <!-- ================= নিচের নেভিগেশন ================= -->
+    <nav class="bottom-nav">
+        <a href="dashboard.html" class="nav-item">
+            <i class="fa-solid fa-house"></i>
+            <span data-key="navHome">Home</span>
+        </a>
+        <a href="service.html" class="nav-item">
+            <i class="fa-solid fa-headset"></i>
+            <span data-key="navService">Service</span>
+        </a>
+        <a href="menu.html" class="nav-item active">
+            <i class="fa-solid fa-grip"></i>
+            <span data-key="navMenu">Menu</span>
+        </a>
+        <a href="#" class="nav-item">
+            <i class="fa-solid fa-clipboard"></i>
+            <span data-key="navRecord">Record</span>
+        </a>
+        <a href="#" class="nav-item">
+            <i class="fa-solid fa-user"></i>
+            <span data-key="navMine">Mine</span>
+        </a>
+    </nav>
+
+    <script src="detail.js"></script>
+    <script>
+        // ================= Menu পেজের অতিরিক্ত অনুবাদ =================
+        const menuTranslations = {
+            en: {
+                marketsTitle: "Markets",
+                marketsSubtitle: "Select a market level to start working",
+                filterAll: "All",
+                availableBalance: "Available balance",
+                commissionRate: "Commission rate"
+            },
+            es: {
+                marketsTitle: "Mercados",
+                marketsSubtitle: "Seleccione un nivel de mercado para comenzar a trabajar",
+                filterAll: "Todos",
+                availableBalance: "Saldo disponible",
+                commissionRate: "Tasa de comisión"
+            },
+            fr: {
+                marketsTitle: "Marchés",
+                marketsSubtitle: "Sélectionnez un niveau de marché pour commencer à travailler",
+                filterAll: "Tous",
+                availableBalance: "Solde disponible",
+                commissionRate: "Taux de commission"
+            },
+            de: {
+                marketsTitle: "Märkte",
+                marketsSubtitle: "Wählen Sie eine Marktstufe, um mit der Arbeit zu beginnen",
+                filterAll: "Alle",
+                availableBalance: "Verfügbares Guthaben",
+                commissionRate: "Provisionssatz"
+            },
+            it: {
+                marketsTitle: "Mercati",
+                marketsSubtitle: "Seleziona un livello di mercato per iniziare a lavorare",
+                filterAll: "Tutti",
+                availableBalance: "Saldo disponibile",
+                commissionRate: "Tasso di commissione"
+            },
+            pt: {
+                marketsTitle: "Mercados",
+                marketsSubtitle: "Selecione um nível de mercado para começar a trabalhar",
+                filterAll: "Todos",
+                availableBalance: "Saldo disponível",
+                commissionRate: "Taxa de comissão"
+            },
+            nl: {
+                marketsTitle: "Markten",
+                marketsSubtitle: "Selecteer een marktniveau om te beginnen met werken",
+                filterAll: "Alle",
+                availableBalance: "Beschikbaar saldo",
+                commissionRate: "Commissietarief"
+            },
+            ru: {
+                marketsTitle: "Рынки",
+                marketsSubtitle: "Выберите уровень рынка, чтобы начать работу",
+                filterAll: "Все",
+                availableBalance: "Доступный баланс",
+                commissionRate: "Ставка комиссии"
+            },
+            tr: {
+                marketsTitle: "Piyasalar",
+                marketsSubtitle: "Çalışmaya başlamak için bir pazar seviyesi seçin",
+                filterAll: "Tümü",
+                availableBalance: "Kullanılabilir bakiye",
+                commissionRate: "Komisyon oranı"
+            },
+            ar: {
+                marketsTitle: "الأسواق",
+                marketsSubtitle: "اختر مستوى السوق لبدء العمل",
+                filterAll: "الكل",
+                availableBalance: "الرصيد المتاح",
+                commissionRate: "معدل العمولة"
+            },
+            fa: {
+                marketsTitle: "بازارها",
+                marketsSubtitle: "یک سطح بازار را برای شروع کار انتخاب کنید",
+                filterAll: "همه",
+                availableBalance: "موجودی موجود",
+                commissionRate: "نرخ کمیسیون"
+            }
+        };
+
+        // অনুবাদ প্রয়োগ
+        function applyMenuLanguage(lang) {
+            const elements = document.querySelectorAll('[data-key]');
+            elements.forEach(el => {
+                const key = el.getAttribute('data-key');
+                if (menuTranslations[lang] && menuTranslations[lang][key]) {
+                    el.textContent = menuTranslations[lang][key];
+                } else if (typeof detailTranslations !== 'undefined' && detailTranslations[lang] && detailTranslations[lang][key]) {
+                    el.textContent = detailTranslations[lang][key];
+                }
+            });
+            const sel = document.getElementById('dashLanguageSelect');
+            if (sel) sel.value = lang;
+        }
+
+        // প্রাথমিক লোড
+        const menuLang = safeGet('language') || 'en';
+        applyMenuLanguage(menuLang);
+
+        // ভাষা পরিবর্তন
+        const menuLangSelect = document.getElementById('dashLanguageSelect');
+        if (menuLangSelect) {
+            menuLangSelect.addEventListener('change', function() {
+                const newLang = this.value;
+                safeSet('language', newLang);
+                applyMenuLanguage(newLang);
+                if (typeof applyDetailDirection === 'function') {
+                    applyDetailDirection(newLang);
+                }
+            });
+        }
+
+        // ================= ফিল্টার Functionality =================
+        const filterTabs = document.querySelectorAll('.filter-tab');
+        const marketCards = document.querySelectorAll('.market-card');
+
+        filterTabs.forEach(tab => {
+            tab.addEventListener('click', function() {
+                const filter = this.getAttribute('data-filter');
+
+                // Active class সরান
+                filterTabs.forEach(t => t.classList.remove('active'));
+                this.classList.add('active');
+
+                // কার্ড দেখান/লুকান
+                marketCards.forEach(card => {
+                    const vip = card.getAttribute('data-vip');
+                    if (filter === 'all' || vip === filter) {
+                        card.style.display = 'flex';
+                    } else {
+                        card.style.display = 'none';
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
