@@ -160,14 +160,15 @@
     <script src="firebase-auth.js"></script>
 
     <script>
-        // ================= Auth Check =================
-        onAuthChange(async function(isLoggedIn, user) {
+        // ================= ✅ FIXED Auth Check =================
+        // waitForAuthReady ব্যবহার করে Firebase state ready হওয়ার জন্য অপেক্ষা করবো
+        waitForAuthReady(async function(isLoggedIn, user) {
             if (!isLoggedIn) {
                 window.location.href = 'index.html';
                 return;
             }
 
-            // Firestore থেকে Balance আনুন
+            // User logged in — Firestore থেকে Balance লোড
             const result = await getUserData(user.uid);
             if (result.success) {
                 const balanceEl = document.getElementById('userBalance');
