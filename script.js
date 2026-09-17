@@ -1,235 +1,136 @@
 // ================= ভাষার অনুবাদ =================
 const translations = {
     en: {
-        signIn: "Sign In",
-        subtitle: "Welcome back! Enter your credentials to access your account",
-        emailPlaceholder: "Email Address",
-        passwordPlaceholder: "Password",
-        verifyPlaceholder: "Verification",
-        remember: "Remember password",
-        forgot: "Forgot Password?",
-        loginBtn: "Login",
-        noAccount: "Don't have an account?",
-        signUp: "Sign Up",
-        createAccount: "Create Account",
-        registerSubtitle: "Register a new account to get started",
-        fullNamePlaceholder: "Enter your full name",
-        confirmPasswordPlaceholder: "Confirm Password",
-        referCodePlaceholder: "Refer Code (Optional)",
-        registerBtn: "Register",
+        signIn: "Sign In", subtitle: "Welcome back! Enter your credentials to access your account",
+        emailPlaceholder: "Email Address", passwordPlaceholder: "Password",
+        verifyPlaceholder: "Verification", remember: "Remember password",
+        forgot: "Forgot Password?", loginBtn: "Login",
+        noAccount: "Don't have an account?", signUp: "Sign Up",
+        createAccount: "Create Account", registerSubtitle: "Register a new account to get started",
+        fullNamePlaceholder: "Enter your full name", confirmPasswordPlaceholder: "Confirm Password",
+        referCodePlaceholder: "Refer Code (Optional)", registerBtn: "Register",
         haveAccount: "Already have an account?",
-        verifying: "Verifying your email...",
-        verified: "Email verification completed!"
+        verifying: "Verifying your email...", verified: "Email verification completed!"
     },
     es: {
-        signIn: "Iniciar sesión",
-        subtitle: "¡Bienvenido de nuevo! Ingrese sus credenciales para acceder a su cuenta",
-        emailPlaceholder: "Correo electrónico",
-        passwordPlaceholder: "Contraseña",
-        verifyPlaceholder: "Verificación",
-        remember: "Recordar contraseña",
-        forgot: "¿Olvidaste tu contraseña?",
-        loginBtn: "Iniciar sesión",
-        noAccount: "¿No tienes una cuenta?",
-        signUp: "Regístrate",
-        createAccount: "Crear cuenta",
-        registerSubtitle: "Registre una nueva cuenta para comenzar",
-        fullNamePlaceholder: "Ingrese su nombre completo",
-        confirmPasswordPlaceholder: "Confirmar contraseña",
-        referCodePlaceholder: "Código de referencia (opcional)",
-        registerBtn: "Registrarse",
+        signIn: "Iniciar sesión", subtitle: "¡Bienvenido de nuevo! Ingrese sus credenciales para acceder a su cuenta",
+        emailPlaceholder: "Correo electrónico", passwordPlaceholder: "Contraseña",
+        verifyPlaceholder: "Verificación", remember: "Recordar contraseña",
+        forgot: "¿Olvidaste tu contraseña?", loginBtn: "Iniciar sesión",
+        noAccount: "¿No tienes una cuenta?", signUp: "Regístrate",
+        createAccount: "Crear cuenta", registerSubtitle: "Registre una nueva cuenta para comenzar",
+        fullNamePlaceholder: "Ingrese su nombre completo", confirmPasswordPlaceholder: "Confirmar contraseña",
+        referCodePlaceholder: "Código de referencia (opcional)", registerBtn: "Registrarse",
         haveAccount: "¿Ya tienes una cuenta?",
-        verifying: "Verificando tu correo electrónico...",
-        verified: "¡Verificación de correo completada!"
+        verifying: "Verificando tu correo electrónico...", verified: "¡Verificación de correo completada!"
     },
     fr: {
-        signIn: "Se connecter",
-        subtitle: "Bon retour ! Entrez vos identifiants pour accéder à votre compte",
-        emailPlaceholder: "Adresse e-mail",
-        passwordPlaceholder: "Mot de passe",
-        verifyPlaceholder: "Vérification",
-        remember: "Se souvenir du mot de passe",
-        forgot: "Mot de passe oublié ?",
-        loginBtn: "Connexion",
-        noAccount: "Vous n'avez pas de compte ?",
-        signUp: "S'inscrire",
-        createAccount: "Créer un compte",
-        registerSubtitle: "Inscrivez un nouveau compte pour commencer",
-        fullNamePlaceholder: "Entrez votre nom complet",
-        confirmPasswordPlaceholder: "Confirmer le mot de passe",
-        referCodePlaceholder: "Code de parrainage (facultatif)",
-        registerBtn: "S'inscrire",
+        signIn: "Se connecter", subtitle: "Bon retour ! Entrez vos identifiants pour accéder à votre compte",
+        emailPlaceholder: "Adresse e-mail", passwordPlaceholder: "Mot de passe",
+        verifyPlaceholder: "Vérification", remember: "Se souvenir du mot de passe",
+        forgot: "Mot de passe oublié ?", loginBtn: "Connexion",
+        noAccount: "Vous n'avez pas de compte ?", signUp: "S'inscrire",
+        createAccount: "Créer un compte", registerSubtitle: "Inscrivez un nouveau compte pour commencer",
+        fullNamePlaceholder: "Entrez votre nom complet", confirmPasswordPlaceholder: "Confirmer le mot de passe",
+        referCodePlaceholder: "Code de parrainage (facultatif)", registerBtn: "S'inscrire",
         haveAccount: "Vous avez déjà un compte ?",
-        verifying: "Vérification de votre e-mail...",
-        verified: "Vérification de l'e-mail terminée !"
+        verifying: "Vérification de votre e-mail...", verified: "Vérification de l'e-mail terminée !"
     },
     de: {
-        signIn: "Anmelden",
-        subtitle: "Willkommen zurück! Geben Sie Ihre Anmeldedaten ein, um auf Ihr Konto zuzugreifen",
-        emailPlaceholder: "E-Mail-Adresse",
-        passwordPlaceholder: "Passwort",
-        verifyPlaceholder: "Verifizierung",
-        remember: "Passwort merken",
-        forgot: "Passwort vergessen?",
-        loginBtn: "Anmelden",
-        noAccount: "Sie haben kein Konto?",
-        signUp: "Registrieren",
-        createAccount: "Konto erstellen",
-        registerSubtitle: "Registrieren Sie ein neues Konto, um zu beginnen",
-        fullNamePlaceholder: "Geben Sie Ihren vollständigen Namen ein",
-        confirmPasswordPlaceholder: "Passwort bestätigen",
-        referCodePlaceholder: "Empfehlungscode (optional)",
-        registerBtn: "Registrieren",
+        signIn: "Anmelden", subtitle: "Willkommen zurück! Geben Sie Ihre Anmeldedaten ein",
+        emailPlaceholder: "E-Mail-Adresse", passwordPlaceholder: "Passwort",
+        verifyPlaceholder: "Verifizierung", remember: "Passwort merken",
+        forgot: "Passwort vergessen?", loginBtn: "Anmelden",
+        noAccount: "Sie haben kein Konto?", signUp: "Registrieren",
+        createAccount: "Konto erstellen", registerSubtitle: "Registrieren Sie ein neues Konto",
+        fullNamePlaceholder: "Geben Sie Ihren vollständigen Namen ein", confirmPasswordPlaceholder: "Passwort bestätigen",
+        referCodePlaceholder: "Empfehlungscode (optional)", registerBtn: "Registrieren",
         haveAccount: "Sie haben bereits ein Konto?",
-        verifying: "E-Mail wird überprüft...",
-        verified: "E-Mail-Verifizierung abgeschlossen!"
+        verifying: "E-Mail wird überprüft...", verified: "E-Mail-Verifizierung abgeschlossen!"
     },
     it: {
-        signIn: "Accedi",
-        subtitle: "Bentornato! Inserisci le tue credenziali per accedere al tuo account",
-        emailPlaceholder: "Indirizzo email",
-        passwordPlaceholder: "Password",
-        verifyPlaceholder: "Verifica",
-        remember: "Ricorda password",
-        forgot: "Password dimenticata?",
-        loginBtn: "Accedi",
-        noAccount: "Non hai un account?",
-        signUp: "Registrati",
-        createAccount: "Crea account",
-        registerSubtitle: "Registra un nuovo account per iniziare",
-        fullNamePlaceholder: "Inserisci il tuo nome completo",
-        confirmPasswordPlaceholder: "Conferma password",
-        referCodePlaceholder: "Codice referral (opzionale)",
-        registerBtn: "Registrati",
+        signIn: "Accedi", subtitle: "Bentornato! Inserisci le tue credenziali",
+        emailPlaceholder: "Indirizzo email", passwordPlaceholder: "Password",
+        verifyPlaceholder: "Verifica", remember: "Ricorda password",
+        forgot: "Password dimenticata?", loginBtn: "Accedi",
+        noAccount: "Non hai un account?", signUp: "Registrati",
+        createAccount: "Crea account", registerSubtitle: "Registra un nuovo account per iniziare",
+        fullNamePlaceholder: "Inserisci il tuo nome completo", confirmPasswordPlaceholder: "Conferma password",
+        referCodePlaceholder: "Codice referral (opzionale)", registerBtn: "Registrati",
         haveAccount: "Hai già un account?",
-        verifying: "Verifica della tua email...",
-        verified: "Verifica email completata!"
+        verifying: "Verifica della tua email...", verified: "Verifica email completata!"
     },
     pt: {
-        signIn: "Entrar",
-        subtitle: "Bem-vindo de volta! Insira suas credenciais para acessar sua conta",
-        emailPlaceholder: "Endereço de e-mail",
-        passwordPlaceholder: "Senha",
-        verifyPlaceholder: "Verificação",
-        remember: "Lembrar senha",
-        forgot: "Esqueceu a senha?",
-        loginBtn: "Entrar",
-        noAccount: "Não tem uma conta?",
-        signUp: "Inscrever-se",
-        createAccount: "Criar conta",
-        registerSubtitle: "Registre uma nova conta para começar",
-        fullNamePlaceholder: "Digite seu nome completo",
-        confirmPasswordPlaceholder: "Confirmar senha",
-        referCodePlaceholder: "Código de indicação (opcional)",
-        registerBtn: "Registrar",
+        signIn: "Entrar", subtitle: "Bem-vindo de volta! Insira suas credenciais",
+        emailPlaceholder: "Endereço de e-mail", passwordPlaceholder: "Senha",
+        verifyPlaceholder: "Verificação", remember: "Lembrar senha",
+        forgot: "Esqueceu a senha?", loginBtn: "Entrar",
+        noAccount: "Não tem uma conta?", signUp: "Inscrever-se",
+        createAccount: "Criar conta", registerSubtitle: "Registre uma nova conta para começar",
+        fullNamePlaceholder: "Digite seu nome completo", confirmPasswordPlaceholder: "Confirmar senha",
+        referCodePlaceholder: "Código de indicação (opcional)", registerBtn: "Registrar",
         haveAccount: "Já tem uma conta?",
-        verifying: "Verificando seu e-mail...",
-        verified: "Verificação de e-mail concluída!"
+        verifying: "Verificando seu e-mail...", verified: "Verificação de e-mail concluída!"
     },
     nl: {
-        signIn: "Inloggen",
-        subtitle: "Welkom terug! Voer uw inloggegevens in om toegang te krijgen tot uw account",
-        emailPlaceholder: "E-mailadres",
-        passwordPlaceholder: "Wachtwoord",
-        verifyPlaceholder: "Verificatie",
-        remember: "Wachtwoord onthouden",
-        forgot: "Wachtwoord vergeten?",
-        loginBtn: "Inloggen",
-        noAccount: "Heb je geen account?",
-        signUp: "Aanmelden",
-        createAccount: "Account aanmaken",
-        registerSubtitle: "Registreer een nieuw account om te beginnen",
-        fullNamePlaceholder: "Voer uw volledige naam in",
-        confirmPasswordPlaceholder: "Wachtwoord bevestigen",
-        referCodePlaceholder: "Verwijzingscode (optioneel)",
-        registerBtn: "Registreren",
+        signIn: "Inloggen", subtitle: "Welkom terug! Voer uw inloggegevens in",
+        emailPlaceholder: "E-mailadres", passwordPlaceholder: "Wachtwoord",
+        verifyPlaceholder: "Verificatie", remember: "Wachtwoord onthouden",
+        forgot: "Wachtwoord vergeten?", loginBtn: "Inloggen",
+        noAccount: "Heb je geen account?", signUp: "Aanmelden",
+        createAccount: "Account aanmaken", registerSubtitle: "Registreer een nieuw account",
+        fullNamePlaceholder: "Voer uw volledige naam in", confirmPasswordPlaceholder: "Wachtwoord bevestigen",
+        referCodePlaceholder: "Verwijzingscode (optioneel)", registerBtn: "Registreren",
         haveAccount: "Heb je al een account?",
-        verifying: "E-mail verifiëren...",
-        verified: "E-mailverificatie voltooid!"
+        verifying: "E-mail verifiëren...", verified: "E-mailverificatie voltooid!"
     },
     ru: {
-        signIn: "Войти",
-        subtitle: "С возвращением! Введите свои учетные данные для доступа к аккаунту",
-        emailPlaceholder: "Адрес электронной почты",
-        passwordPlaceholder: "Пароль",
-        verifyPlaceholder: "Проверка",
-        remember: "Запомнить пароль",
-        forgot: "Забыли пароль?",
-        loginBtn: "Войти",
-        noAccount: "Нет аккаунта?",
-        signUp: "Зарегистрироваться",
-        createAccount: "Создать аккаунт",
-        registerSubtitle: "Зарегистрируйте новый аккаунт, чтобы начать",
-        fullNamePlaceholder: "Введите ваше полное имя",
-        confirmPasswordPlaceholder: "Подтвердите пароль",
-        referCodePlaceholder: "Реферальный код (необязательно)",
-        registerBtn: "Зарегистрироваться",
+        signIn: "Войти", subtitle: "С возвращением! Введите свои учетные данные",
+        emailPlaceholder: "Адрес электронной почты", passwordPlaceholder: "Пароль",
+        verifyPlaceholder: "Проверка", remember: "Запомнить пароль",
+        forgot: "Забыли пароль?", loginBtn: "Войти",
+        noAccount: "Нет аккаунта?", signUp: "Зарегистрироваться",
+        createAccount: "Создать аккаунт", registerSubtitle: "Зарегистрируйте новый аккаунт",
+        fullNamePlaceholder: "Введите ваше полное имя", confirmPasswordPlaceholder: "Подтвердите пароль",
+        referCodePlaceholder: "Реферальный код (необязательно)", registerBtn: "Зарегистрироваться",
         haveAccount: "Уже есть аккаунт?",
-        verifying: "Проверка вашей почты...",
-        verified: "Проверка почты завершена!"
+        verifying: "Проверка вашей почты...", verified: "Проверка почты завершена!"
     },
     tr: {
-        signIn: "Giriş Yap",
-        subtitle: "Tekrar hoş geldiniz! Hesabınıza erişmek için bilgilerinizi girin",
-        emailPlaceholder: "E-posta Adresi",
-        passwordPlaceholder: "Şifre",
-        verifyPlaceholder: "Doğrulama",
-        remember: "Şifreyi hatırla",
-        forgot: "Şifremi unuttum?",
-        loginBtn: "Giriş Yap",
-        noAccount: "Hesabınız yok mu?",
-        signUp: "Kayıt Ol",
-        createAccount: "Hesap Oluştur",
-        registerSubtitle: "Başlamak için yeni bir hesap kaydedin",
-        fullNamePlaceholder: "Tam adınızı girin",
-        confirmPasswordPlaceholder: "Şifreyi Onayla",
-        referCodePlaceholder: "Referans Kodu (İsteğe bağlı)",
-        registerBtn: "Kayıt Ol",
+        signIn: "Giriş Yap", subtitle: "Tekrar hoş geldiniz! Bilgilerinizi girin",
+        emailPlaceholder: "E-posta Adresi", passwordPlaceholder: "Şifre",
+        verifyPlaceholder: "Doğrulama", remember: "Şifreyi hatırla",
+        forgot: "Şifremi unuttum?", loginBtn: "Giriş Yap",
+        noAccount: "Hesabınız yok mu?", signUp: "Kayıt Ol",
+        createAccount: "Hesap Oluştur", registerSubtitle: "Başlamak için yeni bir hesap kaydedin",
+        fullNamePlaceholder: "Tam adınızı girin", confirmPasswordPlaceholder: "Şifreyi Onayla",
+        referCodePlaceholder: "Referans Kodu (İsteğe bağlı)", registerBtn: "Kayıt Ol",
         haveAccount: "Zaten hesabınız var mı?",
-        verifying: "E-postanız doğrulanıyor...",
-        verified: "E-posta doğrulama tamamlandı!"
+        verifying: "E-postanız doğrulanıyor...", verified: "E-posta doğrulama tamamlandı!"
     },
     ar: {
-        signIn: "تسجيل الدخول",
-        subtitle: "مرحبًا بعودتك! أدخل بياناتك للوصول إلى حسابك",
-        emailPlaceholder: "البريد الإلكتروني",
-        passwordPlaceholder: "كلمة المرور",
-        verifyPlaceholder: "التحقق",
-        remember: "تذكر كلمة المرور",
-        forgot: "هل نسيت كلمة المرور؟",
-        loginBtn: "تسجيل الدخول",
-        noAccount: "ليس لديك حساب؟",
-        signUp: "إنشاء حساب",
-        createAccount: "إنشاء حساب",
-        registerSubtitle: "سجّل حسابًا جديدًا للبدء",
-        fullNamePlaceholder: "أدخل اسمك الكامل",
-        confirmPasswordPlaceholder: "تأكيد كلمة المرور",
-        referCodePlaceholder: "رمز الإحالة (اختياري)",
-        registerBtn: "تسجيل",
+        signIn: "تسجيل الدخول", subtitle: "مرحبًا بعودتك! أدخل بياناتك",
+        emailPlaceholder: "البريد الإلكتروني", passwordPlaceholder: "كلمة المرور",
+        verifyPlaceholder: "التحقق", remember: "تذكر كلمة المرور",
+        forgot: "هل نسيت كلمة المرور؟", loginBtn: "تسجيل الدخول",
+        noAccount: "ليس لديك حساب؟", signUp: "إنشاء حساب",
+        createAccount: "إنشاء حساب", registerSubtitle: "سجّل حسابًا جديدًا للبدء",
+        fullNamePlaceholder: "أدخل اسمك الكامل", confirmPasswordPlaceholder: "تأكيد كلمة المرور",
+        referCodePlaceholder: "رمز الإحالة (اختياري)", registerBtn: "تسجيل",
         haveAccount: "هل لديك حساب بالفعل؟",
-        verifying: "جارٍ التحقق من بريدك الإلكتروني...",
-        verified: "اكتمل التحقق من البريد الإلكتروني!"
+        verifying: "جارٍ التحقق من بريدك الإلكتروني...", verified: "اكتمل التحقق من البريد!"
     },
     fa: {
-        signIn: "ورود",
-        subtitle: "خوش آمدید! برای دسترسی به حساب خود اطلاعات خود را وارد کنید",
-        emailPlaceholder: "آدرس ایمیل",
-        passwordPlaceholder: "رمز عبور",
-        verifyPlaceholder: "تأیید",
-        remember: "به خاطر سپردن رمز عبور",
-        forgot: "رمز عبور را فراموش کرده اید؟",
-        loginBtn: "ورود",
-        noAccount: "حساب کاربری ندارید؟",
-        signUp: "ثبت نام",
-        createAccount: "ایجاد حساب",
-        registerSubtitle: "برای شروع یک حساب جدید ثبت کنید",
-        fullNamePlaceholder: "نام کامل خود را وارد کنید",
-        confirmPasswordPlaceholder: "تأیید رمز عبور",
-        referCodePlaceholder: "کد معرف (اختیاری)",
-        registerBtn: "ثبت نام",
+        signIn: "ورود", subtitle: "خوش آمدید! اطلاعات خود را وارد کنید",
+        emailPlaceholder: "آدرس ایمیل", passwordPlaceholder: "رمز عبور",
+        verifyPlaceholder: "تأیید", remember: "به خاطر سپردن رمز عبور",
+        forgot: "رمز عبور را فراموش کرده اید؟", loginBtn: "ورود",
+        noAccount: "حساب کاربری ندارید؟", signUp: "ثبت نام",
+        createAccount: "ایجاد حساب", registerSubtitle: "برای شروع یک حساب جدید ثبت کنید",
+        fullNamePlaceholder: "نام کامل خود را وارد کنید", confirmPasswordPlaceholder: "تأیید رمز عبور",
+        referCodePlaceholder: "کد معرف (اختیاری)", registerBtn: "ثبت نام",
         haveAccount: "قبلاً حساب دارید؟",
-        verifying: "در حال تأیید ایمیل شما...",
-        verified: "تأیید ایمیل کامل شد!"
+        verifying: "در حال تأیید ایمیل شما...", verified: "تأیید ایمیل کامل شد!"
     }
 };
 
@@ -347,43 +248,6 @@ eyeIcons.forEach(icon => {
     });
 });
 
-// ================= র‍্যান্ডম ভেরিফিকেশন কোড =================
-const verifyCodeDiv = document.getElementById('verifyCode');
-if (verifyCodeDiv) {
-    const randomCode = Math.floor(1000 + Math.random() * 9000);
-    verifyCodeDiv.textContent = randomCode.toString().split('').join(' ');
-}
-
-// ================= 🆕 Login/Register → Loading → Redirect =================
-const loginBtn = document.getElementById('loginBtn');
-const loadingOverlay = document.getElementById('loadingOverlay');
-const loadingText = document.getElementById('loadingText');
-const loadingBox = document.querySelector('.loading-box');
-
-if (loginBtn && loadingOverlay && loadingText) {
-    loginBtn.addEventListener('click', function() {
-        // বর্তমান ভাষা থেকে টেক্সট নিন
-        const currentLang = safeGet('language') || 'en';
-        const t = translations[currentLang] || translations.en;
-
-        // বাটন ডিজেবল
-        loginBtn.disabled = true;
-        loginBtn.style.opacity = '0.7';
-
-        // ✅ ধাপ ১: Overlay দেখান + "Verifying your email..." টেক্সট
-        loadingBox.classList.remove('success');
-        loadingText.textContent = t.verifying;
-        loadingOverlay.classList.add('show');
-
-        // ✅ ধাপ ২: ২ সেকেন্ড পর → "Email verification completed!" + সাকসেস আইকন
-        setTimeout(() => {
-            loadingBox.classList.add('success');
-            loadingText.textContent = t.verified;
-        }, 2000);
-
-        // ✅ ধাপ ৩: ১ সেকেন্ড পর (মোট ৩ সেকেন্ড) → Dashboard এ রিডাইরেক্ট
-        setTimeout(() => {
-            window.location.href = 'dashboard.html';
-        }, 3000);
-    });
-}
+// ⚠️⚠️⚠️ গুরুত্বপূর্ণ: এখানে আর Login/Loading/Redirect logic নেই ⚠️⚠️⚠️
+// কারণ সেই logic এখন index.html এবং signup.html এ Firebase দিয়ে করা হচ্ছে
+// এই script.js শুধু ভাষা, থিম, eye-icon এর জন্য দায়ী
