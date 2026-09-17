@@ -223,3 +223,98 @@ if (langSelect) {
     });
     applyDirection(langSelect.value);
 }
+
+// ================= লোগো অ্যানিমেশন =================
+const brandItems = document.querySelectorAll('.brand-item');
+const brandStates = [];
+
+brandItems.forEach((item) => {
+    const rect = item.getBoundingClientRect();
+    const x = Math.random() * (window.innerWidth - rect.width - 40) + 20;
+    const y = Math.random() * (window.innerHeight - rect.height - 40) + 20;
+    const speed = 0.5 + Math.random() * 0.8;
+    const angle = Math.random() * Math.PI * 2;
+    const vx = Math.cos(angle) * speed;
+    const vy = Math.sin(angle) * speed;
+
+    brandStates.push({
+        element: item,
+        x: x,
+        y: y,
+        vx: vx,
+        vy: vy,
+        width: rect.width,
+        height: rect.height
+    });
+
+    item.style.left = x + 'px';
+    item.style.top = y + 'px';
+});
+
+const loginCard = document.querySelector('.login-container');
+let cardRect = loginCard.getBoundingClientRect();
+
+function animateBrands() {
+    const screenWidth = window.innerWidth;
+    const screenHeight = window.innerHeight;
+
+    brandStates.forEach(state => {
+        state.x += state.vx;
+        state.y += state.vy;
+
+        if (state.x <= 0) {
+            state.x = 0;
+            state.vx = Math.abs(state.vx);
+        }
+        if (state.x + state.width >= screenWidth) {
+            state.x = screenWidth - state.width;
+            state.vx = -Math.abs(state.vx);
+        }
+        if (state.y <= 0) {
+            state.y = 0;
+            state.vy = Math.abs(state.vy);
+        }
+        if (state.y + state.height >= screenHeight) {
+            state.y = screenHeight - state.height;
+            state.vy = -Math.abs(state.vy);
+        }
+
+        if (state.x + state.width > cardRect.left && state.x < cardRect.right &&
+            state.y + state.height > cardRect.top && state.y < cardRect.bottom) {
+
+            const overlapLeft = (state.x + state.width) - cardRect.left;
+            const overlapRight = cardRect.right - state.x;
+            const overlapTop = (state.y + state.height) - cardRect.top;
+            const overlapBottom = cardRect.bottom - state.y;
+
+            const minOverlap = Math.min(overlapLeft, overlapRight, overlapTop, overlapBottom);
+
+            if (minOverlap === overlapLeft) {
+                state.x = cardRect.left - state.width;
+                state.vx = -Math.abs(state.vx);
+            } else if (minOverlap === overlapRight) {
+                state.x = cardRect.right;
+                state.vx = Math.abs(state.vx);
+            } else if (minOverlap === overlapTop) {
+                state.y = cardRect.top - state.height;
+                state.vy = -Math.abs(state.vy);
+            } else {
+                state.y = cardRect.bottom;
+                state.vy = Math.abs(state.vy);
+            }
+        }
+
+        state.element.style.left = state.x + 'px';
+        state.element.style.top = state.y + 'px';
+    });
+
+    requestAnimationFrame(animateBrands);
+}
+
+if (brandStates.length > 0) {
+    animateBrands();
+}
+
+window.addEventListener('resize', () => {
+    cardRect = loginCard.getBoundingClientRect();
+});
