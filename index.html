@@ -3,75 +3,1621 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <meta name="theme-color" content="#b0bec5">
-    <title>Sign In Page</title>
-    <link rel="stylesheet" href="style.css">
+    <meta name="theme-color" content="#f5f5f5">
+    <title>UMALL247</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* ============================================================
+           ======================= গ্লোবাল ==============================
+           ============================================================ */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        :root {
+            --bg: #b0bec5;
+            --card: #d1d5db;
+            --input-bg: #e5e7eb;
+            --text: #333;
+            --text-light: #555;
+            --border: #ccc;
+            --shadow: rgba(0, 0, 0, 0.1);
+            --accent: #e65c00;
+            --accent-grad: linear-gradient(90deg, #e65c00, #d6336c);
+            --verify-bg: #1e3a8a;
+            --lang-bg: #cfd8dc;
+            --lang-border: #b0bec5;
+
+            --dash-bg: #eef1f5;
+            --dash-card: #ffffff;
+            --dash-card2: #e8eaee;
+            --dash-text: #1f2937;
+            --dash-text-light: #6b7280;
+            --dash-border: #e5e7eb;
+            --dash-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+            --balance-start: #6366f1;
+            --balance-mid: #8b5cf6;
+            --balance-end: #a855f7;
+        }
+
+        body.dark-mode {
+            --bg: #121212;
+            --card: #1e1e1e;
+            --input-bg: #2c2c2c;
+            --text: #f5f5f5;
+            --text-light: #b0b0b0;
+            --border: #444;
+            --shadow: rgba(255, 255, 255, 0.05);
+            --accent: #ff8c42;
+            --accent-grad: linear-gradient(90deg, #ff8c42, #e91e63);
+            --verify-bg: #2563eb;
+            --lang-bg: #2c2c2c;
+            --lang-border: #444;
+
+            --dash-bg: #0f172a;
+            --dash-card: #1e293b;
+            --dash-card2: #293548;
+            --dash-text: #f1f5f9;
+            --dash-text-light: #94a3b8;
+            --dash-border: #334155;
+            --dash-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+            --balance-start: #7c3aed;
+            --balance-mid: #a855f7;
+            --balance-end: #ec4899;
+        }
+
+        html {
+            width: 100%;
+            min-height: 100%;
+            -webkit-text-size-adjust: 100%;
+        }
+
+        body {
+            width: 100%;
+            min-height: 100vh;
+            min-height: 100dvh;
+            background: var(--bg);
+            color: var(--text);
+            overflow-x: hidden;
+            overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
+            -webkit-user-select: none;
+            user-select: none;
+            transition: background 0.3s, color 0.3s;
+            position: relative;
+        }
+
+        input, select, textarea { -webkit-user-select: text; user-select: text; }
+
+        /* সব পেজ hide থাকবে, শুধু active দেখাবে */
+        .page { display: none; }
+        .page.active { display: block; }
+
+        /* ============================================================
+           ================== Auth (Sign In/Sign Up) ==================
+           ============================================================ */
+        .auth-page {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            min-height: 100dvh;
+            padding: 80px 20px 30px 20px;
+            background: var(--bg);
+        }
+
+        .top-controls {
+            position: fixed;
+            top: 15px;
+            right: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            z-index: 100;
+        }
+
+        .lang-selector {
+            background: var(--lang-bg);
+            padding: 8px 14px;
+            border-radius: 20px;
+            font-size: 14px;
+            color: var(--text);
+            cursor: pointer;
+            border: 1px solid var(--lang-border);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .lang-selector i { color: var(--accent); font-size: 13px; }
+
+        .lang-selector select {
+            border: none;
+            background: transparent;
+            font-size: 14px;
+            cursor: pointer;
+            outline: none;
+            color: var(--text);
+            -webkit-appearance: none;
+            appearance: none;
+            padding-right: 4px;
+            font-family: inherit;
+        }
+
+        .theme-toggle {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            border: 1px solid var(--lang-border);
+            background: var(--lang-bg);
+            color: var(--accent);
+            cursor: pointer;
+            font-size: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.2s;
+            -webkit-appearance: none;
+            appearance: none;
+            -webkit-tap-highlight-color: transparent;
+            touch-action: manipulation;
+            padding: 0;
+        }
+
+        .theme-toggle:active { transform: scale(0.9); }
+
+        .login-container {
+            background: var(--card);
+            padding: 40px 30px;
+            border-radius: 20px;
+            width: 100%;
+            max-width: 400px;
+            box-shadow: 0 10px 25px var(--shadow);
+            text-align: center;
+            position: relative;
+            z-index: 10;
+            margin: auto;
+        }
+
+        .login-container h2 {
+            font-size: 32px;
+            color: var(--accent);
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            font-size: 14px;
+            color: var(--text-light);
+            margin-bottom: 25px;
+            line-height: 1.5;
+        }
+
+        .input-group {
+            display: flex;
+            align-items: center;
+            background: var(--input-bg);
+            border-radius: 10px;
+            padding: 12px 15px;
+            margin-bottom: 15px;
+            border: 1px solid var(--border);
+        }
+
+        .input-group i {
+            color: var(--accent);
+            margin-right: 10px;
+            font-size: 15px;
+        }
+
+        .input-group input {
+            border: none;
+            background: transparent;
+            outline: none;
+            width: 100%;
+            font-size: 16px;
+            color: var(--text);
+            -webkit-appearance: none;
+            appearance: none;
+            border-radius: 0;
+            font-family: inherit;
+        }
+
+        .input-group input::placeholder {
+            color: var(--text-light);
+            opacity: 0.8;
+        }
+
+        .eye-icon {
+            color: #888;
+            cursor: pointer;
+            margin-right: 0;
+            margin-left: 8px;
+            padding: 4px;
+            font-size: 15px;
+            touch-action: manipulation;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .verify-group {
+            display: flex;
+            flex-direction: row;
+            gap: 10px;
+            margin-bottom: 15px;
+            align-items: stretch;
+        }
+
+        .verify-input {
+            flex: 1;
+            padding: 12px 15px;
+            border-radius: 10px;
+            border: 1px solid var(--border);
+            background: var(--input-bg);
+            outline: none;
+            font-size: 16px;
+            color: var(--text);
+            min-width: 0;
+            -webkit-appearance: none;
+            appearance: none;
+            font-family: inherit;
+        }
+
+        .verify-input::placeholder {
+            color: var(--text-light);
+            opacity: 0.8;
+        }
+
+        .verify-code {
+            background: var(--verify-bg);
+            color: white;
+            padding: 12px 20px;
+            border-radius: 10px;
+            font-size: 18px;
+            letter-spacing: 2px;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            white-space: nowrap;
+            min-width: 100px;
+        }
+
+        .options {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 14px;
+            margin-bottom: 25px;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .options label {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            color: var(--text);
+            cursor: pointer;
+        }
+
+        .options input[type="checkbox"] {
+            accent-color: var(--accent);
+            width: 16px;
+            height: 16px;
+        }
+
+        .options a {
+            color: var(--accent);
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .login-btn {
+            width: 100%;
+            padding: 15px;
+            border: none;
+            border-radius: 10px;
+            background: var(--accent-grad);
+            color: white;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: transform 0.2s;
+            margin-bottom: 20px;
+            -webkit-appearance: none;
+            appearance: none;
+            -webkit-tap-highlight-color: transparent;
+            touch-action: manipulation;
+            font-family: inherit;
+        }
+
+        .login-btn:active { transform: scale(0.98); }
+
+        .signup-link {
+            font-size: 14px;
+            color: var(--text-light);
+        }
+
+        .signup-link a {
+            color: var(--accent);
+            text-decoration: none;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        /* Loading Overlay */
+        .loading-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.75);
+            -webkit-backdrop-filter: blur(8px);
+            backdrop-filter: blur(8px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s, visibility 0.3s;
+        }
+
+        .loading-overlay.show { opacity: 1; visibility: visible; }
+
+        .loading-box {
+            background: var(--card);
+            padding: 40px 35px;
+            border-radius: 20px;
+            text-align: center;
+            min-width: 280px;
+            max-width: 90%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+            animation: popIn 0.3s ease-out;
+        }
+
+        @keyframes popIn {
+            0% { transform: scale(0.8); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        .loading-spinner { font-size: 60px; color: var(--accent); line-height: 1; }
+        .loading-spinner i { display: block; }
+
+        .loading-success {
+            font-size: 60px;
+            color: #10b981;
+            line-height: 1;
+            display: none;
+        }
+
+        .loading-success i {
+            display: block;
+            animation: checkPop 0.5s ease-out;
+        }
+
+        @keyframes checkPop {
+            0% { transform: scale(0); }
+            50% { transform: scale(1.2); }
+            100% { transform: scale(1); }
+        }
+
+        .loading-text {
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--text);
+            margin: 0;
+            min-height: 24px;
+        }
+
+        .loading-box.success .loading-spinner { display: none; }
+        .loading-box.success .loading-success { display: block; }
+        .loading-box.success .loading-text { color: #10b981; }
+
+        /* ============================================================
+           ==================== Dashboard =============================
+           ============================================================ */
+        .dashboard-page {
+            background: var(--dash-bg);
+            color: var(--dash-text);
+            min-height: 100vh;
+            min-height: 100dvh;
+            padding-bottom: 90px;
+        }
+
+        .dash-header {
+            position: sticky;
+            top: 0;
+            background: var(--dash-card);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 12px 16px;
+            border-bottom: 1px solid var(--dash-border);
+            z-index: 100;
+            padding-top: max(12px, env(safe-area-inset-top));
+        }
+
+        .brand-logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        /* 🔥 U লোগো — লাইভ আগুন */
+        .logo-icon {
+            position: relative;
+            width: 42px;
+            height: 42px;
+            border-radius: 12px;
+            background: #1a1a1a;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 900;
+            font-size: 22px;
+            font-style: italic;
+            color: #fff;
+            overflow: visible;
+            z-index: 1;
+            box-shadow:
+                0 0 10px rgba(255, 107, 53, 0.6),
+                0 0 20px rgba(247, 54, 104, 0.4),
+                inset 0 0 10px rgba(0, 0, 0, 0.8);
+            animation: fireGlow 1.5s ease-in-out infinite alternate;
+        }
+
+        .logo-icon::before {
+            content: '';
+            position: absolute;
+            inset: -3px;
+            border-radius: 15px;
+            background: linear-gradient(135deg, #ff6b35, #f73668, #ffcc00, #ff6b35);
+            background-size: 300% 300%;
+            z-index: -2;
+            filter: blur(8px);
+            opacity: 0.8;
+            animation: fireGradient 3s ease infinite, firePulse 1.2s ease-in-out infinite alternate;
+        }
+
+        .logo-icon::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: 12px;
+            background:
+                radial-gradient(circle at 30% 100%, rgba(255, 107, 53, 0.9) 0%, transparent 40%),
+                radial-gradient(circle at 70% 100%, rgba(247, 54, 104, 0.9) 0%, transparent 40%),
+                radial-gradient(circle at 50% 90%, rgba(255, 204, 0, 0.8) 0%, transparent 50%),
+                #1a1a1a;
+            z-index: -1;
+            animation: fireFlicker 0.8s ease-in-out infinite alternate;
+        }
+
+        .logo-icon .fire-flame {
+            position: absolute;
+            bottom: -6px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 30px;
+            height: 30px;
+            pointer-events: none;
+            z-index: -1;
+            opacity: 0.9;
+        }
+
+        .logo-icon .fire-flame::before,
+        .logo-icon .fire-flame::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            border-radius: 50% 50% 20% 20%;
+            filter: blur(4px);
+        }
+
+        .logo-icon .fire-flame::before {
+            width: 22px;
+            height: 30px;
+            background: radial-gradient(circle at 50% 80%, #ffcc00 0%, #ff6b35 40%, #f73668 70%, transparent 90%);
+            animation: flameRise 1.2s ease-in-out infinite alternate;
+        }
+
+        .logo-icon .fire-flame::after {
+            width: 14px;
+            height: 20px;
+            background: radial-gradient(circle at 50% 80%, #fff 0%, #ffcc00 40%, #ff6b35 70%, transparent 90%);
+            animation: flameRise 0.9s ease-in-out infinite alternate-reverse;
+        }
+
+        @keyframes fireGlow {
+            0% { box-shadow: 0 0 8px rgba(255, 107, 53, 0.5), 0 0 16px rgba(247, 54, 104, 0.3), inset 0 0 10px rgba(0, 0, 0, 0.8); }
+            100% { box-shadow: 0 0 16px rgba(255, 107, 53, 0.9), 0 0 30px rgba(247, 54, 104, 0.6), 0 0 45px rgba(255, 204, 0, 0.3), inset 0 0 10px rgba(0, 0, 0, 0.8); }
+        }
+        @keyframes fireGradient {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        @keyframes firePulse {
+            0% { opacity: 0.6; filter: blur(6px); }
+            100% { opacity: 1; filter: blur(10px); }
+        }
+        @keyframes fireFlicker {
+            0% {
+                background:
+                    radial-gradient(circle at 30% 100%, rgba(255, 107, 53, 0.8) 0%, transparent 40%),
+                    radial-gradient(circle at 70% 100%, rgba(247, 54, 104, 0.8) 0%, transparent 40%),
+                    radial-gradient(circle at 50% 90%, rgba(255, 204, 0, 0.7) 0%, transparent 50%),
+                    #1a1a1a;
+            }
+            100% {
+                background:
+                    radial-gradient(circle at 40% 100%, rgba(255, 107, 53, 1) 0%, transparent 45%),
+                    radial-gradient(circle at 60% 100%, rgba(247, 54, 104, 1) 0%, transparent 45%),
+                    radial-gradient(circle at 50% 80%, rgba(255, 204, 0, 0.9) 0%, transparent 55%),
+                    #1a1a1a;
+            }
+        }
+        @keyframes flameRise {
+            0% { transform: translateX(-50%) scaleY(1) scaleX(1); opacity: 0.7; }
+            100% { transform: translateX(-50%) scaleY(1.4) scaleX(0.85); opacity: 1; }
+        }
+
+        .logo-text {
+            font-size: 20px;
+            font-weight: 800;
+            color: var(--dash-text);
+            letter-spacing: 0.5px;
+        }
+
+        .logo-24 { color: #dc2626; }
+
+        .header-controls {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .lang-selector-sm {
+            background: var(--dash-bg);
+            border: 1px solid var(--dash-border);
+            border-radius: 20px;
+            padding: 6px 12px;
+        }
+
+        .lang-selector-sm select {
+            border: none;
+            background: transparent;
+            font-size: 13px;
+            color: var(--dash-text);
+            outline: none;
+            cursor: pointer;
+            font-family: inherit;
+            -webkit-appearance: none;
+            appearance: none;
+        }
+
+        .theme-toggle-sm {
+            width: 34px;
+            height: 34px;
+            border-radius: 50%;
+            border: 1px solid var(--dash-border);
+            background: var(--dash-bg);
+            color: var(--dash-text);
+            font-size: 14px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            -webkit-appearance: none;
+            appearance: none;
+            -webkit-tap-highlight-color: transparent;
+            touch-action: manipulation;
+        }
+
+        .dash-main {
+            padding: 16px;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        /* ব্যালেন্স কার্ড */
+        .balance-card {
+            background: linear-gradient(135deg, var(--balance-start) 0%, var(--balance-mid) 50%, var(--balance-end) 100%);
+            color: white;
+            padding: 24px 22px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(139, 92, 246, 0.35), 0 4px 12px rgba(99, 102, 241, 0.25);
+            margin-bottom: 20px;
+            position: relative;
+            overflow: hidden;
+            isolation: isolate;
+        }
+
+        .balance-card::before {
+            content: '';
+            position: absolute;
+            top: -50%; right: -20%;
+            width: 240px; height: 240px;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.18) 0%, transparent 70%);
+            border-radius: 50%;
+            z-index: 0;
+        }
+
+        .balance-card::after {
+            content: '';
+            position: absolute;
+            bottom: -60%; left: -20%;
+            width: 220px; height: 220px;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.12) 0%, transparent 70%);
+            border-radius: 50%;
+            z-index: 0;
+        }
+
+        .balance-card .shine {
+            position: absolute;
+            top: 0; left: -100%;
+            width: 100%; height: 100%;
+            background: linear-gradient(120deg, transparent 0%, rgba(255,255,255,0.25) 50%, transparent 100%);
+            animation: shineSlide 4s ease-in-out infinite;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        @keyframes shineSlide {
+            0% { left: -100%; }
+            50% { left: 100%; }
+            100% { left: 100%; }
+        }
+
+        .balance-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 14px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .balance-label { font-size: 14px; opacity: 0.95; font-weight: 500; }
+
+        .balance-tag {
+            font-size: 11px;
+            background: rgba(255, 255, 255, 0.22);
+            padding: 5px 12px;
+            border-radius: 12px;
+            font-weight: 600;
+            -webkit-backdrop-filter: blur(8px);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+        }
+
+        .balance-amount {
+            display: flex;
+            align-items: baseline;
+            gap: 8px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .balance-number {
+            font-size: 38px;
+            font-weight: 800;
+            letter-spacing: 1px;
+            text-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+        }
+
+        .balance-currency { font-size: 17px; font-weight: 600; opacity: 0.95; }
+
+        /* Quick Actions */
+        .quick-actions {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            background: var(--dash-card);
+            padding: 18px 12px;
+            border-radius: 18px;
+            margin-bottom: 16px;
+            box-shadow: var(--dash-shadow);
+        }
+
+        .action-btn {
+            background: transparent;
+            border: none;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            color: var(--dash-text);
+            font-size: 12px;
+            font-weight: 600;
+            padding: 4px;
+            touch-action: manipulation;
+            font-family: inherit;
+        }
+
+        .action-icon {
+            width: 48px; height: 48px;
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            transition: transform 0.2s;
+        }
+
+        .action-btn:active .action-icon { transform: scale(0.9); }
+
+        .action-icon.green { background: #d1fae5; color: #10b981; }
+        .action-icon.orange { background: #fed7aa; color: #f97316; }
+        .action-icon.purple { background: #e9d5ff; color: #a855f7; }
+
+        body.dark-mode .action-icon.green { background: rgba(16, 185, 129, 0.15); }
+        body.dark-mode .action-icon.orange { background: rgba(249, 115, 22, 0.15); }
+        body.dark-mode .action-icon.purple { background: rgba(168, 85, 247, 0.15); }
+
+        /* Live notification */
+        .live-notification {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: var(--dash-card);
+            padding: 12px 16px;
+            border-radius: 14px;
+            margin-bottom: 22px;
+            box-shadow: var(--dash-shadow);
+            font-size: 13px;
+            color: var(--dash-text);
+            border: 1px solid var(--dash-border);
+        }
+
+        .live-notification i {
+            color: #f97316;
+            font-size: 16px;
+            animation: bellRing 2s ease-in-out infinite;
+        }
+
+        @keyframes bellRing {
+            0%, 100% { transform: rotate(0); }
+            10%, 30% { transform: rotate(-10deg); }
+            20%, 40% { transform: rotate(10deg); }
+            50% { transform: rotate(0); }
+        }
+
+        .live-notification p { margin: 0; line-height: 1.4; }
+        .green-text { color: #10b981; font-weight: 700; }
+
+        /* Section title */
+        .section-title {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 17px;
+            font-weight: 700;
+            color: var(--dash-text);
+            margin-bottom: 14px;
+            padding-left: 4px;
+        }
+
+        .section-title i { color: #a855f7; font-size: 18px; }
+
+        /* Intro grid */
+        .intro-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+
+        .intro-card {
+            background: var(--dash-card);
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: var(--dash-shadow);
+            display: flex;
+            flex-direction: column;
+            cursor: pointer;
+            border: 1px solid var(--dash-border);
+            transition: transform 0.25s, box-shadow 0.25s;
+        }
+
+        .intro-card:active {
+            transform: scale(0.97);
+            box-shadow: 0 8px 20px rgba(139, 92, 246, 0.2);
+        }
+
+        .intro-image {
+            width: 100%;
+            aspect-ratio: 16 / 10;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .intro-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        .intro-content { padding: 12px; }
+
+        .intro-content h4 {
+            font-size: 14px;
+            font-weight: 700;
+            color: var(--dash-text);
+            margin-bottom: 5px;
+        }
+
+        .intro-content p {
+            font-size: 11.5px;
+            color: var(--dash-text-light);
+            line-height: 1.4;
+        }
+
+        /* Bottom nav */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0; left: 0; right: 0;
+            background: var(--dash-card);
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            padding: 10px 0;
+            padding-bottom: max(10px, env(safe-area-inset-bottom));
+            border-top: 1px solid var(--dash-border);
+            z-index: 100;
+        }
+
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+            text-decoration: none;
+            color: var(--dash-text-light);
+            font-size: 11px;
+            font-weight: 500;
+            padding: 4px 12px;
+            touch-action: manipulation;
+        }
+
+        .nav-item i { font-size: 18px; }
+        .nav-item.active { color: #a855f7; }
+
+        /* ============================================================
+           ==================== Detail Pages ==========================
+           ============================================================ */
+        .detail-page {
+            background: var(--dash-bg);
+            color: var(--dash-text);
+            min-height: 100vh;
+            min-height: 100dvh;
+            padding-bottom: 90px;
+        }
+
+        .detail-page .dash-header { background: var(--dash-card); }
+
+        .detail-page .logo-text { color: var(--dash-text); }
+
+        .detail-content {
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        .hero-image {
+            width: 100%;
+            height: 240px;
+            position: relative;
+            overflow: hidden;
+            background: #d1d5db;
+        }
+
+        .hero-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        .hero-image::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(180deg, rgba(120, 120, 130, 0.35) 0%, rgba(120, 120, 130, 0.7) 100%);
+            pointer-events: none;
+        }
+
+        .back-btn {
+            position: absolute;
+            top: 16px;
+            left: 16px;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(120, 120, 130, 0.55);
+            color: #fff;
+            border: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            cursor: pointer;
+            z-index: 5;
+            -webkit-backdrop-filter: blur(8px);
+            backdrop-filter: blur(8px);
+            touch-action: manipulation;
+            text-decoration: none;
+        }
+
+        .hero-title-wrap {
+            position: absolute;
+            bottom: 20px;
+            left: 20px;
+            right: 20px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            z-index: 4;
+        }
+
+        .hero-icon {
+            width: 52px;
+            height: 52px;
+            border-radius: 14px;
+            background: linear-gradient(135deg, #3b82f6, #0ea5e9);
+            color: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            box-shadow: 0 6px 18px rgba(59, 130, 246, 0.5);
+            flex-shrink: 0;
+        }
+
+        .hero-title {
+            font-size: 22px;
+            font-weight: 800;
+            color: #fff;
+            text-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+            line-height: 1.2;
+        }
+
+        .detail-body {
+            padding: 22px 20px;
+        }
+
+        .detail-subtitle {
+            font-size: 14px;
+            color: var(--dash-text-light);
+            margin-bottom: 20px;
+            font-weight: 500;
+            line-height: 1.5;
+        }
+
+        .detail-card {
+            background: var(--dash-card2);
+            border-radius: 16px;
+            padding: 20px 18px;
+            color: var(--dash-text);
+            font-size: 14px;
+            line-height: 1.7;
+        }
+
+        .detail-card p { margin-bottom: 14px; }
+        .detail-card p:last-child { margin-bottom: 0; }
+
+        .detail-card h3 {
+            font-size: 15px;
+            font-weight: 700;
+            color: var(--dash-text);
+            margin-top: 20px;
+            margin-bottom: 8px;
+        }
+
+        .detail-card h3:first-child { margin-top: 0; }
+
+        .detail-card .rule-title {
+            font-size: 14px;
+            font-weight: 700;
+            color: var(--dash-text);
+            margin-top: 18px;
+            margin-bottom: 8px;
+        }
+
+        .detail-card .rule-title:first-child { margin-top: 0; }
+
+        /* ============================================================
+           ==================== RTL ===================================
+           ============================================================ */
+        body.rtl { direction: rtl; }
+        body.rtl .login-container { text-align: right; }
+        body.rtl .input-group { flex-direction: row-reverse; }
+        body.rtl .input-group i { margin-right: 0; margin-left: 10px; }
+        body.rtl .eye-icon { margin-left: 0; margin-right: 8px; }
+        body.rtl .verify-group { flex-direction: row-reverse; }
+        body.rtl .options { flex-direction: row-reverse; }
+        body.rtl .signup-link { text-align: right; }
+        body.rtl .lang-selector { flex-direction: row-reverse; }
+        body.rtl .back-btn { left: auto; right: 16px; }
+        body.rtl .hero-title-wrap { flex-direction: row-reverse; }
+        body.rtl .section-title { padding-left: 0; padding-right: 4px; }
+
+        /* ============================================================
+           ==================== মোবাইল =================================
+           ============================================================ */
+        @media (max-width: 480px) {
+            .auth-page {
+                padding: 70px 12px 25px 12px;
+                align-items: flex-start;
+            }
+            .top-controls { top: 10px; right: 10px; gap: 6px; }
+            .lang-selector { padding: 6px 10px; font-size: 12px; gap: 6px; }
+            .lang-selector select { font-size: 12px; max-width: 90px; }
+            .theme-toggle { width: 34px; height: 34px; font-size: 14px; }
+            .login-container {
+                padding: 25px 18px;
+                border-radius: 15px;
+                max-width: 100%;
+                margin-top: 10px;
+            }
+            .login-container h2 { font-size: 24px; }
+            .subtitle { font-size: 12px; margin-bottom: 18px; }
+            .input-group { padding: 11px 13px; }
+            .verify-group { flex-direction: column; }
+            .verify-code { width: 100%; justify-content: center; }
+            .options { font-size: 13px; }
+            .login-btn { padding: 13px; font-size: 16px; }
+            .signup-link { font-size: 13px; }
+            .loading-box { padding: 30px 25px; min-width: 240px; }
+            .loading-spinner, .loading-success { font-size: 50px; }
+            .loading-text { font-size: 14px; }
+        }
+
+        @media (max-width: 360px) {
+            .login-container { padding: 22px 15px; }
+            .login-container h2 { font-size: 22px; }
+            .lang-selector select { max-width: 70px; }
+            .balance-number { font-size: 32px; }
+            .logo-text { font-size: 18px; }
+            .logo-icon { width: 38px; height: 38px; font-size: 20px; }
+            .hero-image { height: 200px; }
+            .hero-title { font-size: 19px; }
+            .hero-icon { width: 44px; height: 44px; font-size: 20px; }
+            .detail-card { padding: 16px 14px; font-size: 13px; }
+        }
+
+        /* iOS Safe */
+        @supports (padding: max(0px)) {
+            .top-controls {
+                top: max(15px, env(safe-area-inset-top));
+                right: max(15px, env(safe-area-inset-right));
+            }
+            @media (max-width: 480px) {
+                .top-controls {
+                    top: max(10px, env(safe-area-inset-top));
+                    right: max(10px, env(safe-area-inset-right));
+                }
+                .auth-page { padding-bottom: max(25px, env(safe-area-inset-bottom)); }
+            }
+        }
+    </style>
 </head>
 <body>
 
-    <!-- উপরের ডানদিকে ভাষা ও থিম বাটন -->
-    <div class="top-controls">
-        <div class="lang-selector">
-            <i class="fa-solid fa-globe"></i>
-            <select id="languageSelect">
-                <option value="en">US English</option>
-                <option value="es">Español</option>
-                <option value="fr">Français</option>
-                <option value="de">Deutsch</option>
-                <option value="it">Italiano</option>
-                <option value="pt">Português</option>
-                <option value="nl">Nederlands</option>
-                <option value="ru">Русский</option>
-                <option value="tr">Türkçe</option>
-                <option value="ar">العربية</option>
-                <option value="fa">فارسی</option>
-            </select>
+    <!-- ============================================================
+         ================== Sign In পেজ ============================
+         ============================================================ -->
+    <div id="page-signin" class="page active auth-page">
+
+        <div class="top-controls">
+            <div class="lang-selector">
+                <i class="fa-solid fa-globe"></i>
+                <select class="lang-select">
+                    <option value="en">US English</option>
+                    <option value="es">Español</option>
+                    <option value="fr">Français</option>
+                    <option value="de">Deutsch</option>
+                    <option value="it">Italiano</option>
+                    <option value="pt">Português</option>
+                    <option value="nl">Nederlands</option>
+                    <option value="ru">Русский</option>
+                    <option value="tr">Türkçe</option>
+                    <option value="ar">العربية</option>
+                    <option value="fa">فارسی</option>
+                </select>
+            </div>
+            <button class="theme-toggle" type="button">
+                <i class="fa-solid fa-moon"></i>
+            </button>
         </div>
-        <button id="themeToggle" class="theme-toggle" type="button" aria-label="Toggle theme">
-            <i class="fa-solid fa-moon"></i>
-        </button>
+
+        <div class="login-container">
+            <h2 data-key="signIn">Sign In</h2>
+            <p class="subtitle" data-key="subtitle">Welcome back! Enter your credentials to access your account</p>
+
+            <div class="input-group">
+                <i class="fa-solid fa-user"></i>
+                <input type="email" placeholder="Email Address" data-key="emailPlaceholder">
+            </div>
+
+            <div class="input-group">
+                <i class="fa-solid fa-lock"></i>
+                <input type="password" placeholder="Password" data-key="passwordPlaceholder">
+                <i class="fa-solid fa-eye eye-icon"></i>
+            </div>
+
+            <div class="verify-group">
+                <input type="text" class="verify-input" placeholder="Verification" readonly data-key="verifyPlaceholder">
+                <div class="verify-code" data-verify>8 6 6 4</div>
+            </div>
+
+            <div class="options">
+                <label>
+                    <input type="checkbox"> <span data-key="remember">Remember password</span>
+                </label>
+                <a href="#" data-key="forgot">Forgot Password?</a>
+            </div>
+
+            <button class="login-btn" type="button" data-action="login" data-key="loginBtn">Login</button>
+
+            <p class="signup-link">
+                <span data-key="noAccount">Don't have an account?</span> 
+                <a data-goto="signup" data-key="signUp">Sign Up</a>
+            </p>
+        </div>
     </div>
 
-    <!-- মূল লগইন কার্ড -->
-    <div class="login-container">
-        <h2 data-key="signIn">Sign In</h2>
-        <p class="subtitle" data-key="subtitle">Welcome back! Enter your credentials to access your account</p>
+    <!-- ============================================================
+         ================== Sign Up পেজ ============================
+         ============================================================ -->
+    <div id="page-signup" class="page auth-page">
 
-        <div class="input-group">
-            <i class="fa-solid fa-user"></i>
-            <input type="email" id="emailInput" placeholder="Email Address" data-key="emailPlaceholder">
+        <div class="top-controls">
+            <div class="lang-selector">
+                <i class="fa-solid fa-globe"></i>
+                <select class="lang-select">
+                    <option value="en">US English</option>
+                    <option value="es">Español</option>
+                    <option value="fr">Français</option>
+                    <option value="de">Deutsch</option>
+                    <option value="it">Italiano</option>
+                    <option value="pt">Português</option>
+                    <option value="nl">Nederlands</option>
+                    <option value="ru">Русский</option>
+                    <option value="tr">Türkçe</option>
+                    <option value="ar">العربية</option>
+                    <option value="fa">فارسی</option>
+                </select>
+            </div>
+            <button class="theme-toggle" type="button">
+                <i class="fa-solid fa-moon"></i>
+            </button>
         </div>
 
-        <div class="input-group">
-            <i class="fa-solid fa-lock"></i>
-            <input type="password" id="passwordInput" placeholder="Password" data-key="passwordPlaceholder">
-            <i class="fa-solid fa-eye eye-icon"></i>
+        <div class="login-container">
+            <h2 data-key="createAccount">Create Account</h2>
+            <p class="subtitle" data-key="registerSubtitle">Register a new account to get started</p>
+
+            <div class="input-group">
+                <i class="fa-solid fa-id-card"></i>
+                <input type="text" placeholder="Enter your full name" data-key="fullNamePlaceholder">
+            </div>
+
+            <div class="input-group">
+                <i class="fa-solid fa-user"></i>
+                <input type="email" placeholder="Email Address" data-key="emailPlaceholder">
+            </div>
+
+            <div class="input-group">
+                <i class="fa-solid fa-lock"></i>
+                <input type="password" placeholder="Password" data-key="passwordPlaceholder">
+                <i class="fa-solid fa-eye eye-icon"></i>
+            </div>
+
+            <div class="input-group">
+                <i class="fa-solid fa-lock"></i>
+                <input type="password" placeholder="Confirm Password" data-key="confirmPasswordPlaceholder">
+                <i class="fa-solid fa-eye eye-icon"></i>
+            </div>
+
+            <div class="input-group">
+                <i class="fa-solid fa-hashtag"></i>
+                <input type="text" placeholder="Refer Code (Optional)" data-key="referCodePlaceholder">
+            </div>
+
+            <div class="verify-group">
+                <input type="text" class="verify-input" placeholder="Verification Code" readonly data-key="verifyPlaceholder">
+                <div class="verify-code" data-verify>5 5 2 7</div>
+            </div>
+
+            <button class="login-btn" type="button" data-action="login" data-key="registerBtn">Register</button>
+
+            <p class="signup-link">
+                <span data-key="haveAccount">Already have an account?</span> 
+                <a data-goto="signin" data-key="signIn">Sign In</a>
+            </p>
         </div>
-
-        <div class="verify-group">
-            <input type="text" class="verify-input" placeholder="Verification" readonly data-key="verifyPlaceholder">
-            <div class="verify-code" id="verifyCode">8 6 6 4</div>
-        </div>
-
-        <div class="options">
-            <label>
-                <input type="checkbox"> <span data-key="remember">Remember password</span>
-            </label>
-            <a href="#" data-key="forgot">Forgot Password?</a>
-        </div>
-
-        <button class="login-btn" type="button" id="loginBtn" data-key="loginBtn">Login</button>
-
-        <p class="signup-link">
-            <span data-key="noAccount">Don't have an account?</span> 
-            <a href="signup.html" data-key="signUp">Sign Up</a>
-        </p>
     </div>
 
-    <!-- 🆕 লোডিং ওভারলে -->
+    <!-- ============================================================
+         ==================== Dashboard =============================
+         ============================================================ -->
+    <div id="page-dashboard" class="page dashboard-page">
+
+        <header class="dash-header">
+            <div class="brand-logo">
+                <span class="logo-icon">
+                    U
+                    <span class="fire-flame"></span>
+                </span>
+                <span class="logo-text">UMALL<span class="logo-24">247</span></span>
+            </div>
+            <div class="header-controls">
+                <div class="lang-selector-sm">
+                    <select class="lang-select">
+                        <option value="en">US English</option>
+                        <option value="es">Español</option>
+                        <option value="fr">Français</option>
+                        <option value="de">Deutsch</option>
+                        <option value="it">Italiano</option>
+                        <option value="pt">Português</option>
+                        <option value="nl">Nederlands</option>
+                        <option value="ru">Русский</option>
+                        <option value="tr">Türkçe</option>
+                        <option value="ar">العربية</option>
+                        <option value="fa">فارسی</option>
+                    </select>
+                </div>
+                <button class="theme-toggle-sm" type="button">
+                    <i class="fa-solid fa-moon"></i>
+                </button>
+            </div>
+        </header>
+
+        <main class="dash-main">
+            <div class="balance-card">
+                <span class="shine"></span>
+                <div class="balance-top">
+                    <span class="balance-label" data-key="myBalance">My Account Balance</span>
+                    <span class="balance-tag">USDT (TRC20)</span>
+                </div>
+                <div class="balance-amount">
+                    <span class="balance-number">0.00</span>
+                    <span class="balance-currency">USDT</span>
+                </div>
+            </div>
+
+            <div class="quick-actions">
+                <button class="action-btn" type="button">
+                    <div class="action-icon green"><i class="fa-solid fa-download"></i></div>
+                    <span data-key="recharge">Recharge</span>
+                </button>
+                <button class="action-btn" type="button">
+                    <div class="action-icon orange"><i class="fa-solid fa-upload"></i></div>
+                    <span data-key="withdrawal">Withdrawal</span>
+                </button>
+                <button class="action-btn" type="button">
+                    <div class="action-icon purple"><i class="fa-solid fa-user-plus"></i></div>
+                    <span data-key="invitation">Invitation</span>
+                </button>
+            </div>
+
+            <div class="live-notification">
+                <i class="fa-solid fa-bullhorn"></i>
+                <p>User <strong>E****7</strong> successful <span class="green-text">115.07 USDT</span></p>
+            </div>
+
+            <h3 class="section-title">
+                <i class="fa-solid fa-chart-line"></i>
+                <span data-key="platformIntro">Platform Introduction</span>
+            </h3>
+
+            <div class="intro-grid">
+                <div class="intro-card" data-goto="introduction">
+                    <div class="intro-image">
+                        <img src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=400&q=80" alt="Introduction">
+                    </div>
+                    <div class="intro-content">
+                        <h4 data-key="introTitle">Introduction</h4>
+                        <p data-key="introDesc">Grab Orders. Complete Tasks. Earn Commissions.</p>
+                    </div>
+                </div>
+
+                <div class="intro-card" data-goto="affiliate">
+                    <div class="intro-image">
+                        <img src="https://images.unsplash.com/photo-1552664730-d307ca884978?w=400&q=80" alt="Affiliates Marketing">
+                    </div>
+                    <div class="intro-content">
+                        <h4 data-key="affiliateTitle">Affiliates Marketing</h4>
+                        <p data-key="affiliateDesc">Turn Your Network Into Opportunity.</p>
+                    </div>
+                </div>
+
+                <div class="intro-card" data-goto="rules">
+                    <div class="intro-image">
+                        <img src="https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=400&q=80" alt="Platform Rules">
+                    </div>
+                    <div class="intro-content">
+                        <h4 data-key="rulesTitle">Platform Rules</h4>
+                        <p data-key="rulesDesc">Platform Rules &amp; User Guidelines.</p>
+                    </div>
+                </div>
+
+                <div class="intro-card" data-goto="payment">
+                    <div class="intro-image">
+                        <img src="https://images.unsplash.com/photo-1563013544-824ae1b704d3?w=400&q=80" alt="Payment Methods">
+                    </div>
+                    <div class="intro-content">
+                        <h4 data-key="paymentTitle">Payment Methods</h4>
+                        <p data-key="paymentDesc">Digital Currency Support</p>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <nav class="bottom-nav">
+            <a class="nav-item active">
+                <i class="fa-solid fa-house"></i>
+                <span data-key="navHome">Home</span>
+            </a>
+            <a class="nav-item">
+                <i class="fa-solid fa-headset"></i>
+                <span data-key="navService">Service</span>
+            </a>
+            <a class="nav-item">
+                <i class="fa-solid fa-grip"></i>
+                <span data-key="navMenu">Menu</span>
+            </a>
+            <a class="nav-item">
+                <i class="fa-solid fa-clipboard"></i>
+                <span data-key="navRecord">Record</span>
+            </a>
+            <a class="nav-item">
+                <i class="fa-solid fa-user"></i>
+                <span data-key="navMine">Mine</span>
+            </a>
+        </nav>
+    </div>
+
+    <!-- ============================================================
+         ============ Introduction Details ==========================
+         ============================================================ -->
+    <div id="page-introduction" class="page detail-page">
+        <header class="dash-header">
+            <div class="brand-logo">
+                <span class="logo-icon">U<span class="fire-flame"></span></span>
+                <span class="logo-text">UMALL<span class="logo-24">247</span></span>
+            </div>
+            <div class="header-controls">
+                <button class="theme-toggle-sm" type="button"><i class="fa-solid fa-moon"></i></button>
+            </div>
+        </header>
+
+        <div class="detail-content">
+            <div class="hero-image">
+                <a class="back-btn" data-goto="dashboard"><i class="fa-solid fa-arrow-left"></i></a>
+                <img src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=800&q=80" alt="Introduction">
+                <div class="hero-title-wrap">
+                    <div class="hero-icon"><i class="fa-solid fa-circle-info"></i></div>
+                    <h1 class="hero-title" data-key="introTitle">Introduction</h1>
+                </div>
+            </div>
+
+            <div class="detail-body">
+                <p class="detail-subtitle" data-key="introDesc">Grab Orders. Complete Tasks. Earn Commissions.</p>
+                <div class="detail-card">
+                    <p>Our platform connects users with available orders and task-based opportunities. Simply browse and grab an available order, follow the required steps, and submit the completed task through the platform. Eligible completed orders can generate commission rewards according to the applicable terms and conditions.</p>
+                </div>
+            </div>
+        </div>
+
+        <nav class="bottom-nav">
+            <a class="nav-item active" data-goto="dashboard"><i class="fa-solid fa-house"></i><span data-key="navHome">Home</span></a>
+            <a class="nav-item"><i class="fa-solid fa-headset"></i><span data-key="navService">Service</span></a>
+            <a class="nav-item"><i class="fa-solid fa-grip"></i><span data-key="navMenu">Menu</span></a>
+            <a class="nav-item"><i class="fa-solid fa-clipboard"></i><span data-key="navRecord">Record</span></a>
+            <a class="nav-item"><i class="fa-solid fa-user"></i><span data-key="navMine">Mine</span></a>
+        </nav>
+    </div>
+
+    <!-- ============================================================
+         ============ Affiliate Details =============================
+         ============================================================ -->
+    <div id="page-affiliate" class="page detail-page">
+        <header class="dash-header">
+            <div class="brand-logo">
+                <span class="logo-icon">U<span class="fire-flame"></span></span>
+                <span class="logo-text">UMALL<span class="logo-24">247</span></span>
+            </div>
+            <div class="header-controls">
+                <button class="theme-toggle-sm" type="button"><i class="fa-solid fa-moon"></i></button>
+            </div>
+        </header>
+
+        <div class="detail-content">
+            <div class="hero-image">
+                <a class="back-btn" data-goto="dashboard"><i class="fa-solid fa-arrow-left"></i></a>
+                <img src="https://images.unsplash.com/photo-1552664730-d307ca884978?w=800&q=80" alt="Affiliates Marketing">
+                <div class="hero-title-wrap">
+                    <div class="hero-icon"><i class="fa-solid fa-circle-info"></i></div>
+                    <h1 class="hero-title" data-key="affiliateTitle">Affiliates Marketing</h1>
+                </div>
+            </div>
+
+            <div class="detail-body">
+                <p class="detail-subtitle" data-key="affiliateDesc">Turn Your Network Into Opportunity.</p>
+                <div class="detail-card">
+                    <p>Affiliate Marketing gives you the opportunity to earn rewards by introducing new customers to our platform. Share your unique referral link with your audience, friends, or network and receive commissions for eligible referrals. The more you grow your network, the greater your earning potential.</p>
+                </div>
+            </div>
+        </div>
+
+        <nav class="bottom-nav">
+            <a class="nav-item active" data-goto="dashboard"><i class="fa-solid fa-house"></i><span data-key="navHome">Home</span></a>
+            <a class="nav-item"><i class="fa-solid fa-headset"></i><span data-key="navService">Service</span></a>
+            <a class="nav-item"><i class="fa-solid fa-grip"></i><span data-key="navMenu">Menu</span></a>
+            <a class="nav-item"><i class="fa-solid fa-clipboard"></i><span data-key="navRecord">Record</span></a>
+            <a class="nav-item"><i class="fa-solid fa-user"></i><span data-key="navMine">Mine</span></a>
+        </nav>
+    </div>
+
+    <!-- ============================================================
+         ============ Platform Rules Details ========================
+         ============================================================ -->
+    <div id="page-rules" class="page detail-page">
+        <header class="dash-header">
+            <div class="brand-logo">
+                <span class="logo-icon">U<span class="fire-flame"></span></span>
+                <span class="logo-text">UMALL<span class="logo-24">247</span></span>
+            </div>
+            <div class="header-controls">
+                <button class="theme-toggle-sm" type="button"><i class="fa-solid fa-moon"></i></button>
+            </div>
+        </header>
+
+        <div class="detail-content">
+            <div class="hero-image">
+                <a class="back-btn" data-goto="dashboard"><i class="fa-solid fa-arrow-left"></i></a>
+                <img src="https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=800&q=80" alt="Platform Rules">
+                <div class="hero-title-wrap">
+                    <div class="hero-icon"><i class="fa-solid fa-circle-info"></i></div>
+                    <h1 class="hero-title" data-key="rulesTitle">Platform Rules</h1>
+                </div>
+            </div>
+
+            <div class="detail-body">
+                <p class="detail-subtitle" data-key="rulesDesc">Platform Rules &amp; User Guidelines</p>
+                <div class="detail-card">
+                    <h3>Platform Rules &amp; Working Guidelines</h3>
+
+                    <p class="rule-title">01. Account Registration</p>
+                    <p>Please provide accurate and valid information when creating your account. Keep your login details confidential and secure.</p>
+
+                    <p class="rule-title">02. Order Selection</p>
+                    <p>Users can access available orders through their working account. Review the order details carefully before selecting an order.</p>
+
+                    <p class="rule-title">03. Order Completion</p>
+                    <p>Complete each selected order according to the instructions provided by the platform and submit the required information correctly.</p>
+
+                    <p class="rule-title">04. Commission</p>
+                    <p>Eligible completed orders may generate commission based on the applicable commission rate and current platform terms.</p>
+
+                    <p class="rule-title">05. Working Balance</p>
+                    <p>Users should maintain the required account balance for activities that require funds to process an order. Any balance movement should be recorded in the account transaction history.</p>
+
+                    <p class="rule-title">06. Order Submission</p>
+                    <p>Before submitting an order, verify all relevant details. Once submitted, the order may not be reversible depending on its status.</p>
+
+                    <p class="rule-title">07. Withdrawal</p>
+                    <p>Users may request withdrawal of eligible funds according to the platform's current withdrawal requirements, processing procedures, and supported payment methods.</p>
+
+                    <p class="rule-title">08. Affiliate Program</p>
+                    <p>Users participating in the Affiliate Program may receive referral rewards for eligible referrals in accordance with the current affiliate terms.</p>
+
+                    <p class="rule-title">09. Account Security</p>
+                    <p>Never share your password, verification code, wallet credentials, or other confidential account information with another person.</p>
+
+                    <p class="rule-title">10. Fair Use</p>
+                    <p>Fraud, unauthorized transactions, false information, order manipulation, or attempts to misuse the platform are strictly prohibited.</p>
+
+                    <p class="rule-title">11. Maintenance &amp; Updates</p>
+                    <p>The platform may perform scheduled or emergency maintenance and system upgrades. Some services may be temporarily unavailable during this period.</p>
+
+                    <p class="rule-title">12. Customer Support</p>
+                    <p>For questions regarding orders, account balance, commissions, withdrawals, or affiliate activities, please contact Customer Support through the official support channel.</p>
+                </div>
+            </div>
+        </div>
+
+        <nav class="bottom-nav">
+            <a class="nav-item active" data-goto="dashboard"><i class="fa-solid fa-house"></i><span data-key="navHome">Home</span></a>
+            <a class="nav-item"><i class="fa-solid fa-headset"></i><span data-key="navService">Service</span></a>
+            <a class="nav-item"><i class="fa-solid fa-grip"></i><span data-key="navMenu">Menu</span></a>
+            <a class="nav-item"><i class="fa-solid fa-clipboard"></i><span data-key="navRecord">Record</span></a>
+            <a class="nav-item"><i class="fa-solid fa-user"></i><span data-key="navMine">Mine</span></a>
+        </nav>
+    </div>
+
+    <!-- ============================================================
+         ============ Payment Methods Details =======================
+         ============================================================ -->
+    <div id="page-payment" class="page detail-page">
+        <header class="dash-header">
+            <div class="brand-logo">
+                <span class="logo-icon">U<span class="fire-flame"></span></span>
+                <span class="logo-text">UMALL<span class="logo-24">247</span></span>
+            </div>
+            <div class="header-controls">
+                <button class="theme-toggle-sm" type="button"><i class="fa-solid fa-moon"></i></button>
+            </div>
+        </header>
+
+        <div class="detail-content">
+            <div class="hero-image">
+                <a class="back-btn" data-goto="dashboard"><i class="fa-solid fa-arrow-left"></i></a>
+                <img src="https://images.unsplash.com/photo-1563013544-824ae1b704d3?w=800&q=80" alt="Payment Methods">
+                <div class="hero-title-wrap">
+                    <div class="hero-icon"><i class="fa-solid fa-circle-info"></i></div>
+                    <h1 class="hero-title" data-key="paymentTitle">Payment Methods</h1>
+                </div>
+            </div>
+
+            <div class="detail-body">
+                <p class="detail-subtitle" data-key="paymentDesc">Digital Currency Support</p>
+                <div class="detail-card">
+                    <h3>Crypto Payment &amp; Deposit</h3>
+                    <p><strong>Supported Payment Methods</strong></p>
+                    <p>Our platform supports deposits using selected digital currencies and blockchain networks. Available options may include USDT, USDC, TRC20, ERC20, and BEP20, depending on the payment method currently available on your account.</p>
+
+                    <h3>How to Deposit</h3>
+
+                    <p class="rule-title">Step 1 — Open Deposit</p>
+                    <p>Log in to your account and navigate to Wallet → Deposit.</p>
+
+                    <p class="rule-title">Step 2 — Select Cryptocurrency</p>
+                    <p>Choose your preferred digital currency and select the correct blockchain network.</p>
+
+                    <p class="rule-title">Step 3 — Copy the Deposit Address</p>
+                    <p>Copy the wallet address displayed on the deposit page. Always verify the address and network before sending funds.</p>
+
+                    <p class="rule-title">Step 4 — Send the Payment</p>
+                    <p>Open your crypto wallet or exchange, enter the deposit address, select the same network, and enter the amount you want to deposit.</p>
+
+                    <p class="rule-title">Step 5 — Confirm the Transaction</p>
+                    <p>Review the currency, network, wallet address, and amount carefully before confirming the transfer.</p>
+
+                    <p class="rule-title">Step 6 — Wait for Confirmation</p>
+                    <p>After the blockchain transaction receives the required confirmations, the deposited amount will be credited to your platform account according to the platform's processing procedure.</p>
+
+                    <h3>Important</h3>
+                    <p>Always use the exact cryptocurrency and network shown on the deposit page. Sending funds through an unsupported network or to an incorrect address may result in permanent loss of funds.</p>
+
+                    <h3>Deposit Status</h3>
+                    <p>You can check your transaction status from Wallet → Deposit History. If a transaction remains pending beyond the normal processing time, contact Customer Support with the transaction hash (TXID).</p>
+                </div>
+            </div>
+        </div>
+
+        <nav class="bottom-nav">
+            <a class="nav-item active" data-goto="dashboard"><i class="fa-solid fa-house"></i><span data-key="navHome">Home</span></a>
+            <a class="nav-item"><i class="fa-solid fa-headset"></i><span data-key="navService">Service</span></a>
+            <a class="nav-item"><i class="fa-solid fa-grip"></i><span data-key="navMenu">Menu</span></a>
+            <a class="nav-item"><i class="fa-solid fa-clipboard"></i><span data-key="navRecord">Record</span></a>
+            <a class="nav-item"><i class="fa-solid fa-user"></i><span data-key="navMine">Mine</span></a>
+        </nav>
+    </div>
+
+    <!-- ============================================================
+         ================== Loading Overlay =========================
+         ============================================================ -->
     <div class="loading-overlay" id="loadingOverlay">
-        <div class="loading-box">
+        <div class="loading-box" id="loadingBox">
             <div class="loading-spinner" id="loadingSpinner">
                 <i class="fa-solid fa-circle-notch fa-spin"></i>
             </div>
@@ -82,6 +1628,406 @@
         </div>
     </div>
 
-    <script src="script.js"></script>
+    <!-- ============================================================
+         ===================== JavaScript ===========================
+         ============================================================ -->
+    <script>
+    (function() {
+        'use strict';
+
+        /* ==================== ভাষার অনুবাদ ==================== */
+        const translations = {
+            en: {
+                signIn: "Sign In", subtitle: "Welcome back! Enter your credentials to access your account",
+                emailPlaceholder: "Email Address", passwordPlaceholder: "Password",
+                verifyPlaceholder: "Verification", remember: "Remember password",
+                forgot: "Forgot Password?", loginBtn: "Login",
+                noAccount: "Don't have an account?", signUp: "Sign Up",
+                createAccount: "Create Account", registerSubtitle: "Register a new account to get started",
+                fullNamePlaceholder: "Enter your full name", confirmPasswordPlaceholder: "Confirm Password",
+                referCodePlaceholder: "Refer Code (Optional)", registerBtn: "Register",
+                haveAccount: "Already have an account?",
+                myBalance: "My Account Balance", recharge: "Recharge", withdrawal: "Withdrawal",
+                invitation: "Invitation", platformIntro: "Platform Introduction",
+                introTitle: "Introduction", introDesc: "Grab Orders. Complete Tasks. Earn Commissions.",
+                affiliateTitle: "Affiliates Marketing", affiliateDesc: "Turn Your Network Into Opportunity.",
+                rulesTitle: "Platform Rules", rulesDesc: "Platform Rules & User Guidelines.",
+                paymentTitle: "Payment Methods", paymentDesc: "Digital Currency Support",
+                navHome: "Home", navService: "Service", navMenu: "Menu",
+                navRecord: "Record", navMine: "Mine",
+                verifying: "Verifying your email...", verified: "Email verification completed!"
+            },
+            es: {
+                signIn: "Iniciar sesión", subtitle: "¡Bienvenido de nuevo! Ingrese sus credenciales para acceder a su cuenta",
+                emailPlaceholder: "Correo electrónico", passwordPlaceholder: "Contraseña",
+                verifyPlaceholder: "Verificación", remember: "Recordar contraseña",
+                forgot: "¿Olvidaste tu contraseña?", loginBtn: "Iniciar sesión",
+                noAccount: "¿No tienes una cuenta?", signUp: "Regístrate",
+                createAccount: "Crear cuenta", registerSubtitle: "Registre una nueva cuenta para comenzar",
+                fullNamePlaceholder: "Ingrese su nombre completo", confirmPasswordPlaceholder: "Confirmar contraseña",
+                referCodePlaceholder: "Código de referencia (opcional)", registerBtn: "Registrarse",
+                haveAccount: "¿Ya tienes una cuenta?",
+                myBalance: "Saldo de mi cuenta", recharge: "Recargar", withdrawal: "Retiro",
+                invitation: "Invitación", platformIntro: "Introducción a la plataforma",
+                introTitle: "Introducción", introDesc: "Toma pedidos. Completa tareas. Gana comisiones.",
+                affiliateTitle: "Marketing de afiliados", affiliateDesc: "Convierte tu red en oportunidad.",
+                rulesTitle: "Reglas de la plataforma", rulesDesc: "Reglas de la plataforma y guías de usuario.",
+                paymentTitle: "Métodos de pago", paymentDesc: "Soporte de moneda digital",
+                navHome: "Inicio", navService: "Servicio", navMenu: "Menú",
+                navRecord: "Registro", navMine: "Mío",
+                verifying: "Verificando tu correo electrónico...", verified: "¡Verificación de correo completada!"
+            },
+            fr: {
+                signIn: "Se connecter", subtitle: "Bon retour ! Entrez vos identifiants pour accéder à votre compte",
+                emailPlaceholder: "Adresse e-mail", passwordPlaceholder: "Mot de passe",
+                verifyPlaceholder: "Vérification", remember: "Se souvenir du mot de passe",
+                forgot: "Mot de passe oublié ?", loginBtn: "Connexion",
+                noAccount: "Vous n'avez pas de compte ?", signUp: "S'inscrire",
+                createAccount: "Créer un compte", registerSubtitle: "Inscrivez un nouveau compte pour commencer",
+                fullNamePlaceholder: "Entrez votre nom complet", confirmPasswordPlaceholder: "Confirmer le mot de passe",
+                referCodePlaceholder: "Code de parrainage (facultatif)", registerBtn: "S'inscrire",
+                haveAccount: "Vous avez déjà un compte ?",
+                myBalance: "Solde de mon compte", recharge: "Recharger", withdrawal: "Retrait",
+                invitation: "Invitation", platformIntro: "Présentation de la plateforme",
+                introTitle: "Introduction", introDesc: "Prenez des commandes. Complétez des tâches. Gagnez des commissions.",
+                affiliateTitle: "Marketing d'affiliation", affiliateDesc: "Transformez votre réseau en opportunité.",
+                rulesTitle: "Règles de la plateforme", rulesDesc: "Règles de la plateforme et directives utilisateur.",
+                paymentTitle: "Méthodes de paiement", paymentDesc: "Support de crypto-monnaie",
+                navHome: "Accueil", navService: "Service", navMenu: "Menu",
+                navRecord: "Enregistrer", navMine: "Mien",
+                verifying: "Vérification de votre e-mail...", verified: "Vérification de l'e-mail terminée !"
+            },
+            de: {
+                signIn: "Anmelden", subtitle: "Willkommen zurück! Geben Sie Ihre Anmeldedaten ein",
+                emailPlaceholder: "E-Mail-Adresse", passwordPlaceholder: "Passwort",
+                verifyPlaceholder: "Verifizierung", remember: "Passwort merken",
+                forgot: "Passwort vergessen?", loginBtn: "Anmelden",
+                noAccount: "Sie haben kein Konto?", signUp: "Registrieren",
+                createAccount: "Konto erstellen", registerSubtitle: "Registrieren Sie ein neues Konto",
+                fullNamePlaceholder: "Geben Sie Ihren vollständigen Namen ein", confirmPasswordPlaceholder: "Passwort bestätigen",
+                referCodePlaceholder: "Empfehlungscode (optional)", registerBtn: "Registrieren",
+                haveAccount: "Sie haben bereits ein Konto?",
+                myBalance: "Mein Kontostand", recharge: "Aufladen", withdrawal: "Auszahlung",
+                invitation: "Einladung", platformIntro: "Plattform-Einführung",
+                introTitle: "Einführung", introDesc: "Bestellungen annehmen. Aufgaben erledigen.",
+                affiliateTitle: "Affiliate-Marketing", affiliateDesc: "Verwandeln Sie Ihr Netzwerk in eine Chance.",
+                rulesTitle: "Plattformregeln", rulesDesc: "Plattformregeln & Benutzerrichtlinien.",
+                paymentTitle: "Zahlungsmethoden", paymentDesc: "Unterstützung für digitale Währungen",
+                navHome: "Startseite", navService: "Service", navMenu: "Menü",
+                navRecord: "Aufzeichnung", navMine: "Meins",
+                verifying: "E-Mail wird überprüft...", verified: "E-Mail-Verifizierung abgeschlossen!"
+            },
+            it: {
+                signIn: "Accedi", subtitle: "Bentornato! Inserisci le tue credenziali",
+                emailPlaceholder: "Indirizzo email", passwordPlaceholder: "Password",
+                verifyPlaceholder: "Verifica", remember: "Ricorda password",
+                forgot: "Password dimenticata?", loginBtn: "Accedi",
+                noAccount: "Non hai un account?", signUp: "Registrati",
+                createAccount: "Crea account", registerSubtitle: "Registra un nuovo account per iniziare",
+                fullNamePlaceholder: "Inserisci il tuo nome completo", confirmPasswordPlaceholder: "Conferma password",
+                referCodePlaceholder: "Codice referral (opzionale)", registerBtn: "Registrati",
+                haveAccount: "Hai già un account?",
+                myBalance: "Saldo del mio conto", recharge: "Ricarica", withdrawal: "Prelievo",
+                invitation: "Invito", platformIntro: "Introduzione alla piattaforma",
+                introTitle: "Introduzione", introDesc: "Prendi ordini. Completa attività.",
+                affiliateTitle: "Marketing di affiliazione", affiliateDesc: "Trasforma la tua rete in opportunità.",
+                rulesTitle: "Regole della piattaforma", rulesDesc: "Regole della piattaforma e linee guida.",
+                paymentTitle: "Metodi di pagamento", paymentDesc: "Supporto criptovaluta",
+                navHome: "Home", navService: "Servizio", navMenu: "Menu",
+                navRecord: "Record", navMine: "Mio",
+                verifying: "Verifica della tua email...", verified: "Verifica email completata!"
+            },
+            pt: {
+                signIn: "Entrar", subtitle: "Bem-vindo de volta! Insira suas credenciais",
+                emailPlaceholder: "Endereço de e-mail", passwordPlaceholder: "Senha",
+                verifyPlaceholder: "Verificação", remember: "Lembrar senha",
+                forgot: "Esqueceu a senha?", loginBtn: "Entrar",
+                noAccount: "Não tem uma conta?", signUp: "Inscrever-se",
+                createAccount: "Criar conta", registerSubtitle: "Registre uma nova conta para começar",
+                fullNamePlaceholder: "Digite seu nome completo", confirmPasswordPlaceholder: "Confirmar senha",
+                referCodePlaceholder: "Código de indicação (opcional)", registerBtn: "Registrar",
+                haveAccount: "Já tem uma conta?",
+                myBalance: "Saldo da minha conta", recharge: "Recarregar", withdrawal: "Saque",
+                invitation: "Convite", platformIntro: "Introdução à plataforma",
+                introTitle: "Introdução", introDesc: "Pegue pedidos. Complete tarefas.",
+                affiliateTitle: "Marketing de afiliados", affiliateDesc: "Transforme sua rede em oportunidade.",
+                rulesTitle: "Regras da plataforma", rulesDesc: "Regras da plataforma e diretrizes.",
+                paymentTitle: "Métodos de pagamento", paymentDesc: "Suporte a moeda digital",
+                navHome: "Início", navService: "Serviço", navMenu: "Menu",
+                navRecord: "Registro", navMine: "Meu",
+                verifying: "Verificando seu e-mail...", verified: "Verificação de e-mail concluída!"
+            },
+            nl: {
+                signIn: "Inloggen", subtitle: "Welkom terug! Voer uw inloggegevens in",
+                emailPlaceholder: "E-mailadres", passwordPlaceholder: "Wachtwoord",
+                verifyPlaceholder: "Verificatie", remember: "Wachtwoord onthouden",
+                forgot: "Wachtwoord vergeten?", loginBtn: "Inloggen",
+                noAccount: "Heb je geen account?", signUp: "Aanmelden",
+                createAccount: "Account aanmaken", registerSubtitle: "Registreer een nieuw account",
+                fullNamePlaceholder: "Voer uw volledige naam in", confirmPasswordPlaceholder: "Wachtwoord bevestigen",
+                referCodePlaceholder: "Verwijzingscode (optioneel)", registerBtn: "Registreren",
+                haveAccount: "Heb je al een account?",
+                myBalance: "Mijn accountsaldo", recharge: "Opladen", withdrawal: "Opname",
+                invitation: "Uitnodiging", platformIntro: "Platformintroductie",
+                introTitle: "Introductie", introDesc: "Pak bestellingen. Voltooi taken.",
+                affiliateTitle: "Affiliate marketing", affiliateDesc: "Verander uw netwerk in kansen.",
+                rulesTitle: "Platformregels", rulesDesc: "Platformregels en gebruikersrichtlijnen.",
+                paymentTitle: "Betaalmethoden", paymentDesc: "Ondersteuning voor digitale valuta",
+                navHome: "Home", navService: "Service", navMenu: "Menu",
+                navRecord: "Opnemen", navMine: "Mijn",
+                verifying: "E-mail verifiëren...", verified: "E-mailverificatie voltooid!"
+            },
+            ru: {
+                signIn: "Войти", subtitle: "С возвращением! Введите свои учетные данные",
+                emailPlaceholder: "Адрес электронной почты", passwordPlaceholder: "Пароль",
+                verifyPlaceholder: "Проверка", remember: "Запомнить пароль",
+                forgot: "Забыли пароль?", loginBtn: "Войти",
+                noAccount: "Нет аккаунта?", signUp: "Зарегистрироваться",
+                createAccount: "Создать аккаунт", registerSubtitle: "Зарегистрируйте новый аккаунт",
+                fullNamePlaceholder: "Введите ваше полное имя", confirmPasswordPlaceholder: "Подтвердите пароль",
+                referCodePlaceholder: "Реферальный код (необязательно)", registerBtn: "Зарегистрироваться",
+                haveAccount: "Уже есть аккаунт?",
+                myBalance: "Баланс моего счета", recharge: "Пополнить", withdrawal: "Вывод",
+                invitation: "Приглашение", platformIntro: "О платформе",
+                introTitle: "Введение", introDesc: "Берите заказы. Выполняйте задания.",
+                affiliateTitle: "Партнерский маркетинг", affiliateDesc: "Превратите свою сеть в возможность.",
+                rulesTitle: "Правила платформы", rulesDesc: "Правила платформы и руководство.",
+                paymentTitle: "Способы оплаты", paymentDesc: "Поддержка цифровой валюты",
+                navHome: "Главная", navService: "Сервис", navMenu: "Меню",
+                navRecord: "Запись", navMine: "Мой",
+                verifying: "Проверка вашей почты...", verified: "Проверка почты завершена!"
+            },
+            tr: {
+                signIn: "Giriş Yap", subtitle: "Tekrar hoş geldiniz! Bilgilerinizi girin",
+                emailPlaceholder: "E-posta Adresi", passwordPlaceholder: "Şifre",
+                verifyPlaceholder: "Doğrulama", remember: "Şifreyi hatırla",
+                forgot: "Şifremi unuttum?", loginBtn: "Giriş Yap",
+                noAccount: "Hesabınız yok mu?", signUp: "Kayıt Ol",
+                createAccount: "Hesap Oluştur", registerSubtitle: "Başlamak için yeni bir hesap kaydedin",
+                fullNamePlaceholder: "Tam adınızı girin", confirmPasswordPlaceholder: "Şifreyi Onayla",
+                referCodePlaceholder: "Referans Kodu (İsteğe bağlı)", registerBtn: "Kayıt Ol",
+                haveAccount: "Zaten hesabınız var mı?",
+                myBalance: "Hesap Bakiyem", recharge: "Yükle", withdrawal: "Para Çekme",
+                invitation: "Davet", platformIntro: "Platform Tanıtımı",
+                introTitle: "Tanıtım", introDesc: "Sipariş alın. Görevleri tamamlayın.",
+                affiliateTitle: "Satış Ortaklığı", affiliateDesc: "Ağınızı fırsata dönüştürün.",
+                rulesTitle: "Platform Kuralları", rulesDesc: "Platform Kuralları ve Yönergeler.",
+                paymentTitle: "Ödeme Yöntemleri", paymentDesc: "Dijital Para Desteği",
+                navHome: "Ana Sayfa", navService: "Servis", navMenu: "Menü",
+                navRecord: "Kayıt", navMine: "Benim",
+                verifying: "E-postanız doğrulanıyor...", verified: "E-posta doğrulama tamamlandı!"
+            },
+            ar: {
+                signIn: "تسجيل الدخول", subtitle: "مرحبًا بعودتك! أدخل بياناتك",
+                emailPlaceholder: "البريد الإلكتروني", passwordPlaceholder: "كلمة المرور",
+                verifyPlaceholder: "التحقق", remember: "تذكر كلمة المرور",
+                forgot: "هل نسيت كلمة المرور؟", loginBtn: "تسجيل الدخول",
+                noAccount: "ليس لديك حساب؟", signUp: "إنشاء حساب",
+                createAccount: "إنشاء حساب", registerSubtitle: "سجّل حسابًا جديدًا للبدء",
+                fullNamePlaceholder: "أدخل اسمك الكامل", confirmPasswordPlaceholder: "تأكيد كلمة المرور",
+                referCodePlaceholder: "رمز الإحالة (اختياري)", registerBtn: "تسجيل",
+                haveAccount: "هل لديك حساب بالفعل؟",
+                myBalance: "رصيد حسابي", recharge: "إعادة الشحن", withdrawal: "السحب",
+                invitation: "دعوة", platformIntro: "مقدمة المنصة",
+                introTitle: "مقدمة", introDesc: "احصل على الطلبات. أكمل المهام.",
+                affiliateTitle: "التسويق بالعمولة", affiliateDesc: "حوّل شبكتك إلى فرصة.",
+                rulesTitle: "قواعد المنصة", rulesDesc: "قواعد المنصة وإرشادات المستخدم.",
+                paymentTitle: "طرق الدفع", paymentDesc: "دعم العملات الرقمية",
+                navHome: "الرئيسية", navService: "الخدمة", navMenu: "القائمة",
+                navRecord: "السجل", navMine: "حسابي",
+                verifying: "جارٍ التحقق من بريدك الإلكتروني...", verified: "اكتمل التحقق من البريد!"
+            },
+            fa: {
+                signIn: "ورود", subtitle: "خوش آمدید! اطلاعات خود را وارد کنید",
+                emailPlaceholder: "آدرس ایمیل", passwordPlaceholder: "رمز عبور",
+                verifyPlaceholder: "تأیید", remember: "به خاطر سپردن رمز عبور",
+                forgot: "رمز عبور را فراموش کرده اید؟", loginBtn: "ورود",
+                noAccount: "حساب کاربری ندارید؟", signUp: "ثبت نام",
+                createAccount: "ایجاد حساب", registerSubtitle: "برای شروع یک حساب جدید ثبت کنید",
+                fullNamePlaceholder: "نام کامل خود را وارد کنید", confirmPasswordPlaceholder: "تأیید رمز عبور",
+                referCodePlaceholder: "کد معرف (اختیاری)", registerBtn: "ثبت نام",
+                haveAccount: "قبلاً حساب دارید؟",
+                myBalance: "موجودی حساب من", recharge: "شارژ مجدد", withdrawal: "برداشت",
+                invitation: "دعوت", platformIntro: "معرفی پلتفرم",
+                introTitle: "معرفی", introDesc: "سفارش بگیرید. وظایف را کامل کنید.",
+                affiliateTitle: "بازاریابی همکاری", affiliateDesc: "شبکه خود را به فرصت تبدیل کنید.",
+                rulesTitle: "قوانین پلتفرم", rulesDesc: "قوانین پلتفرم و دستورالعمل‌ها.",
+                paymentTitle: "روش‌های پرداخت", paymentDesc: "پشتیبانی از ارز دیجیتال",
+                navHome: "خانه", navService: "خدمات", navMenu: "منو",
+                navRecord: "سابقه", navMine: "من",
+                verifying: "در حال تأیید ایمیل شما...", verified: "تأیید ایمیل کامل شد!"
+            }
+        };
+
+        /* ==================== Safe localStorage ==================== */
+        function safeGet(key) {
+            try { return localStorage.getItem(key); } catch (e) { return null; }
+        }
+        function safeSet(key, value) {
+            try { localStorage.setItem(key, value); } catch (e) {}
+        }
+
+        /* ==================== ভাষা ==================== */
+        const rtlLangs = ['ar', 'fa'];
+
+        function applyLanguage(lang) {
+            document.querySelectorAll('[data-key]').forEach(el => {
+                const key = el.getAttribute('data-key');
+                if (translations[lang] && translations[lang][key]) {
+                    if (el.tagName === 'INPUT') el.placeholder = translations[lang][key];
+                    else el.textContent = translations[lang][key];
+                }
+            });
+            document.querySelectorAll('.lang-select').forEach(sel => { sel.value = lang; });
+        }
+
+        function applyDirection(lang) {
+            if (rtlLangs.includes(lang)) {
+                document.body.classList.add('rtl');
+                document.documentElement.setAttribute('dir', 'rtl');
+            } else {
+                document.body.classList.remove('rtl');
+                document.documentElement.setAttribute('dir', 'ltr');
+            }
+        }
+
+        /* ==================== থিম ==================== */
+        function applyTheme(isDark) {
+            if (isDark) {
+                document.body.classList.add('dark-mode');
+                document.documentElement.classList.add('dark-mode');
+                document.querySelectorAll('.theme-toggle i, .theme-toggle-sm i').forEach(i => {
+                    i.classList.remove('fa-moon');
+                    i.classList.add('fa-sun');
+                });
+                const meta = document.querySelector('meta[name="theme-color"]');
+                if (meta) meta.setAttribute('content', '#0f172a');
+            } else {
+                document.body.classList.remove('dark-mode');
+                document.documentElement.classList.remove('dark-mode');
+                document.querySelectorAll('.theme-toggle i, .theme-toggle-sm i').forEach(i => {
+                    i.classList.remove('fa-sun');
+                    i.classList.add('fa-moon');
+                });
+                const meta = document.querySelector('meta[name="theme-color"]');
+                if (meta) meta.setAttribute('content', '#b0bec5');
+            }
+        }
+
+        /* ==================== পেজ নেভিগেশন ==================== */
+        function showPage(pageName) {
+            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+            const target = document.getElementById('page-' + pageName);
+            if (target) {
+                target.classList.add('active');
+                window.scrollTo({ top: 0, behavior: 'instant' });
+            }
+        }
+
+        /* ==================== Loading + Redirect ==================== */
+        const loadingOverlay = document.getElementById('loadingOverlay');
+        const loadingBox = document.getElementById('loadingBox');
+        const loadingText = document.getElementById('loadingText');
+
+        function runLoginFlow() {
+            const lang = safeGet('language') || 'en';
+            const t = translations[lang] || translations.en;
+
+            loadingBox.classList.remove('success');
+            loadingText.textContent = t.verifying;
+            loadingOverlay.classList.add('show');
+
+            setTimeout(() => {
+                loadingBox.classList.add('success');
+                loadingText.textContent = t.verified;
+            }, 2000);
+
+            setTimeout(() => {
+                loadingOverlay.classList.remove('show');
+                showPage('dashboard');
+            }, 3000);
+        }
+
+        /* ==================== Init ==================== */
+        function init() {
+            const savedLang = safeGet('language') || 'en';
+            const savedTheme = safeGet('theme');
+
+            applyLanguage(savedLang);
+            applyDirection(savedLang);
+            applyTheme(savedTheme === 'dark');
+
+            // ভাষা পরিবর্তন
+            document.querySelectorAll('.lang-select').forEach(sel => {
+                sel.addEventListener('change', function() {
+                    const lang = this.value;
+                    safeSet('language', lang);
+                    applyLanguage(lang);
+                    applyDirection(lang);
+                });
+            });
+
+            // থিম টগল
+            let lastTap = 0;
+            document.querySelectorAll('.theme-toggle, .theme-toggle-sm').forEach(btn => {
+                btn.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const now = Date.now();
+                    if (now - lastTap < 300) return;
+                    lastTap = now;
+                    const isDark = !document.body.classList.contains('dark-mode');
+                    applyTheme(isDark);
+                    safeSet('theme', isDark ? 'dark' : 'light');
+                });
+            });
+
+            // Eye icons
+            document.querySelectorAll('.eye-icon').forEach(icon => {
+                icon.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const input = this.previousElementSibling;
+                    if (!input) return;
+                    if (input.type === 'password') {
+                        input.type = 'text';
+                        this.classList.remove('fa-eye');
+                        this.classList.add('fa-eye-slash');
+                    } else {
+                        input.type = 'password';
+                        this.classList.remove('fa-eye-slash');
+                        this.classList.add('fa-eye');
+                    }
+                });
+            });
+
+            // Verify codes
+            document.querySelectorAll('[data-verify]').forEach(el => {
+                const randomCode = Math.floor(1000 + Math.random() * 9000);
+                el.textContent = randomCode.toString().split('').join(' ');
+            });
+
+            // Login button
+            document.querySelectorAll('[data-action="login"]').forEach(btn => {
+                btn.addEventListener('click', runLoginFlow);
+            });
+
+            // Navigation (data-goto)
+            document.querySelectorAll('[data-goto]').forEach(el => {
+                el.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const target = this.getAttribute('data-goto');
+                    if (target) showPage(target);
+                });
+            });
+        }
+
+        // DOM ready
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', init);
+        } else {
+            init();
+        }
+    })();
+    </script>
+
 </body>
 </html>
