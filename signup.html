@@ -101,7 +101,6 @@
             document.getElementById('referCodeInput').value = urlRefCode;
         }
 
-        // ================= Message Show =================
         const registerBtn = document.getElementById('registerBtn');
         const messageBox = document.getElementById('messageBox');
 
@@ -119,7 +118,7 @@
             }
         }
 
-        // ================= Signup Handler =================
+        // ================= ✅ Fixed Register Handler =================
         registerBtn.addEventListener('click', async function() {
             const fullName = document.getElementById('fullNameInput').value.trim();
             const email = document.getElementById('emailInput').value.trim();
@@ -133,9 +132,9 @@
             if (!password || password.length < 6) return showMessage('Password must be at least 6 characters.', true);
             if (password !== confirmPassword) return showMessage('Passwords do not match.', true);
 
-            // Loading শুরু
             registerBtn.disabled = true;
             registerBtn.style.opacity = '0.7';
+            messageBox.style.display = 'none';
 
             const lang = safeGet('language') || 'en';
             const t = (typeof translations !== 'undefined' && translations[lang]) ? translations[lang] : { verifying: 'Creating account...', verified: 'Account created!' };
@@ -143,22 +142,42 @@
             loadingText.textContent = t.verifying || 'Creating account...';
             loadingOverlay.classList.add('show');
 
-            // Firebase Signup
             const result = await signupUser(fullName, email, password, referCode);
 
             if (result.success) {
+                // ✅ নিশ্চিত করুন Firebase Auth state ready হয়েছে
+                await new Promise(resolve => setTimeout(resolve, 800));
+
                 loadingBox.classList.add('success');
                 loadingText.textContent = t.verified || 'Account created!';
 
                 setTimeout(() => {
-                    window.location.href = 'dashboard.html';
-                }, 2000);
+                    // ✅ window.location.replace দিয়ে redirect
+                    window.location.replace('dashboard.html');
+                }, 1500);
             } else {
                 registerBtn.disabled = false;
                 registerBtn.style.opacity = '1';
                 loadingOverlay.classList.remove('show');
                 showMessage(translateFirebaseError(result.error), true);
             }
+        });
+
+        // Enter key navigation
+        document.getElementById('fullNameInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') document.getElementById('emailInput').focus();
+        });
+        document.getElementById('emailInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') document.getElementById('passwordInput').focus();
+        });
+        document.getElementById('passwordInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') document.getElementById('confirmPasswordInput').focus();
+        });
+        document.getElementById('confirmPasswordInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') document.getElementById('referCodeInput').focus();
+        });
+        document.getElementById('referCodeInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') registerBtn.click();
         });
     </script>
 </body>
