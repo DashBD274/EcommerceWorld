@@ -38,23 +38,23 @@
 
         <div class="input-group">
             <i class="fa-solid fa-id-card"></i>
-            <input type="text" id="fullNameInput" placeholder="Enter your full name" data-key="fullNamePlaceholder">
+            <input type="text" id="fullNameInput" placeholder="Enter your full name" data-key="fullNamePlaceholder" autocomplete="name">
         </div>
 
         <div class="input-group">
             <i class="fa-solid fa-user"></i>
-            <input type="email" id="emailInput" placeholder="Email Address" data-key="emailPlaceholder">
+            <input type="email" id="emailInput" placeholder="Email Address" data-key="emailPlaceholder" autocomplete="email">
         </div>
 
         <div class="input-group">
             <i class="fa-solid fa-lock"></i>
-            <input type="password" id="passwordInput" placeholder="Password" data-key="passwordPlaceholder">
+            <input type="password" id="passwordInput" placeholder="Password" data-key="passwordPlaceholder" autocomplete="new-password">
             <i class="fa-solid fa-eye eye-icon"></i>
         </div>
 
         <div class="input-group">
             <i class="fa-solid fa-lock"></i>
-            <input type="password" id="confirmPasswordInput" placeholder="Confirm Password" data-key="confirmPasswordPlaceholder">
+            <input type="password" id="confirmPasswordInput" placeholder="Confirm Password" data-key="confirmPasswordPlaceholder" autocomplete="new-password">
             <i class="fa-solid fa-eye eye-icon"></i>
         </div>
 
@@ -64,7 +64,7 @@
         </div>
 
         <div class="verify-group">
-            <input type="text" class="verify-input" placeholder="Verification Code" readonly data-key="verifyPlaceholder">
+            <input type="text" id="verifyInput" class="verify-input" placeholder="Verification Code" maxlength="4" inputmode="numeric" data-key="verifyPlaceholder">
             <div class="verify-code" id="verifyCode">5 5 2 7</div>
         </div>
 
@@ -95,12 +95,28 @@
     <script src="script.js"></script>
 
     <script>
-        // ================= URL থেকে Refer Code Autofill =================
+        // ================= 🔢 Verification Code =================
+        let currentVerifyCode = "";
+
+        function generateVerifyCode() {
+            currentVerifyCode = Math.floor(1000 + Math.random() * 9000).toString();
+            document.getElementById('verifyCode').textContent = currentVerifyCode.split('').join(' ');
+        }
+
+        generateVerifyCode();
+
+        const verifyInput = document.getElementById('verifyInput');
+        verifyInput.addEventListener('input', function() {
+            this.value = this.value.replace(/\D/g, '').substring(0, 4);
+        });
+
+        // ================= URL Refer Code Autofill =================
         const urlRefCode = getReferCodeFromURL();
         if (urlRefCode) {
             document.getElementById('referCodeInput').value = urlRefCode;
         }
 
+        // ================= Message =================
         const registerBtn = document.getElementById('registerBtn');
         const messageBox = document.getElementById('messageBox');
 
@@ -118,26 +134,47 @@
             }
         }
 
-        // ================= ✅ Fixed Register Handler =================
+        // ================= 🔐 Register Handler =================
         registerBtn.addEventListener('click', async function() {
             const fullName = document.getElementById('fullNameInput').value.trim();
             const email = document.getElementById('emailInput').value.trim();
             const password = document.getElementById('passwordInput').value;
             const confirmPassword = document.getElementById('confirmPasswordInput').value;
             const referCode = document.getElementById('referCodeInput').value.trim();
+            const verifyCode = document.getElementById('verifyInput').value.trim();
 
-            // Validation
+            // ============ Validation ============
             if (!fullName) return showMessage('Please enter your full name.', true);
+
             if (!email) return showMessage('Please enter your email.', true);
-            if (!password || password.length < 6) return showMessage('Password must be at least 6 characters.', true);
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(email)) return showMessage('Please enter a valid email address.', true);
+
+            if (!password) return showMessage('Please enter your password.', true);
+            if (password.length < 6) return showMessage('Password must be at least 6 characters.', true);
+
+            if (!confirmPassword) return showMessage('Please confirm your password.', true);
             if (password !== confirmPassword) return showMessage('Passwords do not match.', true);
 
+            if (!verifyCode) return showMessage('Please enter the verification code.', true);
+            if (verifyCode.length !== 4) return showMessage('Verification code must be 4 digits.', true);
+            if (verifyCode !== currentVerifyCode) {
+                showMessage('Incorrect verification code. Please try again.', true);
+                generateVerifyCode();
+                document.getElementById('verifyInput').value = '';
+                return;
+            }
+
+            // ============ সব Validation পাস ============
             registerBtn.disabled = true;
             registerBtn.style.opacity = '0.7';
             messageBox.style.display = 'none';
 
             const lang = safeGet('language') || 'en';
-            const t = (typeof translations !== 'undefined' && translations[lang]) ? translations[lang] : { verifying: 'Creating account...', verified: 'Account created!' };
+            const t = (typeof translations !== 'undefined' && translations[lang])
+                ? translations[lang]
+                : { verifying: 'Creating account...', verified: 'Account created!' };
+
             loadingBox.classList.remove('success');
             loadingText.textContent = t.verifying || 'Creating account...';
             loadingOverlay.classList.add('show');
@@ -145,14 +182,10 @@
             const result = await signupUser(fullName, email, password, referCode);
 
             if (result.success) {
-                // ✅ নিশ্চিত করুন Firebase Auth state ready হয়েছে
-                await new Promise(resolve => setTimeout(resolve, 800));
-
                 loadingBox.classList.add('success');
                 loadingText.textContent = t.verified || 'Account created!';
 
                 setTimeout(() => {
-                    // ✅ window.location.replace দিয়ে redirect
                     window.location.replace('dashboard.html');
                 }, 1500);
             } else {
@@ -160,6 +193,8 @@
                 registerBtn.style.opacity = '1';
                 loadingOverlay.classList.remove('show');
                 showMessage(translateFirebaseError(result.error), true);
+                generateVerifyCode();
+                document.getElementById('verifyInput').value = '';
             }
         });
 
@@ -177,6 +212,9 @@
             if (e.key === 'Enter') document.getElementById('referCodeInput').focus();
         });
         document.getElementById('referCodeInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') document.getElementById('verifyInput').focus();
+        });
+        document.getElementById('verifyInput').addEventListener('keypress', function(e) {
             if (e.key === 'Enter') registerBtn.click();
         });
     </script>
