@@ -210,3 +210,300 @@ const translations = {
         haveAccount: "قبلاً حساب دارید؟"
     }
 };
+
+// ================= ভাষা পরিবর্তন =================
+function changeLanguage(lang) {
+    const elements = document.querySelectorAll('[data-key]');
+    elements.forEach(el => {
+        const key = el.getAttribute('data-key');
+        if (translations[lang] && translations[lang][key]) {
+            if (el.tagName === 'INPUT') {
+                el.placeholder = translations[lang][key];
+            } else {
+                el.textContent = translations[lang][key];
+            }
+        }
+    });
+}
+
+const langSelect = document.getElementById('languageSelect');
+if (langSelect) {
+    langSelect.addEventListener('change', function() {
+        changeLanguage(this.value);
+        applyDirection(this.value);
+    });
+    changeLanguage(langSelect.value);
+}
+
+// ================= থিম টগল (iOS/Android Safe) =================
+const themeToggle = document.getElementById('themeToggle');
+const themeIcon = themeToggle ? themeToggle.querySelector('i') : null;
+
+// Safe localStorage wrapper (iOS private mode এ crash করে না)
+function safeGet(key) {
+    try { return localStorage.getItem(key); } catch(e) { return null; }
+}
+function safeSet(key, value) {
+    try { localStorage.setItem(key, value); } catch(e) {}
+}
+
+// পেজ লোডের সময় থিম চেক
+const savedTheme = safeGet('theme');
+if (savedTheme === 'dark') {
+    document.body.classList.add('dark-mode');
+    if (themeIcon) {
+        themeIcon.classList.remove('fa-moon');
+        themeIcon.classList.add('fa-sun');
+    }
+}
+
+// থিম টগল ক্লিক (touch + click দুটোই কাজ করবে)
+if (themeToggle) {
+    const toggleHandler = function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+
+        document.body.classList.toggle('dark-mode');
+
+        if (document.body.classList.contains('dark-mode')) {
+            if (themeIcon) {
+                themeIcon.classList.remove('fa-moon');
+                themeIcon.classList.add('fa-sun');
+            }
+            safeSet('theme', 'dark');
+        } else {
+            if (themeIcon) {
+                themeIcon.classList.remove('fa-sun');
+                themeIcon.classList.add('fa-moon');
+            }
+            safeSet('theme', 'light');
+        }
+    };
+
+    themeToggle.addEventListener('click', toggleHandler);
+    // iOS এর জন্য touch event
+    themeToggle.addEventListener('touchend', function(e) {
+        e.preventDefault();
+        toggleHandler(e);
+    }, { passive: false });
+}
+
+// ================= পাসওয়ার্ড দেখা/লুকানো =================
+const eyeIcons = document.querySelectorAll('.eye-icon');
+
+eyeIcons.forEach(icon => {
+    const eyeHandler = function(e) {
+        e.preventDefault();
+        const input = this.previousElementSibling;
+        if (!input) return;
+
+        if (input.type === 'password') {
+            input.type = 'text';
+            this.classList.remove('fa-eye');
+            this.classList.add('fa-eye-slash');
+        } else {
+            input.type = 'password';
+            this.classList.remove('fa-eye-slash');
+            this.classList.add('fa-eye');
+        }
+    };
+
+    icon.addEventListener('click', eyeHandler);
+    icon.addEventListener('touchend', function(e) {
+        e.preventDefault();
+        eyeHandler.call(this, e);
+    }, { passive: false });
+});
+
+// ================= র‍্যান্ডম ভেরিফিকেশন কোড =================
+const verifyCodeDiv = document.getElementById('verifyCode');
+if (verifyCodeDiv) {
+    const randomCode = Math.floor(1000 + Math.random() * 9000);
+    verifyCodeDiv.textContent = randomCode.toString().split('').join(' ');
+}
+
+// ================= RTL (ডান থেকে বাম) অটো ডিটেকশন =================
+const rtlLanguages = ['ar', 'fa'];
+
+function applyDirection(lang) {
+    if (rtlLanguages.includes(lang)) {
+        document.body.classList.add('rtl');
+    } else {
+        document.body.classList.remove('rtl');
+    }
+}
+
+if (langSelect) {
+    applyDirection(langSelect.value);
+}
+
+// ================= লোগো অ্যানিমেশন (iOS/Android Fix) =================
+const brandItems = document.querySelectorAll('.brand-item');
+const brandStates = [];
+let animationStarted = false;
+
+// কার্ডের সাইজ (বারবার আপডেট হবে)
+const loginCard = document.querySelector('.login-container');
+let cardRect = null;
+
+function updateCardRect() {
+    if (loginCard) {
+        cardRect = loginCard.getBoundingClientRect();
+    }
+}
+
+// বাউন্স অ্যানিমেশন শুরু করার ফাংশন
+function initBrandAnimation() {
+    if (animationStarted) return;
+    if (brandItems.length === 0) return;
+
+    updateCardRect();
+
+    const screenWidth = window.innerWidth;
+    const screenHeight = window.innerHeight;
+
+    brandItems.forEach((item) => {
+        // ⚠️ মূল সমাধান: getBoundingClientRect এর বদলে offsetWidth/offsetHeight
+        const itemWidth = item.offsetWidth || 80;
+        const itemHeight = item.offsetHeight || 50;
+
+        const x = Math.random() * Math.max(20, screenWidth - itemWidth - 40) + 20;
+        const y = Math.random() * Math.max(20, screenHeight - itemHeight - 40) + 20;
+        const speed = 0.6 + Math.random() * 0.9;
+        const angle = Math.random() * Math.PI * 2;
+        const vx = Math.cos(angle) * speed;
+        const vy = Math.sin(angle) * speed;
+
+        // প্রাথমিক পজিশন সেট
+        item.style.left = x + 'px';
+        item.style.top = y + 'px';
+
+        brandStates.push({
+            element: item,
+            x: x,
+            y: y,
+            vx: vx,
+            vy: vy,
+            width: itemWidth,
+            height: itemHeight
+        });
+    });
+
+    animationStarted = true;
+    requestAnimationFrame(animateBrands);
+}
+
+// বাউন্স অ্যানিমেশন লুপ
+function animateBrands() {
+    if (!animationStarted) return;
+
+    const screenWidth = window.innerWidth;
+    const screenHeight = window.innerHeight;
+
+    // কার্ড রেক্ট ক্যাশ আপডেট (প্রতি ৬০ ফ্রেমে একবার)
+    if (!cardRect || Math.random() < 0.02) {
+        updateCardRect();
+    }
+
+    brandStates.forEach(state => {
+        state.x += state.vx;
+        state.y += state.vy;
+
+        // স্ক্রিনের সীমানা চেক
+        if (state.x <= 0) {
+            state.x = 0;
+            state.vx = Math.abs(state.vx);
+        }
+        if (state.x + state.width >= screenWidth) {
+            state.x = screenWidth - state.width;
+            state.vx = -Math.abs(state.vx);
+        }
+        if (state.y <= 0) {
+            state.y = 0;
+            state.vy = Math.abs(state.vy);
+        }
+        if (state.y + state.height >= screenHeight) {
+            state.y = screenHeight - state.height;
+            state.vy = -Math.abs(state.vy);
+        }
+
+        // কার্ডের সাথে সংঘর্ষ চেক
+        if (cardRect &&
+            state.x + state.width > cardRect.left && state.x < cardRect.right &&
+            state.y + state.height > cardRect.top && state.y < cardRect.bottom) {
+
+            const overlapLeft   = (state.x + state.width) - cardRect.left;
+            const overlapRight  = cardRect.right - state.x;
+            const overlapTop    = (state.y + state.height) - cardRect.top;
+            const overlapBottom = cardRect.bottom - state.y;
+
+            const minOverlap = Math.min(overlapLeft, overlapRight, overlapTop, overlapBottom);
+
+            if (minOverlap === overlapLeft) {
+                state.x = cardRect.left - state.width;
+                state.vx = -Math.abs(state.vx);
+            } else if (minOverlap === overlapRight) {
+                state.x = cardRect.right;
+                state.vx = Math.abs(state.vx);
+            } else if (minOverlap === overlapTop) {
+                state.y = cardRect.top - state.height;
+                state.vy = -Math.abs(state.vy);
+            } else {
+                state.y = cardRect.bottom;
+                state.vy = Math.abs(state.vy);
+            }
+        }
+
+        state.element.style.left = state.x + 'px';
+        state.element.style.top = state.y + 'px';
+    });
+
+    requestAnimationFrame(animateBrands);
+}
+
+// ✅ গুরুত্বপূর্ণ: সব ইমেজ লোড হওয়ার পরে অ্যানিমেশন শুরু
+function startWhenReady() {
+    const images = document.querySelectorAll('.brand-logo');
+    if (images.length === 0) {
+        initBrandAnimation();
+        return;
+    }
+
+    let loadedCount = 0;
+    const totalImages = images.length;
+
+    const checkDone = () => {
+        loadedCount++;
+        if (loadedCount >= totalImages) {
+            // সব লোগো লোড হলে সামান্য দেরি দিয়ে অ্যানিমেশন শুরু
+            setTimeout(initBrandAnimation, 100);
+        }
+    };
+
+    images.forEach(img => {
+        if (img.complete && img.naturalWidth > 0) {
+            checkDone();
+        } else {
+            img.addEventListener('load', checkDone, { once: true });
+            img.addEventListener('error', checkDone, { once: true });
+        }
+    });
+
+    // Safe fallback — ৩ সেকেন্ড পর জোর করে শুরু
+    setTimeout(() => {
+        if (!animationStarted) initBrandAnimation();
+    }, 3000);
+}
+
+// DOM ready হলে শুরু
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', startWhenReady);
+} else {
+    startWhenReady();
+}
+
+// উইন্ডো রিসাইজ / ওরিয়েন্টেশন চেঞ্জে কার্ড রেক্ট আপডেট
+window.addEventListener('resize', updateCardRect);
+window.addEventListener('orientationchange', () => {
+    setTimeout(updateCardRect, 300);
+});
