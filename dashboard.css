@@ -16,8 +16,16 @@
     --orange: #e65c00;
     --orange-light: #f97316;
     --shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
-    --yellow-start: #f59e0b;
-    --yellow-end: #eab308;
+
+    /* 🎨 নতুন ব্যালেন্স কার্ডের রঙ — Purple-Indigo Gradient */
+    --balance-start: #6366f1;
+    --balance-mid: #8b5cf6;
+    --balance-end: #a855f7;
+
+    /* 🔥 আগুনের রঙ */
+    --fire-orange: #ff6b35;
+    --fire-red: #f73668;
+    --fire-yellow: #ffcc00;
 }
 
 body.dark-mode {
@@ -27,6 +35,10 @@ body.dark-mode {
     --text-light: #94a3b8;
     --border: #334155;
     --shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+
+    --balance-start: #7c3aed;
+    --balance-mid: #a855f7;
+    --balance-end: #ec4899;
 }
 
 body {
@@ -62,23 +74,154 @@ input, select { -webkit-user-select: text; user-select: text; }
 .brand-logo {
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: 10px;
 }
 
+/* ================= 🔥 U লোগো — লাইভ আগুন 🔥 ================= */
 .logo-icon {
-    width: 34px;
-    height: 34px;
-    background: linear-gradient(135deg, #dc2626, #b91c1c);
-    color: white;
-    border-radius: 8px;
+    position: relative;
+    width: 42px;
+    height: 42px;
+    border-radius: 12px;
+    background: #1a1a1a;
     display: flex;
     align-items: center;
     justify-content: center;
     font-weight: 900;
-    font-size: 18px;
+    font-size: 22px;
     font-style: italic;
+    color: #fff;
+    overflow: visible;
+    z-index: 1;
+    /* হালকা glow */
+    box-shadow:
+        0 0 10px rgba(255, 107, 53, 0.6),
+        0 0 20px rgba(247, 54, 104, 0.4),
+        inset 0 0 10px rgba(0, 0, 0, 0.8);
+    animation: fireGlow 1.5s ease-in-out infinite alternate;
 }
 
+.logo-icon::before {
+    content: '';
+    position: absolute;
+    inset: -3px;
+    border-radius: 15px;
+    background: linear-gradient(135deg, #ff6b35, #f73668, #ffcc00, #ff6b35);
+    background-size: 300% 300%;
+    z-index: -2;
+    filter: blur(8px);
+    opacity: 0.8;
+    animation: fireGradient 3s ease infinite, firePulse 1.2s ease-in-out infinite alternate;
+}
+
+.logo-icon::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: 12px;
+    background:
+        radial-gradient(circle at 30% 100%, rgba(255, 107, 53, 0.9) 0%, transparent 40%),
+        radial-gradient(circle at 70% 100%, rgba(247, 54, 104, 0.9) 0%, transparent 40%),
+        radial-gradient(circle at 50% 90%, rgba(255, 204, 0, 0.8) 0%, transparent 50%),
+        #1a1a1a;
+    z-index: -1;
+    animation: fireFlicker 0.8s ease-in-out infinite alternate;
+}
+
+/* 🔥 আগুনের ঝলক (উপরে ওঠা) */
+.logo-icon .fire-flame {
+    position: absolute;
+    bottom: -6px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 30px;
+    height: 30px;
+    pointer-events: none;
+    z-index: -1;
+    opacity: 0.9;
+}
+
+.logo-icon .fire-flame::before,
+.logo-icon .fire-flame::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    border-radius: 50% 50% 20% 20%;
+    filter: blur(4px);
+}
+
+.logo-icon .fire-flame::before {
+    width: 22px;
+    height: 30px;
+    background: radial-gradient(circle at 50% 80%, #ffcc00 0%, #ff6b35 40%, #f73668 70%, transparent 90%);
+    animation: flameRise 1.2s ease-in-out infinite alternate;
+}
+
+.logo-icon .fire-flame::after {
+    width: 14px;
+    height: 20px;
+    background: radial-gradient(circle at 50% 80%, #fff 0%, #ffcc00 40%, #ff6b35 70%, transparent 90%);
+    animation: flameRise 0.9s ease-in-out infinite alternate-reverse;
+}
+
+@keyframes fireGlow {
+    0% {
+        box-shadow:
+            0 0 8px rgba(255, 107, 53, 0.5),
+            0 0 16px rgba(247, 54, 104, 0.3),
+            inset 0 0 10px rgba(0, 0, 0, 0.8);
+    }
+    100% {
+        box-shadow:
+            0 0 16px rgba(255, 107, 53, 0.9),
+            0 0 30px rgba(247, 54, 104, 0.6),
+            0 0 45px rgba(255, 204, 0, 0.3),
+            inset 0 0 10px rgba(0, 0, 0, 0.8);
+    }
+}
+
+@keyframes fireGradient {
+    0%   { background-position: 0% 50%; }
+    50%  { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+@keyframes firePulse {
+    0%   { opacity: 0.6; filter: blur(6px); }
+    100% { opacity: 1;   filter: blur(10px); }
+}
+
+@keyframes fireFlicker {
+    0% {
+        background:
+            radial-gradient(circle at 30% 100%, rgba(255, 107, 53, 0.8) 0%, transparent 40%),
+            radial-gradient(circle at 70% 100%, rgba(247, 54, 104, 0.8) 0%, transparent 40%),
+            radial-gradient(circle at 50% 90%, rgba(255, 204, 0, 0.7) 0%, transparent 50%),
+            #1a1a1a;
+    }
+    100% {
+        background:
+            radial-gradient(circle at 40% 100%, rgba(255, 107, 53, 1) 0%, transparent 45%),
+            radial-gradient(circle at 60% 100%, rgba(247, 54, 104, 1) 0%, transparent 45%),
+            radial-gradient(circle at 50% 80%, rgba(255, 204, 0, 0.9) 0%, transparent 55%),
+            #1a1a1a;
+    }
+}
+
+@keyframes flameRise {
+    0% {
+        transform: translateX(-50%) scaleY(1) scaleX(1);
+        opacity: 0.7;
+    }
+    100% {
+        transform: translateX(-50%) scaleY(1.4) scaleX(0.85);
+        opacity: 1;
+    }
+}
+
+/* ================= লোগো টেক্সট ================= */
 .logo-text {
     font-size: 20px;
     font-weight: 800;
@@ -86,7 +229,25 @@ input, select { -webkit-user-select: text; user-select: text; }
     letter-spacing: 0.5px;
 }
 
-.logo-24 { color: #dc2626; }
+.logo-24 {
+    color: #dc2626;
+    position: relative;
+}
+
+/* ✅ 24 লেখার উপরে ছোট আগুনের ফোঁটা */
+.logo-24::after {
+    content: '🔥';
+    position: absolute;
+    top: -12px;
+    right: -8px;
+    font-size: 10px;
+    animation: emberFloat 2s ease-in-out infinite;
+}
+
+@keyframes emberFloat {
+    0%, 100% { transform: translateY(0) scale(1); opacity: 0.8; }
+    50% { transform: translateY(-3px) scale(1.15); opacity: 1; }
+}
 
 .header-controls {
     display: flex;
@@ -138,70 +299,110 @@ input, select { -webkit-user-select: text; user-select: text; }
     margin: 0 auto;
 }
 
-/* ================= ব্যালেন্স কার্ড ================= */
+/* ================= 💎 নতুন ব্যালেন্স কার্ড — Purple-Indigo Gradient ================= */
 .balance-card {
-    background: linear-gradient(135deg, var(--yellow-start), var(--yellow-end));
+    background: linear-gradient(135deg, var(--balance-start) 0%, var(--balance-mid) 50%, var(--balance-end) 100%);
     color: white;
-    padding: 22px 20px;
-    border-radius: 16px;
-    box-shadow: 0 8px 20px rgba(245, 158, 11, 0.3);
+    padding: 24px 22px;
+    border-radius: 20px;
+    box-shadow:
+        0 10px 30px rgba(139, 92, 246, 0.35),
+        0 4px 12px rgba(99, 102, 241, 0.25);
     margin-bottom: 20px;
     position: relative;
     overflow: hidden;
+    isolation: isolate;
 }
 
+/* 🎨 কার্ডে সূক্ষ্ম প্যাটার্ন */
 .balance-card::before {
     content: '';
     position: absolute;
     top: -50%;
     right: -20%;
-    width: 200px;
-    height: 200px;
-    background: rgba(255, 255, 255, 0.1);
+    width: 240px;
+    height: 240px;
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.18) 0%, transparent 70%);
     border-radius: 50%;
+    z-index: 0;
+}
+
+.balance-card::after {
+    content: '';
+    position: absolute;
+    bottom: -60%;
+    left: -20%;
+    width: 220px;
+    height: 220px;
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.12) 0%, transparent 70%);
+    border-radius: 50%;
+    z-index: 0;
+}
+
+/* ✨ কার্ডের উপরে সরু আলো */
+.balance-card .shine {
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(120deg, transparent 0%, rgba(255,255,255,0.25) 50%, transparent 100%);
+    animation: shineSlide 4s ease-in-out infinite;
+    pointer-events: none;
+    z-index: 1;
+}
+
+@keyframes shineSlide {
+    0%   { left: -100%; }
+    50%  { left: 100%; }
+    100% { left: 100%; }
 }
 
 .balance-top {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 12px;
+    margin-bottom: 14px;
     position: relative;
-    z-index: 1;
+    z-index: 2;
 }
 
 .balance-label {
     font-size: 14px;
     opacity: 0.95;
     font-weight: 500;
+    letter-spacing: 0.3px;
 }
 
 .balance-tag {
     font-size: 11px;
-    background: rgba(255, 255, 255, 0.25);
-    padding: 4px 10px;
+    background: rgba(255, 255, 255, 0.22);
+    padding: 5px 12px;
     border-radius: 12px;
-    font-weight: 500;
-    -webkit-backdrop-filter: blur(5px);
-    backdrop-filter: blur(5px);
+    font-weight: 600;
+    -webkit-backdrop-filter: blur(8px);
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    letter-spacing: 0.3px;
 }
 
 .balance-amount {
     display: flex;
     align-items: baseline;
-    gap: 6px;
+    gap: 8px;
     position: relative;
-    z-index: 1;
+    z-index: 2;
 }
 
 .balance-number {
-    font-size: 34px;
+    font-size: 38px;
     font-weight: 800;
     letter-spacing: 1px;
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
 }
 
 .balance-currency {
-    font-size: 16px;
+    font-size: 17px;
     font-weight: 600;
     opacity: 0.95;
 }
@@ -213,7 +414,7 @@ input, select { -webkit-user-select: text; user-select: text; }
     gap: 10px;
     background: var(--card);
     padding: 18px 12px;
-    border-radius: 16px;
+    border-radius: 18px;
     margin-bottom: 16px;
     box-shadow: var(--shadow);
 }
@@ -236,9 +437,9 @@ input, select { -webkit-user-select: text; user-select: text; }
 }
 
 .action-icon {
-    width: 46px;
-    height: 46px;
-    border-radius: 12px;
+    width: 48px;
+    height: 48px;
+    border-radius: 14px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -263,24 +464,29 @@ body.dark-mode .action-icon.purple { background: rgba(168, 85, 247, 0.15); }
     gap: 10px;
     background: var(--card);
     padding: 12px 16px;
-    border-radius: 12px;
-    margin-bottom: 20px;
+    border-radius: 14px;
+    margin-bottom: 22px;
     box-shadow: var(--shadow);
     font-size: 13px;
     color: var(--text);
+    border: 1px solid var(--border);
 }
 
 .live-notification i {
     color: #f97316;
     font-size: 16px;
     flex-shrink: 0;
+    animation: bellRing 2s ease-in-out infinite;
 }
 
-.live-notification p {
-    margin: 0;
-    line-height: 1.4;
+@keyframes bellRing {
+    0%, 100% { transform: rotate(0); }
+    10%, 30% { transform: rotate(-10deg); }
+    20%, 40% { transform: rotate(10deg); }
+    50% { transform: rotate(0); }
 }
 
+.live-notification p { margin: 0; line-height: 1.4; }
 .live-notification strong { color: var(--text); }
 
 .green-text {
@@ -293,7 +499,7 @@ body.dark-mode .action-icon.purple { background: rgba(168, 85, 247, 0.15); }
     display: flex;
     align-items: center;
     gap: 8px;
-    font-size: 16px;
+    font-size: 17px;
     font-weight: 700;
     color: var(--text);
     margin-bottom: 14px;
@@ -301,7 +507,7 @@ body.dark-mode .action-icon.purple { background: rgba(168, 85, 247, 0.15); }
 }
 
 .section-title i {
-    color: #f97316;
+    color: #a855f7;
     font-size: 18px;
 }
 
@@ -314,22 +520,35 @@ body.dark-mode .action-icon.purple { background: rgba(168, 85, 247, 0.15); }
 
 .intro-card {
     background: var(--card);
-    border-radius: 14px;
+    border-radius: 16px;
     overflow: hidden;
     box-shadow: var(--shadow);
     display: flex;
     flex-direction: column;
-    transition: transform 0.2s;
+    transition: transform 0.25s, box-shadow 0.25s;
     cursor: pointer;
+    border: 1px solid var(--border);
 }
 
-.intro-card:active { transform: scale(0.97); }
+.intro-card:active {
+    transform: scale(0.97);
+    box-shadow: 0 8px 20px rgba(139, 92, 246, 0.2);
+}
 
 .intro-image {
     width: 100%;
     aspect-ratio: 16 / 10;
     overflow: hidden;
     background: #f3f4f6;
+    position: relative;
+}
+
+.intro-image::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, transparent 60%, rgba(0,0,0,0.15) 100%);
+    pointer-events: none;
 }
 
 .intro-image img {
@@ -337,11 +556,12 @@ body.dark-mode .action-icon.purple { background: rgba(168, 85, 247, 0.15); }
     height: 100%;
     object-fit: cover;
     display: block;
+    transition: transform 0.4s;
 }
 
-.intro-content {
-    padding: 12px;
-}
+.intro-card:active .intro-image img { transform: scale(1.05); }
+
+.intro-content { padding: 12px; }
 
 .intro-content h4 {
     font-size: 14px;
@@ -392,7 +612,7 @@ body.dark-mode .action-icon.purple { background: rgba(168, 85, 247, 0.15); }
 
 .nav-item i { font-size: 18px; }
 
-.nav-item.active { color: #f59e0b; }
+.nav-item.active { color: #a855f7; }
 
 /* ================= RTL ================= */
 body.rtl { direction: rtl; }
@@ -400,9 +620,9 @@ body.rtl .section-title { padding-left: 0; padding-right: 4px; }
 
 /* ================= মোবাইল ================= */
 @media (max-width: 360px) {
-    .balance-number { font-size: 30px; }
+    .balance-number { font-size: 32px; }
     .intro-content h4 { font-size: 13px; }
     .intro-content p { font-size: 11px; }
     .logo-text { font-size: 18px; }
-    .logo-icon { width: 30px; height: 30px; font-size: 16px; }
+    .logo-icon { width: 38px; height: 38px; font-size: 20px; }
 }
