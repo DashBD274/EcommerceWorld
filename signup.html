@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Sign Up Page</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+    <!-- উপরের ডানদিকে ভাষা ও থিম বাটন -->
+    <div class="top-controls">
+        <div class="lang-selector">
+            <i class="fa-solid fa-globe"></i>
+            <select id="languageSelect">
+                <option value="en">US English</option>
+                <option value="es">Español</option>
+                <option value="fr">Français</option>
+                <option value="de">Deutsch</option>
+                <option value="it">Italiano</option>
+                <option value="pt">Português</option>
+                <option value="nl">Nederlands</option>
+                <option value="ru">Русский</option>
+                <option value="tr">Türkçe</option>
+                <option value="ar">العربية</option>
+                <option value="fa">فارسی</option>
+            </select>
+        </div>
+        <button id="themeToggle" class="theme-toggle">
+            <i class="fa-solid fa-moon"></i>
+        </button>
+    </div>
+
+    <!-- ================= কোম্পানির লোগো সেকশন (প্রতিটি ৩টি করে, Alibaba বাদ) ================= -->
+    <div class="brands-section" id="brandsSection">
+        <!-- Shopify ১ -->
+        <div class="brand-item" data-brand="shopify">
+            <img src="https://cdn.simpleicons.org/shopify/95BF47" alt="Shopify" class="brand-logo">
+        </div>
+        <!-- Shopify ২ -->
+        <div class="brand-item" data-brand="shopify">
+            <img src="https://cdn.simpleicons.org/shopify/95BF47" alt="Shopify" class="brand-logo">
+        </div>
+        <!-- Shopify ৩ -->
+        <div class="brand-item" data-brand="shopify">
+            <img src="https://cdn.simpleicons.org/shopify/95BF47" alt="Shopify" class="brand-logo">
+        </div>
+
+        <!-- Amazon ১ -->
+        <div class="brand-item" data-brand="amazon">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/a/a9/Amazon_logo.svg" alt="Amazon" class="brand-logo">
+        </div>
+        <!-- Amazon ২ -->
+        <div class="brand-item" data-brand="amazon">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/a/a9/Amazon_logo.svg" alt="Amazon" class="brand-logo">
+        </div>
+        <!-- Amazon ৩ -->
+        <div class="brand-item" data-brand="amazon">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/a/a9/Amazon_logo.svg" alt="Amazon" class="brand-logo">
+        </div>
+
+        <!-- eBay ১ -->
+        <div class="brand-item" data-brand="ebay">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/1/1b/EBay_logo.svg" alt="eBay" class="brand-logo">
+        </div>
+        <!-- eBay ২ -->
+        <div class="brand-item" data-brand="ebay">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/1/1b/EBay_logo.svg" alt="eBay" class="brand-logo">
+        </div>
+        <!-- eBay ৩ -->
+        <div class="brand-item" data-brand="ebay">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/1/1b/EBay_logo.svg" alt="eBay" class="brand-logo">
+        </div>
+
+        <!-- AliExpress ১ -->
+        <div class="brand-item" data-brand="aliexpress">
+            <img src="https://cdn.jsdelivr.net/gh/glincker/thesvg@main/public/icons/aliexpress/default.svg" alt="AliExpress" class="brand-logo">
+        </div>
+        <!-- AliExpress ২ -->
+        <div class="brand-item" data-brand="aliexpress">
+            <img src="https://cdn.jsdelivr.net/gh/glincker/thesvg@main/public/icons/aliexpress/default.svg" alt="AliExpress" class="brand-logo">
+        </div>
+        <!-- AliExpress ৩ -->
+        <div class="brand-item" data-brand="aliexpress">
+            <img src="https://cdn.jsdelivr.net/gh/glincker/thesvg@main/public/icons/aliexpress/default.svg" alt="AliExpress" class="brand-logo">
+        </div>
+    </div>
+
+    <!-- মূল সাইনআপ কার্ড -->
+    <div class="login-container">
+        <h2 data-key="createAccount">Create Account</h2>
+        <p class="subtitle" data-key="registerSubtitle">Register a new account to get started</p>
+
+        <div class="input-group">
+            <i class="fa-solid fa-user"></i>
+            <input type="email" placeholder="Email Address" data-key="emailPlaceholder">
+        </div>
+
+        <div class="input-group">
+            <i class="fa-solid fa-lock"></i>
+            <input type="password" placeholder="Password" data-key="passwordPlaceholder">
+            <i class="fa-solid fa-eye eye-icon"></i>
+        </div>
+
+        <div class="input-group">
+            <i class="fa-solid fa-lock"></i>
+            <input type="password" placeholder="Confirm Password" data-key="confirmPasswordPlaceholder">
+            <i class="fa-solid fa-eye eye-icon"></i>
+        </div>
+
+        <div class="input-group">
+            <i class="fa-solid fa-hashtag"></i>
+            <input type="text" placeholder="Refer Code (Optional)" data-key="referCodePlaceholder">
+        </div>
+
+        <div class="verify-group">
+            <input type="text" class="verify-input" placeholder="Verification Code" readonly data-key="verifyPlaceholder">
+            <div class="verify-code" id="verifyCode">5 5 2 7</div>
+        </div>
+
+        <button class="login-btn" data-key="registerBtn">Register</button>
+
+        <p class="signup-link">
+            <span data-key="haveAccount">Already have an account?</span> 
+            <a href="index.html" data-key="signIn">Sign In</a>
+        </p>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
