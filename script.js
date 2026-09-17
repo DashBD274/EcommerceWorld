@@ -17,7 +17,9 @@ const translations = {
         confirmPasswordPlaceholder: "Confirm Password",
         referCodePlaceholder: "Refer Code (Optional)",
         registerBtn: "Register",
-        haveAccount: "Already have an account?"
+        haveAccount: "Already have an account?",
+        verifying: "Verifying your email...",
+        verified: "Email verification completed!"
     },
     es: {
         signIn: "Iniciar sesión",
@@ -36,7 +38,9 @@ const translations = {
         confirmPasswordPlaceholder: "Confirmar contraseña",
         referCodePlaceholder: "Código de referencia (opcional)",
         registerBtn: "Registrarse",
-        haveAccount: "¿Ya tienes una cuenta?"
+        haveAccount: "¿Ya tienes una cuenta?",
+        verifying: "Verificando tu correo electrónico...",
+        verified: "¡Verificación de correo completada!"
     },
     fr: {
         signIn: "Se connecter",
@@ -55,7 +59,9 @@ const translations = {
         confirmPasswordPlaceholder: "Confirmer le mot de passe",
         referCodePlaceholder: "Code de parrainage (facultatif)",
         registerBtn: "S'inscrire",
-        haveAccount: "Vous avez déjà un compte ?"
+        haveAccount: "Vous avez déjà un compte ?",
+        verifying: "Vérification de votre e-mail...",
+        verified: "Vérification de l'e-mail terminée !"
     },
     de: {
         signIn: "Anmelden",
@@ -74,7 +80,9 @@ const translations = {
         confirmPasswordPlaceholder: "Passwort bestätigen",
         referCodePlaceholder: "Empfehlungscode (optional)",
         registerBtn: "Registrieren",
-        haveAccount: "Sie haben bereits ein Konto?"
+        haveAccount: "Sie haben bereits ein Konto?",
+        verifying: "E-Mail wird überprüft...",
+        verified: "E-Mail-Verifizierung abgeschlossen!"
     },
     it: {
         signIn: "Accedi",
@@ -93,7 +101,9 @@ const translations = {
         confirmPasswordPlaceholder: "Conferma password",
         referCodePlaceholder: "Codice referral (opzionale)",
         registerBtn: "Registrati",
-        haveAccount: "Hai già un account?"
+        haveAccount: "Hai già un account?",
+        verifying: "Verifica della tua email...",
+        verified: "Verifica email completata!"
     },
     pt: {
         signIn: "Entrar",
@@ -112,7 +122,9 @@ const translations = {
         confirmPasswordPlaceholder: "Confirmar senha",
         referCodePlaceholder: "Código de indicação (opcional)",
         registerBtn: "Registrar",
-        haveAccount: "Já tem uma conta?"
+        haveAccount: "Já tem uma conta?",
+        verifying: "Verificando seu e-mail...",
+        verified: "Verificação de e-mail concluída!"
     },
     nl: {
         signIn: "Inloggen",
@@ -131,7 +143,9 @@ const translations = {
         confirmPasswordPlaceholder: "Wachtwoord bevestigen",
         referCodePlaceholder: "Verwijzingscode (optioneel)",
         registerBtn: "Registreren",
-        haveAccount: "Heb je al een account?"
+        haveAccount: "Heb je al een account?",
+        verifying: "E-mail verifiëren...",
+        verified: "E-mailverificatie voltooid!"
     },
     ru: {
         signIn: "Войти",
@@ -150,7 +164,9 @@ const translations = {
         confirmPasswordPlaceholder: "Подтвердите пароль",
         referCodePlaceholder: "Реферальный код (необязательно)",
         registerBtn: "Зарегистрироваться",
-        haveAccount: "Уже есть аккаунт?"
+        haveAccount: "Уже есть аккаунт?",
+        verifying: "Проверка вашей почты...",
+        verified: "Проверка почты завершена!"
     },
     tr: {
         signIn: "Giriş Yap",
@@ -169,7 +185,9 @@ const translations = {
         confirmPasswordPlaceholder: "Şifreyi Onayla",
         referCodePlaceholder: "Referans Kodu (İsteğe bağlı)",
         registerBtn: "Kayıt Ol",
-        haveAccount: "Zaten hesabınız var mı?"
+        haveAccount: "Zaten hesabınız var mı?",
+        verifying: "E-postanız doğrulanıyor...",
+        verified: "E-posta doğrulama tamamlandı!"
     },
     ar: {
         signIn: "تسجيل الدخول",
@@ -188,7 +206,9 @@ const translations = {
         confirmPasswordPlaceholder: "تأكيد كلمة المرور",
         referCodePlaceholder: "رمز الإحالة (اختياري)",
         registerBtn: "تسجيل",
-        haveAccount: "هل لديك حساب بالفعل؟"
+        haveAccount: "هل لديك حساب بالفعل؟",
+        verifying: "جارٍ التحقق من بريدك الإلكتروني...",
+        verified: "اكتمل التحقق من البريد الإلكتروني!"
     },
     fa: {
         signIn: "ورود",
@@ -207,7 +227,9 @@ const translations = {
         confirmPasswordPlaceholder: "تأیید رمز عبور",
         referCodePlaceholder: "کد معرف (اختیاری)",
         registerBtn: "ثبت نام",
-        haveAccount: "قبلاً حساب دارید؟"
+        haveAccount: "قبلاً حساب دارید؟",
+        verifying: "در حال تأیید ایمیل شما...",
+        verified: "تأیید ایمیل کامل شد!"
     }
 };
 
@@ -236,7 +258,6 @@ function changeLanguage(lang) {
 
 // ================= RTL =================
 const rtlLanguages = ['ar', 'fa'];
-
 function applyDirection(lang) {
     if (rtlLanguages.includes(lang)) {
         document.body.classList.add('rtl');
@@ -249,11 +270,8 @@ function applyDirection(lang) {
 
 // ================= ভাষা Select Handler =================
 const langSelect = document.getElementById('languageSelect');
-
 if (langSelect) {
-    // ✅ localStorage থেকে সেভ করা ভাষা লোড
     const savedLang = safeGet('language') || 'en';
-
     langSelect.value = savedLang;
     changeLanguage(savedLang);
     applyDirection(savedLang);
@@ -262,7 +280,7 @@ if (langSelect) {
         const newLang = this.value;
         changeLanguage(newLang);
         applyDirection(newLang);
-        safeSet('language', newLang); // ✅ সেভ
+        safeSet('language', newLang);
     });
 }
 
@@ -292,21 +310,17 @@ function applyTheme(isDark) {
     }
 }
 
-// ✅ পেজ লোডের সময় থিম লোড
 const savedTheme = safeGet('theme');
 applyTheme(savedTheme === 'dark');
 
-// থিম টগল handler
 if (themeToggle) {
     let lastTap = 0;
     themeToggle.addEventListener('click', function(e) {
         e.preventDefault();
         e.stopPropagation();
-
         const now = Date.now();
         if (now - lastTap < 300) return;
         lastTap = now;
-
         const isDark = !document.body.classList.contains('dark-mode');
         applyTheme(isDark);
         safeSet('theme', isDark ? 'dark' : 'light');
@@ -315,15 +329,12 @@ if (themeToggle) {
 
 // ================= পাসওয়ার্ড দেখা/লুকানো =================
 const eyeIcons = document.querySelectorAll('.eye-icon');
-
 eyeIcons.forEach(icon => {
     icon.addEventListener('click', function(e) {
         e.preventDefault();
         e.stopPropagation();
-
         const input = this.previousElementSibling;
         if (!input) return;
-
         if (input.type === 'password') {
             input.type = 'text';
             this.classList.remove('fa-eye');
@@ -341,4 +352,38 @@ const verifyCodeDiv = document.getElementById('verifyCode');
 if (verifyCodeDiv) {
     const randomCode = Math.floor(1000 + Math.random() * 9000);
     verifyCodeDiv.textContent = randomCode.toString().split('').join(' ');
+}
+
+// ================= 🆕 Login/Register → Loading → Redirect =================
+const loginBtn = document.getElementById('loginBtn');
+const loadingOverlay = document.getElementById('loadingOverlay');
+const loadingText = document.getElementById('loadingText');
+const loadingBox = document.querySelector('.loading-box');
+
+if (loginBtn && loadingOverlay && loadingText) {
+    loginBtn.addEventListener('click', function() {
+        // বর্তমান ভাষা থেকে টেক্সট নিন
+        const currentLang = safeGet('language') || 'en';
+        const t = translations[currentLang] || translations.en;
+
+        // বাটন ডিজেবল
+        loginBtn.disabled = true;
+        loginBtn.style.opacity = '0.7';
+
+        // ✅ ধাপ ১: Overlay দেখান + "Verifying your email..." টেক্সট
+        loadingBox.classList.remove('success');
+        loadingText.textContent = t.verifying;
+        loadingOverlay.classList.add('show');
+
+        // ✅ ধাপ ২: ২ সেকেন্ড পর → "Email verification completed!" + সাকসেস আইকন
+        setTimeout(() => {
+            loadingBox.classList.add('success');
+            loadingText.textContent = t.verified;
+        }, 2000);
+
+        // ✅ ধাপ ৩: ১ সেকেন্ড পর (মোট ৩ সেকেন্ড) → Dashboard এ রিডাইরেক্ট
+        setTimeout(() => {
+            window.location.href = 'dashboard.html';
+        }, 3000);
+    });
 }
