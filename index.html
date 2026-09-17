@@ -95,13 +95,12 @@
             verifyDisplay.textContent = currentVerifyCode.split('').join(' ');
         }
 
-        // প্রথমে কোড জেনারেট করুন
+        // পেজ লোড হওয়ার সাথে সাথেই কোড জেনারেট
         generateVerifyCode();
 
         // ================= 📝 Verification Input =================
         const verifyInput = document.getElementById('verifyInput');
         verifyInput.addEventListener('input', function(e) {
-            // শুধু সংখ্যা allow করুন
             this.value = this.value.replace(/\D/g, '').substring(0, 4);
         });
 
@@ -135,7 +134,6 @@
                 return;
             }
 
-            // Email format check
             const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
             if (!emailRegex.test(email)) {
                 showMessage('Please enter a valid email address.', true);
@@ -159,7 +157,6 @@
 
             if (verifyCode !== currentVerifyCode) {
                 showMessage('Incorrect verification code. Please try again.', true);
-                // নতুন কোড জেনারেট
                 generateVerifyCode();
                 document.getElementById('verifyInput').value = '';
                 return;
@@ -179,14 +176,13 @@
             loadingText.textContent = t.verifying || 'Signing in...';
             loadingOverlay.classList.add('show');
 
-            // Firebase Login
+            // 🔥 Firebase Login
             const result = await loginUser(email, password);
 
             if (result.success) {
                 loadingBox.classList.add('success');
                 loadingText.textContent = t.verified || 'Welcome back!';
 
-                // ✅ Auth state ready হওয়ার জন্য অপেক্ষা
                 setTimeout(() => {
                     window.location.replace('dashboard.html');
                 }, 1500);
@@ -195,7 +191,6 @@
                 loginBtn.style.opacity = '1';
                 loadingOverlay.classList.remove('show');
                 showMessage(translateFirebaseError(result.error), true);
-                // নতুন verification code
                 generateVerifyCode();
                 document.getElementById('verifyInput').value = '';
             }
