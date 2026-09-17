@@ -4,386 +4,202 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <meta name="theme-color" content="#f5f5f5">
-    <title>Mine - UMALL247</title>
+    <title>Menu - UMALL247</title>
     <link rel="stylesheet" href="detail.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        /* ================= Mine পেজ ================= */
-        .mine-container {
+        /* ================= Menu (Markets) পেজ ================= */
+        .menu-container {
             max-width: 500px;
             margin: 0 auto;
-            padding: 16px 16px 30px 16px;
+            padding: 24px 16px 30px 16px;
         }
 
-        /* 🟡 প্রোফাইল কার্ড (সোনালী) */
-        .profile-card {
-            background: linear-gradient(135deg, #f59e0b 0%, #eab308 100%);
-            border-radius: 18px;
-            padding: 20px;
-            color: #fff;
-            margin-bottom: 16px;
-            position: relative;
-            overflow: hidden;
-            box-shadow: 0 10px 25px rgba(245, 158, 11, 0.35);
+        .menu-title {
+            font-size: 24px;
+            font-weight: 800;
+            color: var(--text);
+            text-align: center;
+            margin-bottom: 8px;
+            letter-spacing: 0.3px;
         }
 
-        .profile-card::before {
-            content: '';
-            position: absolute;
-            top: -60px;
-            right: -60px;
-            width: 180px;
-            height: 180px;
-            background: rgba(255, 255, 255, 0.12);
-            border-radius: 50%;
-            pointer-events: none;
+        .menu-subtitle {
+            font-size: 13px;
+            color: var(--text-light);
+            text-align: center;
+            margin-bottom: 20px;
+            line-height: 1.4;
         }
 
-        .profile-card::after {
-            content: '';
-            position: absolute;
-            bottom: -80px;
-            left: -40px;
-            width: 160px;
-            height: 160px;
-            background: rgba(255, 255, 255, 0.08);
-            border-radius: 50%;
-            pointer-events: none;
+        /* ফিল্টার ট্যাব */
+        .filter-tabs {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 6px;
+            background: var(--card);
+            border-radius: 14px;
+            padding: 6px;
+            margin-bottom: 20px;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border);
         }
 
-        .profile-top {
+        .filter-tab {
+            padding: 10px 4px;
+            text-align: center;
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--text-light);
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.2s;
+            background: transparent;
+            border: none;
+            font-family: inherit;
+            -webkit-tap-highlight-color: transparent;
+            touch-action: manipulation;
+        }
+
+        .filter-tab.active {
+            background: #fde4d0;
+            color: #e65c00;
+        }
+
+        body.dark-mode .filter-tab.active {
+            background: rgba(230, 92, 0, 0.2);
+            color: #ff8c42;
+        }
+
+        /* Market কার্ড */
+        .market-card {
+            background: var(--card);
+            border-radius: 14px;
+            padding: 16px;
             display: flex;
             align-items: center;
-            gap: 12px;
-            margin-bottom: 18px;
-            position: relative;
-            z-index: 2;
+            gap: 14px;
+            margin-bottom: 12px;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border);
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            -webkit-tap-highlight-color: transparent;
+            touch-action: manipulation;
         }
 
-        .profile-avatar {
-            width: 52px;
-            height: 52px;
-            border-radius: 50%;
+        .market-card:active {
+            transform: scale(0.98);
+            box-shadow: 0 6px 16px rgba(139, 92, 246, 0.15);
+        }
+
+        /* লোগো */
+        .market-logo {
+            width: 56px;
+            height: 56px;
+            border-radius: 12px;
             background: #fff;
-            color: #f59e0b;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 24px;
-            font-weight: 800;
             flex-shrink: 0;
-            border: 2px solid rgba(255, 255, 255, 0.5);
+            overflow: hidden;
+            border: 1px solid var(--border);
+            padding: 6px;
         }
 
-        .profile-info {
+        body.dark-mode .market-logo {
+            background: #f8fafc;
+        }
+
+        .market-logo img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            display: block;
+        }
+
+        /* কনটেন্ট */
+        .market-content {
             flex: 1;
             min-width: 0;
         }
 
-        .profile-name-row {
+        .market-header {
             display: flex;
             align-items: center;
+            justify-content: space-between;
             gap: 8px;
-            flex-wrap: wrap;
-            margin-bottom: 4px;
+            margin-bottom: 6px;
         }
 
-        .profile-name {
-            font-size: 17px;
-            font-weight: 800;
+        .market-name {
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--text);
             margin: 0;
-            color: #fff;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
         }
 
-        .vip-tag {
-            background: rgba(255, 255, 255, 0.28);
+        .vip-badge {
+            background: #e65c00;
+            color: #fff;
             padding: 3px 10px;
             border-radius: 10px;
             font-size: 10.5px;
             font-weight: 700;
-            color: #fff;
-            display: inline-flex;
-            align-items: center;
-            gap: 4px;
+            letter-spacing: 0.3px;
             flex-shrink: 0;
         }
 
-        .vip-tag i {
-            font-size: 9px;
-        }
-
-        .profile-invite {
+        .market-balance {
             font-size: 12px;
-            color: rgba(255, 255, 255, 0.9);
-            margin: 0;
-        }
-
-        .profile-invite strong {
-            color: #fff;
-            font-weight: 700;
-        }
-
-        .profile-qr {
-            width: 40px;
-            height: 40px;
-            border-radius: 10px;
-            background: rgba(255, 255, 255, 0.25);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 18px;
-            flex-shrink: 0;
-            -webkit-backdrop-filter: blur(6px);
-            backdrop-filter: blur(6px);
-        }
-
-        /* ব্যালেন্স ও বাটন */
-        .profile-balance-row {
-            display: flex;
-            align-items: flex-end;
-            justify-content: space-between;
-            gap: 10px;
-            position: relative;
-            z-index: 2;
-            flex-wrap: wrap;
-        }
-
-        .balance-block {
-            flex: 1;
-            min-width: 120px;
-        }
-
-        .balance-label-sm {
-            font-size: 11.5px;
-            color: rgba(255, 255, 255, 0.9);
+            color: var(--text-light);
             margin-bottom: 4px;
-            font-weight: 500;
+            line-height: 1.3;
         }
 
-        .balance-value-sm {
-            display: flex;
-            align-items: baseline;
-            gap: 6px;
-        }
-
-        .balance-value-sm .unit {
-            font-size: 13px;
+        .market-balance strong {
+            color: var(--text);
             font-weight: 600;
-            color: rgba(255, 255, 255, 0.95);
         }
 
-        .balance-value-sm .amount {
-            font-size: 28px;
-            font-weight: 800;
-            color: #fff;
-            letter-spacing: 0.5px;
+        .market-commission {
+            font-size: 12px;
+            color: var(--text-light);
+            line-height: 1.3;
         }
 
-        .profile-actions {
-            display: flex;
-            gap: 8px;
-            flex-shrink: 0;
-        }
-
-        .profile-btn {
-            background: rgba(255, 255, 255, 0.95);
-            color: #e65c00;
-            border: none;
-            border-radius: 12px;
-            padding: 10px 16px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 4px;
-            font-size: 11px;
+        .market-commission .rate {
+            color: #10b981;
             font-weight: 700;
-            cursor: pointer;
-            font-family: inherit;
-            -webkit-tap-highlight-color: transparent;
-            touch-action: manipulation;
-            transition: transform 0.2s;
-            min-width: 72px;
         }
 
-        .profile-btn:active {
-            transform: scale(0.95);
-        }
-
-        .profile-btn i {
-            font-size: 16px;
-        }
-
-        /* 🔵 দ্রুত অ্যাকশন (Record, Wallet, Invitation) */
-        .quick-actions-mine {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 10px;
-            background: var(--card);
-            padding: 16px 12px;
-            border-radius: 16px;
-            margin-bottom: 16px;
-            box-shadow: var(--shadow);
-            border: 1px solid var(--border);
-        }
-
-        .qa-item {
-            background: transparent;
-            border: none;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 8px;
-            cursor: pointer;
-            color: var(--text);
-            font-size: 12px;
-            font-weight: 600;
-            font-family: inherit;
-            padding: 4px;
-            -webkit-tap-highlight-color: transparent;
-            touch-action: manipulation;
-        }
-
-        .qa-icon {
-            width: 46px;
-            height: 46px;
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 20px;
-            transition: transform 0.2s;
-        }
-
-        .qa-item:active .qa-icon {
-            transform: scale(0.9);
-        }
-
-        .qa-icon.blue {
-            background: #dbeafe;
-            color: #3b82f6;
-        }
-
-        .qa-icon.orange {
-            background: #fed7aa;
-            color: #f97316;
-        }
-
-        .qa-icon.purple {
-            background: #e9d5ff;
-            color: #a855f7;
-        }
-
-        body.dark-mode .qa-icon.blue { background: rgba(59, 130, 246, 0.15); }
-        body.dark-mode .qa-icon.orange { background: rgba(249, 115, 22, 0.15); }
-        body.dark-mode .qa-icon.purple { background: rgba(168, 85, 247, 0.15); }
-
-        /* 📋 মেনু লিস্ট */
-        .menu-list {
-            background: var(--card);
-            border-radius: 16px;
-            box-shadow: var(--shadow);
-            border: 1px solid var(--border);
-            overflow: hidden;
-            margin-bottom: 20px;
-        }
-
-        .menu-row {
-            display: flex;
-            align-items: center;
-            gap: 14px;
-            padding: 16px 18px;
-            border-bottom: 1px solid var(--border);
-            text-decoration: none;
-            color: inherit;
-            cursor: pointer;
-            transition: background-color 0.15s;
-            -webkit-tap-highlight-color: transparent;
-            touch-action: manipulation;
-            font-family: inherit;
-            background: transparent;
-            border-left: none;
-            border-right: none;
-            border-top: none;
-            width: 100%;
-            text-align: left;
-        }
-
-        .menu-row:last-child {
-            border-bottom: none;
-        }
-
-        .menu-row:active {
-            background: var(--bg);
-        }
-
-        .menu-row-icon {
-            font-size: 18px;
-            width: 24px;
-            text-align: center;
-            flex-shrink: 0;
-        }
-
-        .menu-row-icon.profile { color: #3b82f6; }
-        .menu-row-icon.deposit { color: #10b981; }
-        .menu-row-icon.withdrawal { color: #f59e0b; }
-        .menu-row-icon.theme { color: #a855f7; }
-        .menu-row-icon.logout { color: #ef4444; }
-
-        .menu-row-text {
-            flex: 1;
-            font-size: 14.5px;
-            font-weight: 500;
-            color: var(--text);
-        }
-
-        .menu-row-arrow {
+        /* Arrow */
+        .market-arrow {
             color: var(--text-light);
-            font-size: 13px;
+            font-size: 14px;
             flex-shrink: 0;
-        }
-
-        /* ভার্সন */
-        .system-version {
-            text-align: center;
-            font-size: 12px;
-            color: var(--text-light);
-            margin-top: 20px;
-            margin-bottom: 10px;
+            padding-left: 4px;
         }
 
         /* RTL */
-        body.rtl .menu-row {
-            flex-direction: row-reverse;
-            text-align: right;
-        }
-
-        body.rtl .menu-row-arrow {
+        body.rtl .market-card { flex-direction: row-reverse; }
+        body.rtl .market-header { flex-direction: row-reverse; }
+        body.rtl .market-arrow {
+            padding-left: 0;
+            padding-right: 4px;
             transform: rotate(180deg);
-        }
-
-        body.rtl .profile-top {
-            flex-direction: row-reverse;
-        }
-
-        body.rtl .profile-balance-row {
-            flex-direction: row-reverse;
         }
 
         /* মোবাইল */
         @media (max-width: 360px) {
-            .profile-card { padding: 16px; }
-            .profile-avatar { width: 46px; height: 46px; font-size: 21px; }
-            .profile-name { font-size: 15px; }
-            .balance-value-sm .amount { font-size: 24px; }
-            .profile-btn { padding: 8px 12px; font-size: 10px; min-width: 62px; }
-            .profile-btn i { font-size: 14px; }
-            .qa-icon { width: 40px; height: 40px; font-size: 17px; }
-            .qa-item { font-size: 11px; }
-            .menu-row { padding: 14px 15px; }
-            .menu-row-text { font-size: 13.5px; }
+            .menu-title { font-size: 21px; }
+            .menu-subtitle { font-size: 12px; }
+            .filter-tab { font-size: 12px; padding: 8px 2px; }
+            .market-logo { width: 48px; height: 48px; padding: 5px; }
+            .market-name { font-size: 14.5px; }
+            .vip-badge { font-size: 10px; padding: 2px 8px; }
+            .market-balance, .market-commission { font-size: 11px; }
         }
     </style>
 </head>
@@ -417,109 +233,90 @@
         </div>
     </header>
 
-    <!-- ================= Mine কনটেন্ট ================= -->
-    <main class="mine-container">
+    <!-- ================= Menu কনটেন্ট ================= -->
+    <main class="menu-container">
 
-        <!-- 🟡 প্রোফাইল কার্ড -->
-        <div class="profile-card">
-            <div class="profile-top">
-                <div class="profile-avatar">M</div>
-                <div class="profile-info">
-                    <div class="profile-name-row">
-                        <h3 class="profile-name" id="profileName">mrtiger6666</h3>
-                        <span class="vip-tag">
-                            <i class="fa-solid fa-crown"></i> VIP 0
-                        </span>
+        <h1 class="menu-title" data-key="marketsTitle">Markets</h1>
+        <p class="menu-subtitle" data-key="marketsSubtitle">Select a market level to start working</p>
+
+        <!-- ফিল্টার ট্যাব -->
+        <div class="filter-tabs">
+            <button class="filter-tab active" data-filter="all" data-key="filterAll">All</button>
+            <button class="filter-tab" data-filter="vip1">VIP 1</button>
+            <button class="filter-tab" data-filter="vip2">VIP 2</button>
+            <button class="filter-tab" data-filter="vip3">VIP 3</button>
+        </div>
+
+        <!-- Market Cards -->
+        <div class="market-list" id="marketList">
+
+            <!-- Amazon — VIP 1 -->
+            <div class="market-card" data-vip="vip1">
+                <div class="market-logo">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/a/a9/Amazon_logo.svg" alt="Amazon">
+                </div>
+                <div class="market-content">
+                    <div class="market-header">
+                        <h3 class="market-name">Amazon</h3>
+                        <span class="vip-badge">VIP 1</span>
                     </div>
-                    <p class="profile-invite">
-                        <span data-key="invitationCode">Invitation code</span>:
-                        <strong id="inviteCode">HDF004</strong>
+                    <p class="market-balance">
+                        <span data-key="availableBalance">Available balance</span>:
+                        <strong>20 USDT - 498 USDT</strong>
+                    </p>
+                    <p class="market-commission">
+                        <span data-key="commissionRate">Commission rate</span>:
+                        <span class="rate">4%</span>
                     </p>
                 </div>
-                <div class="profile-qr">
-                    <i class="fa-solid fa-qrcode"></i>
-                </div>
+                <i class="fa-solid fa-chevron-right market-arrow"></i>
             </div>
 
-            <div class="profile-balance-row">
-                <div class="balance-block">
-                    <p class="balance-label-sm" data-key="myAccountBalance">My Account Balance</p>
-                    <div class="balance-value-sm">
-                        <span class="unit">USDT</span>
-                        <span class="amount">0.00</span>
+            <!-- Alibaba — VIP 2 -->
+            <div class="market-card" data-vip="vip2">
+                <div class="market-logo">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/8a/Alibaba_Logo.svg/512px-Alibaba_Logo.svg.png" alt="Alibaba">
+                </div>
+                <div class="market-content">
+                    <div class="market-header">
+                        <h3 class="market-name">Alibaba</h3>
+                        <span class="vip-badge">VIP 2</span>
                     </div>
+                    <p class="market-balance">
+                        <span data-key="availableBalance">Available balance</span>:
+                        <strong>499 USDT - 898 USDT</strong>
+                    </p>
+                    <p class="market-commission">
+                        <span data-key="commissionRate">Commission rate</span>:
+                        <span class="rate">8%</span>
+                    </p>
                 </div>
-
-                <div class="profile-actions">
-                    <button class="profile-btn" type="button">
-                        <i class="fa-solid fa-wallet"></i>
-                        <span data-key="recharge">Recharge</span>
-                    </button>
-                    <button class="profile-btn" type="button">
-                        <i class="fa-solid fa-money-bill-transfer"></i>
-                        <span data-key="withdrawal">Withdrawal</span>
-                    </button>
-                </div>
+                <i class="fa-solid fa-chevron-right market-arrow"></i>
             </div>
-        </div>
 
-        <!-- 🔵 দ্রুত অ্যাকশন -->
-        <div class="quick-actions-mine">
-            <button class="qa-item" type="button" onclick="window.location.href='record.html'">
-                <div class="qa-icon blue">
-                    <i class="fa-solid fa-file-lines"></i>
+            <!-- AliExpress — VIP 3 -->
+            <div class="market-card" data-vip="vip3">
+                <div class="market-logo">
+                    <img src="https://cdn.jsdelivr.net/gh/glincker/thesvg@main/public/icons/aliexpress/default.svg" alt="AliExpress">
                 </div>
-                <span data-key="recordBtn">Record</span>
-            </button>
-            <button class="qa-item" type="button">
-                <div class="qa-icon orange">
-                    <i class="fa-solid fa-wallet"></i>
+                <div class="market-content">
+                    <div class="market-header">
+                        <h3 class="market-name">AliExpress</h3>
+                        <span class="vip-badge">VIP 3</span>
+                    </div>
+                    <p class="market-balance">
+                        <span data-key="availableBalance">Available balance</span>:
+                        <strong>899 USDT - Unlimited</strong>
+                    </p>
+                    <p class="market-commission">
+                        <span data-key="commissionRate">Commission rate</span>:
+                        <span class="rate">12%</span>
+                    </p>
                 </div>
-                <span data-key="wallet">Wallet</span>
-            </button>
-            <button class="qa-item" type="button">
-                <div class="qa-icon purple">
-                    <i class="fa-solid fa-user-plus"></i>
-                </div>
-                <span data-key="invitation">Invitation</span>
-            </button>
+                <i class="fa-solid fa-chevron-right market-arrow"></i>
+            </div>
+
         </div>
-
-        <!-- 📋 মেনু লিস্ট -->
-        <div class="menu-list">
-            <button class="menu-row" type="button">
-                <i class="fa-solid fa-user menu-row-icon profile"></i>
-                <span class="menu-row-text" data-key="profileMenu">Profile</span>
-                <i class="fa-solid fa-chevron-right menu-row-arrow"></i>
-            </button>
-
-            <button class="menu-row" type="button">
-                <i class="fa-solid fa-building-columns menu-row-icon deposit"></i>
-                <span class="menu-row-text" data-key="depositRecords">Deposit records</span>
-                <i class="fa-solid fa-chevron-right menu-row-arrow"></i>
-            </button>
-
-            <button class="menu-row" type="button">
-                <i class="fa-solid fa-file-invoice-dollar menu-row-icon withdrawal"></i>
-                <span class="menu-row-text" data-key="withdrawalRecords">Withdrawal records</span>
-                <i class="fa-solid fa-chevron-right menu-row-arrow"></i>
-            </button>
-
-            <button class="menu-row" type="button" id="themeSettingBtn">
-                <i class="fa-solid fa-gear menu-row-icon theme"></i>
-                <span class="menu-row-text" data-key="themeSetting">Theme Setting</span>
-                <i class="fa-solid fa-chevron-right menu-row-arrow"></i>
-            </button>
-
-            <button class="menu-row" type="button" id="logoutBtn">
-                <i class="fa-solid fa-right-from-bracket menu-row-icon logout"></i>
-                <span class="menu-row-text" data-key="logOut">Log Out</span>
-                <i class="fa-solid fa-chevron-right menu-row-arrow"></i>
-            </button>
-        </div>
-
-        <!-- ভার্সন -->
-        <p class="system-version" data-key="systemVersion">System Version 1.0.0</p>
 
     </main>
 
@@ -533,7 +330,7 @@
             <i class="fa-solid fa-headset"></i>
             <span data-key="navService">Service</span>
         </a>
-        <a href="menu.html" class="nav-item">
+        <a href="menu.html" class="nav-item active">
             <i class="fa-solid fa-grip"></i>
             <span data-key="navMenu">Menu</span>
         </a>
@@ -541,7 +338,7 @@
             <i class="fa-solid fa-clipboard"></i>
             <span data-key="navRecord">Record</span>
         </a>
-        <a href="mine.html" class="nav-item active">
+        <a href="mine.html" class="nav-item">
             <i class="fa-solid fa-user"></i>
             <span data-key="navMine">Mine</span>
         </a>
@@ -549,182 +346,94 @@
 
     <script src="detail.js"></script>
     <script>
-        // ================= Mine পেজের অনুবাদ =================
-        const mineTranslations = {
+        // ================= Menu পেজের অনুবাদ =================
+        const menuTranslations = {
             en: {
-                invitationCode: "Invitation code",
-                myAccountBalance: "My Account Balance",
-                recharge: "Recharge",
-                withdrawal: "Withdrawal",
-                recordBtn: "Record",
-                wallet: "Wallet",
-                invitation: "Invitation",
-                profileMenu: "Profile",
-                depositRecords: "Deposit records",
-                withdrawalRecords: "Withdrawal records",
-                themeSetting: "Theme Setting",
-                logOut: "Log Out",
-                systemVersion: "System Version 1.0.0"
+                marketsTitle: "Markets",
+                marketsSubtitle: "Select a market level to start working",
+                filterAll: "All",
+                availableBalance: "Available balance",
+                commissionRate: "Commission rate"
             },
             es: {
-                invitationCode: "Código de invitación",
-                myAccountBalance: "Saldo de mi cuenta",
-                recharge: "Recargar",
-                withdrawal: "Retiro",
-                recordBtn: "Registro",
-                wallet: "Cartera",
-                invitation: "Invitación",
-                profileMenu: "Perfil",
-                depositRecords: "Registros de depósito",
-                withdrawalRecords: "Registros de retiro",
-                themeSetting: "Configuración de tema",
-                logOut: "Cerrar sesión",
-                systemVersion: "Versión del sistema 1.0.0"
+                marketsTitle: "Mercados",
+                marketsSubtitle: "Seleccione un nivel de mercado para comenzar a trabajar",
+                filterAll: "Todos",
+                availableBalance: "Saldo disponible",
+                commissionRate: "Tasa de comisión"
             },
             fr: {
-                invitationCode: "Code d'invitation",
-                myAccountBalance: "Solde de mon compte",
-                recharge: "Recharger",
-                withdrawal: "Retrait",
-                recordBtn: "Enregistrer",
-                wallet: "Portefeuille",
-                invitation: "Invitation",
-                profileMenu: "Profil",
-                depositRecords: "Historique des dépôts",
-                withdrawalRecords: "Historique des retraits",
-                themeSetting: "Paramètres du thème",
-                logOut: "Se déconnecter",
-                systemVersion: "Version du système 1.0.0"
+                marketsTitle: "Marchés",
+                marketsSubtitle: "Sélectionnez un niveau de marché pour commencer à travailler",
+                filterAll: "Tous",
+                availableBalance: "Solde disponible",
+                commissionRate: "Taux de commission"
             },
             de: {
-                invitationCode: "Einladungscode",
-                myAccountBalance: "Mein Kontostand",
-                recharge: "Aufladen",
-                withdrawal: "Auszahlung",
-                recordBtn: "Aufzeichnung",
-                wallet: "Geldbörse",
-                invitation: "Einladung",
-                profileMenu: "Profil",
-                depositRecords: "Einzahlungsverlauf",
-                withdrawalRecords: "Auszahlungsverlauf",
-                themeSetting: "Themen-Einstellung",
-                logOut: "Abmelden",
-                systemVersion: "Systemversion 1.0.0"
+                marketsTitle: "Märkte",
+                marketsSubtitle: "Wählen Sie eine Marktstufe, um mit der Arbeit zu beginnen",
+                filterAll: "Alle",
+                availableBalance: "Verfügbares Guthaben",
+                commissionRate: "Provisionssatz"
             },
             it: {
-                invitationCode: "Codice invito",
-                myAccountBalance: "Saldo del mio conto",
-                recharge: "Ricarica",
-                withdrawal: "Prelievo",
-                recordBtn: "Registro",
-                wallet: "Portafoglio",
-                invitation: "Invito",
-                profileMenu: "Profilo",
-                depositRecords: "Registri depositi",
-                withdrawalRecords: "Registri prelievi",
-                themeSetting: "Impostazione tema",
-                logOut: "Esci",
-                systemVersion: "Versione di sistema 1.0.0"
+                marketsTitle: "Mercati",
+                marketsSubtitle: "Seleziona un livello di mercato per iniziare a lavorare",
+                filterAll: "Tutti",
+                availableBalance: "Saldo disponibile",
+                commissionRate: "Tasso di commissione"
             },
             pt: {
-                invitationCode: "Código de convite",
-                myAccountBalance: "Saldo da minha conta",
-                recharge: "Recarregar",
-                withdrawal: "Saque",
-                recordBtn: "Registro",
-                wallet: "Carteira",
-                invitation: "Convite",
-                profileMenu: "Perfil",
-                depositRecords: "Registros de depósito",
-                withdrawalRecords: "Registros de saque",
-                themeSetting: "Configuração de tema",
-                logOut: "Sair",
-                systemVersion: "Versão do sistema 1.0.0"
+                marketsTitle: "Mercados",
+                marketsSubtitle: "Selecione um nível de mercado para começar a trabalhar",
+                filterAll: "Todos",
+                availableBalance: "Saldo disponível",
+                commissionRate: "Taxa de comissão"
             },
             nl: {
-                invitationCode: "Uitnodigingscode",
-                myAccountBalance: "Mijn accountsaldo",
-                recharge: "Opladen",
-                withdrawal: "Opname",
-                recordBtn: "Opnemen",
-                wallet: "Portemonnee",
-                invitation: "Uitnodiging",
-                profileMenu: "Profiel",
-                depositRecords: "Stortingsgeschiedenis",
-                withdrawalRecords: "Opnamegeschiedenis",
-                themeSetting: "Thema-instelling",
-                logOut: "Uitloggen",
-                systemVersion: "Systeemversie 1.0.0"
+                marketsTitle: "Markten",
+                marketsSubtitle: "Selecteer een marktniveau om te beginnen met werken",
+                filterAll: "Alle",
+                availableBalance: "Beschikbaar saldo",
+                commissionRate: "Commissietarief"
             },
             ru: {
-                invitationCode: "Код приглашения",
-                myAccountBalance: "Баланс моего счета",
-                recharge: "Пополнить",
-                withdrawal: "Вывод",
-                recordBtn: "Запись",
-                wallet: "Кошелек",
-                invitation: "Приглашение",
-                profileMenu: "Профиль",
-                depositRecords: "История депозитов",
-                withdrawalRecords: "История выводов",
-                themeSetting: "Настройка темы",
-                logOut: "Выйти",
-                systemVersion: "Версия системы 1.0.0"
+                marketsTitle: "Рынки",
+                marketsSubtitle: "Выберите уровень рынка, чтобы начать работу",
+                filterAll: "Все",
+                availableBalance: "Доступный баланс",
+                commissionRate: "Ставка комиссии"
             },
             tr: {
-                invitationCode: "Davet kodu",
-                myAccountBalance: "Hesap Bakiyem",
-                recharge: "Yükle",
-                withdrawal: "Para Çekme",
-                recordBtn: "Kayıt",
-                wallet: "Cüzdan",
-                invitation: "Davet",
-                profileMenu: "Profil",
-                depositRecords: "Para yatırma kayıtları",
-                withdrawalRecords: "Para çekme kayıtları",
-                themeSetting: "Tema Ayarı",
-                logOut: "Çıkış Yap",
-                systemVersion: "Sistem Sürümü 1.0.0"
+                marketsTitle: "Piyasalar",
+                marketsSubtitle: "Çalışmaya başlamak için bir pazar seviyesi seçin",
+                filterAll: "Tümü",
+                availableBalance: "Kullanılabilir bakiye",
+                commissionRate: "Komisyon oranı"
             },
             ar: {
-                invitationCode: "رمز الدعوة",
-                myAccountBalance: "رصيد حسابي",
-                recharge: "إعادة الشحن",
-                withdrawal: "السحب",
-                recordBtn: "السجل",
-                wallet: "المحفظة",
-                invitation: "دعوة",
-                profileMenu: "الملف الشخصي",
-                depositRecords: "سجل الإيداعات",
-                withdrawalRecords: "سجل السحوبات",
-                themeSetting: "إعداد السمة",
-                logOut: "تسجيل الخروج",
-                systemVersion: "إصدار النظام 1.0.0"
+                marketsTitle: "الأسواق",
+                marketsSubtitle: "اختر مستوى السوق لبدء العمل",
+                filterAll: "الكل",
+                availableBalance: "الرصيد المتاح",
+                commissionRate: "معدل العمولة"
             },
             fa: {
-                invitationCode: "کد دعوت",
-                myAccountBalance: "موجودی حساب من",
-                recharge: "شارژ مجدد",
-                withdrawal: "برداشت",
-                recordBtn: "سابقه",
-                wallet: "کیف پول",
-                invitation: "دعوت",
-                profileMenu: "پروفایل",
-                depositRecords: "سابقه واریز",
-                withdrawalRecords: "سابقه برداشت",
-                themeSetting: "تنظیمات پوسته",
-                logOut: "خروج",
-                systemVersion: "نسخه سیستم 1.0.0"
+                marketsTitle: "بازارها",
+                marketsSubtitle: "یک سطح بازار را برای شروع کار انتخاب کنید",
+                filterAll: "همه",
+                availableBalance: "موجودی موجود",
+                commissionRate: "نرخ کمیسیون"
             }
         };
 
         // অনুবাদ প্রয়োগ
-        function applyMineLanguage(lang) {
+        function applyMenuLanguage(lang) {
             const elements = document.querySelectorAll('[data-key]');
             elements.forEach(el => {
                 const key = el.getAttribute('data-key');
-                if (mineTranslations[lang] && mineTranslations[lang][key]) {
-                    el.textContent = mineTranslations[lang][key];
+                if (menuTranslations[lang] && menuTranslations[lang][key]) {
+                    el.textContent = menuTranslations[lang][key];
                 } else if (typeof detailTranslations !== 'undefined' && detailTranslations[lang] && detailTranslations[lang][key]) {
                     el.textContent = detailTranslations[lang][key];
                 }
@@ -734,43 +443,43 @@
         }
 
         // প্রাথমিক লোড
-        const mineLang = safeGet('language') || 'en';
-        applyMineLanguage(mineLang);
+        const menuLang = safeGet('language') || 'en';
+        applyMenuLanguage(menuLang);
 
         // ভাষা পরিবর্তন
-        const mineLangSelect = document.getElementById('dashLanguageSelect');
-        if (mineLangSelect) {
-            mineLangSelect.addEventListener('change', function() {
+        const menuLangSelect = document.getElementById('dashLanguageSelect');
+        if (menuLangSelect) {
+            menuLangSelect.addEventListener('change', function() {
                 const newLang = this.value;
                 safeSet('language', newLang);
-                applyMineLanguage(newLang);
+                applyMenuLanguage(newLang);
                 if (typeof applyDetailDirection === 'function') {
                     applyDetailDirection(newLang);
                 }
             });
         }
 
-        // ================= Logout =================
-        const logoutBtn = document.getElementById('logoutBtn');
-        if (logoutBtn) {
-            logoutBtn.addEventListener('click', function() {
-                if (confirm('Are you sure you want to log out?')) {
-                    window.location.href = 'index.html';
-                }
-            });
-        }
+        // ================= ফিল্টার Functionality =================
+        const filterTabs = document.querySelectorAll('.filter-tab');
+        const marketCards = document.querySelectorAll('.market-card');
 
-        // ================= Theme Setting Button =================
-        const themeSettingBtn = document.getElementById('themeSettingBtn');
-        if (themeSettingBtn) {
-            themeSettingBtn.addEventListener('click', function() {
-                const isDark = !document.body.classList.contains('dark-mode');
-                if (typeof applyDetailTheme === 'function') {
-                    applyDetailTheme(isDark);
-                }
-                safeSet('theme', isDark ? 'dark' : 'light');
+        filterTabs.forEach(tab => {
+            tab.addEventListener('click', function() {
+                const filter = this.getAttribute('data-filter');
+
+                filterTabs.forEach(t => t.classList.remove('active'));
+                this.classList.add('active');
+
+                marketCards.forEach(card => {
+                    const vip = card.getAttribute('data-vip');
+                    if (filter === 'all' || vip === filter) {
+                        card.style.display = 'flex';
+                    } else {
+                        card.style.display = 'none';
+                    }
+                });
             });
-        }
+        });
     </script>
 </body>
 </html>
