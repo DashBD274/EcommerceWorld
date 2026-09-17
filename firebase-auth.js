@@ -17,6 +17,11 @@ if (!firebase.apps.length) {
 const auth = firebase.auth();
 const db = firebase.firestore();
 
+// ✅ Auth Persistence সেট করুন (রিফ্রেশ করলেও লগইন থাকবে)
+auth.setPersistence(firebase.auth.Auth.Persistence.LOCAL).catch(function(error) {
+    console.log('Persistence error:', error);
+});
+
 // ================= Safe localStorage =================
 function safeGet(key) {
     try { return localStorage.getItem(key); } catch (e) { return null; }
@@ -44,14 +49,11 @@ function getReferCodeFromURL() {
 // ================= Signup =================
 async function signupUser(fullName, email, password, referCodeInput) {
     try {
-        // 1. Firebase Auth এ ইউজার তৈরি
         const userCredential = await auth.createUserWithEmailAndPassword(email, password);
         const user = userCredential.user;
 
-        // 2. নিজের Refer Code তৈরি
         const myReferCode = generateReferCode(fullName);
 
-        // 3. Referrer চেক (URL বা Input)
         const urlReferCode = getReferCodeFromURL();
         const referrerCode = urlReferCode || referCodeInput || "";
 
@@ -70,14 +72,12 @@ async function signupUser(fullName, email, password, referCodeInput) {
                     referrerUID = referrerDoc.id;
                     const referrerData = referrerDoc.data();
 
-                    // Referrer কে 5 USDT বোনাস
                     const newBalance = (referrerData.balance || 0) + 5;
                     await db.collection('users').doc(referrerUID).update({
                         balance: newBalance,
                         referralCount: (referrerData.referralCount || 0) + 1
                     });
 
-                    // ট্রানজেকশন লগ
                     await db.collection('transactions').add({
                         uid: referrerUID,
                         type: 'referral_bonus',
@@ -94,7 +94,6 @@ async function signupUser(fullName, email, password, referCodeInput) {
             }
         }
 
-        // 4. Firestore এ user তথ্য জমা
         await db.collection('users').doc(user.uid).set({
             uid: user.uid,
             fullName: fullName,
@@ -108,7 +107,6 @@ async function signupUser(fullName, email, password, referCodeInput) {
             createdAt: firebase.firestore.FieldValue.serverTimestamp()
         });
 
-        // 5. LocalStorage এ সেভ
         safeSet('uid', user.uid);
         safeSet('email', email);
         safeSet('fullName', fullName);
@@ -157,11 +155,65 @@ async function logoutUser() {
     }
 }
 
-// ================= Auth State Change =================
+// ================= ✅ FIXED onAuthChange =================
+// Firebase Auth state ready হওয়ার জন্য অপেক্ষা করে
 function onAuthChange(callback) {
-    auth.onAuthStateChanged(function(user) {
-        callback(user ? true : false, user);
+    let called = false;
+
+    const unsubscribe = auth.onAuthStateChanged(function(user) {
+        // Firebase প্রথমে state load করে
+        // আমরা 400ms delay দিয়ে ensure করবো state ready হয়েছে
+        if (!called) {
+            called = true;
+            // User যদি null হয়, একবার wait করে আবার check
+            if (!user) {
+                setTimeout(function() {
+                    const currentUser = auth.currentUser;
+                    callback(currentUser ? true : false, currentUser);
+                }, 400);
+            } else {
+                callback(true, user);
+            }
+        } else {
+            // পরের change গুলো সরাসরি pass
+            callback(user ? true : false, user);
+        }
     });
+
+    return unsubscribe;
+}
+
+// ================= ✅ নতুন ফাংশন — Auth Ready Check =================
+// Login সফল হওয়ার পর Dashboard এ ঢোকার আগে এটা use করুন
+function waitForAuthReady(callback) {
+    let resolved = false;
+
+    const unsubscribe = auth.onAuthStateChanged(function(user) {
+        if (!resolved) {
+            resolved = true;
+            // ছোট delay দিয়ে নিশ্চিত হন
+            setTimeout(function() {
+                if (auth.currentUser) {
+                    callback(true, auth.currentUser);
+                } else {
+                    callback(false, null);
+                }
+            }, 300);
+        }
+    });
+
+    // 2 সেকেন্ড পর জোর করে check
+    setTimeout(function() {
+        if (!resolved) {
+            resolved = true;
+            unsubscribe();
+            if (auth.currentUser) {
+                callback(true, auth.currentUser);
+            } else {
+                callback(false, null);
+            }
+        }
+    }, 2000);
 }
 
 // ================= Error Translator =================
@@ -179,7 +231,7 @@ function translateFirebaseError(errorMsg) {
     return 'Something went wrong. Please try again.';
 }
 
-// ================= Firestore থেকে User Data আনুন =================
+// ================= Firestore থেকে User Data =================
 async function getUserData(uid) {
     try {
         const doc = await db.collection('users').doc(uid).get();
@@ -192,7 +244,7 @@ async function getUserData(uid) {
     }
 }
 
-// ================= Referral Link Generate =================
+// ================= Referral Link =================
 function getReferralLink(referCode) {
     const baseUrl = window.location.origin + window.location.pathname;
     const signupPath = baseUrl.replace(/[^/]*$/, 'signup.html');
