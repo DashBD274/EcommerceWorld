@@ -40,7 +40,7 @@ body.dark-mode {
     --lang-border: #444;
 }
 
-/* ================= বডি (স্ক্রল Fix) ================= */
+/* ================= বডি ================= */
 html {
     width: 100%;
     min-height: 100%;
@@ -56,12 +56,9 @@ body {
     justify-content: center;
     align-items: center;
     padding: 80px 20px 30px 20px;
-
-    /* ✅ স্ক্রল চালু */
     overflow-x: hidden;
     overflow-y: auto;
     -webkit-overflow-scrolling: touch;
-
     color: var(--text-color);
     position: relative;
     -webkit-user-select: none;
@@ -136,13 +133,8 @@ input, select, textarea {
     line-height: 1;
 }
 
-.theme-toggle:hover {
-    transform: scale(1.1);
-}
-
-.theme-toggle:active {
-    transform: scale(0.9);
-}
+.theme-toggle:hover { transform: scale(1.1); }
+.theme-toggle:active { transform: scale(0.9); }
 
 /* ================= লগইন কার্ড ================= */
 .login-container {
@@ -313,13 +305,8 @@ h2 {
     font-family: inherit;
 }
 
-.login-btn:hover {
-    transform: scale(1.02);
-}
-
-.login-btn:active {
-    transform: scale(0.98);
-}
+.login-btn:hover { transform: scale(1.02); }
+.login-btn:active { transform: scale(0.98); }
 
 /* ================= সাইনআপ লিংক ================= */
 .signup-link {
@@ -334,43 +321,100 @@ h2 {
 }
 
 /* ================= RTL ================= */
-body.rtl {
-    direction: rtl;
+body.rtl { direction: rtl; }
+body.rtl .login-container { text-align: right; }
+body.rtl .input-group { flex-direction: row-reverse; }
+body.rtl .input-group i { margin-right: 0; margin-left: 10px; }
+body.rtl .eye-icon { margin-left: 0; margin-right: 8px; }
+body.rtl .verify-group { flex-direction: row-reverse; }
+body.rtl .options { flex-direction: row-reverse; }
+body.rtl .signup-link { text-align: right; }
+body.rtl .lang-selector { flex-direction: row-reverse; }
+
+/* ================= 🆕 লোডিং ওভারলে ================= */
+.loading-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.75);
+    -webkit-backdrop-filter: blur(8px);
+    backdrop-filter: blur(8px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s, visibility 0.3s;
 }
 
-body.rtl .login-container {
-    text-align: right;
+.loading-overlay.show {
+    opacity: 1;
+    visibility: visible;
 }
 
-body.rtl .input-group {
-    flex-direction: row-reverse;
+.loading-box {
+    background: var(--card-bg);
+    padding: 40px 35px;
+    border-radius: 20px;
+    text-align: center;
+    min-width: 280px;
+    max-width: 90%;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    animation: popIn 0.3s ease-out;
 }
 
-body.rtl .input-group i {
-    margin-right: 0;
-    margin-left: 10px;
+@keyframes popIn {
+    0% { transform: scale(0.8); opacity: 0; }
+    100% { transform: scale(1); opacity: 1; }
 }
 
-body.rtl .eye-icon {
-    margin-left: 0;
-    margin-right: 8px;
+.loading-spinner {
+    font-size: 60px;
+    color: var(--accent);
+    line-height: 1;
 }
 
-body.rtl .verify-group {
-    flex-direction: row-reverse;
+.loading-spinner i {
+    display: block;
 }
 
-body.rtl .options {
-    flex-direction: row-reverse;
+.loading-success {
+    font-size: 60px;
+    color: #10b981;
+    line-height: 1;
+    display: none;
 }
 
-body.rtl .signup-link {
-    text-align: right;
+.loading-success i {
+    display: block;
+    animation: checkPop 0.5s ease-out;
 }
 
-body.rtl .lang-selector {
-    flex-direction: row-reverse;
+@keyframes checkPop {
+    0% { transform: scale(0); }
+    50% { transform: scale(1.2); }
+    100% { transform: scale(1); }
 }
+
+.loading-text {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--text-color);
+    margin: 0;
+    line-height: 1.5;
+    min-height: 24px;
+}
+
+.loading-box.success .loading-spinner { display: none; }
+.loading-box.success .loading-success { display: block; }
+.loading-box.success .loading-text { color: #10b981; }
 
 /* ================= মোবাইল রেসপন্সিভ ================= */
 @media (max-width: 480px) {
@@ -379,28 +423,11 @@ body.rtl .lang-selector {
         align-items: flex-start;
     }
 
-    .top-controls {
-        top: 10px;
-        right: 10px;
-        gap: 6px;
-    }
+    .top-controls { top: 10px; right: 10px; gap: 6px; }
 
-    .lang-selector {
-        padding: 6px 10px;
-        font-size: 12px;
-        gap: 6px;
-    }
-
-    .lang-selector select {
-        font-size: 12px;
-        max-width: 90px;
-    }
-
-    .theme-toggle {
-        width: 34px;
-        height: 34px;
-        font-size: 14px;
-    }
+    .lang-selector { padding: 6px 10px; font-size: 12px; gap: 6px; }
+    .lang-selector select { font-size: 12px; max-width: 90px; }
+    .theme-toggle { width: 34px; height: 34px; font-size: 14px; }
 
     .login-container {
         padding: 25px 18px;
@@ -409,58 +436,27 @@ body.rtl .lang-selector {
         margin-top: 10px;
     }
 
-    h2 {
-        font-size: 24px;
-    }
+    h2 { font-size: 24px; }
+    .subtitle { font-size: 12px; margin-bottom: 18px; }
+    .input-group { padding: 11px 13px; }
+    .input-group input { font-size: 16px; }
 
-    .subtitle {
-        font-size: 12px;
-        margin-bottom: 18px;
-    }
+    .verify-group { flex-direction: column; }
+    .verify-code { width: 100%; justify-content: center; }
 
-    .input-group {
-        padding: 11px 13px;
-    }
+    .options { font-size: 13px; }
+    .login-btn { padding: 13px; font-size: 16px; }
+    .signup-link { font-size: 13px; }
 
-    .input-group input {
-        font-size: 16px;
-    }
-
-    .verify-group {
-        flex-direction: column;
-    }
-
-    .verify-code {
-        width: 100%;
-        justify-content: center;
-    }
-
-    .options {
-        font-size: 13px;
-    }
-
-    .login-btn {
-        padding: 13px;
-        font-size: 16px;
-    }
-
-    .signup-link {
-        font-size: 13px;
-    }
+    .loading-box { padding: 30px 25px; min-width: 240px; }
+    .loading-spinner, .loading-success { font-size: 50px; }
+    .loading-text { font-size: 14px; }
 }
 
 @media (max-width: 360px) {
-    .login-container {
-        padding: 22px 15px;
-    }
-
-    h2 {
-        font-size: 22px;
-    }
-
-    .lang-selector select {
-        max-width: 70px;
-    }
+    .login-container { padding: 22px 15px; }
+    h2 { font-size: 22px; }
+    .lang-selector select { max-width: 70px; }
 }
 
 /* ================= iOS Safe Area ================= */
@@ -469,15 +465,11 @@ body.rtl .lang-selector {
         top: max(15px, env(safe-area-inset-top));
         right: max(15px, env(safe-area-inset-right));
     }
-
     @media (max-width: 480px) {
         .top-controls {
             top: max(10px, env(safe-area-inset-top));
             right: max(10px, env(safe-area-inset-right));
         }
-
-        body {
-            padding-bottom: max(25px, env(safe-area-inset-bottom));
-        }
+        body { padding-bottom: max(25px, env(safe-area-inset-bottom)); }
     }
 }
