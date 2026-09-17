@@ -10,7 +10,14 @@ const translations = {
         forgot: "Forgot Password?",
         loginBtn: "Login",
         noAccount: "Don't have an account?",
-        signUp: "Sign Up"
+        signUp: "Sign Up",
+        createAccount: "Create Account",
+        registerSubtitle: "Register a new account to get started",
+        fullNamePlaceholder: "Enter your full name",
+        confirmPasswordPlaceholder: "Confirm Password",
+        referCodePlaceholder: "Refer Code (Optional)",
+        registerBtn: "Register",
+        haveAccount: "Already have an account?"
     },
     es: {
         signIn: "Iniciar sesión",
@@ -22,7 +29,14 @@ const translations = {
         forgot: "¿Olvidaste tu contraseña?",
         loginBtn: "Iniciar sesión",
         noAccount: "¿No tienes una cuenta?",
-        signUp: "Regístrate"
+        signUp: "Regístrate",
+        createAccount: "Crear cuenta",
+        registerSubtitle: "Registre una nueva cuenta para comenzar",
+        fullNamePlaceholder: "Ingrese su nombre completo",
+        confirmPasswordPlaceholder: "Confirmar contraseña",
+        referCodePlaceholder: "Código de referencia (opcional)",
+        registerBtn: "Registrarse",
+        haveAccount: "¿Ya tienes una cuenta?"
     },
     fr: {
         signIn: "Se connecter",
@@ -34,7 +48,14 @@ const translations = {
         forgot: "Mot de passe oublié ?",
         loginBtn: "Connexion",
         noAccount: "Vous n'avez pas de compte ?",
-        signUp: "S'inscrire"
+        signUp: "S'inscrire",
+        createAccount: "Créer un compte",
+        registerSubtitle: "Inscrivez un nouveau compte pour commencer",
+        fullNamePlaceholder: "Entrez votre nom complet",
+        confirmPasswordPlaceholder: "Confirmer le mot de passe",
+        referCodePlaceholder: "Code de parrainage (facultatif)",
+        registerBtn: "S'inscrire",
+        haveAccount: "Vous avez déjà un compte ?"
     },
     de: {
         signIn: "Anmelden",
@@ -46,7 +67,14 @@ const translations = {
         forgot: "Passwort vergessen?",
         loginBtn: "Anmelden",
         noAccount: "Sie haben kein Konto?",
-        signUp: "Registrieren"
+        signUp: "Registrieren",
+        createAccount: "Konto erstellen",
+        registerSubtitle: "Registrieren Sie ein neues Konto, um zu beginnen",
+        fullNamePlaceholder: "Geben Sie Ihren vollständigen Namen ein",
+        confirmPasswordPlaceholder: "Passwort bestätigen",
+        referCodePlaceholder: "Empfehlungscode (optional)",
+        registerBtn: "Registrieren",
+        haveAccount: "Sie haben bereits ein Konto?"
     },
     it: {
         signIn: "Accedi",
@@ -58,7 +86,14 @@ const translations = {
         forgot: "Password dimenticata?",
         loginBtn: "Accedi",
         noAccount: "Non hai un account?",
-        signUp: "Registrati"
+        signUp: "Registrati",
+        createAccount: "Crea account",
+        registerSubtitle: "Registra un nuovo account per iniziare",
+        fullNamePlaceholder: "Inserisci il tuo nome completo",
+        confirmPasswordPlaceholder: "Conferma password",
+        referCodePlaceholder: "Codice referral (opzionale)",
+        registerBtn: "Registrati",
+        haveAccount: "Hai già un account?"
     },
     pt: {
         signIn: "Entrar",
@@ -70,7 +105,14 @@ const translations = {
         forgot: "Esqueceu a senha?",
         loginBtn: "Entrar",
         noAccount: "Não tem uma conta?",
-        signUp: "Inscrever-se"
+        signUp: "Inscrever-se",
+        createAccount: "Criar conta",
+        registerSubtitle: "Registre uma nova conta para começar",
+        fullNamePlaceholder: "Digite seu nome completo",
+        confirmPasswordPlaceholder: "Confirmar senha",
+        referCodePlaceholder: "Código de indicação (opcional)",
+        registerBtn: "Registrar",
+        haveAccount: "Já tem uma conta?"
     },
     nl: {
         signIn: "Inloggen",
@@ -82,7 +124,14 @@ const translations = {
         forgot: "Wachtwoord vergeten?",
         loginBtn: "Inloggen",
         noAccount: "Heb je geen account?",
-        signUp: "Aanmelden"
+        signUp: "Aanmelden",
+        createAccount: "Account aanmaken",
+        registerSubtitle: "Registreer een nieuw account om te beginnen",
+        fullNamePlaceholder: "Voer uw volledige naam in",
+        confirmPasswordPlaceholder: "Wachtwoord bevestigen",
+        referCodePlaceholder: "Verwijzingscode (optioneel)",
+        registerBtn: "Registreren",
+        haveAccount: "Heb je al een account?"
     },
     ru: {
         signIn: "Войти",
@@ -94,7 +143,14 @@ const translations = {
         forgot: "Забыли пароль?",
         loginBtn: "Войти",
         noAccount: "Нет аккаунта?",
-        signUp: "Зарегистрироваться"
+        signUp: "Зарегистрироваться",
+        createAccount: "Создать аккаунт",
+        registerSubtitle: "Зарегистрируйте новый аккаунт, чтобы начать",
+        fullNamePlaceholder: "Введите ваше полное имя",
+        confirmPasswordPlaceholder: "Подтвердите пароль",
+        referCodePlaceholder: "Реферальный код (необязательно)",
+        registerBtn: "Зарегистрироваться",
+        haveAccount: "Уже есть аккаунт?"
     },
     tr: {
         signIn: "Giriş Yap",
@@ -106,7 +162,14 @@ const translations = {
         forgot: "Şifremi unuttum?",
         loginBtn: "Giriş Yap",
         noAccount: "Hesabınız yok mu?",
-        signUp: "Kayıt Ol"
+        signUp: "Kayıt Ol",
+        createAccount: "Hesap Oluştur",
+        registerSubtitle: "Başlamak için yeni bir hesap kaydedin",
+        fullNamePlaceholder: "Tam adınızı girin",
+        confirmPasswordPlaceholder: "Şifreyi Onayla",
+        referCodePlaceholder: "Referans Kodu (İsteğe bağlı)",
+        registerBtn: "Kayıt Ol",
+        haveAccount: "Zaten hesabınız var mı?"
     },
     ar: {
         signIn: "تسجيل الدخول",
@@ -118,7 +181,14 @@ const translations = {
         forgot: "هل نسيت كلمة المرور؟",
         loginBtn: "تسجيل الدخول",
         noAccount: "ليس لديك حساب؟",
-        signUp: "إنشاء حساب"
+        signUp: "إنشاء حساب",
+        createAccount: "إنشاء حساب",
+        registerSubtitle: "سجّل حسابًا جديدًا للبدء",
+        fullNamePlaceholder: "أدخل اسمك الكامل",
+        confirmPasswordPlaceholder: "تأكيد كلمة المرور",
+        referCodePlaceholder: "رمز الإحالة (اختياري)",
+        registerBtn: "تسجيل",
+        haveAccount: "هل لديك حساب بالفعل؟"
     },
     fa: {
         signIn: "ورود",
@@ -130,191 +200,13 @@ const translations = {
         forgot: "رمز عبور را فراموش کرده اید؟",
         loginBtn: "ورود",
         noAccount: "حساب کاربری ندارید؟",
-        signUp: "ثبت نام"
+        signUp: "ثبت نام",
+        createAccount: "ایجاد حساب",
+        registerSubtitle: "برای شروع یک حساب جدید ثبت کنید",
+        fullNamePlaceholder: "نام کامل خود را وارد کنید",
+        confirmPasswordPlaceholder: "تأیید رمز عبور",
+        referCodePlaceholder: "کد معرف (اختیاری)",
+        registerBtn: "ثبت نام",
+        haveAccount: "قبلاً حساب دارید؟"
     }
 };
-
-function changeLanguage(lang) {
-    const elements = document.querySelectorAll('[data-key]');
-    elements.forEach(el => {
-        const key = el.getAttribute('data-key');
-        if (translations[lang] && translations[lang][key]) {
-            if (el.tagName === 'INPUT') {
-                el.placeholder = translations[lang][key];
-            } else {
-                el.textContent = translations[lang][key];
-            }
-        }
-    });
-}
-
-const langSelect = document.getElementById('languageSelect');
-if (langSelect) {
-    langSelect.addEventListener('change', function() {
-        changeLanguage(this.value);
-    });
-    changeLanguage(langSelect.value);
-}
-
-// ================= থিম টগল =================
-const themeToggle = document.getElementById('themeToggle');
-const themeIcon = themeToggle.querySelector('i');
-
-const savedTheme = localStorage.getItem('theme');
-if (savedTheme === 'dark') {
-    document.body.classList.add('dark-mode');
-    themeIcon.classList.remove('fa-moon');
-    themeIcon.classList.add('fa-sun');
-}
-
-themeToggle.addEventListener('click', function() {
-    document.body.classList.toggle('dark-mode');
-    
-    if (document.body.classList.contains('dark-mode')) {
-        themeIcon.classList.remove('fa-moon');
-        themeIcon.classList.add('fa-sun');
-        localStorage.setItem('theme', 'dark');
-    } else {
-        themeIcon.classList.remove('fa-sun');
-        themeIcon.classList.add('fa-moon');
-        localStorage.setItem('theme', 'light');
-    }
-});
-
-// ================= পাসওয়ার্ড দেখা/লুকানো =================
-const eyeIcon = document.querySelector('.eye-icon');
-const passwordInput = document.querySelector('input[type="password"]');
-
-if (eyeIcon && passwordInput) {
-    eyeIcon.addEventListener('click', function() {
-        if (passwordInput.type === 'password') {
-            passwordInput.type = 'text';
-            this.classList.remove('fa-eye');
-            this.classList.add('fa-eye-slash');
-        } else {
-            passwordInput.type = 'password';
-            this.classList.remove('fa-eye-slash');
-            this.classList.add('fa-eye');
-        }
-    });
-}
-
-// ================= র‍্যান্ডম ভেরিফিকেশন কোড =================
-const verifyCodeDiv = document.getElementById('verifyCode');
-if (verifyCodeDiv) {
-    const randomCode = Math.floor(1000 + Math.random() * 9000);
-    verifyCodeDiv.textContent = randomCode.toString().split('').join(' ');
-}
-
-// ================= RTL (ডান থেকে বাম) অটো ডিটেকশন =================
-const rtlLanguages = ['ar', 'fa'];
-
-function applyDirection(lang) {
-    if (rtlLanguages.includes(lang)) {
-        document.body.classList.add('rtl');
-    } else {
-        document.body.classList.remove('rtl');
-    }
-}
-
-if (langSelect) {
-    langSelect.addEventListener('change', function() {
-        applyDirection(this.value);
-    });
-    applyDirection(langSelect.value);
-}
-
-// ================= লোগো অ্যানিমেশন =================
-const brandItems = document.querySelectorAll('.brand-item');
-const brandStates = [];
-
-brandItems.forEach((item) => {
-    const rect = item.getBoundingClientRect();
-    const x = Math.random() * (window.innerWidth - rect.width - 40) + 20;
-    const y = Math.random() * (window.innerHeight - rect.height - 40) + 20;
-    const speed = 0.5 + Math.random() * 0.8;
-    const angle = Math.random() * Math.PI * 2;
-    const vx = Math.cos(angle) * speed;
-    const vy = Math.sin(angle) * speed;
-
-    brandStates.push({
-        element: item,
-        x: x,
-        y: y,
-        vx: vx,
-        vy: vy,
-        width: rect.width,
-        height: rect.height
-    });
-
-    item.style.left = x + 'px';
-    item.style.top = y + 'px';
-});
-
-const loginCard = document.querySelector('.login-container');
-let cardRect = loginCard.getBoundingClientRect();
-
-function animateBrands() {
-    const screenWidth = window.innerWidth;
-    const screenHeight = window.innerHeight;
-
-    brandStates.forEach(state => {
-        state.x += state.vx;
-        state.y += state.vy;
-
-        if (state.x <= 0) {
-            state.x = 0;
-            state.vx = Math.abs(state.vx);
-        }
-        if (state.x + state.width >= screenWidth) {
-            state.x = screenWidth - state.width;
-            state.vx = -Math.abs(state.vx);
-        }
-        if (state.y <= 0) {
-            state.y = 0;
-            state.vy = Math.abs(state.vy);
-        }
-        if (state.y + state.height >= screenHeight) {
-            state.y = screenHeight - state.height;
-            state.vy = -Math.abs(state.vy);
-        }
-
-        if (state.x + state.width > cardRect.left && state.x < cardRect.right &&
-            state.y + state.height > cardRect.top && state.y < cardRect.bottom) {
-
-            const overlapLeft = (state.x + state.width) - cardRect.left;
-            const overlapRight = cardRect.right - state.x;
-            const overlapTop = (state.y + state.height) - cardRect.top;
-            const overlapBottom = cardRect.bottom - state.y;
-
-            const minOverlap = Math.min(overlapLeft, overlapRight, overlapTop, overlapBottom);
-
-            if (minOverlap === overlapLeft) {
-                state.x = cardRect.left - state.width;
-                state.vx = -Math.abs(state.vx);
-            } else if (minOverlap === overlapRight) {
-                state.x = cardRect.right;
-                state.vx = Math.abs(state.vx);
-            } else if (minOverlap === overlapTop) {
-                state.y = cardRect.top - state.height;
-                state.vy = -Math.abs(state.vy);
-            } else {
-                state.y = cardRect.bottom;
-                state.vy = Math.abs(state.vy);
-            }
-        }
-
-        state.element.style.left = state.x + 'px';
-        state.element.style.top = state.y + 'px';
-    });
-
-    requestAnimationFrame(animateBrands);
-}
-
-if (brandStates.length > 0) {
-    animateBrands();
-}
-
-window.addEventListener('resize', () => {
-    cardRect = loginCard.getBoundingClientRect();
-});
