@@ -134,6 +134,33 @@
             }
         }
 
+        function hideMessage() {
+            messageBox.style.display = 'none';
+        }
+
+        // ================= Loading Helper =================
+        function showLoading(text) {
+            const loadingOverlay = document.getElementById('loadingOverlay');
+            const loadingText = document.getElementById('loadingText');
+            const loadingBox = document.getElementById('loadingBox');
+            
+            if (loadingBox) loadingBox.classList.remove('success');
+            if (loadingText) loadingText.textContent = text || 'Please wait...';
+            if (loadingOverlay) loadingOverlay.classList.add('show');
+        }
+
+        function hideLoading() {
+            const loadingOverlay = document.getElementById('loadingOverlay');
+            if (loadingOverlay) loadingOverlay.classList.remove('show');
+        }
+
+        function showSuccess(text) {
+            const loadingBox = document.getElementById('loadingBox');
+            const loadingText = document.getElementById('loadingText');
+            if (loadingBox) loadingBox.classList.add('success');
+            if (loadingText) loadingText.textContent = text || 'Success!';
+        }
+
         // ================= 🔐 Register Handler =================
         registerBtn.addEventListener('click', async function() {
             const fullName = document.getElementById('fullNameInput').value.trim();
@@ -159,7 +186,7 @@
             if (!verifyCode) return showMessage('Please enter the verification code.', true);
             if (verifyCode.length !== 4) return showMessage('Verification code must be 4 digits.', true);
             if (verifyCode !== currentVerifyCode) {
-                showMessage('Incorrect verification code. Please try again.', true);
+                showMessage('❌ Incorrect verification code. Please try again.', true);
                 generateVerifyCode();
                 document.getElementById('verifyInput').value = '';
                 return;
@@ -168,22 +195,19 @@
             // ============ সব Validation পাস ============
             registerBtn.disabled = true;
             registerBtn.style.opacity = '0.7';
-            messageBox.style.display = 'none';
+            hideMessage();
 
             const lang = safeGet('language') || 'en';
             const t = (typeof translations !== 'undefined' && translations[lang])
                 ? translations[lang]
                 : { verifying: 'Creating account...', verified: 'Account created!' };
 
-            loadingBox.classList.remove('success');
-            loadingText.textContent = t.verifying || 'Creating account...';
-            loadingOverlay.classList.add('show');
+            showLoading(t.verifying || 'Creating account...');
 
             const result = await signupUser(fullName, email, password, referCode);
 
             if (result.success) {
-                loadingBox.classList.add('success');
-                loadingText.textContent = t.verified || 'Account created!';
+                showSuccess(t.verified || 'Account created!');
 
                 setTimeout(() => {
                     window.location.replace('dashboard.html');
@@ -191,7 +215,7 @@
             } else {
                 registerBtn.disabled = false;
                 registerBtn.style.opacity = '1';
-                loadingOverlay.classList.remove('show');
+                hideLoading();
                 showMessage(translateFirebaseError(result.error), true);
                 generateVerifyCode();
                 document.getElementById('verifyInput').value = '';
