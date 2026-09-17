@@ -120,7 +120,7 @@ async function loginUser(email, password) {
         const userCredential = await auth.signInWithEmailAndPassword(email, password);
         const user = userCredential.user;
 
-        // ✅ Firestore থেকে data আনুন (optional)
+        // Firestore থেকে data আনুন (optional)
         try {
             const userDoc = await db.collection('users').doc(user.uid).get();
             if (userDoc.exists) {
@@ -156,7 +156,7 @@ async function logoutUser() {
     }
 }
 
-// ================= ✅ Auth Ready Check (সবচেয়ে গুরুত্বপূর্ণ) =================
+// ================= ✅ Auth Ready Check =================
 function waitForAuthReady(callback) {
     let resolved = false;
 
@@ -168,8 +168,6 @@ function waitForAuthReady(callback) {
         if (user) {
             callback(true, user);
         } else {
-            // Firebase একবার null দেয় initial state এ
-            // ৫০০ms অপেক্ষা করে আবার check করুন
             setTimeout(function() {
                 const currentUser = auth.currentUser;
                 if (currentUser) {
@@ -181,7 +179,6 @@ function waitForAuthReady(callback) {
         }
     });
 
-    // ৩ সেকেন্ড পর জোর করে check (fallback)
     setTimeout(function() {
         if (!resolved) {
             resolved = true;
@@ -192,7 +189,7 @@ function waitForAuthReady(callback) {
     }, 3000);
 }
 
-// ================= onAuthChange (backward compatibility) =================
+// ================= onAuthChange =================
 function onAuthChange(callback) {
     return auth.onAuthStateChanged(function(user) {
         callback(user ? true : false, user);
@@ -232,4 +229,15 @@ function getReferralLink(referCode) {
     const baseUrl = window.location.origin + window.location.pathname;
     const signupPath = baseUrl.replace(/[^/]*$/, 'signup.html');
     return `${signupPath}?ref=${referCode}`;
+}
+
+// ================= 🔑 Password Reset (Forgot Password) =================
+async function sendPasswordReset(email) {
+    try {
+        // Firebase Auth এ password reset email পাঠান
+        await auth.sendPasswordResetEmail(email);
+        return { success: true };
+    } catch (error) {
+        return { success: false, error: error.message };
+    }
 }
