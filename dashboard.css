@@ -17,7 +17,7 @@
     --orange-light: #f97316;
     --shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
 
-    /* 🎨 নতুন ব্যালেন্স কার্ডের রঙ — Purple-Indigo Gradient */
+    /* 💜 ব্যালেন্স কার্ডের রঙ — Purple-Indigo Gradient */
     --balance-start: #6366f1;
     --balance-mid: #8b5cf6;
     --balance-end: #a855f7;
@@ -93,7 +93,6 @@ input, select { -webkit-user-select: text; user-select: text; }
     color: #fff;
     overflow: visible;
     z-index: 1;
-    /* হালকা glow */
     box-shadow:
         0 0 10px rgba(255, 107, 53, 0.6),
         0 0 20px rgba(247, 54, 104, 0.4),
@@ -128,7 +127,7 @@ input, select { -webkit-user-select: text; user-select: text; }
     animation: fireFlicker 0.8s ease-in-out infinite alternate;
 }
 
-/* 🔥 আগুনের ঝলক (উপরে ওঠা) */
+/* 🔥 আগুনের শিখা (উপরে ওঠা) */
 .logo-icon .fire-flame {
     position: absolute;
     bottom: -6px;
@@ -234,21 +233,6 @@ input, select { -webkit-user-select: text; user-select: text; }
     position: relative;
 }
 
-/* ✅ 24 লেখার উপরে ছোট আগুনের ফোঁটা */
-.logo-24::after {
-    content: '🔥';
-    position: absolute;
-    top: -12px;
-    right: -8px;
-    font-size: 10px;
-    animation: emberFloat 2s ease-in-out infinite;
-}
-
-@keyframes emberFloat {
-    0%, 100% { transform: translateY(0) scale(1); opacity: 0.8; }
-    50% { transform: translateY(-3px) scale(1.15); opacity: 1; }
-}
-
 .header-controls {
     display: flex;
     align-items: center;
@@ -299,7 +283,7 @@ input, select { -webkit-user-select: text; user-select: text; }
     margin: 0 auto;
 }
 
-/* ================= 💎 নতুন ব্যালেন্স কার্ড — Purple-Indigo Gradient ================= */
+/* ================= 💎 ব্যালেন্স কার্ড — Purple-Indigo ================= */
 .balance-card {
     background: linear-gradient(135deg, var(--balance-start) 0%, var(--balance-mid) 50%, var(--balance-end) 100%);
     color: white;
@@ -314,7 +298,6 @@ input, select { -webkit-user-select: text; user-select: text; }
     isolation: isolate;
 }
 
-/* 🎨 কার্ডে সূক্ষ্ম প্যাটার্ন */
 .balance-card::before {
     content: '';
     position: absolute;
@@ -339,7 +322,6 @@ input, select { -webkit-user-select: text; user-select: text; }
     z-index: 0;
 }
 
-/* ✨ কার্ডের উপরে সরু আলো */
 .balance-card .shine {
     position: absolute;
     top: 0;
