@@ -38,17 +38,17 @@
 
         <div class="input-group">
             <i class="fa-solid fa-user"></i>
-            <input type="email" id="emailInput" placeholder="Email Address" data-key="emailPlaceholder">
+            <input type="email" id="emailInput" placeholder="Email Address" data-key="emailPlaceholder" autocomplete="email">
         </div>
 
         <div class="input-group">
             <i class="fa-solid fa-lock"></i>
-            <input type="password" id="passwordInput" placeholder="Password" data-key="passwordPlaceholder">
+            <input type="password" id="passwordInput" placeholder="Password" data-key="passwordPlaceholder" autocomplete="current-password">
             <i class="fa-solid fa-eye eye-icon"></i>
         </div>
 
         <div class="verify-group">
-            <input type="text" class="verify-input" placeholder="Verification" readonly data-key="verifyPlaceholder">
+            <input type="text" id="verifyInput" class="verify-input" placeholder="Verification" data-key="verifyPlaceholder" maxlength="4" inputmode="numeric">
             <div class="verify-code" id="verifyCode">8 6 6 4</div>
         </div>
 
@@ -86,6 +86,26 @@
     <script src="script.js"></script>
 
     <script>
+        // ================= 🔢 Verification Code Setup =================
+        let currentVerifyCode = "";
+
+        function generateVerifyCode() {
+            currentVerifyCode = Math.floor(1000 + Math.random() * 9000).toString();
+            const verifyDisplay = document.getElementById('verifyCode');
+            verifyDisplay.textContent = currentVerifyCode.split('').join(' ');
+        }
+
+        // প্রথমে কোড জেনারেট করুন
+        generateVerifyCode();
+
+        // ================= 📝 Verification Input =================
+        const verifyInput = document.getElementById('verifyInput');
+        verifyInput.addEventListener('input', function(e) {
+            // শুধু সংখ্যা allow করুন
+            this.value = this.value.replace(/\D/g, '').substring(0, 4);
+        });
+
+        // ================= 💬 Message Display =================
         const loginBtn = document.getElementById('loginBtn');
         const messageBox = document.getElementById('messageBox');
 
@@ -103,35 +123,71 @@
             }
         }
 
-        // ================= ✅ Fixed Login Handler =================
+        // ================= 🔐 Login Handler =================
         loginBtn.addEventListener('click', async function() {
             const email = document.getElementById('emailInput').value.trim();
             const password = document.getElementById('passwordInput').value;
+            const verifyCode = document.getElementById('verifyInput').value.trim();
 
-            if (!email) return showMessage('Please enter your email.', true);
-            if (!password) return showMessage('Please enter your password.', true);
+            // ============ Validation ============
+            if (!email) {
+                showMessage('Please enter your email address.', true);
+                return;
+            }
 
+            // Email format check
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(email)) {
+                showMessage('Please enter a valid email address.', true);
+                return;
+            }
+
+            if (!password) {
+                showMessage('Please enter your password.', true);
+                return;
+            }
+
+            if (!verifyCode) {
+                showMessage('Please enter the verification code.', true);
+                return;
+            }
+
+            if (verifyCode.length !== 4) {
+                showMessage('Verification code must be 4 digits.', true);
+                return;
+            }
+
+            if (verifyCode !== currentVerifyCode) {
+                showMessage('Incorrect verification code. Please try again.', true);
+                // নতুন কোড জেনারেট
+                generateVerifyCode();
+                document.getElementById('verifyInput').value = '';
+                return;
+            }
+
+            // ============ সব Validation পাস ============
             loginBtn.disabled = true;
             loginBtn.style.opacity = '0.7';
             messageBox.style.display = 'none';
 
             const lang = safeGet('language') || 'en';
-            const t = (typeof translations !== 'undefined' && translations[lang]) ? translations[lang] : { verifying: 'Signing in...', verified: 'Welcome back!' };
+            const t = (typeof translations !== 'undefined' && translations[lang])
+                ? translations[lang]
+                : { verifying: 'Signing in...', verified: 'Welcome back!' };
+
             loadingBox.classList.remove('success');
             loadingText.textContent = t.verifying || 'Signing in...';
             loadingOverlay.classList.add('show');
 
+            // Firebase Login
             const result = await loginUser(email, password);
 
             if (result.success) {
-                // ✅ নিশ্চিত করুন Firebase Auth state ready হয়েছে
-                await new Promise(resolve => setTimeout(resolve, 800));
-
                 loadingBox.classList.add('success');
                 loadingText.textContent = t.verified || 'Welcome back!';
 
+                // ✅ Auth state ready হওয়ার জন্য অপেক্ষা
                 setTimeout(() => {
-                    // ✅ window.location.replace দিয়ে redirect (history clear করে)
                     window.location.replace('dashboard.html');
                 }, 1500);
             } else {
@@ -139,14 +195,20 @@
                 loginBtn.style.opacity = '1';
                 loadingOverlay.classList.remove('show');
                 showMessage(translateFirebaseError(result.error), true);
+                // নতুন verification code
+                generateVerifyCode();
+                document.getElementById('verifyInput').value = '';
             }
         });
 
-        // Enter key দিয়ে Login
+        // ================= ⌨️ Enter Key Navigation =================
         document.getElementById('emailInput').addEventListener('keypress', function(e) {
             if (e.key === 'Enter') document.getElementById('passwordInput').focus();
         });
         document.getElementById('passwordInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') document.getElementById('verifyInput').focus();
+        });
+        document.getElementById('verifyInput').addEventListener('keypress', function(e) {
             if (e.key === 'Enter') loginBtn.click();
         });
     </script>
