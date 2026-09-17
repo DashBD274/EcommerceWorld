@@ -8,14 +8,12 @@
     <link rel="stylesheet" href="detail.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        /* Service পেজের জন্য অতিরিক্ত স্টাইল */
         .service-container {
             max-width: 500px;
             margin: 0 auto;
             padding: 20px 16px 30px 16px;
         }
 
-        /* Customer Support কার্ড */
         .support-card {
             background: var(--card);
             border-radius: 16px;
@@ -41,7 +39,6 @@
             margin: 0;
         }
 
-        /* Telegram Channel কার্ড */
         .telegram-card {
             background: var(--card);
             border-radius: 14px;
@@ -83,10 +80,7 @@
             color: #4bb3e0;
         }
 
-        .telegram-content {
-            flex: 1;
-            min-width: 0;
-        }
+        .telegram-content { flex: 1; min-width: 0; }
 
         .telegram-content h4 {
             font-size: 15px;
@@ -102,17 +96,12 @@
             line-height: 1.4;
         }
 
-        /* RTL Support */
         body.rtl .telegram-card {
             border-left: 1px solid var(--border);
             border-right: 4px solid #229ED9;
-        }
-
-        body.rtl .telegram-card {
             flex-direction: row-reverse;
         }
 
-        /* মোবাইল */
         @media (max-width: 360px) {
             .support-title { font-size: 19px; }
             .support-subtitle { font-size: 12px; }
@@ -124,13 +113,9 @@
 </head>
 <body>
 
-    <!-- ================= হেডার ================= -->
     <header class="dash-header">
         <div class="brand-logo">
-            <span class="logo-icon">
-                U
-                <span class="fire-flame"></span>
-            </span>
+            <span class="logo-icon">U<span class="fire-flame"></span></span>
             <span class="logo-text">UMALL<span class="logo-24">247</span></span>
         </div>
         <div class="header-controls">
@@ -155,16 +140,13 @@
         </div>
     </header>
 
-    <!-- ================= Service কনটেন্ট ================= -->
     <main class="service-container">
 
-        <!-- Customer Support কার্ড -->
         <div class="support-card">
             <h2 class="support-title" data-key="customerSupport">Customer Support</h2>
             <p class="support-subtitle" data-key="customerSupportDesc">Need help? Contact our 24/7 online customer service agents</p>
         </div>
 
-        <!-- Telegram Channel কার্ড -->
         <a href="https://t.me/" target="_blank" rel="noopener" class="telegram-card">
             <div class="telegram-icon">
                 <i class="fa-brands fa-telegram"></i>
@@ -177,7 +159,6 @@
 
     </main>
 
-    <!-- ================= নিচের নেভিগেশন ================= -->
     <nav class="bottom-nav">
         <a href="dashboard.html" class="nav-item">
             <i class="fa-solid fa-house"></i>
@@ -187,7 +168,7 @@
             <i class="fa-solid fa-headset"></i>
             <span data-key="navService">Service</span>
         </a>
-        <a href="#" class="nav-item">
+        <a href="menu.html" class="nav-item">
             <i class="fa-solid fa-grip"></i>
             <span data-key="navMenu">Menu</span>
         </a>
@@ -203,7 +184,6 @@
 
     <script src="detail.js"></script>
     <script>
-        // ================= Service পেজের অতিরিক্ত অনুবাদ =================
         const serviceTranslations = {
             en: {
                 customerSupport: "Customer Support",
@@ -273,28 +253,23 @@
             }
         };
 
-        // Service অনুবাদ প্রয়োগ
         function applyServiceLanguage(lang) {
             const elements = document.querySelectorAll('[data-key]');
             elements.forEach(el => {
                 const key = el.getAttribute('data-key');
-                // প্রথমে serviceTranslations চেক করুন, না পেলে detailTranslations
                 if (serviceTranslations[lang] && serviceTranslations[lang][key]) {
                     el.textContent = serviceTranslations[lang][key];
                 } else if (typeof detailTranslations !== 'undefined' && detailTranslations[lang] && detailTranslations[lang][key]) {
                     el.textContent = detailTranslations[lang][key];
                 }
             });
-            // ভাষা select আপডেট
             const sel = document.getElementById('dashLanguageSelect');
             if (sel) sel.value = lang;
         }
 
-        // প্রাথমিক লোড
         const serviceLang = safeGet('language') || 'en';
         applyServiceLanguage(serviceLang);
 
-        // ভাষা পরিবর্তন
         const serviceLangSelect = document.getElementById('dashLanguageSelect');
         if (serviceLangSelect) {
             serviceLangSelect.addEventListener('change', function() {
