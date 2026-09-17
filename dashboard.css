@@ -510,6 +510,19 @@ body.dark-mode .action-icon.purple { background: rgba(168, 85, 247, 0.15); }
     transition: transform 0.25s, box-shadow 0.25s;
     cursor: pointer;
     border: 1px solid var(--border);
+
+    /* ✅ লিংকের নীল রঙ ও underline বন্ধ */
+    text-decoration: none;
+    color: inherit;
+}
+
+.intro-card:visited,
+.intro-card:hover,
+.intro-card:active,
+.intro-card:focus {
+    text-decoration: none;
+    color: inherit;
+    outline: none;
 }
 
 .intro-card:active {
