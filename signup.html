@@ -4,13 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <meta name="theme-color" content="#b0bec5">
-    <title>Sign Up Page</title>
+    <title>Sign Up - UMALL247</title>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
 
-    <!-- উপরের ডানদিকে ভাষা ও থিম বাটন -->
     <div class="top-controls">
         <div class="lang-selector">
             <i class="fa-solid fa-globe"></i>
@@ -28,19 +27,18 @@
                 <option value="fa">فارسی</option>
             </select>
         </div>
-        <button id="themeToggle" class="theme-toggle" type="button" aria-label="Toggle theme">
+        <button id="themeToggle" class="theme-toggle" type="button">
             <i class="fa-solid fa-moon"></i>
         </button>
     </div>
 
-    <!-- মূল সাইনআপ কার্ড -->
     <div class="login-container">
         <h2 data-key="createAccount">Create Account</h2>
         <p class="subtitle" data-key="registerSubtitle">Register a new account to get started</p>
 
         <div class="input-group">
             <i class="fa-solid fa-id-card"></i>
-            <input type="text" placeholder="Enter your full name" data-key="fullNamePlaceholder">
+            <input type="text" id="fullNameInput" placeholder="Enter your full name" data-key="fullNamePlaceholder">
         </div>
 
         <div class="input-group">
@@ -56,13 +54,13 @@
 
         <div class="input-group">
             <i class="fa-solid fa-lock"></i>
-            <input type="password" placeholder="Confirm Password" data-key="confirmPasswordPlaceholder">
+            <input type="password" id="confirmPasswordInput" placeholder="Confirm Password" data-key="confirmPasswordPlaceholder">
             <i class="fa-solid fa-eye eye-icon"></i>
         </div>
 
         <div class="input-group">
             <i class="fa-solid fa-hashtag"></i>
-            <input type="text" placeholder="Refer Code (Optional)" data-key="referCodePlaceholder">
+            <input type="text" id="referCodeInput" placeholder="Refer Code (Optional)" data-key="referCodePlaceholder">
         </div>
 
         <div class="verify-group">
@@ -70,7 +68,9 @@
             <div class="verify-code" id="verifyCode">5 5 2 7</div>
         </div>
 
-        <button class="login-btn" type="button" id="loginBtn" data-key="registerBtn">Register</button>
+        <div id="messageBox" style="display:none; padding:10px 14px; border-radius:10px; font-size:13px; margin-bottom:14px; text-align:center; font-weight:600;"></div>
+
+        <button class="login-btn" type="button" id="registerBtn" data-key="registerBtn">Register</button>
 
         <p class="signup-link">
             <span data-key="haveAccount">Already have an account?</span> 
@@ -78,19 +78,88 @@
         </p>
     </div>
 
-    <!-- 🆕 লোডিং ওভারলে -->
     <div class="loading-overlay" id="loadingOverlay">
-        <div class="loading-box">
-            <div class="loading-spinner" id="loadingSpinner">
-                <i class="fa-solid fa-circle-notch fa-spin"></i>
-            </div>
-            <div class="loading-success" id="loadingSuccess">
-                <i class="fa-solid fa-circle-check"></i>
-            </div>
+        <div class="loading-box" id="loadingBox">
+            <div class="loading-spinner"><i class="fa-solid fa-circle-notch fa-spin"></i></div>
+            <div class="loading-success"><i class="fa-solid fa-circle-check"></i></div>
             <p class="loading-text" id="loadingText">Verifying your email...</p>
         </div>
     </div>
 
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+
+    <script src="firebase-auth.js"></script>
     <script src="script.js"></script>
+
+    <script>
+        // ================= URL থেকে Refer Code Autofill =================
+        const urlRefCode = getReferCodeFromURL();
+        if (urlRefCode) {
+            document.getElementById('referCodeInput').value = urlRefCode;
+        }
+
+        // ================= Message Show =================
+        const registerBtn = document.getElementById('registerBtn');
+        const messageBox = document.getElementById('messageBox');
+
+        function showMessage(text, isError) {
+            messageBox.style.display = 'block';
+            messageBox.textContent = text;
+            if (isError) {
+                messageBox.style.background = '#fee2e2';
+                messageBox.style.color = '#dc2626';
+                messageBox.style.border = '1px solid #fecaca';
+            } else {
+                messageBox.style.background = '#d1fae5';
+                messageBox.style.color = '#059669';
+                messageBox.style.border = '1px solid #a7f3d0';
+            }
+        }
+
+        // ================= Signup Handler =================
+        registerBtn.addEventListener('click', async function() {
+            const fullName = document.getElementById('fullNameInput').value.trim();
+            const email = document.getElementById('emailInput').value.trim();
+            const password = document.getElementById('passwordInput').value;
+            const confirmPassword = document.getElementById('confirmPasswordInput').value;
+            const referCode = document.getElementById('referCodeInput').value.trim();
+
+            // Validation
+            if (!fullName) return showMessage('Please enter your full name.', true);
+            if (!email) return showMessage('Please enter your email.', true);
+            if (!password || password.length < 6) return showMessage('Password must be at least 6 characters.', true);
+            if (password !== confirmPassword) return showMessage('Passwords do not match.', true);
+
+            // Loading শুরু
+            registerBtn.disabled = true;
+            registerBtn.style.opacity = '0.7';
+
+            const lang = safeGet('language') || 'en';
+            const t = (typeof translations !== 'undefined' && translations[lang]) ? translations[lang] : { verifying: 'Creating account...', verified: 'Account created!' };
+            loadingBox.classList.remove('success');
+            loadingText.textContent = t.verifying || 'Creating account...';
+            loadingOverlay.classList.add('show');
+
+            // Firebase Signup
+            const result = await signupUser(fullName, email, password, referCode);
+
+            if (result.success) {
+                loadingBox.classList.add('success');
+                loadingText.textContent = t.verified || 'Account created!';
+
+                setTimeout(() => {
+                    window.location.href = 'dashboard.html';
+                }, 2000);
+            } else {
+                registerBtn.disabled = false;
+                registerBtn.style.opacity = '1';
+                loadingOverlay.classList.remove('show');
+                showMessage(translateFirebaseError(result.error), true);
+            }
+        });
+    </script>
 </body>
 </html>
