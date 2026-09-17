@@ -49,7 +49,7 @@
                 <span class="balance-tag">USDT (TRC20)</span>
             </div>
             <div class="balance-amount">
-                <span class="balance-number">0.00</span>
+                <span class="balance-number" id="userBalance">0.00</span>
                 <span class="balance-currency">USDT</span>
             </div>
         </div>
@@ -57,21 +57,15 @@
         <!-- দ্রুত অ্যাকশন -->
         <div class="quick-actions">
             <button class="action-btn" type="button">
-                <div class="action-icon green">
-                    <i class="fa-solid fa-download"></i>
-                </div>
+                <div class="action-icon green"><i class="fa-solid fa-download"></i></div>
                 <span data-key="recharge">Recharge</span>
             </button>
             <button class="action-btn" type="button">
-                <div class="action-icon orange">
-                    <i class="fa-solid fa-upload"></i>
-                </div>
+                <div class="action-icon orange"><i class="fa-solid fa-upload"></i></div>
                 <span data-key="withdrawal">Withdrawal</span>
             </button>
             <button class="action-btn" type="button">
-                <div class="action-icon purple">
-                    <i class="fa-solid fa-user-plus"></i>
-                </div>
+                <div class="action-icon purple"><i class="fa-solid fa-user-plus"></i></div>
                 <span data-key="invitation">Invitation</span>
             </button>
         </div>
@@ -158,5 +152,30 @@
     </nav>
 
     <script src="dashboard.js"></script>
+
+    <!-- ================= Firebase SDK ================= -->
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+    <script src="firebase-auth.js"></script>
+
+    <script>
+        // ================= Auth Check =================
+        onAuthChange(async function(isLoggedIn, user) {
+            if (!isLoggedIn) {
+                window.location.href = 'index.html';
+                return;
+            }
+
+            // Firestore থেকে Balance আনুন
+            const result = await getUserData(user.uid);
+            if (result.success) {
+                const balanceEl = document.getElementById('userBalance');
+                if (balanceEl) {
+                    balanceEl.textContent = (result.data.balance || 0).toFixed(2);
+                }
+            }
+        });
+    </script>
 </body>
 </html>
