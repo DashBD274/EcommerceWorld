@@ -121,7 +121,6 @@
             margin: 0;
         }
 
-        /* লোডিং/হিডেন */
         .empty-state.hidden {
             display: none;
         }
@@ -238,7 +237,7 @@
             <i class="fa-solid fa-clipboard"></i>
             <span data-key="navRecord">Record</span>
         </a>
-        <a href="#" class="nav-item">
+        <a href="mine.html" class="nav-item">
             <i class="fa-solid fa-user"></i>
             <span data-key="navMine">Mine</span>
         </a>
@@ -412,8 +411,6 @@
                 if (recordTranslations[lang] && recordTranslations[lang][key]) {
                     if (el.tagName === 'INPUT') {
                         el.placeholder = recordTranslations[lang][key];
-                    } else if (el.tagName === 'OPTION') {
-                        el.textContent = recordTranslations[lang][key];
                     } else {
                         el.textContent = recordTranslations[lang][key];
                     }
@@ -448,8 +445,6 @@
         const statusFilter = document.getElementById('statusFilter');
 
         function filterTransactions() {
-            // ভবিষ্যতে এখানে ট্রানজেকশন ফিল্টার হবে
-            // এখন ডেটা নেই, তাই "No transactions" দেখাবে
             console.log('Filtering:', {
                 search: searchInput.value,
                 type: typeFilter.value,
