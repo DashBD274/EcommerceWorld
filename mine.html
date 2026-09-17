@@ -8,14 +8,12 @@
     <link rel="stylesheet" href="detail.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        /* ================= Mine পেজ ================= */
         .mine-container {
             max-width: 500px;
             margin: 0 auto;
             padding: 16px 16px 30px 16px;
         }
 
-        /* 🟣 প্রোফাইল কার্ড (Purple-Indigo Gradient — ইউনিক) */
         .profile-card {
             background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 50%, #a855f7 100%);
             border-radius: 20px;
@@ -24,9 +22,7 @@
             margin-bottom: 16px;
             position: relative;
             overflow: hidden;
-            box-shadow:
-                0 10px 30px rgba(139, 92, 246, 0.4),
-                0 4px 12px rgba(99, 102, 241, 0.3);
+            box-shadow: 0 10px 30px rgba(139, 92, 246, 0.4), 0 4px 12px rgba(99, 102, 241, 0.3);
             isolation: isolate;
         }
 
@@ -117,10 +113,7 @@
             100% { transform: rotate(360deg); }
         }
 
-        .profile-info {
-            flex: 1;
-            min-width: 0;
-        }
+        .profile-info { flex: 1; min-width: 0; }
 
         .profile-name-row {
             display: flex;
@@ -158,10 +151,7 @@
             text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
         }
 
-        .vip-tag i {
-            font-size: 9px;
-            color: #ffcc00;
-        }
+        .vip-tag i { font-size: 9px; color: #ffcc00; }
 
         .profile-invite {
             font-size: 12px;
@@ -169,11 +159,7 @@
             margin: 0;
         }
 
-        .profile-invite strong {
-            color: #fff;
-            font-weight: 700;
-            letter-spacing: 0.5px;
-        }
+        .profile-invite strong { color: #fff; font-weight: 700; letter-spacing: 0.5px; }
 
         .profile-qr {
             width: 44px;
@@ -190,11 +176,10 @@
             backdrop-filter: blur(8px);
             color: #fff;
             transition: transform 0.2s;
+            cursor: pointer;
         }
 
-        .profile-qr:active {
-            transform: scale(0.92);
-        }
+        .profile-qr:active { transform: scale(0.92); }
 
         .profile-balance-row {
             display: flex;
@@ -206,10 +191,7 @@
             flex-wrap: wrap;
         }
 
-        .balance-block {
-            flex: 1;
-            min-width: 120px;
-        }
+        .balance-block { flex: 1; min-width: 120px; }
 
         .balance-label-sm {
             font-size: 11.5px;
@@ -270,10 +252,7 @@
             box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
         }
 
-        .profile-btn i {
-            font-size: 16px;
-            color: #7c3aed;
-        }
+        .profile-btn i { font-size: 16px; color: #7c3aed; }
 
         .quick-actions-mine {
             display: grid;
@@ -315,24 +294,11 @@
             transition: transform 0.2s;
         }
 
-        .qa-item:active .qa-icon {
-            transform: scale(0.9);
-        }
+        .qa-item:active .qa-icon { transform: scale(0.9); }
 
-        .qa-icon.blue {
-            background: #dbeafe;
-            color: #3b82f6;
-        }
-
-        .qa-icon.orange {
-            background: #fed7aa;
-            color: #f97316;
-        }
-
-        .qa-icon.purple {
-            background: #e9d5ff;
-            color: #a855f7;
-        }
+        .qa-icon.blue { background: #dbeafe; color: #3b82f6; }
+        .qa-icon.orange { background: #fed7aa; color: #f97316; }
+        .qa-icon.purple { background: #e9d5ff; color: #a855f7; }
 
         body.dark-mode .qa-icon.blue { background: rgba(59, 130, 246, 0.15); }
         body.dark-mode .qa-icon.orange { background: rgba(249, 115, 22, 0.15); }
@@ -368,13 +334,8 @@
             text-align: left;
         }
 
-        .menu-row:last-child {
-            border-bottom: none;
-        }
-
-        .menu-row:active {
-            background: var(--bg);
-        }
+        .menu-row:last-child { border-bottom: none; }
+        .menu-row:active { background: var(--bg); }
 
         .menu-row-icon {
             font-size: 18px;
@@ -410,23 +371,10 @@
             margin-bottom: 10px;
         }
 
-        /* RTL */
-        body.rtl .menu-row {
-            flex-direction: row-reverse;
-            text-align: right;
-        }
-
-        body.rtl .menu-row-arrow {
-            transform: rotate(180deg);
-        }
-
-        body.rtl .profile-top {
-            flex-direction: row-reverse;
-        }
-
-        body.rtl .profile-balance-row {
-            flex-direction: row-reverse;
-        }
+        body.rtl .menu-row { flex-direction: row-reverse; text-align: right; }
+        body.rtl .menu-row-arrow { transform: rotate(180deg); }
+        body.rtl .profile-top { flex-direction: row-reverse; }
+        body.rtl .profile-balance-row { flex-direction: row-reverse; }
 
         @media (max-width: 360px) {
             .profile-card { padding: 16px; }
@@ -444,7 +392,6 @@
 </head>
 <body>
 
-    <!-- ================= হেডার ================= -->
     <header class="dash-header">
         <div class="brand-logo">
             <span class="logo-icon">U<span class="fire-flame"></span></span>
@@ -472,10 +419,8 @@
         </div>
     </header>
 
-    <!-- ================= Mine কনটেন্ট ================= -->
     <main class="mine-container">
 
-        <!-- 🟣 প্রোফাইল কার্ড -->
         <div class="profile-card">
             <span class="card-shine"></span>
             <div class="profile-top">
@@ -519,7 +464,6 @@
             </div>
         </div>
 
-        <!-- 🔵 দ্রুত অ্যাকশন -->
         <div class="quick-actions-mine">
             <button class="qa-item" type="button" onclick="window.location.href='record.html'">
                 <div class="qa-icon blue">
@@ -541,7 +485,6 @@
             </button>
         </div>
 
-        <!-- 📋 মেনু লিস্ট -->
         <div class="menu-list">
             <button class="menu-row" type="button">
                 <i class="fa-solid fa-user menu-row-icon profile"></i>
@@ -574,12 +517,10 @@
             </button>
         </div>
 
-        <!-- ভার্সন -->
         <p class="system-version" data-key="systemVersion">System Version 1.0.0</p>
 
     </main>
 
-    <!-- ================= নিচের নেভিগেশন ================= -->
     <nav class="bottom-nav">
         <a href="dashboard.html" class="nav-item">
             <i class="fa-solid fa-house"></i>
@@ -605,183 +546,27 @@
 
     <script src="detail.js"></script>
 
-    <!-- ================= Firebase SDK ================= -->
+    <!-- Firebase SDK -->
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
     <script src="firebase-auth.js"></script>
 
     <script>
-        // ================= Mine পেজের অনুবাদ =================
         const mineTranslations = {
-            en: {
-                invitationCode: "Invitation code",
-                myAccountBalance: "My Account Balance",
-                recharge: "Recharge",
-                withdrawal: "Withdrawal",
-                recordBtn: "Record",
-                wallet: "Wallet",
-                invitation: "Invitation",
-                profileMenu: "Profile",
-                depositRecords: "Deposit records",
-                withdrawalRecords: "Withdrawal records",
-                themeSetting: "Theme Setting",
-                logOut: "Log Out",
-                systemVersion: "System Version 1.0.0"
-            },
-            es: {
-                invitationCode: "Código de invitación",
-                myAccountBalance: "Saldo de mi cuenta",
-                recharge: "Recargar",
-                withdrawal: "Retiro",
-                recordBtn: "Registro",
-                wallet: "Cartera",
-                invitation: "Invitación",
-                profileMenu: "Perfil",
-                depositRecords: "Registros de depósito",
-                withdrawalRecords: "Registros de retiro",
-                themeSetting: "Configuración de tema",
-                logOut: "Cerrar sesión",
-                systemVersion: "Versión del sistema 1.0.0"
-            },
-            fr: {
-                invitationCode: "Code d'invitation",
-                myAccountBalance: "Solde de mon compte",
-                recharge: "Recharger",
-                withdrawal: "Retrait",
-                recordBtn: "Enregistrer",
-                wallet: "Portefeuille",
-                invitation: "Invitation",
-                profileMenu: "Profil",
-                depositRecords: "Historique des dépôts",
-                withdrawalRecords: "Historique des retraits",
-                themeSetting: "Paramètres du thème",
-                logOut: "Se déconnecter",
-                systemVersion: "Version du système 1.0.0"
-            },
-            de: {
-                invitationCode: "Einladungscode",
-                myAccountBalance: "Mein Kontostand",
-                recharge: "Aufladen",
-                withdrawal: "Auszahlung",
-                recordBtn: "Aufzeichnung",
-                wallet: "Geldbörse",
-                invitation: "Einladung",
-                profileMenu: "Profil",
-                depositRecords: "Einzahlungsverlauf",
-                withdrawalRecords: "Auszahlungsverlauf",
-                themeSetting: "Themen-Einstellung",
-                logOut: "Abmelden",
-                systemVersion: "Systemversion 1.0.0"
-            },
-            it: {
-                invitationCode: "Codice invito",
-                myAccountBalance: "Saldo del mio conto",
-                recharge: "Ricarica",
-                withdrawal: "Prelievo",
-                recordBtn: "Registro",
-                wallet: "Portafoglio",
-                invitation: "Invito",
-                profileMenu: "Profilo",
-                depositRecords: "Registri depositi",
-                withdrawalRecords: "Registri prelievi",
-                themeSetting: "Impostazione tema",
-                logOut: "Esci",
-                systemVersion: "Versione di sistema 1.0.0"
-            },
-            pt: {
-                invitationCode: "Código de convite",
-                myAccountBalance: "Saldo da minha conta",
-                recharge: "Recarregar",
-                withdrawal: "Saque",
-                recordBtn: "Registro",
-                wallet: "Carteira",
-                invitation: "Convite",
-                profileMenu: "Perfil",
-                depositRecords: "Registros de depósito",
-                withdrawalRecords: "Registros de saque",
-                themeSetting: "Configuração de tema",
-                logOut: "Sair",
-                systemVersion: "Versão do sistema 1.0.0"
-            },
-            nl: {
-                invitationCode: "Uitnodigingscode",
-                myAccountBalance: "Mijn accountsaldo",
-                recharge: "Opladen",
-                withdrawal: "Opname",
-                recordBtn: "Opnemen",
-                wallet: "Portemonnee",
-                invitation: "Uitnodiging",
-                profileMenu: "Profiel",
-                depositRecords: "Stortingsgeschiedenis",
-                withdrawalRecords: "Opnamegeschiedenis",
-                themeSetting: "Thema-instelling",
-                logOut: "Uitloggen",
-                systemVersion: "Systeemversie 1.0.0"
-            },
-            ru: {
-                invitationCode: "Код приглашения",
-                myAccountBalance: "Баланс моего счета",
-                recharge: "Пополнить",
-                withdrawal: "Вывод",
-                recordBtn: "Запись",
-                wallet: "Кошелек",
-                invitation: "Приглашение",
-                profileMenu: "Профиль",
-                depositRecords: "История депозитов",
-                withdrawalRecords: "История выводов",
-                themeSetting: "Настройка темы",
-                logOut: "Выйти",
-                systemVersion: "Версия системы 1.0.0"
-            },
-            tr: {
-                invitationCode: "Davet kodu",
-                myAccountBalance: "Hesap Bakiyem",
-                recharge: "Yükle",
-                withdrawal: "Para Çekme",
-                recordBtn: "Kayıt",
-                wallet: "Cüzdan",
-                invitation: "Davet",
-                profileMenu: "Profil",
-                depositRecords: "Para yatırma kayıtları",
-                withdrawalRecords: "Para çekme kayıtları",
-                themeSetting: "Tema Ayarı",
-                logOut: "Çıkış Yap",
-                systemVersion: "Sistem Sürümü 1.0.0"
-            },
-            ar: {
-                invitationCode: "رمز الدعوة",
-                myAccountBalance: "رصيد حسابي",
-                recharge: "إعادة الشحن",
-                withdrawal: "السحب",
-                recordBtn: "السجل",
-                wallet: "المحفظة",
-                invitation: "دعوة",
-                profileMenu: "الملف الشخصي",
-                depositRecords: "سجل الإيداعات",
-                withdrawalRecords: "سجل السحوبات",
-                themeSetting: "إعداد السمة",
-                logOut: "تسجيل الخروج",
-                systemVersion: "إصدار النظام 1.0.0"
-            },
-            fa: {
-                invitationCode: "کد دعوت",
-                myAccountBalance: "موجودی حساب من",
-                recharge: "شارژ مجدد",
-                withdrawal: "برداشت",
-                recordBtn: "سابقه",
-                wallet: "کیف پول",
-                invitation: "دعوت",
-                profileMenu: "پروفایل",
-                depositRecords: "سابقه واریز",
-                withdrawalRecords: "سابقه برداشت",
-                themeSetting: "تنظیمات پوسته",
-                logOut: "خروج",
-                systemVersion: "نسخه سیستم 1.0.0"
-            }
+            en: { invitationCode: "Invitation code", myAccountBalance: "My Account Balance", recharge: "Recharge", withdrawal: "Withdrawal", recordBtn: "Record", wallet: "Wallet", invitation: "Invitation", profileMenu: "Profile", depositRecords: "Deposit records", withdrawalRecords: "Withdrawal records", themeSetting: "Theme Setting", logOut: "Log Out", systemVersion: "System Version 1.0.0" },
+            es: { invitationCode: "Código de invitación", myAccountBalance: "Saldo de mi cuenta", recharge: "Recargar", withdrawal: "Retiro", recordBtn: "Registro", wallet: "Cartera", invitation: "Invitación", profileMenu: "Perfil", depositRecords: "Registros de depósito", withdrawalRecords: "Registros de retiro", themeSetting: "Configuración de tema", logOut: "Cerrar sesión", systemVersion: "Versión del sistema 1.0.0" },
+            fr: { invitationCode: "Code d'invitation", myAccountBalance: "Solde de mon compte", recharge: "Recharger", withdrawal: "Retrait", recordBtn: "Enregistrer", wallet: "Portefeuille", invitation: "Invitation", profileMenu: "Profil", depositRecords: "Historique des dépôts", withdrawalRecords: "Historique des retraits", themeSetting: "Paramètres du thème", logOut: "Se déconnecter", systemVersion: "Version du système 1.0.0" },
+            de: { invitationCode: "Einladungscode", myAccountBalance: "Mein Kontostand", recharge: "Aufladen", withdrawal: "Auszahlung", recordBtn: "Aufzeichnung", wallet: "Geldbörse", invitation: "Einladung", profileMenu: "Profil", depositRecords: "Einzahlungsverlauf", withdrawalRecords: "Auszahlungsverlauf", themeSetting: "Themen-Einstellung", logOut: "Abmelden", systemVersion: "Systemversion 1.0.0" },
+            it: { invitationCode: "Codice invito", myAccountBalance: "Saldo del mio conto", recharge: "Ricarica", withdrawal: "Prelievo", recordBtn: "Registro", wallet: "Portafoglio", invitation: "Invito", profileMenu: "Profilo", depositRecords: "Registri depositi", withdrawalRecords: "Registri prelievi", themeSetting: "Impostazione tema", logOut: "Esci", systemVersion: "Versione di sistema 1.0.0" },
+            pt: { invitationCode: "Código de convite", myAccountBalance: "Saldo da minha conta", recharge: "Recarregar", withdrawal: "Saque", recordBtn: "Registro", wallet: "Carteira", invitation: "Convite", profileMenu: "Perfil", depositRecords: "Registros de depósito", withdrawalRecords: "Registros de saque", themeSetting: "Configuração de tema", logOut: "Sair", systemVersion: "Versão do sistema 1.0.0" },
+            nl: { invitationCode: "Uitnodigingscode", myAccountBalance: "Mijn accountsaldo", recharge: "Opladen", withdrawal: "Opname", recordBtn: "Opnemen", wallet: "Portemonnee", invitation: "Uitnodiging", profileMenu: "Profiel", depositRecords: "Stortingsgeschiedenis", withdrawalRecords: "Opnamegeschiedenis", themeSetting: "Thema-instelling", logOut: "Uitloggen", systemVersion: "Systeemversie 1.0.0" },
+            ru: { invitationCode: "Код приглашения", myAccountBalance: "Баланс моего счета", recharge: "Пополнить", withdrawal: "Вывод", recordBtn: "Запись", wallet: "Кошелек", invitation: "Приглашение", profileMenu: "Профиль", depositRecords: "История депозитов", withdrawalRecords: "История выводов", themeSetting: "Настройка темы", logOut: "Выйти", systemVersion: "Версия системы 1.0.0" },
+            tr: { invitationCode: "Davet kodu", myAccountBalance: "Hesap Bakiyem", recharge: "Yükle", withdrawal: "Para Çekme", recordBtn: "Kayıt", wallet: "Cüzdan", invitation: "Davet", profileMenu: "Profil", depositRecords: "Para yatırma kayıtları", withdrawalRecords: "Para çekme kayıtları", themeSetting: "Tema Ayarı", logOut: "Çıkış Yap", systemVersion: "Sistem Sürümü 1.0.0" },
+            ar: { invitationCode: "رمز الدعوة", myAccountBalance: "رصيد حسابي", recharge: "إعادة الشحن", withdrawal: "السحب", recordBtn: "السجل", wallet: "المحفظة", invitation: "دعوة", profileMenu: "الملف الشخصي", depositRecords: "سجل الإيداعات", withdrawalRecords: "سجل السحوبات", themeSetting: "إعداد السمة", logOut: "تسجيل الخروج", systemVersion: "إصدار النظام 1.0.0" },
+            fa: { invitationCode: "کد دعوت", myAccountBalance: "موجودی حساب من", recharge: "شارژ مجدد", withdrawal: "برداشت", recordBtn: "سابقه", wallet: "کیف پول", invitation: "دعوت", profileMenu: "پروفایل", depositRecords: "سابقه واریز", withdrawalRecords: "سابقه برداشت", themeSetting: "تنظیمات پوسته", logOut: "خروج", systemVersion: "نسخه سیستم 1.0.0" }
         };
 
-        // অনুবাদ প্রয়োগ
         function applyMineLanguage(lang) {
             const elements = document.querySelectorAll('[data-key]');
             elements.forEach(el => {
@@ -811,10 +596,10 @@
             });
         }
 
-        // ================= Firebase Auth Check + Load User Data =================
-        onAuthChange(async function(isLoggedIn, user) {
+        // ✅ waitForAuthReady ব্যবহার করুন
+        waitForAuthReady(async function(isLoggedIn, user) {
             if (!isLoggedIn) {
-                window.location.href = 'index.html';
+                window.location.replace('index.html');
                 return;
             }
 
@@ -822,40 +607,33 @@
             if (result.success) {
                 const data = result.data;
 
-                // নাম
                 const nameEl = document.getElementById('profileName');
                 if (nameEl) nameEl.textContent = data.fullName || 'User';
 
-                // Avatar (প্রথম অক্ষর)
                 const avatarEl = document.getElementById('profileAvatar');
                 if (avatarEl) avatarEl.textContent = (data.fullName || 'U').charAt(0).toUpperCase();
 
-                // Refer Code
                 const codeEl = document.getElementById('inviteCode');
                 if (codeEl) codeEl.textContent = data.myReferCode || '------';
 
-                // Balance
                 const balanceEl = document.getElementById('userBalance');
                 if (balanceEl) balanceEl.textContent = (data.balance || 0).toFixed(2);
 
-                // VIP
                 const vipEl = document.getElementById('vipTag');
                 if (vipEl) vipEl.innerHTML = '<i class="fa-solid fa-crown"></i> VIP ' + (data.vip || 0);
             }
         });
 
-        // ================= Logout =================
         const logoutBtn = document.getElementById('logoutBtn');
         if (logoutBtn) {
             logoutBtn.addEventListener('click', async function() {
                 if (confirm('Are you sure you want to log out?')) {
                     await logoutUser();
-                    window.location.href = 'index.html';
+                    window.location.replace('index.html');
                 }
             });
         }
 
-        // ================= Theme Setting =================
         const themeSettingBtn = document.getElementById('themeSettingBtn');
         if (themeSettingBtn) {
             themeSettingBtn.addEventListener('click', function() {
@@ -867,7 +645,6 @@
             });
         }
 
-        // ================= Invitation (Share Referral Link) =================
         const invitationBtn = document.getElementById('invitationBtn');
         if (invitationBtn) {
             invitationBtn.addEventListener('click', async function() {
@@ -877,7 +654,6 @@
                 const referralLink = getReferralLink(myCode);
                 const shareText = `Join UMALL247 and start earning! Use my refer code: ${myCode}\n${referralLink}`;
 
-                // Web Share API (Mobile-friendly)
                 if (navigator.share) {
                     try {
                         await navigator.share({
@@ -889,7 +665,6 @@
                         console.log('Share cancelled');
                     }
                 } else {
-                    // Fallback: Copy to clipboard
                     try {
                         await navigator.clipboard.writeText(referralLink);
                         alert('Referral link copied!\n\n' + referralLink);
@@ -900,7 +675,6 @@
             });
         }
 
-        // ================= QR Button =================
         const qrBtn = document.getElementById('qrBtn');
         if (qrBtn) {
             qrBtn.addEventListener('click', function() {
