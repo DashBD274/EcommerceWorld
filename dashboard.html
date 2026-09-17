@@ -10,7 +10,6 @@
 </head>
 <body>
 
-    <!-- ================= হেডার ================= -->
     <header class="dash-header">
         <div class="brand-logo">
             <span class="logo-icon">U<span class="fire-flame"></span></span>
@@ -38,10 +37,8 @@
         </div>
     </header>
 
-    <!-- ================= মূল কনটেন্ট ================= -->
     <main class="dash-main">
 
-        <!-- 💎 ব্যালেন্স কার্ড -->
         <div class="balance-card">
             <span class="shine"></span>
             <div class="balance-top">
@@ -54,7 +51,6 @@
             </div>
         </div>
 
-        <!-- দ্রুত অ্যাকশন -->
         <div class="quick-actions">
             <button class="action-btn" type="button">
                 <div class="action-icon green"><i class="fa-solid fa-download"></i></div>
@@ -70,19 +66,16 @@
             </button>
         </div>
 
-        <!-- লাইভ নোটিফিকেশন -->
         <div class="live-notification">
             <i class="fa-solid fa-bullhorn"></i>
             <p>User <strong>E****7</strong> successful <span class="green-text">115.07 USDT</span></p>
         </div>
 
-        <!-- Platform Introduction -->
         <h3 class="section-title">
             <i class="fa-solid fa-chart-line"></i> 
             <span data-key="platformIntro">Platform Introduction</span>
         </h3>
 
-        <!-- ✅ ৪টি ক্লিকেবল কার্ড -->
         <div class="intro-grid">
             <a href="introduction.html" class="intro-card">
                 <div class="intro-image">
@@ -127,7 +120,6 @@
 
     </main>
 
-    <!-- ================= নিচের নেভিগেশন ================= -->
     <nav class="bottom-nav">
         <a href="dashboard.html" class="nav-item active">
             <i class="fa-solid fa-house"></i>
@@ -153,22 +145,20 @@
 
     <script src="dashboard.js"></script>
 
-    <!-- ================= Firebase SDK ================= -->
+    <!-- Firebase SDK -->
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
     <script src="firebase-auth.js"></script>
 
     <script>
-        // ================= ✅ FIXED Auth Check =================
-        // waitForAuthReady ব্যবহার করে Firebase state ready হওয়ার জন্য অপেক্ষা করবো
+        // ================= ✅ Fixed Auth Check =================
         waitForAuthReady(async function(isLoggedIn, user) {
             if (!isLoggedIn) {
-                window.location.href = 'index.html';
+                window.location.replace('index.html');
                 return;
             }
 
-            // User logged in — Firestore থেকে Balance লোড
             const result = await getUserData(user.uid);
             if (result.success) {
                 const balanceEl = document.getElementById('userBalance');
