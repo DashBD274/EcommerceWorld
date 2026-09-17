@@ -48,8 +48,8 @@
         </div>
 
         <div class="verify-group">
-            <input type="text" id="verifyInput" class="verify-input" placeholder="Verification" data-key="verifyPlaceholder" maxlength="4" inputmode="numeric">
-            <div class="verify-code" id="verifyCode">8 6 6 4</div>
+            <input type="text" id="verifyInput" class="verify-input" placeholder="Verification" data-key="verifyPlaceholder" maxlength="4" inputmode="numeric" autocomplete="off">
+            <div class="verify-code" id="verifyCode">----</div>
         </div>
 
         <div class="options">
@@ -86,117 +86,145 @@
     <script src="script.js"></script>
 
     <script>
-        // ================= 🔢 Verification Code Setup =================
-        let currentVerifyCode = "";
+        // ============================================
+        // 🔢 Verification Code জেনারেট করুন
+        // ============================================
+        var currentVerifyCode = "";
 
         function generateVerifyCode() {
-            currentVerifyCode = Math.floor(1000 + Math.random() * 9000).toString();
-            const verifyDisplay = document.getElementById('verifyCode');
-            verifyDisplay.textContent = currentVerifyCode.split('').join(' ');
+            currentVerifyCode = String(Math.floor(1000 + Math.random() * 9000));
+            document.getElementById('verifyCode').textContent = currentVerifyCode.split('').join(' ');
+            console.log('✅ New verify code:', currentVerifyCode);
         }
 
-        // পেজ লোড হওয়ার সাথে সাথেই কোড জেনারেট
-        generateVerifyCode();
+        // পেজ লোড হলেই কোড জেনারেট
+        window.addEventListener('load', function() {
+            generateVerifyCode();
+        });
 
-        // ================= 📝 Verification Input =================
-        const verifyInput = document.getElementById('verifyInput');
-        verifyInput.addEventListener('input', function(e) {
+        // ============================================
+        // 📝 Verification Input — শুধু সংখ্যা
+        // ============================================
+        document.getElementById('verifyInput').addEventListener('input', function() {
             this.value = this.value.replace(/\D/g, '').substring(0, 4);
         });
 
-        // ================= 💬 Message Display =================
-        const loginBtn = document.getElementById('loginBtn');
-        const messageBox = document.getElementById('messageBox');
-
+        // ============================================
+        // 💬 Message দেখানোর Function
+        // ============================================
         function showMessage(text, isError) {
-            messageBox.style.display = 'block';
-            messageBox.textContent = text;
+            var box = document.getElementById('messageBox');
+            box.style.display = 'block';
+            box.textContent = text;
             if (isError) {
-                messageBox.style.background = '#fee2e2';
-                messageBox.style.color = '#dc2626';
-                messageBox.style.border = '1px solid #fecaca';
+                box.style.background = '#fee2e2';
+                box.style.color = '#dc2626';
+                box.style.border = '1px solid #fecaca';
             } else {
-                messageBox.style.background = '#d1fae5';
-                messageBox.style.color = '#059669';
-                messageBox.style.border = '1px solid #a7f3d0';
+                box.style.background = '#d1fae5';
+                box.style.color = '#059669';
+                box.style.border = '1px solid #a7f3d0';
             }
         }
 
-        // ================= 🔐 Login Handler =================
-        loginBtn.addEventListener('click', async function() {
-            const email = document.getElementById('emailInput').value.trim();
-            const password = document.getElementById('passwordInput').value;
-            const verifyCode = document.getElementById('verifyInput').value.trim();
+        function hideMessage() {
+            document.getElementById('messageBox').style.display = 'none';
+        }
 
-            // ============ Validation ============
+        // ============================================
+        // 🔐 Login বাটন Handler
+        // ============================================
+        document.getElementById('loginBtn').addEventListener('click', function() {
+            var email = document.getElementById('emailInput').value.trim();
+            var password = document.getElementById('passwordInput').value;
+            var verifyCode = document.getElementById('verifyInput').value.trim();
+
+            console.log('========== LOGIN ATTEMPT ==========');
+            console.log('Email:', email);
+            console.log('Password length:', password.length);
+            console.log('Entered Code:', verifyCode);
+            console.log('Expected Code:', currentVerifyCode);
+            console.log('===================================');
+
+            // -------- 1. Email Check --------
             if (!email) {
-                showMessage('Please enter your email address.', true);
+                showMessage('❌ Please enter your email address.', true);
                 return;
             }
 
-            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            var emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
             if (!emailRegex.test(email)) {
-                showMessage('Please enter a valid email address.', true);
+                showMessage('❌ Please enter a valid email address.', true);
                 return;
             }
 
+            // -------- 2. Password Check --------
             if (!password) {
-                showMessage('Please enter your password.', true);
+                showMessage('❌ Please enter your password.', true);
                 return;
             }
 
+            if (password.length < 6) {
+                showMessage('❌ Password must be at least 6 characters.', true);
+                return;
+            }
+
+            // -------- 3. Verification Code Check --------
             if (!verifyCode) {
-                showMessage('Please enter the verification code.', true);
+                showMessage('❌ Please enter the verification code.', true);
                 return;
             }
 
             if (verifyCode.length !== 4) {
-                showMessage('Verification code must be 4 digits.', true);
+                showMessage('❌ Verification code must be 4 digits.', true);
                 return;
             }
 
             if (verifyCode !== currentVerifyCode) {
-                showMessage('Incorrect verification code. Please try again.', true);
+                showMessage('❌ Incorrect verification code. Please try again.', true);
                 generateVerifyCode();
                 document.getElementById('verifyInput').value = '';
                 return;
             }
 
-            // ============ সব Validation পাস ============
+            // -------- সব Check পাস — এখন Firebase Login --------
+            var loginBtn = document.getElementById('loginBtn');
             loginBtn.disabled = true;
             loginBtn.style.opacity = '0.7';
-            messageBox.style.display = 'none';
+            hideMessage();
 
-            const lang = safeGet('language') || 'en';
-            const t = (typeof translations !== 'undefined' && translations[lang])
+            var lang = safeGet('language') || 'en';
+            var t = (typeof translations !== 'undefined' && translations[lang])
                 ? translations[lang]
                 : { verifying: 'Signing in...', verified: 'Welcome back!' };
 
-            loadingBox.classList.remove('success');
-            loadingText.textContent = t.verifying || 'Signing in...';
-            loadingOverlay.classList.add('show');
+            document.getElementById('loadingBox').classList.remove('success');
+            document.getElementById('loadingText').textContent = t.verifying || 'Signing in...';
+            document.getElementById('loadingOverlay').classList.add('show');
 
-            // 🔥 Firebase Login
-            const result = await loginUser(email, password);
+            // Firebase Login
+            loginUser(email, password).then(function(result) {
+                if (result.success) {
+                    document.getElementById('loadingBox').classList.add('success');
+                    document.getElementById('loadingText').textContent = t.verified || 'Welcome back!';
 
-            if (result.success) {
-                loadingBox.classList.add('success');
-                loadingText.textContent = t.verified || 'Welcome back!';
-
-                setTimeout(() => {
-                    window.location.replace('dashboard.html');
-                }, 1500);
-            } else {
-                loginBtn.disabled = false;
-                loginBtn.style.opacity = '1';
-                loadingOverlay.classList.remove('show');
-                showMessage(translateFirebaseError(result.error), true);
-                generateVerifyCode();
-                document.getElementById('verifyInput').value = '';
-            }
+                    setTimeout(function() {
+                        window.location.replace('dashboard.html');
+                    }, 1500);
+                } else {
+                    loginBtn.disabled = false;
+                    loginBtn.style.opacity = '1';
+                    document.getElementById('loadingOverlay').classList.remove('show');
+                    showMessage(translateFirebaseError(result.error), true);
+                    generateVerifyCode();
+                    document.getElementById('verifyInput').value = '';
+                }
+            });
         });
 
-        // ================= ⌨️ Enter Key Navigation =================
+        // ============================================
+        // ⌨️ Enter Key Navigation
+        // ============================================
         document.getElementById('emailInput').addEventListener('keypress', function(e) {
             if (e.key === 'Enter') document.getElementById('passwordInput').focus();
         });
@@ -204,7 +232,7 @@
             if (e.key === 'Enter') document.getElementById('verifyInput').focus();
         });
         document.getElementById('verifyInput').addEventListener('keypress', function(e) {
-            if (e.key === 'Enter') loginBtn.click();
+            if (e.key === 'Enter') document.getElementById('loginBtn').click();
         });
     </script>
 </body>
