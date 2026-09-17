@@ -86,154 +86,227 @@
     <script src="script.js"></script>
 
     <script>
-        // ============================================
-        // 🔢 Verification Code জেনারেট করুন
-        // ============================================
-        var currentVerifyCode = "";
+    // ============================================================
+    // 🔢 Verification Code জেনারেট
+    // ============================================================
+    var currentVerifyCode = "";
 
-        function generateVerifyCode() {
-            currentVerifyCode = String(Math.floor(1000 + Math.random() * 9000));
-            document.getElementById('verifyCode').textContent = currentVerifyCode.split('').join(' ');
-            console.log('✅ New verify code:', currentVerifyCode);
-        }
+    function generateVerifyCode() {
+        currentVerifyCode = String(Math.floor(1000 + Math.random() * 9000));
+        var el = document.getElementById('verifyCode');
+        if (el) el.textContent = currentVerifyCode.split('').join(' ');
+        console.log('✅ New verify code:', currentVerifyCode);
+    }
 
-        // পেজ লোড হলেই কোড জেনারেট
-        window.addEventListener('load', function() {
-            generateVerifyCode();
-        });
+    // পেজ লোড হওয়ার সাথে সাথেই
+    generateVerifyCode();
 
-        // ============================================
-        // 📝 Verification Input — শুধু সংখ্যা
-        // ============================================
-        document.getElementById('verifyInput').addEventListener('input', function() {
+    // Verification input — শুধু ৪ সংখ্যা
+    var verifyInputEl = document.getElementById('verifyInput');
+    if (verifyInputEl) {
+        verifyInputEl.addEventListener('input', function() {
             this.value = this.value.replace(/\D/g, '').substring(0, 4);
         });
+    }
 
-        // ============================================
-        // 💬 Message দেখানোর Function
-        // ============================================
-        function showMessage(text, isError) {
-            var box = document.getElementById('messageBox');
-            box.style.display = 'block';
-            box.textContent = text;
-            if (isError) {
-                box.style.background = '#fee2e2';
-                box.style.color = '#dc2626';
-                box.style.border = '1px solid #fecaca';
-            } else {
-                box.style.background = '#d1fae5';
-                box.style.color = '#059669';
-                box.style.border = '1px solid #a7f3d0';
-            }
+    // ============================================================
+    // 💬 Message দেখানোর Function
+    // ============================================================
+    function showMessage(text, isError) {
+        var box = document.getElementById('messageBox');
+        if (!box) return;
+        box.style.display = 'block';
+        box.textContent = text;
+        if (isError) {
+            box.style.background = '#fee2e2';
+            box.style.color = '#dc2626';
+            box.style.border = '1px solid #fecaca';
+        } else {
+            box.style.background = '#d1fae5';
+            box.style.color = '#059669';
+            box.style.border = '1px solid #a7f3d0';
+        }
+    }
+
+    function hideMessage() {
+        var box = document.getElementById('messageBox');
+        if (box) box.style.display = 'none';
+    }
+
+    // ============================================================
+    // ⏳ Loading Functions
+    // ============================================================
+    var loadingTimeoutId = null;
+
+    function showLoading(text) {
+        var loadingBox = document.getElementById('loadingBox');
+        var loadingText = document.getElementById('loadingText');
+        var loadingOverlay = document.getElementById('loadingOverlay');
+
+        if (loadingBox) loadingBox.classList.remove('success');
+        if (loadingText) loadingText.textContent = text || 'Please wait...';
+        if (loadingOverlay) loadingOverlay.classList.add('show');
+
+        if (loadingTimeoutId) clearTimeout(loadingTimeoutId);
+        loadingTimeoutId = setTimeout(function() {
+            console.log('⏱️ Loading timeout');
+            hideLoading();
+            showMessage('Request timed out. Please try again.', true);
+        }, 10000);
+    }
+
+    function hideLoading() {
+        if (loadingTimeoutId) {
+            clearTimeout(loadingTimeoutId);
+            loadingTimeoutId = null;
+        }
+        var loadingOverlay = document.getElementById('loadingOverlay');
+        if (loadingOverlay) loadingOverlay.classList.remove('show');
+    }
+
+    function showSuccess(text) {
+        if (loadingTimeoutId) {
+            clearTimeout(loadingTimeoutId);
+            loadingTimeoutId = null;
+        }
+        var loadingBox = document.getElementById('loadingBox');
+        var loadingText = document.getElementById('loadingText');
+        if (loadingBox) loadingBox.classList.add('success');
+        if (loadingText) loadingText.textContent = text || 'Success!';
+    }
+
+    // ============================================================
+    // 🔐 Login Button Handler
+    // ============================================================
+    var loginBtn = document.getElementById('loginBtn');
+
+    loginBtn.addEventListener('click', function() {
+        var email = document.getElementById('emailInput').value.trim();
+        var password = document.getElementById('passwordInput').value;
+        var verifyCode = document.getElementById('verifyInput').value.trim();
+
+        console.log('========== LOGIN ATTEMPT ==========');
+        console.log('Email:', email);
+        console.log('Password length:', password.length);
+        console.log('Entered Code:', verifyCode);
+        console.log('Expected Code:', currentVerifyCode);
+
+        // ==========================================
+        // 🔴 STEP 1: Email Check (সবচেয়ে আগে)
+        // ==========================================
+        if (!email) {
+            showMessage('❌ Please enter your email address.', true);
+            console.log('❌ Email empty — STOP');
+            return;   // ← এখানেই থেমে যাবে
         }
 
-        function hideMessage() {
-            document.getElementById('messageBox').style.display = 'none';
+        var emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(email)) {
+            showMessage('❌ Please enter a valid email address.', true);
+            console.log('❌ Email invalid — STOP');
+            return;
         }
 
-        // ============================================
-        // 🔐 Login বাটন Handler
-        // ============================================
-        document.getElementById('loginBtn').addEventListener('click', function() {
-            var email = document.getElementById('emailInput').value.trim();
-            var password = document.getElementById('passwordInput').value;
-            var verifyCode = document.getElementById('verifyInput').value.trim();
+        // ==========================================
+        // 🔴 STEP 2: Password Check
+        // ==========================================
+        if (!password) {
+            showMessage('❌ Please enter your password.', true);
+            console.log('❌ Password empty — STOP');
+            return;
+        }
 
-            console.log('========== LOGIN ATTEMPT ==========');
-            console.log('Email:', email);
-            console.log('Password length:', password.length);
-            console.log('Entered Code:', verifyCode);
-            console.log('Expected Code:', currentVerifyCode);
-            console.log('===================================');
+        if (password.length < 6) {
+            showMessage('❌ Password must be at least 6 characters.', true);
+            console.log('❌ Password too short — STOP');
+            return;
+        }
 
-            // -------- 1. Email Check --------
-            if (!email) {
-                showMessage('❌ Please enter your email address.', true);
-                return;
-            }
+        // ==========================================
+        // 🔴 STEP 3: Verification Code Check
+        // ==========================================
+        if (!verifyCode) {
+            showMessage('❌ Please enter the verification code.', true);
+            console.log('❌ Verify code empty — STOP');
+            return;
+        }
 
-            var emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-            if (!emailRegex.test(email)) {
-                showMessage('❌ Please enter a valid email address.', true);
-                return;
-            }
+        if (verifyCode.length !== 4) {
+            showMessage('❌ Verification code must be 4 digits.', true);
+            console.log('❌ Verify code not 4 digits — STOP');
+            return;
+        }
 
-            // -------- 2. Password Check --------
-            if (!password) {
-                showMessage('❌ Please enter your password.', true);
-                return;
-            }
+        if (verifyCode !== currentVerifyCode) {
+            showMessage('❌ Incorrect verification code. Please try again.', true);
+            console.log('❌ Verify code mismatch — STOP');
+            generateVerifyCode();
+            document.getElementById('verifyInput').value = '';
+            return;
+        }
 
-            if (password.length < 6) {
-                showMessage('❌ Password must be at least 6 characters.', true);
-                return;
-            }
+        // ==========================================
+        // ✅ সব Check পাস — এখন Firebase Login
+        // ==========================================
+        console.log('✅ All validations passed — calling Firebase');
 
-            // -------- 3. Verification Code Check --------
-            if (!verifyCode) {
-                showMessage('❌ Please enter the verification code.', true);
-                return;
-            }
+        loginBtn.disabled = true;
+        loginBtn.style.opacity = '0.7';
+        hideMessage();
 
-            if (verifyCode.length !== 4) {
-                showMessage('❌ Verification code must be 4 digits.', true);
-                return;
-            }
+        var lang = (typeof safeGet === 'function') ? (safeGet('language') || 'en') : 'en';
+        var t = (typeof translations !== 'undefined' && translations[lang])
+            ? translations[lang]
+            : { verifying: 'Signing in...', verified: 'Welcome back!' };
 
-            if (verifyCode !== currentVerifyCode) {
-                showMessage('❌ Incorrect verification code. Please try again.', true);
-                generateVerifyCode();
-                document.getElementById('verifyInput').value = '';
-                return;
-            }
+        showLoading(t.verifying || 'Signing in...');
 
-            // -------- সব Check পাস — এখন Firebase Login --------
-            var loginBtn = document.getElementById('loginBtn');
-            loginBtn.disabled = true;
-            loginBtn.style.opacity = '0.7';
-            hideMessage();
-
-            var lang = safeGet('language') || 'en';
-            var t = (typeof translations !== 'undefined' && translations[lang])
-                ? translations[lang]
-                : { verifying: 'Signing in...', verified: 'Welcome back!' };
-
-            document.getElementById('loadingBox').classList.remove('success');
-            document.getElementById('loadingText').textContent = t.verifying || 'Signing in...';
-            document.getElementById('loadingOverlay').classList.add('show');
-
-            // Firebase Login
+        try {
             loginUser(email, password).then(function(result) {
-                if (result.success) {
-                    document.getElementById('loadingBox').classList.add('success');
-                    document.getElementById('loadingText').textContent = t.verified || 'Welcome back!';
+                console.log('Login result:', result);
 
+                if (result && result.success) {
+                    showSuccess(t.verified || 'Welcome back!');
                     setTimeout(function() {
                         window.location.replace('dashboard.html');
                     }, 1500);
                 } else {
+                    hideLoading();
                     loginBtn.disabled = false;
                     loginBtn.style.opacity = '1';
-                    document.getElementById('loadingOverlay').classList.remove('show');
-                    showMessage(translateFirebaseError(result.error), true);
+                    var errMsg = (result && result.error) ? translateFirebaseError(result.error) : '❌ Login failed. Please try again.';
+                    showMessage(errMsg, true);
                     generateVerifyCode();
                     document.getElementById('verifyInput').value = '';
                 }
+            }).catch(function(err) {
+                console.error('Login error:', err);
+                hideLoading();
+                loginBtn.disabled = false;
+                loginBtn.style.opacity = '1';
+                showMessage('❌ Network error. Please check your connection.', true);
             });
-        });
+        } catch (err) {
+            console.error('Exception:', err);
+            hideLoading();
+            loginBtn.disabled = false;
+            loginBtn.style.opacity = '1';
+            showMessage('❌ Something went wrong. Please try again.', true);
+        }
+    });
 
-        // ============================================
-        // ⌨️ Enter Key Navigation
-        // ============================================
-        document.getElementById('emailInput').addEventListener('keypress', function(e) {
-            if (e.key === 'Enter') document.getElementById('passwordInput').focus();
-        });
-        document.getElementById('passwordInput').addEventListener('keypress', function(e) {
-            if (e.key === 'Enter') document.getElementById('verifyInput').focus();
-        });
-        document.getElementById('verifyInput').addEventListener('keypress', function(e) {
-            if (e.key === 'Enter') document.getElementById('loginBtn').click();
-        });
+    // ============================================================
+    // ⌨️ Enter Key Navigation
+    // ============================================================
+    document.getElementById('emailInput').addEventListener('keypress', function(e) {
+        if (e.key === 'Enter') document.getElementById('passwordInput').focus();
+    });
+    document.getElementById('passwordInput').addEventListener('keypress', function(e) {
+        if (e.key === 'Enter') document.getElementById('verifyInput').focus();
+    });
+    document.getElementById('verifyInput').addEventListener('keypress', function(e) {
+        if (e.key === 'Enter') loginBtn.click();
+    });
     </script>
 </body>
 </html>
