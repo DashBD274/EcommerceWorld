@@ -1,0 +1,412 @@
+/* ================= গ্লোবাল ================= */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    -webkit-tap-highlight-color: transparent;
+}
+
+:root {
+    --bg: #eef1f5;
+    --card: #ffffff;
+    --card-2: #e8eaee;
+    --text: #1f2937;
+    --text-light: #6b7280;
+    --border: #e5e7eb;
+    --accent: #a855f7;
+    --shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+    --overlay: linear-gradient(180deg, rgba(120, 120, 130, 0.35) 0%, rgba(120, 120, 130, 0.6) 100%);
+}
+
+body.dark-mode {
+    --bg: #0f172a;
+    --card: #1e293b;
+    --card-2: #293548;
+    --text: #f1f5f9;
+    --text-light: #94a3b8;
+    --border: #334155;
+    --shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    --overlay: linear-gradient(180deg, rgba(0, 0, 0, 0.4) 0%, rgba(0, 0, 0, 0.65) 100%);
+}
+
+body {
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    min-height: 100dvh;
+    padding-bottom: 90px;
+    overflow-x: hidden;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    -webkit-user-select: none;
+    user-select: none;
+    transition: background 0.3s, color 0.3s;
+}
+
+input, select { -webkit-user-select: text; user-select: text; }
+
+/* ================= হেডার ================= */
+.dash-header {
+    position: sticky;
+    top: 0;
+    background: var(--card);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 16px;
+    border-bottom: 1px solid var(--border);
+    z-index: 100;
+    padding-top: max(12px, env(safe-area-inset-top));
+}
+
+.brand-logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.logo-icon {
+    position: relative;
+    width: 42px;
+    height: 42px;
+    border-radius: 12px;
+    background: #1a1a1a;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 900;
+    font-size: 22px;
+    font-style: italic;
+    color: #fff;
+    z-index: 1;
+    box-shadow:
+        0 0 10px rgba(255, 107, 53, 0.6),
+        0 0 20px rgba(247, 54, 104, 0.4),
+        inset 0 0 10px rgba(0, 0, 0, 0.8);
+    animation: fireGlow 1.5s ease-in-out infinite alternate;
+}
+
+.logo-icon::before {
+    content: '';
+    position: absolute;
+    inset: -3px;
+    border-radius: 15px;
+    background: linear-gradient(135deg, #ff6b35, #f73668, #ffcc00, #ff6b35);
+    background-size: 300% 300%;
+    z-index: -2;
+    filter: blur(8px);
+    opacity: 0.8;
+    animation: fireGradient 3s ease infinite, firePulse 1.2s ease-in-out infinite alternate;
+}
+
+.logo-icon::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: 12px;
+    background:
+        radial-gradient(circle at 30% 100%, rgba(255, 107, 53, 0.9) 0%, transparent 40%),
+        radial-gradient(circle at 70% 100%, rgba(247, 54, 104, 0.9) 0%, transparent 40%),
+        radial-gradient(circle at 50% 90%, rgba(255, 204, 0, 0.8) 0%, transparent 50%),
+        #1a1a1a;
+    z-index: -1;
+    animation: fireFlicker 0.8s ease-in-out infinite alternate;
+}
+
+.logo-icon .fire-flame {
+    position: absolute;
+    bottom: -6px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 30px;
+    height: 30px;
+    pointer-events: none;
+    z-index: -1;
+    opacity: 0.9;
+}
+
+.logo-icon .fire-flame::before,
+.logo-icon .fire-flame::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    border-radius: 50% 50% 20% 20%;
+    filter: blur(4px);
+}
+
+.logo-icon .fire-flame::before {
+    width: 22px;
+    height: 30px;
+    background: radial-gradient(circle at 50% 80%, #ffcc00 0%, #ff6b35 40%, #f73668 70%, transparent 90%);
+    animation: flameRise 1.2s ease-in-out infinite alternate;
+}
+
+.logo-icon .fire-flame::after {
+    width: 14px;
+    height: 20px;
+    background: radial-gradient(circle at 50% 80%, #fff 0%, #ffcc00 40%, #ff6b35 70%, transparent 90%);
+    animation: flameRise 0.9s ease-in-out infinite alternate-reverse;
+}
+
+@keyframes fireGlow {
+    0% { box-shadow: 0 0 8px rgba(255, 107, 53, 0.5), 0 0 16px rgba(247, 54, 104, 0.3), inset 0 0 10px rgba(0, 0, 0, 0.8); }
+    100% { box-shadow: 0 0 16px rgba(255, 107, 53, 0.9), 0 0 30px rgba(247, 54, 104, 0.6), 0 0 45px rgba(255, 204, 0, 0.3), inset 0 0 10px rgba(0, 0, 0, 0.8); }
+}
+@keyframes fireGradient {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+@keyframes firePulse {
+    0% { opacity: 0.6; filter: blur(6px); }
+    100% { opacity: 1; filter: blur(10px); }
+}
+@keyframes fireFlicker {
+    0% {
+        background:
+            radial-gradient(circle at 30% 100%, rgba(255, 107, 53, 0.8) 0%, transparent 40%),
+            radial-gradient(circle at 70% 100%, rgba(247, 54, 104, 0.8) 0%, transparent 40%),
+            radial-gradient(circle at 50% 90%, rgba(255, 204, 0, 0.7) 0%, transparent 50%),
+            #1a1a1a;
+    }
+    100% {
+        background:
+            radial-gradient(circle at 40% 100%, rgba(255, 107, 53, 1) 0%, transparent 45%),
+            radial-gradient(circle at 60% 100%, rgba(247, 54, 104, 1) 0%, transparent 45%),
+            radial-gradient(circle at 50% 80%, rgba(255, 204, 0, 0.9) 0%, transparent 55%),
+            #1a1a1a;
+    }
+}
+@keyframes flameRise {
+    0% { transform: translateX(-50%) scaleY(1) scaleX(1); opacity: 0.7; }
+    100% { transform: translateX(-50%) scaleY(1.4) scaleX(0.85); opacity: 1; }
+}
+
+.logo-text {
+    font-size: 20px;
+    font-weight: 800;
+    color: var(--text);
+    letter-spacing: 0.5px;
+}
+
+.logo-24 { color: #dc2626; }
+
+.header-controls {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.theme-toggle-sm {
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    border: 1px solid var(--border);
+    background: var(--bg);
+    color: var(--text);
+    font-size: 14px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    -webkit-appearance: none;
+    appearance: none;
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+}
+
+/* ================= ডিটেইল পেজ ================= */
+.detail-page {
+    max-width: 500px;
+    margin: 0 auto;
+    padding-bottom: 20px;
+}
+
+/* 🖼️ হিরো ইমেজ */
+.hero-image {
+    width: 100%;
+    height: 240px;
+    position: relative;
+    overflow: hidden;
+    background: #d1d5db;
+}
+
+.hero-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.hero-image::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: var(--overlay);
+    pointer-events: none;
+}
+
+/* ⬅️ ব্যাক বাটন */
+.back-btn {
+    position: absolute;
+    top: 16px;
+    left: 16px;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: rgba(120, 120, 130, 0.55);
+    color: #fff;
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    cursor: pointer;
+    z-index: 5;
+    -webkit-backdrop-filter: blur(8px);
+    backdrop-filter: blur(8px);
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+    transition: transform 0.2s;
+    text-decoration: none;
+}
+
+.back-btn:active { transform: scale(0.9); }
+
+/* 💠 আইকন ও টাইটেল (হিরোর উপরে ওভারলে) */
+.hero-title-wrap {
+    position: absolute;
+    bottom: 20px;
+    left: 20px;
+    right: 20px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    z-index: 4;
+}
+
+.hero-icon {
+    width: 52px;
+    height: 52px;
+    border-radius: 14px;
+    background: linear-gradient(135deg, #3b82f6, #0ea5e9);
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    box-shadow: 0 6px 18px rgba(59, 130, 246, 0.5);
+    flex-shrink: 0;
+}
+
+.hero-title {
+    font-size: 22px;
+    font-weight: 800;
+    color: #fff;
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+    line-height: 1.2;
+}
+
+/* 📝 সাবটাইটেল + কনটেন্ট */
+.detail-body {
+    padding: 22px 20px;
+}
+
+.detail-subtitle {
+    font-size: 14px;
+    color: var(--text-light);
+    margin-bottom: 20px;
+    font-weight: 500;
+    line-height: 1.5;
+}
+
+.detail-card {
+    background: var(--card-2);
+    border-radius: 16px;
+    padding: 20px 18px;
+    color: var(--text);
+    font-size: 14px;
+    line-height: 1.7;
+}
+
+.detail-card p {
+    margin-bottom: 14px;
+}
+
+.detail-card p:last-child { margin-bottom: 0; }
+
+.detail-card h3 {
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--text);
+    margin-top: 20px;
+    margin-bottom: 8px;
+}
+
+.detail-card h3:first-child { margin-top: 0; }
+
+.detail-card .rule-title {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--text);
+    margin-top: 18px;
+    margin-bottom: 8px;
+}
+
+.detail-card .rule-title:first-child { margin-top: 0; }
+
+.detail-card strong { font-weight: 700; }
+
+/* ================= নিচের নেভিগেশন ================= */
+.bottom-nav {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: var(--card);
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    padding: 10px 0;
+    padding-bottom: max(10px, env(safe-area-inset-bottom));
+    border-top: 1px solid var(--border);
+    z-index: 100;
+    box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.04);
+}
+
+.nav-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    text-decoration: none;
+    color: var(--text-light);
+    font-size: 11px;
+    font-weight: 500;
+    padding: 4px 12px;
+    border-radius: 8px;
+    transition: color 0.2s;
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+}
+
+.nav-item i { font-size: 18px; }
+.nav-item.active { color: var(--accent); }
+
+/* ================= RTL ================= */
+body.rtl { direction: rtl; }
+body.rtl .back-btn { left: auto; right: 16px; }
+body.rtl .hero-title-wrap { flex-direction: row-reverse; }
+
+/* ================= মোবাইল ================= */
+@media (max-width: 360px) {
+    .hero-image { height: 200px; }
+    .hero-title { font-size: 19px; }
+    .hero-icon { width: 44px; height: 44px; font-size: 20px; }
+    .logo-text { font-size: 18px; }
+    .logo-icon { width: 38px; height: 38px; font-size: 20px; }
+    .detail-card { padding: 16px 14px; font-size: 13px; }
+}
