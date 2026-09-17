@@ -8,12 +8,14 @@
     <link rel="stylesheet" href="detail.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
+        /* ================= Service পেজ ================= */
         .service-container {
             max-width: 500px;
             margin: 0 auto;
             padding: 20px 16px 30px 16px;
         }
 
+        /* Customer Support কার্ড */
         .support-card {
             background: var(--card);
             border-radius: 16px;
@@ -39,6 +41,7 @@
             margin: 0;
         }
 
+        /* Telegram Channel কার্ড */
         .telegram-card {
             background: var(--card);
             border-radius: 14px;
@@ -96,12 +99,14 @@
             line-height: 1.4;
         }
 
+        /* RTL */
         body.rtl .telegram-card {
             border-left: 1px solid var(--border);
             border-right: 4px solid #229ED9;
             flex-direction: row-reverse;
         }
 
+        /* মোবাইল */
         @media (max-width: 360px) {
             .support-title { font-size: 19px; }
             .support-subtitle { font-size: 12px; }
@@ -113,6 +118,7 @@
 </head>
 <body>
 
+    <!-- ================= হেডার ================= -->
     <header class="dash-header">
         <div class="brand-logo">
             <span class="logo-icon">U<span class="fire-flame"></span></span>
@@ -140,13 +146,16 @@
         </div>
     </header>
 
+    <!-- ================= Service কনটেন্ট ================= -->
     <main class="service-container">
 
+        <!-- Customer Support কার্ড -->
         <div class="support-card">
             <h2 class="support-title" data-key="customerSupport">Customer Support</h2>
             <p class="support-subtitle" data-key="customerSupportDesc">Need help? Contact our 24/7 online customer service agents</p>
         </div>
 
+        <!-- Telegram Channel কার্ড -->
         <a href="https://t.me/" target="_blank" rel="noopener" class="telegram-card">
             <div class="telegram-icon">
                 <i class="fa-brands fa-telegram"></i>
@@ -159,6 +168,7 @@
 
     </main>
 
+    <!-- ================= নিচের নেভিগেশন ================= -->
     <nav class="bottom-nav">
         <a href="dashboard.html" class="nav-item">
             <i class="fa-solid fa-house"></i>
@@ -176,7 +186,7 @@
             <i class="fa-solid fa-clipboard"></i>
             <span data-key="navRecord">Record</span>
         </a>
-        <a href="#" class="nav-item">
+        <a href="mine.html" class="nav-item">
             <i class="fa-solid fa-user"></i>
             <span data-key="navMine">Mine</span>
         </a>
@@ -184,6 +194,7 @@
 
     <script src="detail.js"></script>
     <script>
+        // ================= Service পেজের অনুবাদ =================
         const serviceTranslations = {
             en: {
                 customerSupport: "Customer Support",
