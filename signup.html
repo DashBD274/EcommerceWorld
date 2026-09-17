@@ -45,12 +45,12 @@
 
         <div class="input-group">
             <i class="fa-solid fa-user"></i>
-            <input type="email" placeholder="Email Address" data-key="emailPlaceholder">
+            <input type="email" id="emailInput" placeholder="Email Address" data-key="emailPlaceholder">
         </div>
 
         <div class="input-group">
             <i class="fa-solid fa-lock"></i>
-            <input type="password" placeholder="Password" data-key="passwordPlaceholder">
+            <input type="password" id="passwordInput" placeholder="Password" data-key="passwordPlaceholder">
             <i class="fa-solid fa-eye eye-icon"></i>
         </div>
 
@@ -70,12 +70,25 @@
             <div class="verify-code" id="verifyCode">5 5 2 7</div>
         </div>
 
-        <button class="login-btn" type="button" data-key="registerBtn">Register</button>
+        <button class="login-btn" type="button" id="loginBtn" data-key="registerBtn">Register</button>
 
         <p class="signup-link">
             <span data-key="haveAccount">Already have an account?</span> 
             <a href="index.html" data-key="signIn">Sign In</a>
         </p>
+    </div>
+
+    <!-- 🆕 লোডিং ওভারলে -->
+    <div class="loading-overlay" id="loadingOverlay">
+        <div class="loading-box">
+            <div class="loading-spinner" id="loadingSpinner">
+                <i class="fa-solid fa-circle-notch fa-spin"></i>
+            </div>
+            <div class="loading-success" id="loadingSuccess">
+                <i class="fa-solid fa-circle-check"></i>
+            </div>
+            <p class="loading-text" id="loadingText">Verifying your email...</p>
+        </div>
     </div>
 
     <script src="script.js"></script>
