@@ -30,7 +30,6 @@
             isolation: isolate;
         }
 
-        /* ✨ সূক্ষ্ম গ্লাস ইফেক্ট */
         .profile-card::before {
             content: '';
             position: absolute;
@@ -57,7 +56,6 @@
             z-index: 0;
         }
 
-        /* 💫 Shine animation — কার্ডের উপর দিয়ে আলো চলে */
         .profile-card .card-shine {
             position: absolute;
             top: 0;
@@ -85,7 +83,6 @@
             z-index: 2;
         }
 
-        /* 🟣 Avatar (নতুন লুক) */
         .profile-avatar {
             width: 54px;
             height: 54px;
@@ -103,7 +100,6 @@
             position: relative;
         }
 
-        /* 👑 Avatar এর চারপাশে একটা halo */
         .profile-avatar::after {
             content: '';
             position: absolute;
@@ -145,7 +141,6 @@
             text-overflow: ellipsis;
         }
 
-        /* 👑 VIP Tag (নতুন গ্লাস লুক) */
         .vip-tag {
             background: rgba(255, 255, 255, 0.25);
             padding: 4px 12px;
@@ -180,7 +175,6 @@
             letter-spacing: 0.5px;
         }
 
-        /* 📱 QR আইকন (নতুন ডিজাইন) */
         .profile-qr {
             width: 44px;
             height: 44px;
@@ -202,7 +196,6 @@
             transform: scale(0.92);
         }
 
-        /* ব্যালেন্স ও বাটন */
         .profile-balance-row {
             display: flex;
             align-items: flex-end;
@@ -251,7 +244,6 @@
             flex-shrink: 0;
         }
 
-        /* ✨ বাটন — নতুন ডিজাইন */
         .profile-btn {
             background: rgba(255, 255, 255, 0.95);
             color: #7c3aed;
@@ -283,7 +275,6 @@
             color: #7c3aed;
         }
 
-        /* 🔵 দ্রুত অ্যাকশন (Record, Wallet, Invitation) */
         .quick-actions-mine {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
@@ -347,7 +338,6 @@
         body.dark-mode .qa-icon.orange { background: rgba(249, 115, 22, 0.15); }
         body.dark-mode .qa-icon.purple { background: rgba(168, 85, 247, 0.15); }
 
-        /* 📋 মেনু লিস্ট */
         .menu-list {
             background: var(--card);
             border-radius: 16px;
@@ -412,7 +402,6 @@
             flex-shrink: 0;
         }
 
-        /* ভার্সন */
         .system-version {
             text-align: center;
             font-size: 12px;
@@ -439,7 +428,6 @@
             flex-direction: row-reverse;
         }
 
-        /* মোবাইল */
         @media (max-width: 360px) {
             .profile-card { padding: 16px; }
             .profile-avatar { width: 46px; height: 46px; font-size: 21px; }
@@ -491,20 +479,20 @@
         <div class="profile-card">
             <span class="card-shine"></span>
             <div class="profile-top">
-                <div class="profile-avatar">M</div>
+                <div class="profile-avatar" id="profileAvatar">U</div>
                 <div class="profile-info">
                     <div class="profile-name-row">
-                        <h3 class="profile-name" id="profileName">mrtiger6666</h3>
-                        <span class="vip-tag">
+                        <h3 class="profile-name" id="profileName">Loading...</h3>
+                        <span class="vip-tag" id="vipTag">
                             <i class="fa-solid fa-crown"></i> VIP 0
                         </span>
                     </div>
                     <p class="profile-invite">
                         <span data-key="invitationCode">Invitation code</span>:
-                        <strong id="inviteCode">HDF004</strong>
+                        <strong id="inviteCode">------</strong>
                     </p>
                 </div>
-                <div class="profile-qr">
+                <div class="profile-qr" id="qrBtn">
                     <i class="fa-solid fa-qrcode"></i>
                 </div>
             </div>
@@ -514,7 +502,7 @@
                     <p class="balance-label-sm" data-key="myAccountBalance">My Account Balance</p>
                     <div class="balance-value-sm">
                         <span class="unit">USDT</span>
-                        <span class="amount">0.00</span>
+                        <span class="amount" id="userBalance">0.00</span>
                     </div>
                 </div>
 
@@ -545,7 +533,7 @@
                 </div>
                 <span data-key="wallet">Wallet</span>
             </button>
-            <button class="qa-item" type="button">
+            <button class="qa-item" type="button" id="invitationBtn">
                 <div class="qa-icon purple">
                     <i class="fa-solid fa-user-plus"></i>
                 </div>
@@ -616,6 +604,13 @@
     </nav>
 
     <script src="detail.js"></script>
+
+    <!-- ================= Firebase SDK ================= -->
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+    <script src="firebase-auth.js"></script>
+
     <script>
         // ================= Mine পেজের অনুবাদ =================
         const mineTranslations = {
@@ -801,11 +796,9 @@
             if (sel) sel.value = lang;
         }
 
-        // প্রাথমিক লোড
         const mineLang = safeGet('language') || 'en';
         applyMineLanguage(mineLang);
 
-        // ভাষা পরিবর্তন
         const mineLangSelect = document.getElementById('dashLanguageSelect');
         if (mineLangSelect) {
             mineLangSelect.addEventListener('change', function() {
@@ -818,17 +811,51 @@
             });
         }
 
+        // ================= Firebase Auth Check + Load User Data =================
+        onAuthChange(async function(isLoggedIn, user) {
+            if (!isLoggedIn) {
+                window.location.href = 'index.html';
+                return;
+            }
+
+            const result = await getUserData(user.uid);
+            if (result.success) {
+                const data = result.data;
+
+                // নাম
+                const nameEl = document.getElementById('profileName');
+                if (nameEl) nameEl.textContent = data.fullName || 'User';
+
+                // Avatar (প্রথম অক্ষর)
+                const avatarEl = document.getElementById('profileAvatar');
+                if (avatarEl) avatarEl.textContent = (data.fullName || 'U').charAt(0).toUpperCase();
+
+                // Refer Code
+                const codeEl = document.getElementById('inviteCode');
+                if (codeEl) codeEl.textContent = data.myReferCode || '------';
+
+                // Balance
+                const balanceEl = document.getElementById('userBalance');
+                if (balanceEl) balanceEl.textContent = (data.balance || 0).toFixed(2);
+
+                // VIP
+                const vipEl = document.getElementById('vipTag');
+                if (vipEl) vipEl.innerHTML = '<i class="fa-solid fa-crown"></i> VIP ' + (data.vip || 0);
+            }
+        });
+
         // ================= Logout =================
         const logoutBtn = document.getElementById('logoutBtn');
         if (logoutBtn) {
-            logoutBtn.addEventListener('click', function() {
+            logoutBtn.addEventListener('click', async function() {
                 if (confirm('Are you sure you want to log out?')) {
+                    await logoutUser();
                     window.location.href = 'index.html';
                 }
             });
         }
 
-        // ================= Theme Setting Button =================
+        // ================= Theme Setting =================
         const themeSettingBtn = document.getElementById('themeSettingBtn');
         if (themeSettingBtn) {
             themeSettingBtn.addEventListener('click', function() {
@@ -837,6 +864,50 @@
                     applyDetailTheme(isDark);
                 }
                 safeSet('theme', isDark ? 'dark' : 'light');
+            });
+        }
+
+        // ================= Invitation (Share Referral Link) =================
+        const invitationBtn = document.getElementById('invitationBtn');
+        if (invitationBtn) {
+            invitationBtn.addEventListener('click', async function() {
+                const myCode = document.getElementById('inviteCode').textContent;
+                if (!myCode || myCode === '------') return;
+
+                const referralLink = getReferralLink(myCode);
+                const shareText = `Join UMALL247 and start earning! Use my refer code: ${myCode}\n${referralLink}`;
+
+                // Web Share API (Mobile-friendly)
+                if (navigator.share) {
+                    try {
+                        await navigator.share({
+                            title: 'UMALL247 Invitation',
+                            text: shareText,
+                            url: referralLink
+                        });
+                    } catch (err) {
+                        console.log('Share cancelled');
+                    }
+                } else {
+                    // Fallback: Copy to clipboard
+                    try {
+                        await navigator.clipboard.writeText(referralLink);
+                        alert('Referral link copied!\n\n' + referralLink);
+                    } catch (err) {
+                        prompt('Copy your referral link:', referralLink);
+                    }
+                }
+            });
+        }
+
+        // ================= QR Button =================
+        const qrBtn = document.getElementById('qrBtn');
+        if (qrBtn) {
+            qrBtn.addEventListener('click', function() {
+                const myCode = document.getElementById('inviteCode').textContent;
+                if (!myCode || myCode === '------') return;
+                const referralLink = getReferralLink(myCode);
+                alert('Your Referral Link:\n\n' + referralLink);
             });
         }
     </script>
