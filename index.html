@@ -103,6 +103,7 @@
             }
         }
 
+        // ================= ✅ Fixed Login Handler =================
         loginBtn.addEventListener('click', async function() {
             const email = document.getElementById('emailInput').value.trim();
             const password = document.getElementById('passwordInput').value;
@@ -112,6 +113,7 @@
 
             loginBtn.disabled = true;
             loginBtn.style.opacity = '0.7';
+            messageBox.style.display = 'none';
 
             const lang = safeGet('language') || 'en';
             const t = (typeof translations !== 'undefined' && translations[lang]) ? translations[lang] : { verifying: 'Signing in...', verified: 'Welcome back!' };
@@ -122,18 +124,30 @@
             const result = await loginUser(email, password);
 
             if (result.success) {
+                // ✅ নিশ্চিত করুন Firebase Auth state ready হয়েছে
+                await new Promise(resolve => setTimeout(resolve, 800));
+
                 loadingBox.classList.add('success');
                 loadingText.textContent = t.verified || 'Welcome back!';
 
                 setTimeout(() => {
-                    window.location.href = 'dashboard.html';
-                }, 2000);
+                    // ✅ window.location.replace দিয়ে redirect (history clear করে)
+                    window.location.replace('dashboard.html');
+                }, 1500);
             } else {
                 loginBtn.disabled = false;
                 loginBtn.style.opacity = '1';
                 loadingOverlay.classList.remove('show');
                 showMessage(translateFirebaseError(result.error), true);
             }
+        });
+
+        // Enter key দিয়ে Login
+        document.getElementById('emailInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') document.getElementById('passwordInput').focus();
+        });
+        document.getElementById('passwordInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') loginBtn.click();
         });
     </script>
 </body>
