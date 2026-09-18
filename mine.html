@@ -202,7 +202,137 @@
 
         .profile-btn i { font-size: 16px; color: #7c3aed; }
 
-        /* 🟠 Wallet Address Card (নতুন) */
+        /* ============================================
+           🆕 Update Profile Card
+           ============================================ */
+        .update-profile-card {
+            background: var(--card);
+            border-radius: 16px;
+            padding: 20px 18px;
+            margin-bottom: 16px;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border);
+            display: none;
+        }
+
+        .update-profile-card.show {
+            display: block;
+            animation: slideDown 0.3s ease-out;
+        }
+
+        @keyframes slideDown {
+            0% { opacity: 0; transform: translateY(-10px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+
+        .update-profile-title {
+            font-size: 16px;
+            font-weight: 800;
+            color: var(--text);
+            margin: 0 0 18px;
+        }
+
+        .update-label {
+            font-size: 12.5px;
+            font-weight: 600;
+            color: var(--text-light);
+            margin-bottom: 8px;
+            display: block;
+        }
+
+        .update-input {
+            width: 100%;
+            padding: 14px 16px;
+            border-radius: 12px;
+            border: 1px solid var(--border);
+            background: var(--bg);
+            color: var(--text);
+            font-size: 14px;
+            font-family: inherit;
+            outline: none;
+            margin-bottom: 16px;
+            -webkit-appearance: none;
+            appearance: none;
+        }
+
+        .update-input:focus {
+            border-color: #e65c00;
+        }
+
+        .update-input[readonly] {
+            background: #e5e7eb;
+            color: #6b7280;
+            cursor: not-allowed;
+        }
+
+        body.dark-mode .update-input[readonly] {
+            background: #334155;
+            color: #94a3b8;
+        }
+
+        /* UID Input with Copy Icon */
+        .uid-input-wrapper {
+            position: relative;
+            display: flex;
+            align-items: center;
+            margin-bottom: 16px;
+        }
+
+        .uid-input-wrapper .update-input {
+            margin-bottom: 0;
+            padding-right: 50px;
+        }
+
+        .uid-copy-btn {
+            position: absolute;
+            right: 8px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 36px;
+            height: 36px;
+            border-radius: 8px;
+            border: none;
+            background: #fde4d0;
+            color: #e65c00;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            -webkit-tap-highlight-color: transparent;
+            touch-action: manipulation;
+            transition: transform 0.2s, background 0.2s;
+        }
+
+        .uid-copy-btn:active {
+            transform: translateY(-50%) scale(0.9);
+        }
+
+        .uid-copy-btn.copied {
+            background: #d1fae5;
+            color: #059669;
+        }
+
+        .save-profile-btn {
+            width: 100%;
+            padding: 14px;
+            border-radius: 12px;
+            border: none;
+            background: linear-gradient(90deg, #f59e0b, #d97706);
+            color: #fff;
+            font-size: 15px;
+            font-weight: 700;
+            cursor: pointer;
+            font-family: inherit;
+            box-shadow: 0 6px 16px rgba(245, 158, 11, 0.35);
+            -webkit-tap-highlight-color: transparent;
+            touch-action: manipulation;
+        }
+
+        .save-profile-btn:active { transform: scale(0.98); }
+        .save-profile-btn:disabled { opacity: 0.7; cursor: not-allowed; }
+
+        /* 🟠 Wallet Address Card */
         .wallet-address-card {
             background: var(--card);
             border-radius: 16px;
@@ -215,6 +345,7 @@
 
         .wallet-address-card.show {
             display: block;
+            animation: slideDown 0.3s ease-out;
         }
 
         .wallet-address-title {
@@ -268,7 +399,6 @@
         }
 
         .save-wallet-btn:active { transform: scale(0.98); }
-
         .save-wallet-btn.saved {
             background: linear-gradient(90deg, #6b7280, #4b5563);
         }
@@ -373,6 +503,8 @@
         body.rtl .menu-row-arrow { transform: rotate(180deg); }
         body.rtl .profile-top { flex-direction: row-reverse; }
         body.rtl .profile-balance-row { flex-direction: row-reverse; }
+        body.rtl .uid-copy-btn { right: auto; left: 8px; }
+        body.rtl .uid-input-wrapper .update-input { padding-right: 16px; padding-left: 50px; }
 
         /* Mobile */
         @media (max-width: 360px) {
@@ -466,7 +598,30 @@
             </div>
         </div>
 
-        <!-- 🟠 Wallet Address Card (Hidden by default) -->
+        <!-- 🆕 Update Profile Card (Hidden by default) -->
+        <div class="update-profile-card" id="updateProfileCard">
+            <h3 class="update-profile-title">Update Profile</h3>
+
+            <label class="update-label">Full Name</label>
+            <input type="text" class="update-input" id="updateFullName" placeholder="Enter your full name">
+
+            <label class="update-label">Email Address</label>
+            <input type="email" class="update-input" id="updateEmail" readonly placeholder="your@email.com">
+
+            <label class="update-label">Your UID</label>
+            <div class="uid-input-wrapper">
+                <input type="text" class="update-input" id="updateUid" readonly placeholder="---">
+                <button type="button" class="uid-copy-btn" id="uidCopyBtn" title="Copy UID">
+                    <i class="fa-solid fa-copy"></i>
+                </button>
+            </div>
+
+            <button class="save-profile-btn" id="saveProfileBtn" type="button">
+                Save Profile
+            </button>
+        </div>
+
+        <!-- 🟠 Wallet Address Card -->
         <div class="wallet-address-card" id="walletAddressCard">
             <h3 class="wallet-address-title">Wallet Address</h3>
             <label class="wallet-address-label">TRC20 / Wallet Address</label>
@@ -500,7 +655,7 @@
 
         <!-- 📋 মেনু লিস্ট -->
         <div class="menu-list">
-            <button class="menu-row" type="button">
+            <button class="menu-row" type="button" id="profileMenuBtn">
                 <i class="fa-solid fa-user menu-row-icon profile"></i>
                 <span class="menu-row-text" data-key="profileMenu">Profile</span>
                 <i class="fa-solid fa-chevron-right menu-row-arrow"></i>
@@ -615,6 +770,8 @@
         // ============================================
         // 🔥 Firebase Auth Check + Load User Data
         // ============================================
+        let currentUserData = null;
+
         waitForAuthReady(async function(isLoggedIn, user) {
             if (!isLoggedIn) {
                 window.location.replace('index.html');
@@ -623,7 +780,8 @@
 
             const result = await getUserData(user.uid);
             if (result.success) {
-                const data = result.data;
+                currentUserData = result.data;
+                const data = currentUserData;
 
                 const nameEl = document.getElementById('profileName');
                 if (nameEl) nameEl.textContent = data.fullName || 'User';
@@ -640,25 +798,130 @@
                 const vipEl = document.getElementById('vipTag');
                 if (vipEl) vipEl.innerHTML = '<i class="fa-solid fa-crown"></i> VIP ' + (data.vip || 0);
 
-                // Wallet Address লোড করুন
+                // Wallet Address লোড
                 const walletInput = document.getElementById('walletAddressInput');
                 if (walletInput && data.walletAddress) {
                     walletInput.value = data.walletAddress;
                 }
+
+                // Update Profile inputs pre-fill
+                const updateName = document.getElementById('updateFullName');
+                const updateEmail = document.getElementById('updateEmail');
+                const updateUid = document.getElementById('updateUid');
+                if (updateName) updateName.value = data.fullName || '';
+                if (updateEmail) updateEmail.value = data.email || user.email || '';
+                if (updateUid) updateUid.value = user.uid || '';
             }
         });
 
         // ============================================
-        // 💼 Wallet Quick Action → Toggle Wallet Address Card
+        // 👤 Profile Menu → Toggle Update Profile Card
         // ============================================
-        const walletQaBtn = document.getElementById('walletQaBtn');
+        const profileMenuBtn = document.getElementById('profileMenuBtn');
+        const updateProfileCard = document.getElementById('updateProfileCard');
         const walletAddressCard = document.getElementById('walletAddressCard');
 
+        if (profileMenuBtn && updateProfileCard) {
+            profileMenuBtn.addEventListener('click', function() {
+                // অন্য card লুকান
+                walletAddressCard.classList.remove('show');
+
+                updateProfileCard.classList.toggle('show');
+
+                if (updateProfileCard.classList.contains('show')) {
+                    updateProfileCard.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            });
+        }
+
+        // ============================================
+        // 💼 Wallet Quick Action → Toggle Wallet Card
+        // ============================================
+        const walletQaBtn = document.getElementById('walletQaBtn');
         if (walletQaBtn && walletAddressCard) {
             walletQaBtn.addEventListener('click', function() {
+                // অন্য card লুকান
+                updateProfileCard.classList.remove('show');
+
                 walletAddressCard.classList.toggle('show');
+
                 if (walletAddressCard.classList.contains('show')) {
                     walletAddressCard.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            });
+        }
+
+        // ============================================
+        // 📋 Copy UID
+        // ============================================
+        const uidCopyBtn = document.getElementById('uidCopyBtn');
+        if (uidCopyBtn) {
+            uidCopyBtn.addEventListener('click', async function() {
+                const uidInput = document.getElementById('updateUid');
+                if (!uidInput || !uidInput.value) return;
+
+                try {
+                    await navigator.clipboard.writeText(uidInput.value);
+                    this.classList.add('copied');
+                    this.innerHTML = '<i class="fa-solid fa-check"></i>';
+
+                    setTimeout(() => {
+                        this.classList.remove('copied');
+                        this.innerHTML = '<i class="fa-solid fa-copy"></i>';
+                    }, 1500);
+                } catch (e) {
+                    // Fallback
+                    uidInput.select();
+                    document.execCommand('copy');
+                    alert('UID copied: ' + uidInput.value);
+                }
+            });
+        }
+
+        // ============================================
+        // 💾 Save Profile (Full Name only)
+        // ============================================
+        const saveProfileBtn = document.getElementById('saveProfileBtn');
+        if (saveProfileBtn) {
+            saveProfileBtn.addEventListener('click', async function() {
+                const newName = document.getElementById('updateFullName').value.trim();
+                const user = firebase.auth().currentUser;
+
+                if (!user) {
+                    alert('Please login first');
+                    return;
+                }
+                if (!newName) {
+                    alert('Please enter your full name');
+                    return;
+                }
+
+                saveProfileBtn.disabled = true;
+                saveProfileBtn.textContent = 'Saving...';
+
+                try {
+                    await db.collection('users').doc(user.uid).update({
+                        fullName: newName,
+                        updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+                    });
+
+                    // Update UI
+                    document.getElementById('profileName').textContent = newName;
+                    document.getElementById('profileAvatar').textContent = newName.charAt(0).toUpperCase();
+
+                    saveProfileBtn.textContent = '✅ Saved Successfully!';
+                    saveProfileBtn.style.background = 'linear-gradient(90deg, #10b981, #059669)';
+
+                    setTimeout(() => {
+                        saveProfileBtn.textContent = 'Save Profile';
+                        saveProfileBtn.style.background = 'linear-gradient(90deg, #f59e0b, #d97706)';
+                        saveProfileBtn.disabled = false;
+                    }, 2000);
+                } catch (err) {
+                    console.error('Save profile error:', err);
+                    alert('Failed to save. Please try again.');
+                    saveProfileBtn.textContent = 'Save Profile';
+                    saveProfileBtn.disabled = false;
                 }
             });
         }
@@ -695,7 +958,7 @@
                         this.classList.remove('saved');
                     }, 2000);
                 } catch (err) {
-                    console.error('Save error:', err);
+                    console.error('Save wallet error:', err);
                     alert('Failed to save. Please try again.');
                 }
             });
@@ -729,7 +992,7 @@
         }
 
         // ============================================
-        // 📱 QR Button — Show Referral Link
+        // 📱 QR Button
         // ============================================
         const qrBtn = document.getElementById('qrBtn');
         if (qrBtn) {
