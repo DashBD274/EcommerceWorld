@@ -54,7 +54,7 @@
             </div>
         </div>
 
-        <!-- ================= Quick Actions (Clickable Links) ================= -->
+        <!-- ================= Quick Actions ================= -->
         <div class="quick-actions">
             <a href="wallet.html?tab=recharge" class="action-btn">
                 <div class="action-icon green">
@@ -78,10 +78,13 @@
             </a>
         </div>
 
-        <!-- লাইভ নোটিফিকেশন -->
-        <div class="live-notification">
+        <!-- 🔴 Live Notification (Dynamic) -->
+        <div class="live-notification" id="liveNotification">
             <i class="fa-solid fa-bullhorn"></i>
-            <p>User <strong>E****7</strong> successful <span class="green-text">115.07 USDT</span></p>
+            <p id="liveNotificationText">
+                User <strong id="liveUserName">E****7</strong> successful 
+                <span class="green-text" id="liveAmount">115.07 USDT</span>
+            </p>
         </div>
 
         <!-- Platform Introduction -->
@@ -90,7 +93,7 @@
             <span data-key="platformIntro">Platform Introduction</span>
         </h3>
 
-        <!-- ✅ ৪টি ক্লিকেবল কার্ড -->
+        <!-- ৪টি ক্লিকেবল কার্ড -->
         <div class="intro-grid">
             <a href="introduction.html" class="intro-card">
                 <div class="intro-image">
@@ -175,7 +178,6 @@
                 return;
             }
 
-            // Firestore থেকে Balance লোড
             const result = await getUserData(user.uid);
             if (result.success) {
                 const balanceEl = document.getElementById('userBalance');
@@ -184,6 +186,168 @@
                 }
             }
         });
+
+        // ============================================================
+        // 🔴 LIVE NOTIFICATION SYSTEM
+        // ============================================================
+
+        // 👥 Realistic User Names (বিভিন্ন দেশ থেকে)
+        const userNames = [
+            // Bangladesh
+            'Rahul K.', 'Sabbir H.', 'Tanvir A.', 'Nusrat J.', 'Farhan M.', 
+            'Rifat H.', 'Mim A.', 'Shakib K.', 'Nadia R.', 'Arif H.',
+            
+            // India
+            'Ravi S.', 'Priya M.', 'Arjun K.', 'Sneha P.', 'Vikram S.',
+            'Anjali D.', 'Rohan M.', 'Pooja K.', 'Amit P.', 'Kavita S.',
+            
+            // Pakistan
+            'Ahmed R.', 'Fatima K.', 'Bilal H.', 'Aisha M.', 'Usman S.',
+            'Zara A.', 'Hassan M.', 'Sana K.', 'Faisal A.', 'Nida R.',
+            
+            // Middle East
+            'Omar A.', 'Layla H.', 'Yusuf M.', 'Amina K.', 'Khalid S.',
+            'Noor J.', 'Rami H.', 'Salma K.', 'Tariq M.', 'Dina A.',
+            
+            // Southeast Asia
+            'Nguyen T.', 'Linh P.', 'Ahmad B.', 'Siti N.', 'Carlos R.',
+            'Maria S.', 'Jose M.', 'Ana P.', 'Rizky A.', 'Dewi S.',
+            
+            // Africa
+            'Kwame A.', 'Aisha B.', 'Chidi O.', 'Fatima N.', 'Emeka E.',
+            'Zainab M.', 'Tunde A.', 'Ngozi O.', 'Kofi A.', 'Amara K.',
+            
+            // Western
+            'John D.', 'Emily S.', 'Michael R.', 'Sarah W.', 'David B.',
+            'Jessica T.', 'Daniel K.', 'Amanda L.', 'Robert P.', 'Linda H.',
+            
+            // Europe
+            'Luca R.', 'Sofia M.', 'Marco B.', 'Elena G.', 'Pablo S.',
+            'Maria L.', 'Thomas M.', 'Anna K.', 'Pierre D.', 'Isabella F.'
+        ];
+
+        // 🎭 Mask Name (আংশিক লুকানো)
+        function maskUserName(fullName) {
+            // "Rahul K." → "R***** K."
+            const parts = fullName.split(' ');
+            if (parts.length < 2) return fullName;
+            
+            const first = parts[0];
+            const last = parts[1];
+            
+            if (first.length <= 1) return fullName;
+            
+            const maskedFirst = first.charAt(0) + '*'.repeat(first.length - 1);
+            return maskedFirst + ' ' + last;
+        }
+
+        // 💰 Realistic USDT Amount Generator
+        // Distribution:
+        // - 80% → 50.45 to 5,000.00 (most common)
+        // - 15% → 5,000.01 to 10,000.00 (less common)
+        // - 5%  → 10,000.01 to 25,000.36 (rare)
+        function generateRealisticAmount() {
+            const rand = Math.random();
+            
+            if (rand < 0.80) {
+                // Most common: 50.45 - 5,000.00
+                const min = 50.45;
+                const max = 5000.00;
+                return (Math.random() * (max - min) + min).toFixed(2);
+            } else if (rand < 0.95) {
+                // Less common: 5,000.01 - 10,000.00
+                const min = 5000.01;
+                const max = 10000.00;
+                return (Math.random() * (max - min) + min).toFixed(2);
+            } else {
+                // Rare: 10,000.01 - 25,000.36
+                const min = 10000.01;
+                const max = 25000.36;
+                return (Math.random() * (max - min) + min).toFixed(2);
+            }
+        }
+
+        // 🎯 Random Name Picker (No repeat in a row)
+        let lastUserName = '';
+        function generateRandomUser() {
+            let name;
+            let attempts = 0;
+            do {
+                name = userNames[Math.floor(Math.random() * userNames.length)];
+                attempts++;
+            } while (name === lastUserName && attempts < 10);
+            
+            lastUserName = name;
+            return maskUserName(name);
+        }
+
+        // 🔔 Live Notification Elements
+        const liveNotification = document.getElementById('liveNotification');
+        const liveUserName = document.getElementById('liveUserName');
+        const liveAmount = document.getElementById('liveAmount');
+
+        // 🎬 Animation CSS যোগ করুন
+        const styleTag = document.createElement('style');
+        styleTag.textContent = `
+            .live-notification {
+                transition: opacity 0.4s ease-in-out, transform 0.4s ease-in-out;
+            }
+            .live-notification.fade-out {
+                opacity: 0;
+                transform: translateY(-8px);
+            }
+            .live-notification.fade-in {
+                opacity: 1;
+                transform: translateY(0);
+                animation: slideUpNotif 0.5s ease-out;
+            }
+            @keyframes slideUpNotif {
+                0% { opacity: 0; transform: translateY(8px); }
+                100% { opacity: 1; transform: translateY(0); }
+            }
+        `;
+        document.head.appendChild(styleTag);
+
+        // 🔄 Update Notification Function
+        function updateNotification() {
+            if (!liveNotification || !liveUserName || !liveAmount) return;
+
+            // Fade out
+            liveNotification.classList.remove('fade-in');
+            liveNotification.classList.add('fade-out');
+
+            setTimeout(() => {
+                // নতুন নাম ও amount সেট করুন
+                const newName = generateRandomUser();
+                const newAmount = generateRealisticAmount();
+
+                liveUserName.textContent = newName;
+                liveAmount.textContent = newAmount + ' USDT';
+
+                // Fade in
+                liveNotification.classList.remove('fade-out');
+                liveNotification.classList.add('fade-in');
+
+                // পরবর্তী update schedule (2-4 সেকেন্ড)
+                const nextDelay = Math.floor(Math.random() * 2000) + 2000; // 2000-4000ms
+                setTimeout(updateNotification, nextDelay);
+
+            }, 400); // fade out এর পর
+        }
+
+        // 🚀 প্রথম notification + লুপ শুরু
+        // Initial delay 2 সেকেন্ড
+        setTimeout(() => {
+            // প্রথম নাম সেট
+            const firstName = generateRandomUser();
+            const firstAmount = generateRealisticAmount();
+            if (liveUserName) liveUserName.textContent = firstName;
+            if (liveAmount) liveAmount.textContent = firstAmount + ' USDT';
+            
+            // পরের গুলো schedule
+            const initialDelay = Math.floor(Math.random() * 2000) + 2000;
+            setTimeout(updateNotification, initialDelay);
+        }, 1000);
     </script>
 </body>
 </html>
