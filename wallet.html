@@ -1,0 +1,1169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="theme-color" content="#f5f5f5">
+    <title>Wallet - UMALL247</title>
+    <link rel="stylesheet" href="detail.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* ================= Wallet (Recharge/Withdrawal/Invitation) ================= */
+        .wallet-container {
+            max-width: 500px;
+            margin: 0 auto;
+            padding: 16px 16px 30px 16px;
+        }
+
+        /* ---------- Tab Bar ---------- */
+        .wallet-tabs {
+            display: flex;
+            gap: 4px;
+            margin-bottom: 18px;
+            background: var(--card);
+            border-radius: 12px;
+            padding: 4px;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border);
+        }
+
+        .wallet-tab {
+            flex: 1;
+            padding: 12px 8px;
+            text-align: center;
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--text-light);
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s;
+            background: transparent;
+            border: none;
+            font-family: inherit;
+            -webkit-tap-highlight-color: transparent;
+            touch-action: manipulation;
+        }
+
+        .wallet-tab.active {
+            background: #fde4d0;
+            color: #e65c00;
+        }
+
+        body.dark-mode .wallet-tab.active {
+            background: rgba(230, 92, 0, 0.2);
+            color: #ff8c42;
+        }
+
+        /* ---------- Common ---------- */
+        .wallet-section {
+            display: none;
+        }
+
+        .wallet-section.active {
+            display: block;
+        }
+
+        .wallet-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 18px;
+        }
+
+        .wallet-header i.back-icon {
+            font-size: 18px;
+            color: var(--text);
+            cursor: pointer;
+            padding: 6px;
+            border-radius: 8px;
+        }
+
+        .wallet-title {
+            font-size: 18px;
+            font-weight: 800;
+            color: var(--text);
+            margin: 0;
+        }
+
+        /* ---------- Sub Tabs (Recharge/History) ---------- */
+        .sub-tabs {
+            display: flex;
+            background: var(--card);
+            border-radius: 12px;
+            padding: 4px;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border);
+            margin-bottom: 20px;
+        }
+
+        .sub-tab {
+            flex: 1;
+            padding: 10px;
+            text-align: center;
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text-light);
+            border-radius: 8px;
+            cursor: pointer;
+            background: transparent;
+            border: none;
+            font-family: inherit;
+            -webkit-tap-highlight-color: transparent;
+            touch-action: manipulation;
+        }
+
+        .sub-tab.active {
+            background: #fde4d0;
+            color: #e65c00;
+        }
+
+        body.dark-mode .sub-tab.active {
+            background: rgba(230, 92, 0, 0.2);
+            color: #ff8c42;
+        }
+
+        /* ---------- Labels & Inputs ---------- */
+        .form-label {
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--text);
+            margin-bottom: 8px;
+            display: block;
+        }
+
+        .form-group {
+            margin-bottom: 16px;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 14px 16px;
+            border-radius: 12px;
+            border: 1px solid var(--border);
+            background: var(--card);
+            color: var(--text);
+            font-size: 15px;
+            font-family: inherit;
+            outline: none;
+            -webkit-appearance: none;
+            appearance: none;
+            box-shadow: var(--shadow);
+        }
+
+        .form-input::placeholder {
+            color: var(--text-light);
+            opacity: 0.8;
+        }
+
+        .form-input:focus {
+            border-color: #e65c00;
+        }
+
+        .input-with-suffix {
+            position: relative;
+        }
+
+        .input-with-suffix .form-input {
+            padding-right: 65px;
+        }
+
+        .input-suffix {
+            position: absolute;
+            right: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--text);
+        }
+
+        /* ---------- Protocol Buttons ---------- */
+        .protocol-row {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 8px;
+            margin-bottom: 16px;
+        }
+
+        .protocol-btn {
+            padding: 14px 8px;
+            border-radius: 12px;
+            border: 1px solid var(--border);
+            background: var(--card);
+            color: var(--text);
+            font-size: 12px;
+            font-weight: 700;
+            cursor: pointer;
+            font-family: inherit;
+            text-align: center;
+            -webkit-tap-highlight-color: transparent;
+            touch-action: manipulation;
+            transition: all 0.2s;
+        }
+
+        .protocol-btn.active {
+            border: 2px solid #e65c00;
+            color: #e65c00;
+            background: #fde4d0;
+        }
+
+        body.dark-mode .protocol-btn.active {
+            background: rgba(230, 92, 0, 0.15);
+            color: #ff8c42;
+        }
+
+        /* ---------- Select/Dropdown ---------- */
+        .form-select {
+            width: 100%;
+            padding: 14px 16px;
+            border-radius: 12px;
+            border: 1px solid var(--border);
+            background: var(--card);
+            color: var(--text);
+            font-size: 15px;
+            font-family: inherit;
+            outline: none;
+            -webkit-appearance: none;
+            appearance: none;
+            box-shadow: var(--shadow);
+            cursor: pointer;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23666' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 16px center;
+        }
+
+        /* ---------- Warning Box ---------- */
+        .warning-box {
+            background: #fef3c7;
+            border: 1px solid #fde68a;
+            border-radius: 12px;
+            padding: 14px 16px;
+            display: flex;
+            gap: 10px;
+            margin-bottom: 18px;
+            font-size: 12.5px;
+            color: #92400e;
+            line-height: 1.5;
+        }
+
+        .warning-box i {
+            color: #d97706;
+            font-size: 16px;
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+
+        body.dark-mode .warning-box {
+            background: rgba(217, 119, 6, 0.15);
+            border-color: rgba(217, 119, 6, 0.3);
+            color: #fbbf24;
+        }
+
+        body.dark-mode .warning-box i {
+            color: #fbbf24;
+        }
+
+        /* ---------- Orange Balance Card (Withdrawal) ---------- */
+        .balance-orange-card {
+            background: linear-gradient(135deg, #f59e0b 0%, #ea580c 100%);
+            border-radius: 16px;
+            padding: 20px;
+            color: #fff;
+            margin-bottom: 16px;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 8px 20px rgba(234, 88, 12, 0.3);
+        }
+
+        .balance-orange-card::before {
+            content: '';
+            position: absolute;
+            top: -60px;
+            right: -60px;
+            width: 180px;
+            height: 180px;
+            background: rgba(255, 255, 255, 0.12);
+            border-radius: 50%;
+            pointer-events: none;
+        }
+
+        .balance-orange-top {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 14px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .balance-orange-label {
+            font-size: 11.5px;
+            color: rgba(255, 255, 255, 0.9);
+            font-weight: 500;
+        }
+
+        .balance-orange-amount {
+            font-size: 26px;
+            font-weight: 800;
+            color: #fff;
+            margin-top: 4px;
+            letter-spacing: 0.5px;
+        }
+
+        .balance-orange-right {
+            text-align: right;
+        }
+
+        /* ---------- Processing Info ---------- */
+        .processing-info {
+            background: var(--card);
+            border-radius: 12px;
+            padding: 14px 16px;
+            margin-bottom: 16px;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border);
+            font-size: 13px;
+        }
+
+        .processing-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .processing-row:last-child {
+            border-bottom: none;
+        }
+
+        .processing-row .label {
+            color: var(--text-light);
+        }
+
+        .processing-row .value {
+            font-weight: 700;
+            color: var(--text);
+        }
+
+        .processing-row .value.red {
+            color: #dc2626;
+        }
+
+        .processing-row .value.green {
+            color: #10b981;
+        }
+
+        /* ---------- Action Button ---------- */
+        .action-btn-primary {
+            width: 100%;
+            padding: 15px;
+            border-radius: 12px;
+            border: none;
+            background: linear-gradient(90deg, #e65c00, #d97706);
+            color: #fff;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            font-family: inherit;
+            box-shadow: 0 6px 16px rgba(230, 92, 0, 0.3);
+            -webkit-tap-highlight-color: transparent;
+            touch-action: manipulation;
+        }
+
+        .action-btn-primary:active {
+            transform: scale(0.98);
+        }
+
+        /* ---------- Invitation ---------- */
+        .invite-hero {
+            text-align: center;
+            padding: 20px;
+            background: var(--card);
+            border-radius: 16px;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border);
+            margin-bottom: 16px;
+        }
+
+        .invite-hero-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: #fef3c7;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 12px;
+            font-size: 28px;
+            color: #d97706;
+        }
+
+        .invite-hero-title {
+            font-size: 20px;
+            font-weight: 800;
+            color: #e65c00;
+            margin: 0 0 6px;
+        }
+
+        .invite-hero-subtitle {
+            font-size: 13px;
+            color: var(--text-light);
+            margin: 0;
+            line-height: 1.5;
+        }
+
+        .invite-code-card {
+            background: var(--card);
+            border-radius: 16px;
+            padding: 20px;
+            text-align: center;
+            margin-bottom: 16px;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border);
+        }
+
+        .invite-code-label {
+            font-size: 12px;
+            color: var(--text-light);
+            margin-bottom: 6px;
+        }
+
+        .invite-code-value {
+            font-size: 32px;
+            font-weight: 800;
+            color: #e65c00;
+            letter-spacing: 3px;
+            margin-bottom: 18px;
+        }
+
+        .ref-link-label {
+            font-size: 12px;
+            color: var(--text-light);
+            margin-bottom: 8px;
+            text-align: left;
+            font-weight: 600;
+        }
+
+        .ref-link-row {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 14px;
+        }
+
+        .ref-link-input {
+            flex: 1;
+            padding: 12px 14px;
+            border-radius: 10px;
+            border: 1px solid var(--border);
+            background: var(--bg);
+            color: var(--text);
+            font-size: 12.5px;
+            font-family: inherit;
+            outline: none;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .copy-btn {
+            width: 44px;
+            border-radius: 10px;
+            border: none;
+            background: #fde4d0;
+            color: #e65c00;
+            cursor: pointer;
+            font-size: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            -webkit-tap-highlight-color: transparent;
+            touch-action: manipulation;
+        }
+
+        .copy-btn:active {
+            transform: scale(0.95);
+        }
+
+        .share-btn {
+            width: 100%;
+            padding: 14px;
+            border-radius: 12px;
+            border: none;
+            background: linear-gradient(90deg, #f59e0b, #d97706);
+            color: #fff;
+            font-size: 15px;
+            font-weight: 700;
+            cursor: pointer;
+            font-family: inherit;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            box-shadow: 0 6px 16px rgba(245, 158, 11, 0.35);
+            -webkit-tap-highlight-color: transparent;
+            touch-action: manipulation;
+        }
+
+        .share-btn:active {
+            transform: scale(0.98);
+        }
+
+        /* Stats */
+        .stats-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-bottom: 16px;
+        }
+
+        .stat-card {
+            background: var(--card);
+            border-radius: 14px;
+            padding: 18px;
+            text-align: center;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border);
+        }
+
+        .stat-value {
+            font-size: 22px;
+            font-weight: 800;
+            color: #e65c00;
+            margin-bottom: 4px;
+        }
+
+        .stat-label {
+            font-size: 11.5px;
+            color: var(--text-light);
+            font-weight: 600;
+        }
+
+        /* Team Section */
+        .team-section {
+            background: var(--card);
+            border-radius: 14px;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border);
+            margin-bottom: 16px;
+            overflow: hidden;
+        }
+
+        .team-header {
+            padding: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 700;
+            color: var(--text);
+        }
+
+        .team-header i {
+            color: var(--text-light);
+            font-size: 12px;
+        }
+
+        /* Tips */
+        .tips-section {
+            background: var(--bg);
+            border-radius: 14px;
+            padding: 18px;
+            border: 1px solid var(--border);
+            margin-bottom: 16px;
+        }
+
+        .tips-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .tips-list li {
+            display: flex;
+            gap: 10px;
+            font-size: 12.5px;
+            color: var(--text-light);
+            line-height: 1.6;
+            padding: 8px 0;
+            align-items: flex-start;
+        }
+
+        .tips-list li i {
+            color: #d97706;
+            margin-top: 5px;
+            font-size: 6px;
+            flex-shrink: 0;
+        }
+
+        /* History Tab (empty) */
+        .history-empty {
+            background: var(--card);
+            border-radius: 14px;
+            padding: 40px 20px;
+            text-align: center;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border);
+        }
+
+        .history-empty i {
+            font-size: 40px;
+            color: var(--text-light);
+            opacity: 0.4;
+            margin-bottom: 12px;
+            display: block;
+        }
+
+        .history-empty p {
+            color: var(--text-light);
+            font-size: 14px;
+            margin: 0;
+        }
+
+        /* RTL */
+        body.rtl .wallet-header {
+            flex-direction: row-reverse;
+        }
+
+        body.rtl .ref-link-row {
+            flex-direction: row-reverse;
+        }
+
+        body.rtl .input-suffix {
+            right: auto;
+            left: 16px;
+        }
+
+        body.rtl .input-with-suffix .form-input {
+            padding-right: 16px;
+            padding-left: 65px;
+        }
+
+        /* Mobile */
+        @media (max-width: 360px) {
+            .wallet-title { font-size: 16px; }
+            .invite-code-value { font-size: 26px; letter-spacing: 2px; }
+            .protocol-btn { font-size: 11px; padding: 12px 6px; }
+            .form-input { padding: 12px 14px; font-size: 14px; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ================= হেডার ================= -->
+    <header class="dash-header">
+        <div class="brand-logo">
+            <span class="logo-icon">U<span class="fire-flame"></span></span>
+            <span class="logo-text">UMALL<span class="logo-24">247</span></span>
+        </div>
+        <div class="header-controls">
+            <div class="lang-selector-sm">
+                <select id="dashLanguageSelect">
+                    <option value="en">US English</option>
+                    <option value="es">Español</option>
+                    <option value="fr">Français</option>
+                    <option value="de">Deutsch</option>
+                    <option value="it">Italiano</option>
+                    <option value="pt">Português</option>
+                    <option value="nl">Nederlands</option>
+                    <option value="ru">Русский</option>
+                    <option value="tr">Türkçe</option>
+                    <option value="ar">العربية</option>
+                    <option value="fa">فارسی</option>
+                </select>
+            </div>
+            <button id="dashThemeToggle" class="theme-toggle-sm" type="button">
+                <i class="fa-solid fa-moon"></i>
+            </button>
+        </div>
+    </header>
+
+    <!-- ================= Wallet Container ================= -->
+    <main class="wallet-container">
+
+        <!-- ========== Top Tabs ========== -->
+        <div class="wallet-tabs">
+            <button class="wallet-tab active" data-tab="recharge">
+                <i class="fa-solid fa-download"></i> Recharge
+            </button>
+            <button class="wallet-tab" data-tab="withdrawal">
+                <i class="fa-solid fa-upload"></i> Withdrawal
+            </button>
+            <button class="wallet-tab" data-tab="invitation">
+                <i class="fa-solid fa-user-plus"></i> Invitation
+            </button>
+        </div>
+
+        <!-- ============================================================
+             TAB 1: RECHARGE
+             ============================================================ -->
+        <section class="wallet-section active" id="section-recharge">
+
+            <div class="wallet-header">
+                <i class="fa-solid fa-arrow-left back-icon" onclick="window.location.href='dashboard.html'"></i>
+                <h2 class="wallet-title">Recharge Account</h2>
+            </div>
+
+            <!-- Sub Tabs -->
+            <div class="sub-tabs">
+                <button class="sub-tab active" data-subtab="recharge-form">
+                    <i class="fa-solid fa-circle-plus"></i> Recharge
+                </button>
+                <button class="sub-tab" data-subtab="recharge-history">
+                    <i class="fa-solid fa-list"></i> History
+                </button>
+            </div>
+
+            <!-- Recharge Form -->
+            <div id="recharge-form">
+                <div class="form-group">
+                    <label class="form-label">Payment Method</label>
+                    <input type="text" class="form-input" value="USDT (Cryptocurrency)" readonly>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Select Protocol (Network)</label>
+                    <div class="protocol-row">
+                        <button class="protocol-btn active" data-protocol="TRC20">TRON (TRC-20)</button>
+                        <button class="protocol-btn" data-protocol="BEP20">BSC (BEP-20)</button>
+                        <button class="protocol-btn" data-protocol="ERC20">ETH (ERC-20)</button>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Recharge Amount (USDT)</label>
+                    <div class="input-with-suffix">
+                        <input type="number" class="form-input" id="rechargeAmount" placeholder="Please enter the amount" min="0" step="0.01">
+                        <span class="input-suffix">USDT</span>
+                    </div>
+                </div>
+
+                <button class="action-btn-primary" id="rechargeNowBtn">
+                    Deposit now
+                </button>
+            </div>
+
+            <!-- Recharge History -->
+            <div id="recharge-history" style="display:none;">
+                <div class="history-empty">
+                    <i class="fa-solid fa-receipt"></i>
+                    <p>No recharge history yet</p>
+                </div>
+            </div>
+
+        </section>
+
+        <!-- ============================================================
+             TAB 2: WITHDRAWAL
+             ============================================================ -->
+        <section class="wallet-section" id="section-withdrawal">
+
+            <div class="wallet-header">
+                <i class="fa-solid fa-arrow-left back-icon" onclick="window.location.href='dashboard.html'"></i>
+                <h2 class="wallet-title">Withdraw Funds</h2>
+            </div>
+
+            <!-- Orange Balance Card -->
+            <div class="balance-orange-card">
+                <div class="balance-orange-top">
+                    <div>
+                        <div class="balance-orange-label">Available Balance</div>
+                        <div class="balance-orange-amount" id="withdrawAvailable">$0.00</div>
+                    </div>
+                    <div class="balance-orange-right">
+                        <div class="balance-orange-label">Pending Withdrawal</div>
+                        <div class="balance-orange-amount">$0.00</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sub Tabs -->
+            <div class="sub-tabs">
+                <button class="sub-tab active" data-subtab="withdraw-form">
+                    <i class="fa-solid fa-circle-plus"></i> New Request
+                </button>
+                <button class="sub-tab" data-subtab="withdraw-history">
+                    <i class="fa-solid fa-list"></i> History
+                </button>
+            </div>
+
+            <!-- Withdraw Form -->
+            <div id="withdraw-form">
+                <!-- Warning -->
+                <div class="warning-box">
+                    <i class="fa-solid fa-triangle-exclamation"></i>
+                    <div>
+                        Withdrawals are reviewed and processed manually within 24 hours. The withdrawal fee (5%) is deducted from your balance immediately upon request.
+                    </div>
+                </div>
+
+                <!-- Payment Method -->
+                <div class="form-group">
+                    <label class="form-label">Payment Method</label>
+                    <select class="form-select" id="withdrawMethod">
+                        <option value="TRC20">USDT (TRC20)</option>
+                        <option value="BEP20">USDT (BEP20)</option>
+                        <option value="ERC20">USDT (ERC20)</option>
+                    </select>
+                </div>
+
+                <!-- Amount -->
+                <div class="form-group">
+                    <label class="form-label">Withdrawal Amount (USDT)</label>
+                    <input type="number" class="form-input" id="withdrawAmount" placeholder="Min. $20" min="20" step="0.01">
+                </div>
+
+                <!-- Processing Info -->
+                <div class="processing-info">
+                    <div class="processing-row">
+                        <span class="label">Processing Fee (5%):</span>
+                        <span class="value red" id="feeAmount">-$0.00</span>
+                    </div>
+                    <div class="processing-row">
+                        <span class="label">Net Amount Disbursed:</span>
+                        <span class="value green" id="netAmount">$0.00</span>
+                    </div>
+                </div>
+
+                <!-- Owner Name -->
+                <div class="form-group">
+                    <label class="form-label">Account / Wallet Owner Name</label>
+                    <input type="text" class="form-input" id="withdrawOwner" placeholder="e.g. John Doe">
+                </div>
+
+                <!-- Wallet Address -->
+                <div class="form-group">
+                    <label class="form-label">Wallet Address (Set in Mine page)</label>
+                    <input type="text" class="form-input" id="withdrawAddress" placeholder="Not set. Please go to Mine -> Wallet to set." readonly style="background: #d1d5db;">
+                </div>
+
+                <!-- Notes -->
+                <div class="form-group">
+                    <label class="form-label">Notes (Optional)</label>
+                    <textarea class="form-input" id="withdrawNotes" rows="3" placeholder="Provide additional details if needed..." style="resize: none;"></textarea>
+                </div>
+
+                <button class="action-btn-primary" id="submitWithdrawBtn">
+                    Submit Withdrawal Request
+                </button>
+            </div>
+
+            <!-- Withdraw History -->
+            <div id="withdraw-history" style="display:none;">
+                <div class="history-empty">
+                    <i class="fa-solid fa-receipt"></i>
+                    <p>No withdrawal history yet</p>
+                </div>
+            </div>
+
+        </section>
+
+        <!-- ============================================================
+             TAB 3: INVITATION
+             ============================================================ -->
+        <section class="wallet-section" id="section-invitation">
+
+            <!-- Invite Hero -->
+            <div class="invite-hero">
+                <div class="invite-hero-icon">
+                    <i class="fa-solid fa-medal"></i>
+                </div>
+                <h2 class="invite-hero-title">Invite Friends</h2>
+                <p class="invite-hero-subtitle">Share your referral link with friends and earn rewards</p>
+            </div>
+
+            <!-- Invite Code Card -->
+            <div class="invite-code-card">
+                <div class="invite-code-label">Your Invitation Code</div>
+                <div class="invite-code-value" id="inviteCodeBig">------</div>
+
+                <div class="ref-link-label">Referral Link</div>
+                <div class="ref-link-row">
+                    <input type="text" class="ref-link-input" id="refLinkInput" readonly value="Loading...">
+                    <button class="copy-btn" id="copyRefBtn" type="button">
+                        <i class="fa-solid fa-copy"></i>
+                    </button>
+                </div>
+
+                <button class="share-btn" id="shareInviteBtn" type="button">
+                    <i class="fa-solid fa-share-nodes"></i>
+                    Share Invite Link
+                </button>
+            </div>
+
+            <!-- Stats -->
+            <div class="stats-row">
+                <div class="stat-card">
+                    <div class="stat-value" id="directCount">0</div>
+                    <div class="stat-label">Direct Members (L1)</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" id="indirectCount">0</div>
+                    <div class="stat-label">Indirect Members (L2)</div>
+                </div>
+            </div>
+
+            <!-- Team Section -->
+            <div class="team-section">
+                <div class="team-header">
+                    <span><i class="fa-solid fa-users"></i> My Direct Team (L1)</span>
+                    <i class="fa-solid fa-chevron-down"></i>
+                </div>
+            </div>
+
+            <!-- Tips -->
+            <div class="tips-section">
+                <ul class="tips-list">
+                    <li>
+                        <i class="fa-solid fa-circle"></i>
+                        <span>Help your friends and family discover a genuine product promotion opportunity.</span>
+                    </li>
+                    <li>
+                        <i class="fa-solid fa-circle"></i>
+                        <span>Give others the chance to start working and earn through product promotion tasks.</span>
+                    </li>
+                    <li>
+                        <i class="fa-solid fa-circle"></i>
+                        <span>Share your referral code with trusted people and help them begin their journey.</span>
+                    </li>
+                </ul>
+            </div>
+
+        </section>
+
+    </main>
+
+    <!-- ================= নিচের নেভিগেশন ================= -->
+    <nav class="bottom-nav">
+        <a href="dashboard.html" class="nav-item">
+            <i class="fa-solid fa-house"></i>
+            <span data-key="navHome">Home</span>
+        </a>
+        <a href="service.html" class="nav-item">
+            <i class="fa-solid fa-headset"></i>
+            <span data-key="navService">Service</span>
+        </a>
+        <a href="menu.html" class="nav-item">
+            <i class="fa-solid fa-grip"></i>
+            <span data-key="navMenu">Menu</span>
+        </a>
+        <a href="record.html" class="nav-item">
+            <i class="fa-solid fa-clipboard"></i>
+            <span data-key="navRecord">Record</span>
+        </a>
+        <a href="mine.html" class="nav-item">
+            <i class="fa-solid fa-user"></i>
+            <span data-key="navMine">Mine</span>
+        </a>
+    </nav>
+
+    <script src="detail.js"></script>
+
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+    <script src="firebase-auth.js"></script>
+
+    <script>
+        // ============================================================
+        // 🔀 URL parameter থেকে tab সিলেক্ট করুন
+        // ============================================================
+        const urlParams = new URLSearchParams(window.location.search);
+        const initialTab = urlParams.get('tab') || 'recharge';
+
+        function switchTab(tabName) {
+            document.querySelectorAll('.wallet-tab').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('.wallet-section').forEach(s => s.classList.remove('active'));
+
+            const tabBtn = document.querySelector('.wallet-tab[data-tab="' + tabName + '"]');
+            const section = document.getElementById('section-' + tabName);
+
+            if (tabBtn) tabBtn.classList.add('active');
+            if (section) section.classList.add('active');
+
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // Top Tab click
+        document.querySelectorAll('.wallet-tab').forEach(tab => {
+            tab.addEventListener('click', function() {
+                switchTab(this.getAttribute('data-tab'));
+            });
+        });
+
+        // Initial tab
+        switchTab(initialTab);
+
+        // ============================================================
+        // Sub tabs (Recharge / History)
+        // ============================================================
+        document.querySelectorAll('.sub-tab').forEach(tab => {
+            tab.addEventListener('click', function() {
+                const subtabId = this.getAttribute('data-subtab');
+                const parent = this.closest('.wallet-section');
+
+                parent.querySelectorAll('.sub-tab').forEach(t => t.classList.remove('active'));
+                this.classList.add('active');
+
+                // Hide all subtab contents
+                if (parent.id === 'section-recharge') {
+                    document.getElementById('recharge-form').style.display = (subtabId === 'recharge-form') ? 'block' : 'none';
+                    document.getElementById('recharge-history').style.display = (subtabId === 'recharge-history') ? 'block' : 'none';
+                } else if (parent.id === 'section-withdrawal') {
+                    document.getElementById('withdraw-form').style.display = (subtabId === 'withdraw-form') ? 'block' : 'none';
+                    document.getElementById('withdraw-history').style.display = (subtabId === 'withdraw-history') ? 'block' : 'none';
+                }
+            });
+        });
+
+        // ============================================================
+        // Protocol buttons
+        // ============================================================
+        document.querySelectorAll('.protocol-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                document.querySelectorAll('.protocol-btn').forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+            });
+        });
+
+        // ============================================================
+        // Withdrawal Fee Calculate
+        // ============================================================
+        const withdrawAmountInput = document.getElementById('withdrawAmount');
+        const feeAmountEl = document.getElementById('feeAmount');
+        const netAmountEl = document.getElementById('netAmount');
+
+        if (withdrawAmountInput) {
+            withdrawAmountInput.addEventListener('input', function() {
+                const amt = parseFloat(this.value) || 0;
+                const fee = amt * 0.05;
+                const net = amt - fee;
+
+                feeAmountEl.textContent = '-$' + fee.toFixed(2);
+                netAmountEl.textContent = '$' + net.toFixed(2);
+            });
+        }
+
+        // ============================================================
+        // 🔥 Firebase — Auth check + Load Data
+        // ============================================================
+        waitForAuthReady(async function(isLoggedIn, user) {
+            if (!isLoggedIn) {
+                window.location.replace('index.html');
+                return;
+            }
+
+            const result = await getUserData(user.uid);
+            if (result.success) {
+                const data = result.data;
+
+                // Recharge: Available Balance দেখান
+                const wAvailable = document.getElementById('withdrawAvailable');
+                if (wAvailable) wAvailable.textContent = '$' + (data.balance || 0).toFixed(2);
+
+                // Invitation: Refer Code
+                const codeBig = document.getElementById('inviteCodeBig');
+                if (codeBig) codeBig.textContent = data.myReferCode || '------';
+
+                // Referral Link
+                const refLink = document.getElementById('refLinkInput');
+                if (refLink && data.myReferCode) {
+                    refLink.value = getReferralLink(data.myReferCode);
+                }
+
+                // Direct/Indirect count
+                const directCount = document.getElementById('directCount');
+                const indirectCount = document.getElementById('indirectCount');
+                if (directCount) directCount.textContent = data.referralCount || 0;
+                if (indirectCount) indirectCount.textContent = data.indirectCount || 0;
+            }
+        });
+
+        // ============================================================
+        // 📋 Copy Referral Link
+        // ============================================================
+        const copyRefBtn = document.getElementById('copyRefBtn');
+        if (copyRefBtn) {
+            copyRefBtn.addEventListener('click', async function() {
+                const refLink = document.getElementById('refLinkInput');
+                if (!refLink || !refLink.value) return;
+                try {
+                    await navigator.clipboard.writeText(refLink.value);
+                    this.innerHTML = '<i class="fa-solid fa-check"></i>';
+                    setTimeout(() => { this.innerHTML = '<i class="fa-solid fa-copy"></i>'; }, 1500);
+                } catch (e) {
+                    alert('Link: ' + refLink.value);
+                }
+            });
+        }
+
+        // ============================================================
+        // 📤 Share Invitation
+        // ============================================================
+        const shareInviteBtn = document.getElementById('shareInviteBtn');
+        if (shareInviteBtn) {
+            shareInviteBtn.addEventListener('click', async function() {
+                const refLink = document.getElementById('refLinkInput');
+                const code = document.getElementById('inviteCodeBig');
+                if (!refLink || !refLink.value) return;
+
+                const shareText = `Join UMALL247 and start earning! Use my refer code: ${code.textContent}\n${refLink.value}`;
+
+                if (navigator.share) {
+                    try {
+                        await navigator.share({
+                            title: 'UMALL247 Invitation',
+                            text: shareText,
+                            url: refLink.value
+                        });
+                    } catch (err) { /* cancelled */ }
+                } else {
+                    try {
+                        await navigator.clipboard.writeText(refLink.value);
+                        alert('Referral link copied!\n\n' + refLink.value);
+                    } catch (err) {
+                        prompt('Copy your referral link:', refLink.value);
+                    }
+                }
+            });
+        }
+
+        // ============================================================
+        // 💰 Recharge Now
+        // ============================================================
+        const rechargeNowBtn = document.getElementById('rechargeNowBtn');
+        if (rechargeNowBtn) {
+            rechargeNowBtn.addEventListener('click', function() {
+                const amount = document.getElementById('rechargeAmount').value;
+                const protocol = document.querySelector('.protocol-btn.active')?.getAttribute('data-protocol') || 'TRC20';
+
+                if (!amount || parseFloat(amount) <= 0) {
+                    alert('Please enter a valid amount');
+                    return;
+                }
+                alert('Recharge request:\nAmount: ' + amount + ' USDT\nNetwork: ' + protocol + '\n\n(Payment gateway will open here)');
+            });
+        }
+
+        // ============================================================
+        // 💸 Submit Withdrawal
+        // ============================================================
+        const submitWithdrawBtn = document.getElementById('submitWithdrawBtn');
+        if (submitWithdrawBtn) {
+            submitWithdrawBtn.addEventListener('click', function() {
+                const amount = document.getElementById('withdrawAmount').value;
+                const owner = document.getElementById('withdrawOwner').value.trim();
+
+                if (!amount || parseFloat(amount) < 20) {
+                    alert('Minimum withdrawal is $20');
+                    return;
+                }
+                if (!owner) {
+                    alert('Please enter the account/wallet owner name');
+                    return;
+                }
+                alert('Withdrawal request submitted!\nAmount: $' + amount + '\nOwner: ' + owner + '\n\nProcessing within 24 hours.');
+            });
+        }
+    </script>
+</body>
+</html>
