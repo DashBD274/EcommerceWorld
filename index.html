@@ -39,19 +39,25 @@
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            gap: 28px;
+            gap: 30px;
         }
 
-        /* 🔼 উপরের লোগো — Amazon Basket */
+        /* 🎨 সব লোগোর কমন স্টাইল — সাদা background */
+        .splash-logo-img {
+            background: #ffffff;
+            border-radius: 20px;
+            padding: 15px 22px;
+            box-shadow: 0 8px 30px rgba(255, 153, 0, 0.4);
+            object-fit: contain;
+        }
+
+        /* 🔼 উপরের লোগো — Amazon Cart */
         .splash-basket-logo {
             width: 130px;
-            height: auto;
-            max-width: 45vw;
+            height: 130px;
             animation: basketGrow 2.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
             transform: scale(0.1);
             opacity: 0;
-            filter: brightness(1.05) drop-shadow(0 0 20px rgba(255, 153, 0, 0.5));
-            object-fit: contain;
         }
 
         @keyframes basketGrow {
@@ -77,16 +83,13 @@
             }
         }
 
-        /* 🔽 নিচের লোগো — Amazon Seller */
+        /* 🔽 নিচের লোগো — Amazon Text Logo */
         .splash-seller-logo {
             width: 200px;
             height: auto;
-            max-width: 68vw;
             animation: sellerAppear 1s ease-out 1.2s forwards;
             transform: scale(0.5);
             opacity: 0;
-            filter: brightness(1.05) drop-shadow(0 0 15px rgba(255, 153, 0, 0.4));
-            object-fit: contain;
         }
 
         @keyframes sellerAppear {
@@ -104,37 +107,6 @@
             }
         }
 
-        /* ✨ Amazing টেক্সট */
-        .splash-amazing-text {
-            position: absolute;
-            bottom: 22%;
-            font-size: 28px;
-            font-weight: 800;
-            color: #ff9900;
-            letter-spacing: 4px;
-            text-transform: uppercase;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            opacity: 0;
-            animation: amazingAppear 0.5s ease-out 2.5s forwards;
-            text-shadow:
-                0 0 10px rgba(255, 153, 0, 0.7),
-                0 0 20px rgba(255, 153, 0, 0.5),
-                0 0 30px rgba(255, 153, 0, 0.3);
-        }
-
-        @keyframes amazingAppear {
-            0% {
-                opacity: 0;
-                transform: translateY(15px) scale(0.8);
-                letter-spacing: 12px;
-            }
-            100% {
-                opacity: 1;
-                transform: translateY(0) scale(1);
-                letter-spacing: 4px;
-            }
-        }
-
         /* 🎁 Splash Screen থেকে কন্টেন্ট দেখানো */
         #mainContent {
             opacity: 0;
@@ -147,43 +119,40 @@
 
         /* 📱 Mobile */
         @media (max-width: 480px) {
-            .splash-logo-wrap { gap: 24px; }
-            .splash-basket-logo { width: 110px; max-width: 50vw; }
-            .splash-seller-logo { width: 170px; max-width: 72vw; }
-            .splash-amazing-text { font-size: 22px; letter-spacing: 3px; }
+            .splash-logo-wrap { gap: 25px; }
+            .splash-basket-logo { width: 110px; height: 110px; padding: 12px 18px; }
+            .splash-seller-logo { width: 170px; }
         }
 
         @media (max-width: 360px) {
             .splash-logo-wrap { gap: 20px; }
-            .splash-basket-logo { width: 90px; }
+            .splash-basket-logo { width: 90px; height: 90px; padding: 10px 14px; }
             .splash-seller-logo { width: 140px; }
-            .splash-amazing-text { font-size: 18px; letter-spacing: 2px; }
         }
     </style>
 </head>
 <body>
 
     <!-- ============================================================
-         🎬 SPLASH SCREEN — Amazon Basket + Seller + Amazing
+         🎬 SPLASH SCREEN — ২টি Amazon লোগো (সাদা background)
          ============================================================ -->
     <div id="splashScreen">
         <div class="splash-logo-wrap">
             
-            <!-- 🔼 উপরের লোগো: Amazon Shopping Cart (Wikimedia) -->
+            <!-- 🔼 উপরের লোগো: Amazon Cart (সাদা BG) -->
             <img 
                 src="https://upload.wikimedia.org/wikipedia/commons/d/de/Amazon_icon.png" 
                 alt="Amazon Cart" 
-                class="splash-basket-logo"
+                class="splash-logo-img splash-basket-logo"
             >
 
-            <!-- 🔽 নিচের লোগো: Amazon Logo (Wikimedia) -->
+            <!-- 🔽 নিচের লোগো: Amazon Text (সাদা BG) -->
             <img 
                 src="https://upload.wikimedia.org/wikipedia/commons/a/a9/Amazon_logo.svg" 
-                alt="Amazon Seller" 
-                class="splash-seller-logo"
+                alt="Amazon" 
+                class="splash-logo-img splash-seller-logo"
             >
         </div>
-        <div class="splash-amazing-text">Amazing</div>
     </div>
 
     <!-- ============================================================
