@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <meta name="theme-color" content="#f5f5f5">
-    <title>Amazon - UMALL247</title>
+    <title>Order - UMALL247</title>
     <link rel="stylesheet" href="detail.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
@@ -37,7 +37,7 @@
             margin: 0;
         }
 
-        /* 💰 Actual Account Balance Card (Orange-Pink Gradient) */
+        /* 💰 Actual Account Balance Card */
         .actual-balance-card {
             background: linear-gradient(135deg, #f97316 0%, #ef4444 100%);
             border-radius: 18px;
@@ -100,7 +100,7 @@
             color: rgba(255, 255, 255, 0.95);
         }
 
-        /* 📊 Stats Grid (2 columns) */
+        /* 📊 Stats Grid */
         .stats-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -168,7 +168,7 @@
             font-size: 18px;
         }
 
-        /* 📋 Rules Card (Light Orange) */
+        /* 📋 Rules Card */
         .rules-card {
             background: #fff7ed;
             border: 1px solid #fed7aa;
@@ -193,10 +193,6 @@
 
         body.dark-mode .rules-title {
             color: #fb923c;
-        }
-
-        .rules-title i {
-            font-size: 15px;
         }
 
         .rules-list {
@@ -230,12 +226,6 @@
 
         body.dark-mode .rules-list li::before {
             color: #fb923c;
-        }
-
-        /* Animation for loading */
-        @keyframes popIn {
-            0% { transform: scale(0.9); opacity: 0; }
-            100% { transform: scale(1); opacity: 1; }
         }
 
         /* RTL */
@@ -344,11 +334,11 @@
         <div class="rules-card">
             <h3 class="rules-title">
                 <i class="fa-solid fa-circle-exclamation"></i>
-                <span data-key="rulesTitle">Rules & Description</span>
+                <span data-key="rulesTitle">Platform Rules</span>
             </h3>
             <ul class="rules-list">
                 <li>
-                    <span data-key="rule1">Commission logic runtime execution details mapping. Each order yields 4% commission.</span>
+                    <span id="rule1Text">Commission logic runtime execution details mapping. Each order yields 4% commission.</span>
                 </li>
                 <li>
                     <span data-key="rule2">System algorithmic structural automated random matching process criteria alerts instruction manual text alignment. Do not close app while processing.</span>
@@ -392,123 +382,54 @@
 
     <script>
         // ============================================================
-        // 🎯 Platform Config
+        // 🎯 Platform Config — ৩টি Platform
         // ============================================================
         const platforms = {
-            amazon: { name: 'Amazon', commission: 4 },
-            alibaba: { name: 'Alibaba', commission: 8 },
-            aliexpress: { name: 'AliExpress', commission: 12 }
+            amazon: {
+                name: 'Amazon',
+                commission: 4,
+                minBalance: 20,
+                maxBalance: 498
+            },
+            alibaba: {
+                name: 'Alibaba',
+                commission: 8,
+                minBalance: 499,
+                maxBalance: 898
+            },
+            aliexpress: {
+                name: 'AliExpress',
+                commission: 12,
+                minBalance: 899,
+                maxBalance: 999999
+            }
         };
 
+        // URL থেকে platform নির্ধারণ
         const urlParams = new URLSearchParams(window.location.search);
         const platformKey = urlParams.get('platform') || 'amazon';
         const platform = platforms[platformKey] || platforms.amazon;
 
+        // Title এবং Rules এ Platform নাম দেখান
         document.getElementById('platformName').textContent = platform.name;
+        document.getElementById('rule1Text').textContent = 
+            `Commission logic runtime execution details mapping. Each order yields ${platform.commission}% commission.`;
 
         // ============================================================
         // 🌐 Translations
         // ============================================================
         const orderTranslations = {
-            en: {
-                actualBalance: "Actual Account Balance", todayTimes: "Today's Times",
-                todayCommission: "Today's commission", cashGap: "Cash gap between tasks",
-                yesterdayCommission: "Yesterday's buy commission", teamCommission: "Yesterday's team commission",
-                frozenMoney: "Money frozen in accounts", grabOrder: "Grab the order immediately",
-                rulesTitle: "Rules & Description",
-                rule1: "Commission logic runtime execution details mapping. Each order yields " + platform.commission + "% commission.",
-                rule2: "System algorithmic structural automated random matching process criteria alerts instruction manual text alignment. Do not close app while processing."
-            },
-            es: {
-                actualBalance: "Saldo real de la cuenta", todayTimes: "Veces de hoy",
-                todayCommission: "Comisión de hoy", cashGap: "Brecha de efectivo entre tareas",
-                yesterdayCommission: "Comisión de compra de ayer", teamCommission: "Comisión del equipo de ayer",
-                frozenMoney: "Dinero congelado en cuentas", grabOrder: "Toma el pedido inmediatamente",
-                rulesTitle: "Reglas y Descripción",
-                rule1: "Detalles de ejecución de la lógica de comisión. Cada pedido produce " + platform.commission + "% de comisión.",
-                rule2: "Proceso de emparejamiento aleatorio automatizado. No cierre la aplicación mientras se procesa."
-            },
-            fr: {
-                actualBalance: "Solde réel du compte", todayTimes: "Heures d'aujourd'hui",
-                todayCommission: "Commission d'aujourd'hui", cashGap: "Écart de trésorerie entre les tâches",
-                yesterdayCommission: "Commission d'achat d'hier", teamCommission: "Commission d'équipe d'hier",
-                frozenMoney: "Argent gelé dans les comptes", grabOrder: "Prenez la commande immédiatement",
-                rulesTitle: "Règles et Description",
-                rule1: "Détails d'exécution de la logique de commission. Chaque commande génère " + platform.commission + "% de commission.",
-                rule2: "Processus de correspondance aléatoire automatisé. Ne fermez pas l'application pendant le traitement."
-            },
-            de: {
-                actualBalance: "Tatsächliches Kontoguthaben", todayTimes: "Heutige Zeiten",
-                todayCommission: "Heutige Provision", cashGap: "Bargeldlücke zwischen Aufgaben",
-                yesterdayCommission: "Gestrige Kaufprovision", teamCommission: "Gestrige Teamprovision",
-                frozenMoney: "Eingefrorenes Geld auf Konten", grabOrder: "Bestellung sofort aufnehmen",
-                rulesTitle: "Regeln & Beschreibung",
-                rule1: "Provisionslogik-Ausführungsdetails. Jede Bestellung bringt " + platform.commission + "% Provision.",
-                rule2: "Automatisierter zufälliger Matching-Prozess. Schließen Sie die App während der Verarbeitung nicht."
-            },
-            it: {
-                actualBalance: "Saldo effettivo del conto", todayTimes: "Volte di oggi",
-                todayCommission: "Commissione di oggi", cashGap: "Divario di cassa tra le attività",
-                yesterdayCommission: "Commissione di acquisto di ieri", teamCommission: "Commissione del team di ieri",
-                frozenMoney: "Denaro congelato nei conti", grabOrder: "Prendi l'ordine immediatamente",
-                rulesTitle: "Regole e Descrizione",
-                rule1: "Dettagli di esecuzione della logica di commissione. Ogni ordine produce " + platform.commission + "% di commissione.",
-                rule2: "Processo di corrispondenza casuale automatizzato. Non chiudere l'app durante l'elaborazione."
-            },
-            pt: {
-                actualBalance: "Saldo real da conta", todayTimes: "Vezes de hoje",
-                todayCommission: "Comissão de hoje", cashGap: "Diferença de caixa entre tarefas",
-                yesterdayCommission: "Comissão de compra de ontem", teamCommission: "Comissão da equipe de ontem",
-                frozenMoney: "Dinheiro congelado em contas", grabOrder: "Pegue o pedido imediatamente",
-                rulesTitle: "Regras e Descrição",
-                rule1: "Detalhes de execução da lógica de comissão. Cada pedido rende " + platform.commission + "% de comissão.",
-                rule2: "Processo automatizado de correspondência aleatória. Não feche o aplicativo durante o processamento."
-            },
-            nl: {
-                actualBalance: "Werkelijk accountsaldo", todayTimes: "Today's Times",
-                todayCommission: "Commissie van vandaag", cashGap: "Contante kloof tussen taken",
-                yesterdayCommission: "Gisteren aankoopcommissie", teamCommission: "Gisteren teamcommissie",
-                frozenMoney: "Bevroren geld op rekeningen", grabOrder: "Pak de bestelling onmiddellijk",
-                rulesTitle: "Regels & Beschrijving",
-                rule1: "Uitvoeringsdetails commissielogica. Elke bestelling levert " + platform.commission + "% commissie op.",
-                rule2: "Geautomatiseerd willekeurig matchingproces. Sluit de app niet tijdens verwerking."
-            },
-            ru: {
-                actualBalance: "Фактический баланс счета", todayTimes: "Сегодня раз",
-                todayCommission: "Сегодня комиссия", cashGap: "Денежный разрыв между задачами",
-                yesterdayCommission: "Вчера комиссия за покупку", teamCommission: "Вчера командная комиссия",
-                frozenMoney: "Замороженные деньги на счетах", grabOrder: "Возьмите заказ немедленно",
-                rulesTitle: "Правила и Описание",
-                rule1: "Детали выполнения логики комиссии. Каждый заказ приносит " + platform.commission + "% комиссии.",
-                rule2: "Автоматизированный процесс случайного сопоставления. Не закрывайте приложение во время обработки."
-            },
-            tr: {
-                actualBalance: "Gerçek Hesap Bakiyesi", todayTimes: "Bugünkü Süreler",
-                todayCommission: "Bugünkü komisyon", cashGap: "Görevler arası nakit boşluğu",
-                yesterdayCommission: "Dünkü satın alma komisyonu", teamCommission: "Dünkü ekip komisyonu",
-                frozenMoney: "Hesaplarda dondurulmuş para", grabOrder: "Siparişi hemen al",
-                rulesTitle: "Kurallar ve Açıklama",
-                rule1: "Komisyon mantığı yürütme ayrıntıları. Her sipariş %" + platform.commission + " komisyon getirir.",
-                rule2: "Otomatik rastgele eşleştirme süreci. İşlem sırasında uygulamayı kapatmayın."
-            },
-            ar: {
-                actualBalance: "رصيد الحساب الفعلي", todayTimes: "مرات اليوم",
-                todayCommission: "عمولة اليوم", cashGap: "الفجوة النقدية بين المهام",
-                yesterdayCommission: "عمولة الشراء أمس", teamCommission: "عمولة الفريق أمس",
-                frozenMoney: "الأموال المجمدة في الحسابات", grabOrder: "احصل على الطلب فورًا",
-                rulesTitle: "القواعد والوصف",
-                rule1: "تفاصيل تنفيذ منطق العمولة. كل طلب يحقق " + platform.commission + "% عمولة.",
-                rule2: "عملية مطابقة عشوائية آلية. لا تغلق التطبيق أثناء المعالجة."
-            },
-            fa: {
-                actualBalance: "موجودی واقعی حساب", todayTimes: "زمان‌های امروز",
-                todayCommission: "کمیسیون امروز", cashGap: "شکاف نقدی بین وظایف",
-                yesterdayCommission: "کمیسیون خرید دیروز", teamCommission: "کمیسیون تیم دیروز",
-                frozenMoney: "پول قفل شده در حساب‌ها", grabOrder: "سفارش را فوراً بگیرید",
-                rulesTitle: "قوانین و توضیحات",
-                rule1: "جزئیات اجرای منطق کمیسیون. هر سفارش " + platform.commission + "% کمیسیون دارد.",
-                rule2: "فرآیند تطبیق تصادفی خودکار. در طول پردازش برنامه را نبندید."
-            }
+            en: { actualBalance: "Actual Account Balance", todayTimes: "Today's Times", todayCommission: "Today's commission", cashGap: "Cash gap between tasks", yesterdayCommission: "Yesterday's buy commission", teamCommission: "Yesterday's team commission", frozenMoney: "Money frozen in accounts", grabOrder: "Grab the order immediately", rulesTitle: "Platform Rules", rule2: "System algorithmic structural automated random matching process criteria alerts instruction manual text alignment. Do not close app while processing." },
+            es: { actualBalance: "Saldo real de la cuenta", todayTimes: "Veces de hoy", todayCommission: "Comisión de hoy", cashGap: "Brecha de efectivo entre tareas", yesterdayCommission: "Comisión de compra de ayer", teamCommission: "Comisión del equipo de ayer", frozenMoney: "Dinero congelado en cuentas", grabOrder: "Toma el pedido inmediatamente", rulesTitle: "Reglas de la Plataforma", rule2: "Proceso automatizado de coincidencia aleatoria. No cierre la aplicación durante el procesamiento." },
+            fr: { actualBalance: "Solde réel du compte", todayTimes: "Heures d'aujourd'hui", todayCommission: "Commission d'aujourd'hui", cashGap: "Écart de trésorerie", yesterdayCommission: "Commission d'achat d'hier", teamCommission: "Commission d'équipe d'hier", frozenMoney: "Argent gelé", grabOrder: "Prenez la commande immédiatement", rulesTitle: "Règles de la Plateforme", rule2: "Processus de correspondance aléatoire automatisé. Ne fermez pas l'application pendant le traitement." },
+            de: { actualBalance: "Tatsächliches Kontoguthaben", todayTimes: "Heutige Zeiten", todayCommission: "Heutige Provision", cashGap: "Bargeldlücke zwischen Aufgaben", yesterdayCommission: "Gestrige Kaufprovision", teamCommission: "Gestrige Teamprovision", frozenMoney: "Eingefrorenes Geld", grabOrder: "Bestellung sofort aufnehmen", rulesTitle: "Plattformregeln", rule2: "Automatisierter zufälliger Matching-Prozess. Schließen Sie die App nicht während der Verarbeitung." },
+            it: { actualBalance: "Saldo effettivo del conto", todayTimes: "Volte di oggi", todayCommission: "Commissione di oggi", cashGap: "Divario di cassa", yesterdayCommission: "Commissione di acquisto di ieri", teamCommission: "Commissione del team di ieri", frozenMoney: "Denaro congelato", grabOrder: "Prendi l'ordine immediatamente", rulesTitle: "Regole della Piattaforma", rule2: "Processo di corrispondenza casuale automatizzato. Non chiudere l'app durante l'elaborazione." },
+            pt: { actualBalance: "Saldo real da conta", todayTimes: "Vezes de hoje", todayCommission: "Comissão de hoje", cashGap: "Diferença de caixa", yesterdayCommission: "Comissão de compra de ontem", teamCommission: "Comissão da equipe de ontem", frozenMoney: "Dinheiro congelado", grabOrder: "Pegue o pedido imediatamente", rulesTitle: "Regras da Plataforma", rule2: "Processo automatizado de correspondência aleatória. Não feche o aplicativo durante o processamento." },
+            nl: { actualBalance: "Werkelijk accountsaldo", todayTimes: "Today's Times", todayCommission: "Commissie van vandaag", cashGap: "Contante kloof", yesterdayCommission: "Gisteren aankoopcommissie", teamCommission: "Gisteren teamcommissie", frozenMoney: "Bevroren geld", grabOrder: "Pak de bestelling onmiddellijk", rulesTitle: "Platformregels", rule2: "Geautomatiseerd willekeurig matchingproces. Sluit de app niet tijdens verwerking." },
+            ru: { actualBalance: "Фактический баланс счета", todayTimes: "Сегодня раз", todayCommission: "Сегодня комиссия", cashGap: "Денежный разрыв", yesterdayCommission: "Вчера комиссия за покупку", teamCommission: "Вчера командная комиссия", frozenMoney: "Замороженные деньги", grabOrder: "Возьмите заказ немедленно", rulesTitle: "Правила Платформы", rule2: "Автоматизированный процесс случайного сопоставления. Не закрывайте приложение во время обработки." },
+            tr: { actualBalance: "Gerçek Hesap Bakiyesi", todayTimes: "Bugünkü Süreler", todayCommission: "Bugünkü komisyon", cashGap: "Nakit boşluğu", yesterdayCommission: "Dünkü satın alma komisyonu", teamCommission: "Dünkü ekip komisyonu", frozenMoney: "Dondurulmuş para", grabOrder: "Siparişi hemen al", rulesTitle: "Platform Kuralları", rule2: "Otomatik rastgele eşleştirme süreci. İşlem sırasında uygulamayı kapatmayın." },
+            ar: { actualBalance: "رصيد الحساب الفعلي", todayTimes: "مرات اليوم", todayCommission: "عمولة اليوم", cashGap: "الفجوة النقدية", yesterdayCommission: "عمولة الشراء أمس", teamCommission: "عمولة الفريق أمس", frozenMoney: "الأموال المجمدة", grabOrder: "احصل على الطلب فورًا", rulesTitle: "قواعد المنصة", rule2: "عملية مطابقة عشوائية آلية. لا تغلق التطبيق أثناء المعالجة." },
+            fa: { actualBalance: "موجودی واقعی حساب", todayTimes: "زمان‌های امروز", todayCommission: "کمیسیون امروز", cashGap: "شکاف نقدی", yesterdayCommission: "کمیسیون خرید دیروز", teamCommission: "کمیسیون تیم دیروز", frozenMoney: "پول قفل شده", grabOrder: "سفارش را فوراً بگیرید", rulesTitle: "قوانین پلتفرم", rule2: "فرآیند تطبیق تصادفی خودکار. در طول پردازش برنامه را نبندید." }
         };
 
         function applyOrderLanguage(lang) {
@@ -554,26 +475,15 @@
                 currentUserData = result.data;
                 const data = currentUserData;
 
-                // Actual Balance
                 document.getElementById('actualBalance').textContent = (data.balance || 0).toFixed(2);
 
-                // Today's Times
                 const todayTimes = data.todayTimes || 0;
                 document.getElementById('todayTimes').textContent = todayTimes + '/25';
 
-                // Today's Commission
                 document.getElementById('todayCommission').textContent = (data.todayCommission || 0).toFixed(3) + ' USDT';
-
-                // Cash Gap
                 document.getElementById('cashGap').textContent = (data.cashGap || 0).toFixed(2) + ' USDT';
-
-                // Yesterday's Buy Commission
                 document.getElementById('yesterdayCommission').textContent = (data.yesterdayCommission || 0).toFixed(2) + ' USDT';
-
-                // Team Commission
                 document.getElementById('teamCommission').textContent = (data.teamCommission || 0).toFixed(2) + ' USDT';
-
-                // Frozen Money
                 document.getElementById('frozenMoney').textContent = (data.frozenMoney || 0).toFixed(2) + ' USDT';
             }
         });
@@ -589,17 +499,16 @@
                     return;
                 }
 
-                // Check balance range for VIP level
                 const balance = currentUserData.balance || 0;
                 const commission = platform.commission;
 
-                let minBalance = 20, maxBalance = 498;
-                if (platformKey === 'alibaba') { minBalance = 499; maxBalance = 898; }
-                else if (platformKey === 'aliexpress') { minBalance = 899; maxBalance = Infinity; }
-
-                // If balance is less than minimum, tell user to recharge
-                if (balance < minBalance) {
-                    alert('❌ Insufficient balance!\n\nMinimum balance required: ' + minBalance + ' USDT\nYour balance: ' + balance.toFixed(2) + ' USDT\n\nPlease recharge to continue.');
+                // Check minimum balance
+                if (balance < platform.minBalance) {
+                    alert('❌ Insufficient balance!\n\n' +
+                          'Platform: ' + platform.name + '\n' +
+                          'Minimum balance required: ' + platform.minBalance + ' USDT\n' +
+                          'Your balance: ' + balance.toFixed(2) + ' USDT\n\n' +
+                          'Please recharge to continue.');
                     return;
                 }
 
@@ -611,7 +520,9 @@
                 }
 
                 // Confirm dialog
-                if (!confirm('Grab this order now?\n\nPlatform: ' + platform.name + '\nCommission: ' + commission + '%')) {
+                if (!confirm('Grab this order now?\n\n' +
+                             'Platform: ' + platform.name + '\n' +
+                             'Commission: ' + commission + '%')) {
                     return;
                 }
 
@@ -622,17 +533,19 @@
                 // Simulate order processing (2 seconds)
                 setTimeout(async () => {
                     try {
-                        // Generate random order amount based on balance
+                        // Generate order amount based on platform range
+                        const maxAllowed = Math.min(balance, platform.maxBalance);
+                        const minAllowed = platform.minBalance;
+                        
                         let orderAmount;
-                        if (platformKey === 'amazon') {
-                            orderAmount = Math.random() * (Math.min(balance, 498) - 20) + 20;
-                        } else if (platformKey === 'alibaba') {
-                            orderAmount = Math.random() * (Math.min(balance, 898) - 499) + 499;
+                        if (maxAllowed > minAllowed) {
+                            orderAmount = Math.random() * (maxAllowed - minAllowed) + minAllowed;
                         } else {
-                            orderAmount = Math.random() * (Math.min(balance, 5000) - 899) + 899;
+                            orderAmount = minAllowed;
                         }
-
                         orderAmount = parseFloat(orderAmount.toFixed(2));
+
+                        // Calculate commission
                         const commissionAmount = parseFloat((orderAmount * commission / 100).toFixed(2));
 
                         // Update Firestore
@@ -661,15 +574,12 @@
                         grabBtn.innerHTML = '<i class="fa-solid fa-circle-check"></i> Order Completed!';
                         grabBtn.style.background = 'linear-gradient(90deg, #10b981, #059669)';
 
-                        // Show success message
                         setTimeout(() => {
                             alert('✅ Order Grabbed Successfully!\n\n' +
                                   'Platform: ' + platform.name + '\n' +
                                   'Order Amount: $' + orderAmount.toFixed(2) + '\n' +
                                   'Commission: $' + commissionAmount.toFixed(2) + ' (' + commission + '%)\n\n' +
                                   'Balance Updated!');
-                            
-                            // Reload page
                             window.location.reload();
                         }, 500);
 
