@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="theme-color" content="#f5f5f5">
+    <title>Order - UMALL247</title>
+    <link rel="stylesheet" href="detail.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .order-container { max-width: 500px; margin: 0 auto; padding: 16px 16px 30px 16px; }
+        .order-header { display: flex; align-items: center; gap: 12px; margin-bottom: 18px; }
+        .order-header .back-icon { font-size: 20px; color: var(--text); cursor: pointer; padding: 6px; }
+        .order-header h2 { font-size: 20px; font-weight: 800; color: var(--text); margin: 0; }
+        .actual-balance-card {
+            background: linear-gradient(135deg, #f97316 0%, #ef4444 100%);
+            border-radius: 18px; padding: 22px; color: #fff; margin-bottom: 16px;
+            position: relative; overflow: hidden;
+            box-shadow: 0 10px 30px rgba(239, 68, 68, 0.35);
+        }
+        .actual-balance-card::before {
+            content: ''; position: absolute; top: -60px; right: -60px;
+            width: 180px; height: 180px; background: rgba(255, 255, 255, 0.15);
+            border-radius: 50%; pointer-events: none;
+        }
+        .actual-balance-card::after {
+            content: ''; position: absolute; bottom: -50px; left: -40px;
+            width: 140px; height: 140px; background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%; pointer-events: none;
+        }
+        .actual-balance-label { font-size: 13.5px; font-weight: 600; opacity: 0.95; margin-bottom: 10px; position: relative; z-index: 2; }
+        .actual-balance-amount { display: flex; align-items: baseline; gap: 8px; position: relative; z-index: 2; }
+        .actual-balance-number { font-size: 36px; font-weight: 800; color: #fff; letter-spacing: 0.5px; text-shadow: 0 2px 8px rgba(0, 0, 0, 0.15); }
+        .actual-balance-currency { font-size: 16px; font-weight: 700; color: rgba(255, 255, 255, 0.95); }
+        .stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 18px; }
+        .stat-card { background: var(--card); border-radius: 14px; padding: 14px 16px; box-shadow: var(--shadow); border: 1px solid var(--border); }
+        .stat-label { font-size: 11.5px; color: var(--text-light); font-weight: 500; margin-bottom: 6px; line-height: 1.3; }
+        .stat-value { font-size: 17px; font-weight: 800; color: var(--text); letter-spacing: 0.2px; }
+        .grab-btn {
+            width: 100%; padding: 18px; border: none; border-radius: 14px;
+            background: linear-gradient(90deg, #f97316, #f59e0b);
+            color: #fff; font-size: 17px; font-weight: 800;
+            cursor: pointer; font-family: inherit;
+            display: flex; align-items: center; justify-content: center; gap: 10px;
+            box-shadow: 0 8px 20px rgba(249, 115, 22, 0.4);
+            margin-bottom: 18px; letter-spacing: 0.3px;
+        }
+        .grab-btn:disabled { opacity: 0.6; cursor: not-allowed; }
+        .grab-btn i { font-size: 18px; }
+        .rules-card { background: #fff7ed; border: 1px solid #fed7aa; border-radius: 14px; padding: 18px; }
+        body.dark-mode .rules-card { background: rgba(249, 115, 22, 0.08); border-color: rgba(249, 115, 22, 0.25); }
+        .rules-title { display: flex; align-items: center; gap: 8px; font-size: 14.5px; font-weight: 800; color: #c2410c; margin: 0 0 12px; }
+        body.dark-mode .rules-title { color: #fb923c; }
+        .rules-list { margin: 0; padding-left: 0; list-style: none; counter-reset: rule; }
+        .rules-list li { font-size: 12.5px; color: #92400e; line-height: 1.6; padding: 8px 0 8px 22px; position: relative; counter-increment: rule; }
+        body.dark-mode .rules-list li { color: #fdba74; }
+        .rules-list li::before { content: counter(rule) '.'; position: absolute; left: 0; top: 8px; font-weight: 700; color: #ea580c; }
+        body.dark-mode .rules-list li::before { color: #fb923c; }
+        body.rtl .order-header { flex-direction: row-reverse; }
+        body.rtl .rules-list li { padding: 8px 22px 8px 0; }
+        body.rtl .rules-list li::before { left: auto; right: 0; }
+        @media (max-width: 360px) {
+            .actual-balance-number { font-size: 30px; }
+            .stat-value { font-size: 15px; }
+            .stat-label { font-size: 10.5px; }
+            .grab-btn { font-size: 15px; padding: 16px; }
+            .rules-list li { font-size: 11.5px; }
+        }
+    </style>
+</head>
+<body>
+
+    <header class="dash-header">
+        <div class="brand-logo">
+            <span class="logo-icon">U<span class="fire-flame"></span></span>
+            <span class="logo-text">UMALL<span class="logo-24">247</span></span>
+        </div>
+        <div class="header-controls">
+            <div class="lang-selector-sm">
+                <select id="dashLanguageSelect">
+                    <option value="en">US English</option>
+                    <option value="es">Español</option>
+                    <option value="fr">Français</option>
+                    <option value="de">Deutsch</option>
+                    <option value="it">Italiano</option>
+                    <option value="pt">Português</option>
+                    <option value="nl">Nederlands</option>
+                    <option value="ru">Русский</option>
+                    <option value="tr">Türkçe</option>
+                    <option value="ar">العربية</option>
+                    <option value="fa">فارسی</option>
+                </select>
+            </div>
+            <button id="dashThemeToggle" class="theme-toggle-sm" type="button">
+                <i class="fa-solid fa-moon"></i>
+            </button>
+        </div>
+    </header>
+
+    <main class="order-container">
+        <div class="order-header">
+            <i class="fa-solid fa-arrow-left back-icon" onclick="window.location.href='menu.html'"></i>
+            <h2 id="platformName">Amazon</h2>
+        </div>
+
+        <div class="actual-balance-card">
+            <div class="actual-balance-label" data-key="actualBalance">Actual Account Balance</div>
+            <div class="actual-balance-amount">
+                <span class="actual-balance-number" id="actualBalance">0.00</span>
+                <span class="actual-balance-currency">USDT</span>
+            </div>
+        </div>
+
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-label" data-key="todayTimes">Today's Times</div>
+                <div class="stat-value" id="todayTimes">0/25</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label" data-key="todayCommission">Today's commission</div>
+                <div class="stat-value" id="todayCommission">0.000 USDT</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label" data-key="cashGap">Cash gap between tasks</div>
+                <div class="stat-value" id="cashGap">0.00 USDT</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label" data-key="yesterdayCommission">Yesterday's buy commission</div>
+                <div class="stat-value" id="yesterdayCommission">0.00 USDT</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label" data-key="teamCommission">Yesterday's team commission</div>
+                <div class="stat-value" id="teamCommission">0.00 USDT</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label" data-key="frozenMoney">Money frozen in accounts</div>
+                <div class="stat-value" id="frozenMoney">0.00 USDT</div>
+            </div>
+        </div>
+
+        <button class="grab-btn" id="grabBtn" type="button">
+            <i class="fa-solid fa-circle-check"></i>
+            <span data-key="grabOrder">Grab the order immediately</span>
+        </button>
+
+        <div class="rules-card">
+            <h3 class="rules-title">
+                <i class="fa-solid fa-circle-exclamation"></i>
+                <span data-key="rulesTitle">Platform Rules</span>
+            </h3>
+            <ul class="rules-list">
+                <li><span id="rule1Text">Commission logic. Each order yields 4% commission.</span></li>
+                <li><span data-key="rule2">System automated random matching process. Do not close app while processing.</span></li>
+            </ul>
+        </div>
+    </main>
+
+    <nav class="bottom-nav">
+        <a href="dashboard.html" class="nav-item">
+            <i class="fa-solid fa-house"></i>
+            <span data-key="navHome">Home</span>
+        </a>
+        <a href="service.html" class="nav-item">
+            <i class="fa-solid fa-headset"></i>
+            <span data-key="navService">Service</span>
+        </a>
+        <a href="menu.html" class="nav-item active">
+            <i class="fa-solid fa-grip"></i>
+            <span data-key="navMenu">Menu</span>
+        </a>
+        <a href="record.html" class="nav-item">
+            <i class="fa-solid fa-clipboard"></i>
+            <span data-key="navRecord">Record</span>
+        </a>
+        <a href="mine.html" class="nav-item">
+            <i class="fa-solid fa-user"></i>
+            <span data-key="navMine">Mine</span>
+        </a>
+    </nav>
+
+    <script src="detail.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+    <script src="firebase-auth.js"></script>
+
+    <script>
+        const platforms = {
+            amazon: { name: 'Amazon', commission: 4, minBalance: 20, maxBalance: 498 },
+            alibaba: { name: 'Alibaba', commission: 8, minBalance: 499, maxBalance: 898 },
+            aliexpress: { name: 'AliExpress', commission: 12, minBalance: 899, maxBalance: 999999 }
+        };
+
+        const urlParams = new URLSearchParams(window.location.search);
+        const platformKey = urlParams.get('platform') || 'amazon';
+        const platform = platforms[platformKey] || platforms.amazon;
+
+        document.getElementById('platformName').textContent = platform.name;
+        document.getElementById('rule1Text').textContent = 
+            `Commission logic. Each order yields ${platform.commission}% commission.`;
+
+        let currentUser = null;
+        let currentUserData = null;
+
+        waitForAuthReady(async function(isLoggedIn, user) {
+            if (!isLoggedIn) {
+                window.location.replace('index.html');
+                return;
+            }
+            currentUser = user;
+            const result = await getUserData(user.uid);
+            if (result.success) {
+                currentUserData = result.data;
+                const data = currentUserData;
+                document.getElementById('actualBalance').textContent = (data.balance || 0).toFixed(2);
+                document.getElementById('todayTimes').textContent = (data.todayTimes || 0) + '/25';
+                document.getElementById('todayCommission').textContent = (data.todayCommission || 0).toFixed(3) + ' USDT';
+                document.getElementById('cashGap').textContent = (data.cashGap || 0).toFixed(2) + ' USDT';
+                document.getElementById('yesterdayCommission').textContent = (data.yesterdayCommission || 0).toFixed(2) + ' USDT';
+                document.getElementById('teamCommission').textContent = (data.teamCommission || 0).toFixed(2) + ' USDT';
+                document.getElementById('frozenMoney').textContent = (data.frozenMoney || 0).toFixed(2) + ' USDT';
+            }
+        });
+
+        const grabBtn = document.getElementById('grabBtn');
+        if (grabBtn) {
+            grabBtn.addEventListener('click', async function() {
+                if (!currentUser || !currentUserData) { alert('Please wait, loading...'); return; }
+                const balance = currentUserData.balance || 0;
+                const commission = platform.commission;
+
+                if (balance < platform.minBalance) {
+                    alert('❌ Insufficient balance!\n\nPlatform: ' + platform.name + '\nMinimum: ' + platform.minBalance + ' USDT\nYour balance: ' + balance.toFixed(2) + ' USDT');
+                    return;
+                }
+
+                const todayTimes = currentUserData.todayTimes || 0;
+                if (todayTimes >= 25) { alert('❌ Daily limit reached!'); return; }
+
+                if (!confirm('Grab this order now?\n\nPlatform: ' + platform.name + '\nCommission: ' + commission + '%')) return;
+
+                grabBtn.disabled = true;
+                grabBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Processing...';
+
+                setTimeout(async () => {
+                    try {
+                        const maxAllowed = Math.min(balance, platform.maxBalance);
+                        const minAllowed = platform.minBalance;
+                        let orderAmount = maxAllowed > minAllowed 
+                            ? Math.random() * (maxAllowed - minAllowed) + minAllowed 
+                            : minAllowed;
+                        orderAmount = parseFloat(orderAmount.toFixed(2));
+                        const commissionAmount = parseFloat((orderAmount * commission / 100).toFixed(2));
+
+                        await db.collection('users').doc(currentUser.uid).update({
+                            balance: firebase.firestore.FieldValue.increment(commissionAmount),
+                            todayTimes: firebase.firestore.FieldValue.increment(1),
+                            todayCommission: firebase.firestore.FieldValue.increment(commissionAmount),
+                            totalCommission: firebase.firestore.FieldValue.increment(commissionAmount),
+                            updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+                        });
+
+                        await db.collection('transactions').add({
+                            uid: currentUser.uid,
+                            type: 'order_commission',
+                            platform: platform.name,
+                            orderAmount: orderAmount,
+                            commissionRate: commission,
+                            amount: commissionAmount,
+                            status: 'completed',
+                            note: platform.name + ' order commission',
+                            createdAt: firebase.firestore.FieldValue.serverTimestamp()
+                        });
+
+                        grabBtn.innerHTML = '<i class="fa-solid fa-circle-check"></i> Order Completed!';
+                        grabBtn.style.background = 'linear-gradient(90deg, #10b981, #059669)';
+
+                        setTimeout(() => {
+                            alert('✅ Order Grabbed Successfully!\n\nPlatform: ' + platform.name + '\nOrder: $' + orderAmount.toFixed(2) + '\nCommission: $' + commissionAmount.toFixed(2) + ' (' + commission + '%)');
+                            window.location.reload();
+                        }, 500);
+                    } catch (err) {
+                        console.error('Order error:', err);
+                        alert('❌ Failed. Please try again.');
+                        grabBtn.disabled = false;
+                        grabBtn.innerHTML = '<i class="fa-solid fa-circle-check"></i> <span>Grab the order immediately</span>';
+                    }
+                }, 2000);
+            });
+        }
+    </script>
+</body>
+</html>
