@@ -15,7 +15,6 @@
             padding: 16px 16px 30px 16px;
         }
 
-        /* Header */
         .order-header {
             display: flex;
             align-items: center;
@@ -37,7 +36,6 @@
             margin: 0;
         }
 
-        /* 💰 Actual Account Balance Card */
         .actual-balance-card {
             background: linear-gradient(135deg, #f97316 0%, #ef4444 100%);
             border-radius: 18px;
@@ -100,7 +98,6 @@
             color: rgba(255, 255, 255, 0.95);
         }
 
-        /* 📊 Stats Grid */
         .stats-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -131,7 +128,6 @@
             letter-spacing: 0.2px;
         }
 
-        /* 🟠 Grab Order Button */
         .grab-btn {
             width: 100%;
             padding: 18px;
@@ -168,7 +164,6 @@
             font-size: 18px;
         }
 
-        /* 📋 Rules Card */
         .rules-card {
             background: #fff7ed;
             border: 1px solid #fed7aa;
@@ -228,12 +223,10 @@
             color: #fb923c;
         }
 
-        /* RTL */
         body.rtl .order-header { flex-direction: row-reverse; }
         body.rtl .rules-list li { padding: 8px 22px 8px 0; }
         body.rtl .rules-list li::before { left: auto; right: 0; }
 
-        /* Mobile */
         @media (max-width: 360px) {
             .actual-balance-number { font-size: 30px; }
             .stat-value { font-size: 15px; }
@@ -245,7 +238,6 @@
 </head>
 <body>
 
-    <!-- ================= হেডার ================= -->
     <header class="dash-header">
         <div class="brand-logo">
             <span class="logo-icon">U<span class="fire-flame"></span></span>
@@ -273,16 +265,13 @@
         </div>
     </header>
 
-    <!-- ================= Order Container ================= -->
     <main class="order-container">
 
-        <!-- Header -->
         <div class="order-header">
             <i class="fa-solid fa-arrow-left back-icon" onclick="window.location.href='menu.html'"></i>
             <h2 id="platformName">Amazon</h2>
         </div>
 
-        <!-- 💰 Actual Account Balance Card -->
         <div class="actual-balance-card">
             <div class="actual-balance-label" data-key="actualBalance">Actual Account Balance</div>
             <div class="actual-balance-amount">
@@ -291,7 +280,6 @@
             </div>
         </div>
 
-        <!-- 📊 Stats Grid -->
         <div class="stats-grid">
             <div class="stat-card">
                 <div class="stat-label" data-key="todayTimes">Today's Times</div>
@@ -324,13 +312,11 @@
             </div>
         </div>
 
-        <!-- 🟠 Grab Order Button -->
         <button class="grab-btn" id="grabBtn" type="button">
             <i class="fa-solid fa-circle-check"></i>
             <span data-key="grabOrder">Grab the order immediately</span>
         </button>
 
-        <!-- 📋 Rules Card -->
         <div class="rules-card">
             <h3 class="rules-title">
                 <i class="fa-solid fa-circle-exclamation"></i>
@@ -348,7 +334,6 @@
 
     </main>
 
-    <!-- ================= নিচের নেভিগেশন ================= -->
     <nav class="bottom-nav">
         <a href="dashboard.html" class="nav-item">
             <i class="fa-solid fa-house"></i>
@@ -374,50 +359,26 @@
 
     <script src="detail.js"></script>
 
-    <!-- Firebase SDK -->
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
     <script src="firebase-auth.js"></script>
 
     <script>
-        // ============================================================
-        // 🎯 Platform Config — ৩টি Platform
-        // ============================================================
         const platforms = {
-            amazon: {
-                name: 'Amazon',
-                commission: 4,
-                minBalance: 20,
-                maxBalance: 498
-            },
-            alibaba: {
-                name: 'Alibaba',
-                commission: 8,
-                minBalance: 499,
-                maxBalance: 898
-            },
-            aliexpress: {
-                name: 'AliExpress',
-                commission: 12,
-                minBalance: 899,
-                maxBalance: 999999
-            }
+            amazon: { name: 'Amazon', commission: 4, minBalance: 20, maxBalance: 498 },
+            alibaba: { name: 'Alibaba', commission: 8, minBalance: 499, maxBalance: 898 },
+            aliexpress: { name: 'AliExpress', commission: 12, minBalance: 899, maxBalance: 999999 }
         };
 
-        // URL থেকে platform নির্ধারণ
         const urlParams = new URLSearchParams(window.location.search);
         const platformKey = urlParams.get('platform') || 'amazon';
         const platform = platforms[platformKey] || platforms.amazon;
 
-        // Title এবং Rules এ Platform নাম দেখান
         document.getElementById('platformName').textContent = platform.name;
         document.getElementById('rule1Text').textContent = 
             `Commission logic runtime execution details mapping. Each order yields ${platform.commission}% commission.`;
 
-        // ============================================================
-        // 🌐 Translations
-        // ============================================================
         const orderTranslations = {
             en: { actualBalance: "Actual Account Balance", todayTimes: "Today's Times", todayCommission: "Today's commission", cashGap: "Cash gap between tasks", yesterdayCommission: "Yesterday's buy commission", teamCommission: "Yesterday's team commission", frozenMoney: "Money frozen in accounts", grabOrder: "Grab the order immediately", rulesTitle: "Platform Rules", rule2: "System algorithmic structural automated random matching process criteria alerts instruction manual text alignment. Do not close app while processing." },
             es: { actualBalance: "Saldo real de la cuenta", todayTimes: "Veces de hoy", todayCommission: "Comisión de hoy", cashGap: "Brecha de efectivo entre tareas", yesterdayCommission: "Comisión de compra de ayer", teamCommission: "Comisión del equipo de ayer", frozenMoney: "Dinero congelado en cuentas", grabOrder: "Toma el pedido inmediatamente", rulesTitle: "Reglas de la Plataforma", rule2: "Proceso automatizado de coincidencia aleatoria. No cierre la aplicación durante el procesamiento." },
@@ -457,9 +418,6 @@
             });
         }
 
-        // ============================================================
-        // 🔥 Firebase — Load User Data + Stats
-        // ============================================================
         let currentUser = null;
         let currentUserData = null;
 
@@ -488,9 +446,6 @@
             }
         });
 
-        // ============================================================
-        // 🟠 Grab Order Button
-        // ============================================================
         const grabBtn = document.getElementById('grabBtn');
         if (grabBtn) {
             grabBtn.addEventListener('click', async function() {
@@ -502,7 +457,6 @@
                 const balance = currentUserData.balance || 0;
                 const commission = platform.commission;
 
-                // Check minimum balance
                 if (balance < platform.minBalance) {
                     alert('❌ Insufficient balance!\n\n' +
                           'Platform: ' + platform.name + '\n' +
@@ -512,28 +466,23 @@
                     return;
                 }
 
-                // Check daily limit
                 const todayTimes = currentUserData.todayTimes || 0;
                 if (todayTimes >= 25) {
                     alert('❌ Daily limit reached!\n\nYou have completed 25 orders today.\nCome back tomorrow.');
                     return;
                 }
 
-                // Confirm dialog
                 if (!confirm('Grab this order now?\n\n' +
                              'Platform: ' + platform.name + '\n' +
                              'Commission: ' + commission + '%')) {
                     return;
                 }
 
-                // Disable button
                 grabBtn.disabled = true;
                 grabBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Processing...';
 
-                // Simulate order processing (2 seconds)
                 setTimeout(async () => {
                     try {
-                        // Generate order amount based on platform range
                         const maxAllowed = Math.min(balance, platform.maxBalance);
                         const minAllowed = platform.minBalance;
                         
@@ -545,10 +494,8 @@
                         }
                         orderAmount = parseFloat(orderAmount.toFixed(2));
 
-                        // Calculate commission
                         const commissionAmount = parseFloat((orderAmount * commission / 100).toFixed(2));
 
-                        // Update Firestore
                         await db.collection('users').doc(currentUser.uid).update({
                             balance: firebase.firestore.FieldValue.increment(commissionAmount),
                             todayTimes: firebase.firestore.FieldValue.increment(1),
@@ -557,7 +504,6 @@
                             updatedAt: firebase.firestore.FieldValue.serverTimestamp()
                         });
 
-                        // Add transaction log
                         await db.collection('transactions').add({
                             uid: currentUser.uid,
                             type: 'order_commission',
@@ -570,7 +516,6 @@
                             createdAt: firebase.firestore.FieldValue.serverTimestamp()
                         });
 
-                        // Success
                         grabBtn.innerHTML = '<i class="fa-solid fa-circle-check"></i> Order Completed!';
                         grabBtn.style.background = 'linear-gradient(90deg, #10b981, #059669)';
 
