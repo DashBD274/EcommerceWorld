@@ -39,21 +39,21 @@
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            gap: 20px;
+            gap: 30px;
         }
 
-        /* 🅰️ Amazon লোগো — ছোট থেকে বড় animation */
-        .splash-amazon-logo {
-            width: 180px;
+        /* 🔼 উপরের লোগো — Amazon Basket */
+        .splash-basket-logo {
+            width: 130px;
             height: auto;
-            max-width: 60vw;
-            animation: amazonLogoGrow 2.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+            max-width: 45vw;
+            animation: basketGrow 2.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
             transform: scale(0.1);
             opacity: 0;
-            filter: brightness(1.1) drop-shadow(0 0 20px rgba(255, 153, 0, 0.5));
+            filter: brightness(1.1) drop-shadow(0 0 25px rgba(255, 153, 0, 0.6));
         }
 
-        @keyframes amazonLogoGrow {
+        @keyframes basketGrow {
             0% {
                 transform: scale(0.1);
                 opacity: 0;
@@ -76,10 +76,36 @@
             }
         }
 
+        /* 🔽 নিচের লোগো — Amazon Seller (দেরিতে appear হবে) */
+        .splash-seller-logo {
+            width: 200px;
+            height: auto;
+            max-width: 65vw;
+            animation: sellerAppear 1s ease-out 1.2s forwards;
+            transform: scale(0.5);
+            opacity: 0;
+            filter: brightness(1.1) drop-shadow(0 0 20px rgba(255, 153, 0, 0.5));
+        }
+
+        @keyframes sellerAppear {
+            0% {
+                transform: scale(0.5);
+                opacity: 0;
+            }
+            60% {
+                transform: scale(1.08);
+                opacity: 1;
+            }
+            100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
         /* ✨ Amazing টেক্সট */
         .splash-amazing-text {
             position: absolute;
-            bottom: 25%;
+            bottom: 22%;
             font-size: 28px;
             font-weight: 800;
             color: #ff9900;
@@ -119,9 +145,16 @@
 
         /* 📱 Mobile */
         @media (max-width: 480px) {
-            .splash-amazon-logo {
-                width: 140px;
-                max-width: 65vw;
+            .splash-logo-wrap {
+                gap: 25px;
+            }
+            .splash-basket-logo {
+                width: 110px;
+                max-width: 50vw;
+            }
+            .splash-seller-logo {
+                width: 170px;
+                max-width: 70vw;
             }
             .splash-amazing-text {
                 font-size: 22px;
@@ -130,8 +163,14 @@
         }
 
         @media (max-width: 360px) {
-            .splash-amazon-logo {
-                width: 120px;
+            .splash-logo-wrap {
+                gap: 20px;
+            }
+            .splash-basket-logo {
+                width: 90px;
+            }
+            .splash-seller-logo {
+                width: 140px;
             }
             .splash-amazing-text {
                 font-size: 18px;
@@ -143,14 +182,24 @@
 <body>
 
     <!-- ============================================================
-         🎬 SPLASH SCREEN — Amazon Logo + Amazing
+         🎬 SPLASH SCREEN — ২টি Amazon লোগো + Amazing
          ============================================================ -->
     <div id="splashScreen">
         <div class="splash-logo-wrap">
+            <!-- 🔼 উপরের লোগো: Amazon Basket -->
             <img 
-                src="https://upload.wikimedia.org/wikipedia/commons/a/a9/Amazon_logo.svg" 
-                alt="Amazing" 
-                class="splash-amazon-logo"
+                src="https://www.freeiconspng.com/uploads/amazon-basket-icon-4.png" 
+                alt="Amazon Basket" 
+                class="splash-basket-logo"
+                onerror="this.src='https://cdn-icons-png.flaticon.com/512/732/732182.png'"
+            >
+
+            <!-- 🔽 নিচের লোগো: Amazon Seller -->
+            <img 
+                src="https://www.freeiconspng.com/uploads/amazon-seller-logo-icon-1.png" 
+                alt="Amazon Seller" 
+                class="splash-seller-logo"
+                onerror="this.src='https://upload.wikimedia.org/wikipedia/commons/a/a9/Amazon_logo.svg'"
             >
         </div>
         <div class="splash-amazing-text">Amazing</div>
@@ -246,7 +295,6 @@
             const splashScreen = document.getElementById('splashScreen');
             const mainContent = document.getElementById('mainContent');
 
-            // Total: 2.5s (logo) + 0.5s (Amazing) = 3s
             setTimeout(function() {
                 splashScreen.classList.add('fade-out');
                 mainContent.classList.add('show');
@@ -269,7 +317,6 @@
             document.getElementById('verifyCode').textContent = currentVerifyCode.split('').join(' ');
         }
 
-        // Splash শেষ হওয়ার পর verification code জেনারেট
         setTimeout(generateVerifyCode, 3000);
 
         const verifyInput = document.getElementById('verifyInput');
