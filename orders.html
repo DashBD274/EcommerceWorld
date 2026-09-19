@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="theme-color" content="#f5f5f5">
+    <title>Orders - UMALL247</title>
+    <link rel="stylesheet" href="detail.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .orders-container {
+            max-width: 500px;
+            margin: 0 auto;
+            padding: 16px 16px 30px 16px;
+        }
+
+        .orders-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 18px;
+        }
+
+        .back-icon {
+            font-size: 18px;
+            color: var(--text);
+            cursor: pointer;
+            padding: 6px;
+        }
+
+        .orders-header-text {
+            flex: 1;
+        }
+
+        .orders-title {
+            font-size: 18px;
+            font-weight: 800;
+            color: var(--text);
+            margin: 0 0 4px;
+        }
+
+        .orders-subtitle {
+            font-size: 12px;
+            color: var(--text-light);
+            margin: 0;
+        }
+
+        /* User Balance Info */
+        .user-balance-info {
+            background: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
+            border-radius: 14px;
+            padding: 14px 18px;
+            color: #fff;
+            margin-bottom: 16px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 6px 16px rgba(139, 92, 246, 0.3);
+        }
+
+        .user-balance-info .label {
+            font-size: 11.5px;
+            opacity: 0.9;
+        }
+
+        .user-balance-info .value {
+            font-size: 20px;
+            font-weight: 800;
+            margin-top: 2px;
+        }
+
+        .commission-badge {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 6px 12px;
+            border-radius: 10px;
+            font-size: 11.5px;
+            font-weight: 700;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            -webkit-backdrop-filter: blur(8px);
+            backdrop-filter: blur(8px);
+        }
+
+        /* Product Card */
+        .product-card {
+            background: var(--card);
+            border-radius: 14px;
+            padding: 14px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 12px;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border);
+            cursor: pointer;
+            text-decoration: none;
+            color: inherit;
+            transition: transform 0.2s;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .product-card:active {
+            transform: scale(0.98);
+        }
+
+        .product-img {
+            width: 70px;
+            height: 70px;
+            border-radius: 10px;
+            background: #f3f4f6;
+            overflow: hidden;
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .product-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .product-info {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .product-name {
+            font-size: 14px;
+            font-weight: 700;
+            color: var(--text);
+            margin: 0 0 4px;
+            line-height: 1.3;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .product-price {
+            font-size: 15px;
+            font-weight: 800;
+            color: #e65c00;
+            margin-bottom: 4px;
+        }
+
+        .product-commission {
+            font-size: 11px;
+            color: #10b981;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .product-commission i {
+            font-size: 10px;
+        }
+
+        /* Empty State */
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: var(--text-light);
+        }
+
+        .empty-state i {
+            font-size: 50px;
+            opacity: 0.3;
+            margin-bottom: 14px;
+            display: block;
+        }
+
+        .empty-state p {
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+
+    <header class="dash-header">
+        <div class="brand-logo">
+            <span class="logo-icon">U<span class="fire-flame"></span></span>
+            <span class="logo-text">UMALL<span class="logo-24">247</span></span>
+        </div>
+        <div class="header-controls">
+            <div class="lang-selector-sm">
+                <select id="dashLanguageSelect">
+                    <option value="en">US English</option>
+                    <option value="es">Español</option>
+                    <option value="fr">Français</option>
+                    <option value="de">Deutsch</option>
+                    <option value="it">Italiano</option>
+                    <option value="pt">Português</option>
+                    <option value="nl">Nederlands</option>
+                    <option value="ru">Русский</option>
+                    <option value="tr">Türkçe</option>
+                    <option value="ar">العربية</option>
+                    <option value="fa">فارسی</option>
+                </select>
+            </div>
+            <button id="dashThemeToggle" class="theme-toggle-sm" type="button">
+                <i class="fa-solid fa-moon"></i>
+            </button>
+        </div>
+    </header>
+
+    <main class="orders-container">
+
+        <div class="orders-header">
+            <i class="fa-solid fa-arrow-left back-icon" onclick="window.location.href='menu.html'"></i>
+            <div class="orders-header-text">
+                <h2 class="orders-title" id="platformTitle">Amazon Orders</h2>
+                <p class="orders-subtitle" id="platformSubtitle">Complete orders to earn commissions</p>
+            </div>
+        </div>
+
+        <!-- User Balance -->
+        <div class="user-balance-info">
+            <div>
+                <div class="label" data-key="yourBalance">Your Balance</div>
+                <div class="value" id="userBalance">0.00 USDT</div>
+            </div>
+            <div class="commission-badge" id="commissionBadge">
+                <i class="fa-solid fa-percent"></i> 4% Commission
+            </div>
+        </div>
+
+        <!-- Products List -->
+        <div id="productsList">
+            <div class="empty-state">
+                <i class="fa-solid fa-spinner fa-spin"></i>
+                <p>Loading products...</p>
+            </div>
+        </div>
+
+    </main>
+
+    <nav class="bottom-nav">
+        <a href="dashboard.html" class="nav-item">
+            <i class="fa-solid fa-house"></i>
+            <span data-key="navHome">Home</span>
+        </a>
+        <a href="service.html" class="nav-item">
+            <i class="fa-solid fa-headset"></i>
+            <span data-key="navService">Service</span>
+        </a>
+        <a href="menu.html" class="nav-item active">
+            <i class="fa-solid fa-grip"></i>
+            <span data-key="navMenu">Menu</span>
+        </a>
+        <a href="record.html" class="nav-item">
+            <i class="fa-solid fa-clipboard"></i>
+            <span data-key="navRecord">Record</span>
+        </a>
+        <a href="mine.html" class="nav-item">
+            <i class="fa-solid fa-user"></i>
+            <span data-key="navMine">Mine</span>
+        </a>
+    </nav>
+
+    <script src="detail.js"></script>
+
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+    <script src="firebase-auth.js"></script>
+
+    <script>
+        // ============================================================
+        // 🎯 Platform Config
+        // ============================================================
+        const platforms = {
+            amazon: {
+                name: 'Amazon',
+                title: 'Amazon Orders',
+                commission: 4,
+                logo: 'https://upload.wikimedia.org/wikipedia/commons/a/a9/Amazon_logo.svg',
+                products: [
+                    { id: 'amz1', name: 'Wireless Bluetooth Earbuds Pro', price: 89.99, img: 'https://images.unsplash.com/photo-1590658268037-6bf12165a8df?w=300&q=80' },
+                    { id: 'amz2', name: 'Smart Watch Series 8', price: 249.00, img: 'https://images.unsplash.com/photo-1546868871-7041f2a55e12?w=300&q=80' },
+                    { id: 'amz3', name: 'Portable Power Bank 20000mAh', price: 45.50, img: 'https://images.unsplash.com/photo-1609091839311-d5365f9ff1c5?w=300&q=80' },
+                    { id: 'amz4', name: 'USB-C Fast Charger 65W', price: 32.99, img: 'https://images.unsplash.com/photo-1583863788434-e58a36330cf0?w=300&q=80' },
+                    { id: 'amz5', name: 'Mechanical Gaming Keyboard RGB', price: 129.99, img: 'https://images.unsplash.com/photo-1618384887929-16ec33fab9ef?w=300&q=80' },
+                    { id: 'amz6', name: '4K Action Camera Waterproof', price: 199.00, img: 'https://images.unsplash.com/photo-1502920917128-1aa500764cbd?w=300&q=80' }
+                ]
+            },
+            alibaba: {
+                name: 'Alibaba',
+                title: 'Alibaba Orders',
+                commission: 8,
+                logo: 'https://upload.wikimedia.org/wikipedia/commons/thumb/8/8a/Alibaba_Logo.svg/512px-Alibaba_Logo.svg.png',
+                products: [
+                    { id: 'alb1', name: 'Wholesale Cotton T-Shirts (50 pcs)', price: 349.00, img: 'https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=300&q=80' },
+                    { id: 'alb2', name: 'LED Strip Lights 100m Roll', price: 189.50, img: 'https://images.unsplash.com/photo-1550745165-9bc0b252726f?w=300&q=80' },
+                    { id: 'alb3', name: 'Stainless Steel Water Bottles (100 pcs)', price: 598.00, img: 'https://images.unsplash.com/photo-1602143407151-7111542de6e8?w=300&q=80' },
+                    { id: 'alb4', name: 'Phone Cases Bulk (200 pcs)', price: 450.00, img: 'https://images.unsplash.com/photo-1601784551446-20c9e07cdbdb?w=300&q=80' },
+                    { id: 'alb5', name: 'Wireless Mouse Bulk (100 pcs)', price: 780.00, img: 'https://images.unsplash.com/photo-1527864550417-7fd91fc51a46?w=300&q=80' }
+                ]
+            },
+            aliexpress: {
+                name: 'AliExpress',
+                title: 'AliExpress Orders',
+                commission: 12,
+                logo: 'https://cdn.jsdelivr.net/gh/glincker/thesvg@main/public/icons/aliexpress/default.svg',
+                products: [
+                    { id: 'ali1', name: 'Smart LED TV 55" 4K UHD', price: 1299.00, img: 'https://images.unsplash.com/photo-1593359677879-a4bb92f829d1?w=300&q=80' },
+                    { id: 'ali2', name: 'Gaming Laptop RTX 4060', price: 1899.00, img: 'https://images.unsplash.com/photo-1603302576837-37561b2e2302?w=300&q=80' },
+                    { id: 'ali3', name: 'Professional Drone 4K Camera', price: 899.99, img: 'https://images.unsplash.com/photo-1473968512647-3e447244af8f?w=300&q=80' },
+                    { id: 'ali4', name: 'Electric Scooter Foldable', price: 599.00, img: 'https://images.unsplash.com/photo-1556262330-d0ea12b1e3c5?w=300&q=80' },
+                    { id: 'ali5', name: 'Smart Home Security System', price: 1499.00, img: 'https://images.unsplash.com/photo-1558002038-1055907df827?w=300&q=80' },
+                    { id: 'ali6', name: 'Professional Camera Lens 50mm', price: 999.00, img: 'https://images.unsplash.com/photo-1606980625105-8c47f3bf7d3f?w=300&q=80' }
+                ]
+            }
+        };
+
+        // ============================================================
+        // 🎯 URL থেকে Platform নির্ধারণ
+        // ============================================================
+        const urlParams = new URLSearchParams(window.location.search);
+        const platformKey = urlParams.get('platform') || 'amazon';
+        const platform = platforms[platformKey] || platforms.amazon;
+
+        // Update Title
+        document.getElementById('platformTitle').textContent = platform.title;
+        document.getElementById('commissionBadge').innerHTML = '<i class="fa-solid fa-percent"></i> ' + platform.commission + '% Commission';
+
+        // ============================================================
+        // 🎨 Products Render
+        // ============================================================
+        function renderProducts() {
+            const listEl = document.getElementById('productsList');
+            if (!listEl) return;
+
+            if (!platform.products || platform.products.length === 0) {
+                listEl.innerHTML = `
+                    <div class="empty-state">
+                        <i class="fa-solid fa-box-open"></i>
+                        <p>No products available</p>
+                    </div>
+                `;
+                return;
+            }
+
+            let html = '';
+            platform.products.forEach(p => {
+                const commissionAmount = (p.price * platform.commission / 100).toFixed(2);
+                html += `
+                    <a href="order-detail.html?platform=${platformKey}&productId=${p.id}" class="product-card">
+                        <div class="product-img">
+                            <img src="${p.img}" alt="${p.name}">
+                        </div>
+                        <div class="product-info">
+                            <h3 class="product-name">${p.name}</h3>
+                            <div class="product-price">$${p.price.toFixed(2)}</div>
+                            <div class="product-commission">
+                                <i class="fa-solid fa-coins"></i>
+                                Earn $${commissionAmount} (${platform.commission}%)
+                            </div>
+                        </div>
+                        <i class="fa-solid fa-chevron-right market-arrow"></i>
+                    </a>
+                `;
+            });
+
+            listEl.innerHTML = html;
+        }
+
+        // ============================================================
+        // 🔥 Auth Check + Load Balance
+        // ============================================================
+        waitForAuthReady(async function(isLoggedIn, user) {
+            if (!isLoggedIn) {
+                window.location.replace('index.html');
+                return;
+            }
+
+            const result = await getUserData(user.uid);
+            if (result.success) {
+                const balanceEl = document.getElementById('userBalance');
+                if (balanceEl) {
+                    balanceEl.textContent = (result.data.balance || 0).toFixed(2) + ' USDT';
+                }
+            }
+
+            renderProducts();
+        });
+    </script>
+</body>
+</html>
