@@ -4,11 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <meta name="theme-color" content="#f5f5f5">
-    <title>Menu - UMALL247</title>
+    <title>Markets - UMALL247</title>
     <link rel="stylesheet" href="detail.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        /* ================= Menu (Markets) পেজ ================= */
         .menu-container {
             max-width: 500px;
             margin: 0 auto;
@@ -21,7 +20,6 @@
             color: var(--text);
             text-align: center;
             margin-bottom: 8px;
-            letter-spacing: 0.3px;
         }
 
         .menu-subtitle {
@@ -29,10 +27,8 @@
             color: var(--text-light);
             text-align: center;
             margin-bottom: 20px;
-            line-height: 1.4;
         }
 
-        /* ফিল্টার ট্যাব */
         .filter-tabs {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
@@ -53,7 +49,6 @@
             color: var(--text-light);
             border-radius: 10px;
             cursor: pointer;
-            transition: all 0.2s;
             background: transparent;
             border: none;
             font-family: inherit;
@@ -71,7 +66,6 @@
             color: #ff8c42;
         }
 
-        /* Market কার্ড */
         .market-card {
             background: var(--card);
             border-radius: 14px;
@@ -83,6 +77,8 @@
             box-shadow: var(--shadow);
             border: 1px solid var(--border);
             cursor: pointer;
+            text-decoration: none;
+            color: inherit;
             transition: transform 0.2s, box-shadow 0.2s;
             -webkit-tap-highlight-color: transparent;
             touch-action: manipulation;
@@ -93,7 +89,6 @@
             box-shadow: 0 6px 16px rgba(139, 92, 246, 0.15);
         }
 
-        /* লোগো */
         .market-logo {
             width: 56px;
             height: 56px;
@@ -119,7 +114,6 @@
             display: block;
         }
 
-        /* কনটেন্ট */
         .market-content {
             flex: 1;
             min-width: 0;
@@ -174,7 +168,6 @@
             font-weight: 700;
         }
 
-        /* Arrow */
         .market-arrow {
             color: var(--text-light);
             font-size: 14px;
@@ -182,7 +175,6 @@
             padding-left: 4px;
         }
 
-        /* RTL */
         body.rtl .market-card { flex-direction: row-reverse; }
         body.rtl .market-header { flex-direction: row-reverse; }
         body.rtl .market-arrow {
@@ -191,7 +183,6 @@
             transform: rotate(180deg);
         }
 
-        /* মোবাইল */
         @media (max-width: 360px) {
             .menu-title { font-size: 21px; }
             .menu-subtitle { font-size: 12px; }
@@ -205,7 +196,6 @@
 </head>
 <body>
 
-    <!-- ================= হেডার ================= -->
     <header class="dash-header">
         <div class="brand-logo">
             <span class="logo-icon">U<span class="fire-flame"></span></span>
@@ -233,13 +223,11 @@
         </div>
     </header>
 
-    <!-- ================= Menu কনটেন্ট ================= -->
     <main class="menu-container">
 
         <h1 class="menu-title" data-key="marketsTitle">Markets</h1>
         <p class="menu-subtitle" data-key="marketsSubtitle">Select a market level to start working</p>
 
-        <!-- ফিল্টার ট্যাব -->
         <div class="filter-tabs">
             <button class="filter-tab active" data-filter="all" data-key="filterAll">All</button>
             <button class="filter-tab" data-filter="vip1">VIP 1</button>
@@ -247,11 +235,10 @@
             <button class="filter-tab" data-filter="vip3">VIP 3</button>
         </div>
 
-        <!-- Market Cards -->
         <div class="market-list" id="marketList">
 
             <!-- Amazon — VIP 1 -->
-            <div class="market-card" data-vip="vip1">
+            <a href="orders.html?platform=amazon" class="market-card" data-vip="vip1">
                 <div class="market-logo">
                     <img src="https://upload.wikimedia.org/wikipedia/commons/a/a9/Amazon_logo.svg" alt="Amazon">
                 </div>
@@ -270,10 +257,10 @@
                     </p>
                 </div>
                 <i class="fa-solid fa-chevron-right market-arrow"></i>
-            </div>
+            </a>
 
             <!-- Alibaba — VIP 2 -->
-            <div class="market-card" data-vip="vip2">
+            <a href="orders.html?platform=alibaba" class="market-card" data-vip="vip2">
                 <div class="market-logo">
                     <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/8a/Alibaba_Logo.svg/512px-Alibaba_Logo.svg.png" alt="Alibaba">
                 </div>
@@ -292,10 +279,10 @@
                     </p>
                 </div>
                 <i class="fa-solid fa-chevron-right market-arrow"></i>
-            </div>
+            </a>
 
             <!-- AliExpress — VIP 3 -->
-            <div class="market-card" data-vip="vip3">
+            <a href="orders.html?platform=aliexpress" class="market-card" data-vip="vip3">
                 <div class="market-logo">
                     <img src="https://cdn.jsdelivr.net/gh/glincker/thesvg@main/public/icons/aliexpress/default.svg" alt="AliExpress">
                 </div>
@@ -314,13 +301,12 @@
                     </p>
                 </div>
                 <i class="fa-solid fa-chevron-right market-arrow"></i>
-            </div>
+            </a>
 
         </div>
 
     </main>
 
-    <!-- ================= নিচের নেভিগেশন ================= -->
     <nav class="bottom-nav">
         <a href="dashboard.html" class="nav-item">
             <i class="fa-solid fa-house"></i>
@@ -346,95 +332,44 @@
 
     <script src="detail.js"></script>
     <script>
-        // ================= Menu পেজের অনুবাদ =================
+        // ================= Filter Tabs =================
+        const filterTabs = document.querySelectorAll('.filter-tab');
+        const marketCards = document.querySelectorAll('.market-card');
+
+        filterTabs.forEach(tab => {
+            tab.addEventListener('click', function() {
+                const filter = this.getAttribute('data-filter');
+                filterTabs.forEach(t => t.classList.remove('active'));
+                this.classList.add('active');
+
+                marketCards.forEach(card => {
+                    const vip = card.getAttribute('data-vip');
+                    card.style.display = (filter === 'all' || vip === filter) ? 'flex' : 'none';
+                });
+            });
+        });
+
+        // ================= Translations =================
         const menuTranslations = {
-            en: {
-                marketsTitle: "Markets",
-                marketsSubtitle: "Select a market level to start working",
-                filterAll: "All",
-                availableBalance: "Available balance",
-                commissionRate: "Commission rate"
-            },
-            es: {
-                marketsTitle: "Mercados",
-                marketsSubtitle: "Seleccione un nivel de mercado para comenzar a trabajar",
-                filterAll: "Todos",
-                availableBalance: "Saldo disponible",
-                commissionRate: "Tasa de comisión"
-            },
-            fr: {
-                marketsTitle: "Marchés",
-                marketsSubtitle: "Sélectionnez un niveau de marché pour commencer à travailler",
-                filterAll: "Tous",
-                availableBalance: "Solde disponible",
-                commissionRate: "Taux de commission"
-            },
-            de: {
-                marketsTitle: "Märkte",
-                marketsSubtitle: "Wählen Sie eine Marktstufe, um mit der Arbeit zu beginnen",
-                filterAll: "Alle",
-                availableBalance: "Verfügbares Guthaben",
-                commissionRate: "Provisionssatz"
-            },
-            it: {
-                marketsTitle: "Mercati",
-                marketsSubtitle: "Seleziona un livello di mercato per iniziare a lavorare",
-                filterAll: "Tutti",
-                availableBalance: "Saldo disponibile",
-                commissionRate: "Tasso di commissione"
-            },
-            pt: {
-                marketsTitle: "Mercados",
-                marketsSubtitle: "Selecione um nível de mercado para começar a trabalhar",
-                filterAll: "Todos",
-                availableBalance: "Saldo disponível",
-                commissionRate: "Taxa de comissão"
-            },
-            nl: {
-                marketsTitle: "Markten",
-                marketsSubtitle: "Selecteer een marktniveau om te beginnen met werken",
-                filterAll: "Alle",
-                availableBalance: "Beschikbaar saldo",
-                commissionRate: "Commissietarief"
-            },
-            ru: {
-                marketsTitle: "Рынки",
-                marketsSubtitle: "Выберите уровень рынка, чтобы начать работу",
-                filterAll: "Все",
-                availableBalance: "Доступный баланс",
-                commissionRate: "Ставка комиссии"
-            },
-            tr: {
-                marketsTitle: "Piyasalar",
-                marketsSubtitle: "Çalışmaya başlamak için bir pazar seviyesi seçin",
-                filterAll: "Tümü",
-                availableBalance: "Kullanılabilir bakiye",
-                commissionRate: "Komisyon oranı"
-            },
-            ar: {
-                marketsTitle: "الأسواق",
-                marketsSubtitle: "اختر مستوى السوق لبدء العمل",
-                filterAll: "الكل",
-                availableBalance: "الرصيد المتاح",
-                commissionRate: "معدل العمولة"
-            },
-            fa: {
-                marketsTitle: "بازارها",
-                marketsSubtitle: "یک سطح بازار را برای شروع کار انتخاب کنید",
-                filterAll: "همه",
-                availableBalance: "موجودی موجود",
-                commissionRate: "نرخ کمیسیون"
-            }
+            en: { marketsTitle: "Markets", marketsSubtitle: "Select a market level to start working", filterAll: "All", availableBalance: "Available balance", commissionRate: "Commission rate" },
+            es: { marketsTitle: "Mercados", marketsSubtitle: "Seleccione un nivel de mercado para comenzar", filterAll: "Todos", availableBalance: "Saldo disponible", commissionRate: "Tasa de comisión" },
+            fr: { marketsTitle: "Marchés", marketsSubtitle: "Sélectionnez un niveau de marché", filterAll: "Tous", availableBalance: "Solde disponible", commissionRate: "Taux de commission" },
+            de: { marketsTitle: "Märkte", marketsSubtitle: "Wählen Sie eine Marktstufe", filterAll: "Alle", availableBalance: "Verfügbares Guthaben", commissionRate: "Provisionssatz" },
+            it: { marketsTitle: "Mercati", marketsSubtitle: "Seleziona un livello di mercato", filterAll: "Tutti", availableBalance: "Saldo disponibile", commissionRate: "Tasso di commissione" },
+            pt: { marketsTitle: "Mercados", marketsSubtitle: "Selecione um nível de mercado", filterAll: "Todos", availableBalance: "Saldo disponível", commissionRate: "Taxa de comissão" },
+            nl: { marketsTitle: "Markten", marketsSubtitle: "Selecteer een marktniveau", filterAll: "Alle", availableBalance: "Beschikbaar saldo", commissionRate: "Commissietarief" },
+            ru: { marketsTitle: "Рынки", marketsSubtitle: "Выберите уровень рынка", filterAll: "Все", availableBalance: "Доступный баланс", commissionRate: "Ставка комиссии" },
+            tr: { marketsTitle: "Piyasalar", marketsSubtitle: "Bir pazar seviyesi seçin", filterAll: "Tümü", availableBalance: "Kullanılabilir bakiye", commissionRate: "Komisyon oranı" },
+            ar: { marketsTitle: "الأسواق", marketsSubtitle: "اختر مستوى السوق", filterAll: "الكل", availableBalance: "الرصيد المتاح", commissionRate: "معدل العمولة" },
+            fa: { marketsTitle: "بازارها", marketsSubtitle: "یک سطح بازار انتخاب کنید", filterAll: "همه", availableBalance: "موجودی موجود", commissionRate: "نرخ کمیسیون" }
         };
 
-        // অনুবাদ প্রয়োগ
         function applyMenuLanguage(lang) {
-            const elements = document.querySelectorAll('[data-key]');
-            elements.forEach(el => {
+            const tr = menuTranslations[lang] || menuTranslations.en;
+            document.querySelectorAll('[data-key]').forEach(el => {
                 const key = el.getAttribute('data-key');
-                if (menuTranslations[lang] && menuTranslations[lang][key]) {
-                    el.textContent = menuTranslations[lang][key];
-                } else if (typeof detailTranslations !== 'undefined' && detailTranslations[lang] && detailTranslations[lang][key]) {
+                if (tr[key]) el.textContent = tr[key];
+                else if (typeof detailTranslations !== 'undefined' && detailTranslations[lang] && detailTranslations[lang][key]) {
                     el.textContent = detailTranslations[lang][key];
                 }
             });
@@ -442,44 +377,17 @@
             if (sel) sel.value = lang;
         }
 
-        // প্রাথমিক লোড
         const menuLang = safeGet('language') || 'en';
         applyMenuLanguage(menuLang);
 
-        // ভাষা পরিবর্তন
         const menuLangSelect = document.getElementById('dashLanguageSelect');
         if (menuLangSelect) {
             menuLangSelect.addEventListener('change', function() {
-                const newLang = this.value;
-                safeSet('language', newLang);
-                applyMenuLanguage(newLang);
-                if (typeof applyDetailDirection === 'function') {
-                    applyDetailDirection(newLang);
-                }
+                safeSet('language', this.value);
+                applyMenuLanguage(this.value);
+                if (typeof applyDetailDirection === 'function') applyDetailDirection(this.value);
             });
         }
-
-        // ================= ফিল্টার Functionality =================
-        const filterTabs = document.querySelectorAll('.filter-tab');
-        const marketCards = document.querySelectorAll('.market-card');
-
-        filterTabs.forEach(tab => {
-            tab.addEventListener('click', function() {
-                const filter = this.getAttribute('data-filter');
-
-                filterTabs.forEach(t => t.classList.remove('active'));
-                this.classList.add('active');
-
-                marketCards.forEach(card => {
-                    const vip = card.getAttribute('data-vip');
-                    if (filter === 'all' || vip === filter) {
-                        card.style.display = 'flex';
-                    } else {
-                        card.style.display = 'none';
-                    }
-                });
-            });
-        });
     </script>
 </body>
 </html>
