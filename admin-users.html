@@ -62,6 +62,7 @@
         .user-balance-value { font-size: 16px; font-weight: 800; color: #10b981; }
         .user-balance-label { font-size: 10.5px; color: #64748b; }
         
+        /* Modal */
         .modal {
             position: fixed; inset: 0; background: rgba(0, 0, 0, 0.8);
             display: none; align-items: center; justify-content: center;
@@ -74,9 +75,9 @@
         
         .modal-content {
             background: #1e293b; border: 1px solid #334155;
-            border-radius: 18px; padding: 26px;
-            max-width: 440px; width: 100%;
-            max-height: 90vh; overflow-y: auto;
+            border-radius: 18px; padding: 24px;
+            max-width: 480px; width: 100%;
+            max-height: 92vh; overflow-y: auto;
             animation: popIn 0.3s ease;
         }
         
@@ -98,56 +99,163 @@
         }
         
         .modal-user-info {
-            background: #0f172a; border-radius: 12px; padding: 16px;
-            margin-bottom: 18px;
+            background: #0f172a; border-radius: 12px; padding: 14px;
+            margin-bottom: 16px;
         }
         
         .modal-user-row {
             display: flex; justify-content: space-between;
-            padding: 6px 0; font-size: 13px;
+            padding: 6px 0; font-size: 12.5px;
             gap: 10px;
         }
         
         .modal-user-row span:first-child { color: #94a3b8; flex-shrink: 0; }
         .modal-user-row span:last-child {
             font-weight: 700; word-break: break-all;
-            text-align: right; font-size: 12px;
+            text-align: right; font-size: 11.5px;
         }
         
-        .balance-form-group { margin-bottom: 14px; }
-        .balance-form-group label {
-            font-size: 12.5px; color: #94a3b8; font-weight: 600;
-            display: block; margin-bottom: 6px;
+        .modal-user-row span.highlight {
+            color: #10b981;
+            font-size: 14px;
         }
         
-        .balance-form-group input {
-            width: 100%; padding: 12px 14px;
-            background: #0f172a; border: 1px solid #334155;
-            border-radius: 10px; color: #f1f5f9;
-            font-size: 14px; font-family: inherit; outline: none;
+        /* Section inside modal */
+        .modal-section {
+            background: #0f172a;
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 14px;
+            border: 1px solid #334155;
         }
         
-        .balance-form-group input:focus { border-color: #f59e0b; }
+        .section-label {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 13px;
+            font-weight: 700;
+            color: #f59e0b;
+            margin-bottom: 10px;
+        }
         
-        .balance-btns { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 6px; }
+        .section-label .num {
+            width: 22px;
+            height: 22px;
+            border-radius: 50%;
+            background: linear-gradient(90deg, #f59e0b, #d97706);
+            color: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 11px;
+            font-weight: 800;
+        }
         
-        .btn {
-            padding: 13px; border-radius: 10px; border: none;
-            font-size: 14px; font-weight: 700; cursor: pointer;
+        .section-desc {
+            font-size: 11.5px;
+            color: #94a3b8;
+            margin-bottom: 10px;
+            line-height: 1.4;
+        }
+        
+        .input-with-label {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .input-with-label input {
+            flex: 1;
+            padding: 12px 14px;
+            background: #1e293b;
+            border: 1px solid #334155;
+            border-radius: 10px;
+            color: #f1f5f9;
+            font-size: 14px;
+            font-family: inherit;
+            outline: none;
+        }
+        
+        .input-with-label input:focus { border-color: #f59e0b; }
+        
+        .input-with-label .unit {
+            padding: 12px 14px;
+            background: #1e293b;
+            border: 1px solid #334155;
+            border-radius: 10px;
+            color: #94a3b8;
+            font-size: 12px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            white-space: nowrap;
+        }
+        
+        .save-field-btn {
+            background: linear-gradient(90deg, #f59e0b, #d97706);
+            color: #fff;
+            border: none;
+            padding: 12px 16px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: 700;
+            font-size: 13px;
             font-family: inherit;
         }
         
-        .btn:active { transform: scale(0.98); }
-        .btn:disabled { opacity: 0.5; }
+        .save-field-btn:active { transform: scale(0.98); }
+        
+        .stats-mini {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-bottom: 14px;
+        }
+        
+        .stat-mini-box {
+            background: #0f172a;
+            border: 1px solid #334155;
+            border-radius: 10px;
+            padding: 12px;
+            text-align: center;
+        }
+        
+        .stat-mini-label {
+            font-size: 10.5px;
+            color: #94a3b8;
+            margin-bottom: 4px;
+        }
+        
+        .stat-mini-value {
+            font-size: 16px;
+            font-weight: 800;
+            color: #10b981;
+        }
+        
+        .stat-mini-value.orange { color: #f59e0b; }
+        .stat-mini-value.red { color: #ef4444; }
+        
+        .balance-btns {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-top: 10px;
+        }
+        
+        .btn {
+            padding: 12px; border-radius: 10px; border: none;
+            font-size: 13px; font-weight: 700; cursor: pointer;
+            font-family: inherit;
+        }
         
         .btn-add { background: linear-gradient(90deg, #10b981, #059669); color: #fff; }
         .btn-subtract { background: linear-gradient(90deg, #ef4444, #dc2626); color: #fff; }
         
-        .quick-amounts { display: flex; gap: 6px; margin-bottom: 14px; flex-wrap: wrap; }
+        .quick-amounts { display: flex; gap: 6px; margin-bottom: 10px; flex-wrap: wrap; }
         
         .quick-amount {
-            flex: 1; min-width: 55px; padding: 8px;
-            background: #0f172a; border: 1px solid #334155;
+            flex: 1; min-width: 50px; padding: 8px;
+            background: #1e293b; border: 1px solid #334155;
             border-radius: 8px; color: #94a3b8;
             font-size: 12px; cursor: pointer; font-family: inherit;
             font-weight: 600;
@@ -167,12 +275,7 @@
         
         .toast.success { border-color: #10b981; color: #6ee7b7; }
         .toast.error { border-color: #ef4444; color: #fca5a5; }
-        .toast.show { display: block; animation: toastIn 0.3s ease; }
-        
-        @keyframes toastIn {
-            0% { top: -60px; opacity: 0; }
-            100% { top: 20px; opacity: 1; }
-        }
+        .toast.show { display: block; }
         
         .loading-state { text-align: center; padding: 40px; color: #94a3b8; }
         .loading-state i { font-size: 32px; display: block; margin-bottom: 12px; color: #f59e0b; }
@@ -183,6 +286,7 @@
             .user-avatar { width: 44px; height: 44px; font-size: 17px; }
             .user-info h3 { font-size: 13px; }
             .user-balance-value { font-size: 14px; }
+            .modal-content { padding: 18px; }
         }
     </style>
 </head>
@@ -212,13 +316,17 @@
         
     </div>
     
-    <div class="modal" id="balanceModal">
+    <!-- ============================================================
+         USER DETAIL MODAL
+         ============================================================ -->
+    <div class="modal" id="userModal">
         <div class="modal-content">
             <div class="modal-header">
-                <h2>Adjust Balance</h2>
-                <button class="modal-close" onclick="closeBalanceModal()">✕</button>
+                <h2>User Settings</h2>
+                <button class="modal-close" onclick="closeUserModal()">✕</button>
             </div>
             
+            <!-- User Info -->
             <div class="modal-user-info">
                 <div class="modal-user-row">
                     <span>Name:</span>
@@ -232,29 +340,83 @@
                     <span>UID:</span>
                     <span id="modalUid">-</span>
                 </div>
-                <div class="modal-user-row">
-                    <span>Current Balance:</span>
-                    <span id="modalBalance" style="color:#10b981;">0.00 USDT</span>
+            </div>
+            
+            <!-- Mini Stats -->
+            <div class="stats-mini">
+                <div class="stat-mini-box">
+                    <div class="stat-mini-label">💰 Balance</div>
+                    <div class="stat-mini-value" id="miniBalance">0.00</div>
+                </div>
+                <div class="stat-mini-box">
+                    <div class="stat-mini-label">📈 Commission Earned</div>
+                    <div class="stat-mini-value orange" id="miniCommission">0.00</div>
                 </div>
             </div>
             
-            <div class="balance-form-group">
-                <label>Amount (USDT)</label>
-                <input type="number" id="adjustAmount" placeholder="Enter amount" min="0" step="0.01">
+            <!-- ⭐ 1: Commission Limit -->
+            <div class="modal-section">
+                <div class="section-label">
+                    <span class="num">1</span>
+                    Commission Limit
+                </div>
+                <p class="section-desc">
+                    এই Limit পর্যন্ত User Order করতে পারবে। Limit শেষ হলে User কে Deposit করতে বলা হবে।
+                </p>
+                <div class="input-with-label" style="margin-bottom: 10px;">
+                    <input type="number" id="commissionLimitInput" placeholder="যেমন: 100" min="0" step="1">
+                    <span class="unit">USDT</span>
+                    <button class="save-field-btn" onclick="saveCommissionLimit()">
+                        <i class="fa-solid fa-check"></i>
+                    </button>
+                </div>
             </div>
             
-            <div class="quick-amounts">
-                <button class="quick-amount" data-amt="5">+5</button>
-                <button class="quick-amount" data-amt="10">+10</button>
-                <button class="quick-amount" data-amt="50">+50</button>
-                <button class="quick-amount" data-amt="100">+100</button>
-                <button class="quick-amount" data-amt="500">+500</button>
+            <!-- ⭐ 2: Today's Times (Orders per day) -->
+            <div class="modal-section">
+                <div class="section-label">
+                    <span class="num">2</span>
+                    Today's Times (Daily Order Limit)
+                </div>
+                <p class="section-desc">
+                    User দিনে কতটি Order করতে পারবে সেটি সেট করুন (Default: 25)।
+                </p>
+                <div class="input-with-label">
+                    <input type="number" id="dailyTimesInput" placeholder="যেমন: 25" min="1" step="1">
+                    <span class="unit">Orders/Day</span>
+                    <button class="save-field-btn" onclick="saveDailyTimes()">
+                        <i class="fa-solid fa-check"></i>
+                    </button>
+                </div>
             </div>
             
-            <div class="balance-btns">
-                <button class="btn btn-add" id="btnAdd">+ Add</button>
-                <button class="btn btn-subtract" id="btnSubtract">- Subtract</button>
+            <!-- ⭐ 3: Balance Adjust -->
+            <div class="modal-section">
+                <div class="section-label">
+                    <span class="num">3</span>
+                    Balance Adjust
+                </div>
+                <p class="section-desc">
+                    User এর Balance বাড়ান বা কমিয়ে দিন।
+                </p>
+                
+                <input type="number" id="adjustAmount" placeholder="Amount (USDT)" min="0" step="0.01"
+                       style="width: 100%; padding: 12px 14px; background: #1e293b; border: 1px solid #334155; border-radius: 10px; color: #f1f5f9; font-size: 14px; font-family: inherit; outline: none; margin-bottom: 10px;">
+                
+                <div class="quick-amounts">
+                    <button class="quick-amount" data-amt="5">+5</button>
+                    <button class="quick-amount" data-amt="10">+10</button>
+                    <button class="quick-amount" data-amt="50">+50</button>
+                    <button class="quick-amount" data-amt="100">+100</button>
+                    <button class="quick-amount" data-amt="500">+500</button>
+                </div>
+                
+                <div class="balance-btns">
+                    <button class="btn btn-add" id="btnAdd">+ Add</button>
+                    <button class="btn btn-subtract" id="btnSubtract">- Subtract</button>
+                </div>
             </div>
+            
         </div>
     </div>
     
@@ -269,6 +431,9 @@
         let allUsers = [];
         let selectedUser = null;
         
+        // ============================================================
+        // 🔐 Admin Auth Check
+        // ============================================================
         auth.onAuthStateChanged(async function(user) {
             if (!user) {
                 window.location.replace('admin-login.html');
@@ -283,6 +448,9 @@
             loadUsers();
         });
         
+        // ============================================================
+        // 📋 Load Users
+        // ============================================================
         async function loadUsers() {
             const listEl = document.getElementById('usersList');
             try {
@@ -300,6 +468,9 @@
             }
         }
         
+        // ============================================================
+        // 🎨 Render Users
+        // ============================================================
         function renderUsers(users) {
             const listEl = document.getElementById('usersList');
             
@@ -316,7 +487,7 @@
                 const vip = u.vip || 0;
                 
                 html += `
-                    <div class="user-card" onclick="openBalanceModal('${u.id}')">
+                    <div class="user-card" onclick="openUserModal('${u.id}')">
                         <div class="user-avatar">${initial}</div>
                         <div class="user-info">
                             <h3>${u.fullName || 'Unknown'}</h3>
@@ -337,6 +508,9 @@
             listEl.innerHTML = html;
         }
         
+        // ============================================================
+        // 🔍 Search
+        // ============================================================
         document.getElementById('searchInput').addEventListener('input', function() {
             const q = this.value.toLowerCase().trim();
             if (!q) { renderUsers(allUsers); return; }
@@ -349,24 +523,95 @@
             renderUsers(filtered);
         });
         
-        function openBalanceModal(uid) {
+        // ============================================================
+        // 🎯 Open User Modal
+        // ============================================================
+        function openUserModal(uid) {
             selectedUser = allUsers.find(u => u.id === uid);
             if (!selectedUser) return;
             
             document.getElementById('modalName').textContent = selectedUser.fullName || 'Unknown';
             document.getElementById('modalEmail').textContent = selectedUser.email || '-';
             document.getElementById('modalUid').textContent = selectedUser.id;
-            document.getElementById('modalBalance').textContent = (selectedUser.balance || 0).toFixed(2) + ' USDT';
+            
+            // Mini Stats
+            document.getElementById('miniBalance').textContent = (selectedUser.balance || 0).toFixed(2) + ' USDT';
+            document.getElementById('miniCommission').textContent = (selectedUser.totalCommission || 0).toFixed(2) + ' USDT';
+            
+            // ⭐ Field 1: Commission Limit
+            document.getElementById('commissionLimitInput').value = selectedUser.commissionLimit || '';
+            
+            // ⭐ Field 2: Daily Times
+            document.getElementById('dailyTimesInput').value = selectedUser.dailyTimes || 25;
+            
+            // Balance Adjust
             document.getElementById('adjustAmount').value = '';
             
-            document.getElementById('balanceModal').classList.add('show');
+            document.getElementById('userModal').classList.add('show');
         }
         
-        function closeBalanceModal() {
-            document.getElementById('balanceModal').classList.remove('show');
+        function closeUserModal() {
+            document.getElementById('userModal').classList.remove('show');
             selectedUser = null;
         }
         
+        // ============================================================
+        // ⭐ SAVE: Commission Limit
+        // ============================================================
+        async function saveCommissionLimit() {
+            if (!selectedUser) return;
+            
+            const limit = parseFloat(document.getElementById('commissionLimitInput').value);
+            
+            if (isNaN(limit) || limit < 0) {
+                showToast('❌ Enter valid limit', 'error');
+                return;
+            }
+            
+            try {
+                await db.collection('users').doc(selectedUser.id).update({
+                    commissionLimit: limit,
+                    updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+                });
+                
+                selectedUser.commissionLimit = limit;
+                showToast('✅ Commission Limit saved: ' + limit + ' USDT', 'success');
+            } catch (err) {
+                console.error('Save commission limit error:', err);
+                showToast('❌ Failed. Try again.', 'error');
+            }
+        }
+        
+        // ============================================================
+        // ⭐ SAVE: Daily Times (Orders per day)
+        // ============================================================
+        async function saveDailyTimes() {
+            if (!selectedUser) return;
+            
+            const times = parseInt(document.getElementById('dailyTimesInput').value);
+            
+            if (isNaN(times) || times < 1 || times > 500) {
+                showToast('❌ Enter valid number (1-500)', 'error');
+                return;
+            }
+            
+            try {
+                await db.collection('users').doc(selectedUser.id).update({
+                    dailyTimes: times,
+                    updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+                });
+                
+                selectedUser.dailyTimes = times;
+                showToast('✅ Daily Times saved: ' + times + ' orders/day', 'success');
+            } catch (err) {
+                console.error('Save daily times error:', err);
+                showToast('❌ Failed. Try again.', 'error');
+            }
+        }
+        
+        // ============================================================
+        // Quick Amounts
+        // ============================================================
         document.querySelectorAll('.quick-amount').forEach(btn => {
             btn.addEventListener('click', function() {
                 const amt = this.getAttribute('data-amt');
@@ -374,6 +619,9 @@
             });
         });
         
+        // ============================================================
+        // ⭐ Balance Adjust
+        // ============================================================
         async function adjustBalance(isAdd) {
             if (!selectedUser) return;
             
@@ -403,7 +651,7 @@
                 });
                 
                 showToast(`✅ ${isAdd ? 'Added' : 'Subtracted'} ${amount} USDT`, 'success');
-                closeBalanceModal();
+                document.getElementById('adjustAmount').value = '';
                 
                 setTimeout(() => loadUsers(), 500);
             } catch (err) {
@@ -415,6 +663,9 @@
         document.getElementById('btnAdd').addEventListener('click', () => adjustBalance(true));
         document.getElementById('btnSubtract').addEventListener('click', () => adjustBalance(false));
         
+        // ============================================================
+        // 🍞 Toast
+        // ============================================================
         function showToast(msg, type) {
             const t = document.getElementById('toast');
             t.textContent = msg;
