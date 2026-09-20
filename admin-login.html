@@ -2,795 +2,249 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="theme-color" content="#0f172a">
-    <title>Admin Dashboard - UMALL247</title>
+    <title>Admin Login - UMALL247</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        * { 
-            margin: 0; 
-            padding: 0; 
-            box-sizing: border-box; 
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
         
         body {
             background: #0f172a;
-            color: #f1f5f9;
             min-height: 100vh;
-            padding-bottom: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
         }
-
-        /* ================= HEADER ================= */
-        .admin-header {
+        
+        .admin-login-box {
             background: #1e293b;
-            padding: 16px 20px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            border-bottom: 1px solid #334155;
-            position: sticky;
-            top: 0;
-            z-index: 100;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+            border-radius: 20px;
+            padding: 40px 30px;
+            width: 100%;
+            max-width: 400px;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+            border: 1px solid #334155;
         }
-
-        .admin-header-left {
-            display: flex;
-            align-items: center;
-            gap: 12px;
+        
+        .admin-logo {
+            text-align: center;
+            margin-bottom: 30px;
         }
-
-        .admin-header-left i.shield-icon {
-            font-size: 24px;
+        
+        .admin-logo i {
+            font-size: 48px;
             color: #f59e0b;
+            margin-bottom: 14px;
         }
-
-        .admin-header-left h1 {
-            font-size: 18px;
+        
+        .admin-logo h1 {
+            color: #f1f5f9;
+            font-size: 22px;
             font-weight: 800;
-            letter-spacing: 0.3px;
         }
-
-        .admin-header-left h1 span {
-            color: #f59e0b;
+        
+        .admin-logo p {
+            color: #94a3b8;
+            font-size: 12.5px;
+            margin-top: 6px;
         }
-
-        .admin-logout {
+        
+        .form-group {
+            margin-bottom: 16px;
+        }
+        
+        .form-group label {
+            color: #94a3b8;
+            font-size: 12.5px;
+            font-weight: 600;
+            display: block;
+            margin-bottom: 6px;
+        }
+        
+        .form-group input {
+            width: 100%;
+            padding: 14px 16px;
+            border-radius: 10px;
+            border: 1px solid #334155;
+            background: #0f172a;
+            color: #f1f5f9;
+            font-size: 14px;
+            outline: none;
+            font-family: inherit;
+        }
+        
+        .form-group input:focus {
+            border-color: #f59e0b;
+        }
+        
+        .admin-btn {
+            width: 100%;
+            padding: 15px;
+            border-radius: 10px;
+            border: none;
+            background: linear-gradient(90deg, #f59e0b, #d97706);
+            color: #fff;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            font-family: inherit;
+            margin-top: 8px;
+        }
+        
+        .admin-btn:disabled {
+            opacity: 0.6;
+        }
+        
+        .admin-btn:active {
+            transform: scale(0.98);
+        }
+        
+        .admin-message {
+            padding: 12px;
+            border-radius: 10px;
+            margin-bottom: 14px;
+            font-size: 13px;
+            text-align: center;
+            display: none;
+        }
+        
+        .admin-message.error {
             background: rgba(239, 68, 68, 0.15);
             color: #fca5a5;
             border: 1px solid rgba(239, 68, 68, 0.3);
-            padding: 8px 14px;
-            border-radius: 8px;
-            cursor: pointer;
-            font-family: inherit;
-            font-size: 12.5px;
-            font-weight: 700;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            -webkit-tap-highlight-color: transparent;
+            display: block;
         }
-
-        .admin-logout:active {
-            transform: scale(0.95);
+        
+        .admin-message.success {
+            background: rgba(16, 185, 129, 0.15);
+            color: #6ee7b7;
+            border: 1px solid rgba(16, 185, 129, 0.3);
+            display: block;
         }
-
-        /* ================= CONTENT ================= */
-        .admin-content {
-            max-width: 1100px;
-            margin: 0 auto;
-            padding: 20px;
-        }
-
-        /* ================= WELCOME ================= */
-        .welcome-section {
-            margin-bottom: 24px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            flex-wrap: wrap;
-            gap: 10px;
-        }
-
-        .welcome-section h2 {
-            font-size: 22px;
-            margin-bottom: 6px;
-        }
-
-        .welcome-section p {
-            color: #94a3b8;
-            font-size: 13px;
-        }
-
-        .admin-badge {
-            background: linear-gradient(90deg, #f59e0b, #d97706);
-            color: #fff;
-            padding: 6px 14px;
-            border-radius: 20px;
-            font-size: 11.5px;
-            font-weight: 800;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-
-        /* ================= STATS GRID ================= */
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
-            gap: 14px;
-            margin-bottom: 26px;
-        }
-
-        .stat-box {
-            background: #1e293b;
-            border: 1px solid #334155;
-            border-radius: 14px;
-            padding: 18px;
-            position: relative;
-            overflow: hidden;
-            transition: transform 0.2s;
-        }
-
-        .stat-box:active {
-            transform: scale(0.98);
-        }
-
-        .stat-box::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 4px;
-            height: 100%;
-        }
-
-        .stat-box.orange::before { background: #f59e0b; }
-        .stat-box.green::before { background: #10b981; }
-        .stat-box.blue::before { background: #3b82f6; }
-        .stat-box.purple::before { background: #a855f7; }
-        .stat-box.red::before { background: #ef4444; }
-        .stat-box.pink::before { background: #ec4899; }
-
-        .stat-box-icon {
-            font-size: 22px;
-            margin-bottom: 10px;
-        }
-
-        .stat-box.orange .stat-box-icon { color: #f59e0b; }
-        .stat-box.green .stat-box-icon { color: #10b981; }
-        .stat-box.blue .stat-box-icon { color: #3b82f6; }
-        .stat-box.purple .stat-box-icon { color: #a855f7; }
-        .stat-box.red .stat-box-icon { color: #ef4444; }
-        .stat-box.pink .stat-box-icon { color: #ec4899; }
-
-        .stat-box-value {
-            font-size: 24px;
-            font-weight: 800;
-            color: #f1f5f9;
-            margin-bottom: 4px;
-            letter-spacing: 0.3px;
-        }
-
-        .stat-box-label {
-            font-size: 12px;
-            color: #94a3b8;
-            font-weight: 500;
-        }
-
-        /* ================= SECTION TITLE ================= */
-        .section-title {
-            font-size: 15px;
-            font-weight: 800;
-            color: #cbd5e1;
-            margin-bottom: 14px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-
-        .section-title i {
-            color: #f59e0b;
-            font-size: 14px;
-        }
-
-        /* ================= NAV CARDS ================= */
-        .admin-nav-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-            gap: 14px;
-            margin-bottom: 26px;
-        }
-
-        .admin-nav-card {
-            background: #1e293b;
-            border: 1px solid #334155;
-            border-radius: 14px;
-            padding: 18px;
-            text-decoration: none;
-            color: inherit;
-            display: flex;
-            align-items: center;
-            gap: 14px;
-            transition: all 0.2s;
-            cursor: pointer;
-            position: relative;
-        }
-
-        .admin-nav-card:hover {
-            border-color: #f59e0b;
-            transform: translateY(-2px);
-            box-shadow: 0 8px 20px rgba(245, 158, 11, 0.15);
-        }
-
-        .admin-nav-card:active {
-            transform: scale(0.98);
-        }
-
-        .admin-nav-card i.nav-icon {
-            font-size: 22px;
-            color: #f59e0b;
-            width: 48px;
-            height: 48px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: rgba(245, 158, 11, 0.15);
-            border-radius: 12px;
-            flex-shrink: 0;
-        }
-
-        .admin-nav-card-info {
-            flex: 1;
-            min-width: 0;
-        }
-
-        .admin-nav-card-info h4 {
-            font-size: 14.5px;
-            font-weight: 700;
-            margin-bottom: 4px;
-            color: #f1f5f9;
-        }
-
-        .admin-nav-card-info p {
-            font-size: 11.5px;
-            color: #94a3b8;
-            line-height: 1.3;
-        }
-
-        .admin-nav-card-arrow {
+        
+        .security-note {
+            text-align: center;
+            margin-top: 20px;
             color: #64748b;
-            font-size: 14px;
-            flex-shrink: 0;
-        }
-
-        /* ================= RECENT ACTIVITY ================= */
-        .activity-card {
-            background: #1e293b;
-            border: 1px solid #334155;
-            border-radius: 14px;
-            padding: 18px;
-            margin-bottom: 20px;
-        }
-
-        .activity-list {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-        }
-
-        .activity-item {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            padding: 10px 12px;
-            background: #0f172a;
-            border-radius: 10px;
-            font-size: 12.5px;
-            border-left: 3px solid #64748b;
-        }
-
-        .activity-item.bonus { border-left-color: #10b981; }
-        .activity-item.withdrawal { border-left-color: #f59e0b; }
-        .activity-item.order { border-left-color: #3b82f6; }
-        .activity-item.deposit { border-left-color: #a855f7; }
-
-        .activity-icon {
-            width: 32px;
-            height: 32px;
-            border-radius: 8px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 13px;
-            flex-shrink: 0;
-            background: rgba(100, 116, 139, 0.2);
-            color: #94a3b8;
-        }
-
-        .activity-item.bonus .activity-icon { background: rgba(16, 185, 129, 0.15); color: #10b981; }
-        .activity-item.withdrawal .activity-icon { background: rgba(245, 158, 11, 0.15); color: #f59e0b; }
-        .activity-item.order .activity-icon { background: rgba(59, 130, 246, 0.15); color: #3b82f6; }
-        .activity-item.deposit .activity-icon { background: rgba(168, 85, 247, 0.15); color: #a855f7; }
-
-        .activity-info {
-            flex: 1;
-            min-width: 0;
-        }
-
-        .activity-info-title {
-            font-weight: 700;
-            color: #f1f5f9;
-            margin-bottom: 2px;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap;
-        }
-
-        .activity-info-time {
             font-size: 11px;
-            color: #64748b;
         }
-
-        .activity-amount {
-            font-weight: 800;
-            font-size: 13px;
-            color: #10b981;
-            flex-shrink: 0;
-        }
-
-        .activity-amount.negative {
+        
+        .security-note i {
             color: #f59e0b;
-        }
-
-        /* ================= LOADING ================= */
-        .loading-state {
-            text-align: center;
-            padding: 40px 20px;
-            color: #94a3b8;
-            font-size: 13px;
-        }
-
-        .loading-state i {
-            font-size: 32px;
-            display: block;
-            margin-bottom: 12px;
-            color: #f59e0b;
-        }
-
-        .empty-state {
-            text-align: center;
-            padding: 30px 20px;
-            color: #64748b;
-            font-size: 13px;
-        }
-
-        .empty-state i {
-            font-size: 32px;
-            display: block;
-            margin-bottom: 10px;
-            opacity: 0.5;
-        }
-
-        /* ================= TOAST ================= */
-        .toast {
-            position: fixed;
-            top: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: #1e293b;
-            color: #f1f5f9;
-            padding: 14px 22px;
-            border-radius: 12px;
-            font-size: 13.5px;
-            font-weight: 700;
-            z-index: 99999;
-            display: none;
-            border: 1px solid #334155;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-            max-width: 90%;
-            text-align: center;
-        }
-
-        .toast.success { border-color: #10b981; color: #6ee7b7; }
-        .toast.error { border-color: #ef4444; color: #fca5a5; }
-        .toast.show { display: block; animation: toastIn 0.3s ease; }
-
-        @keyframes toastIn {
-            0% { top: -60px; opacity: 0; }
-            100% { top: 20px; opacity: 1; }
-        }
-
-        /* ================= MOBILE ================= */
-        @media (max-width: 480px) {
-            .stats-grid {
-                grid-template-columns: 1fr 1fr;
-                gap: 10px;
-            }
-            .stat-box { padding: 14px; }
-            .stat-box-value { font-size: 19px; }
-            .stat-box-label { font-size: 10.5px; }
-            .stat-box-icon { font-size: 18px; margin-bottom: 8px; }
-            .admin-header-left h1 { font-size: 15px; }
-            .admin-logout { padding: 6px 10px; font-size: 11px; }
-            .admin-nav-grid { grid-template-columns: 1fr; }
-            .admin-nav-card { padding: 14px; }
-            .admin-nav-card i.nav-icon { width: 42px; height: 42px; font-size: 18px; }
-            .welcome-section h2 { font-size: 18px; }
-            .welcome-section p { font-size: 12px; }
-        }
-
-        @media (max-width: 360px) {
-            .stat-box-value { font-size: 17px; }
-            .section-title { font-size: 13px; }
         }
     </style>
 </head>
 <body>
 
-    <!-- ================= HEADER ================= -->
-    <header class="admin-header">
-        <div class="admin-header-left">
-            <i class="fa-solid fa-shield-halved shield-icon"></i>
-            <h1>UMALL<span>247</span> Admin</h1>
+    <div class="admin-login-box">
+        <div class="admin-logo">
+            <i class="fa-solid fa-shield-halved"></i>
+            <h1>Admin Panel</h1>
+            <p>UMALL247 Management System</p>
         </div>
-        <button class="admin-logout" id="logoutBtn" type="button">
-            <i class="fa-solid fa-right-from-bracket"></i> Logout
+        
+        <div class="admin-message" id="adminMessage"></div>
+        
+        <div class="form-group">
+            <label>Admin Email</label>
+            <input type="email" id="adminEmail" placeholder="admin@umall247.com" autocomplete="username">
+        </div>
+        
+        <div class="form-group">
+            <label>Admin Password</label>
+            <input type="password" id="adminPassword" placeholder="Enter password" autocomplete="current-password">
+        </div>
+        
+        <button class="admin-btn" id="adminLoginBtn" type="button">
+            <i class="fa-solid fa-lock"></i> Secure Login
         </button>
-    </header>
-
-    <!-- ================= CONTENT ================= -->
-    <div class="admin-content">
-
-        <!-- Welcome Section -->
-        <div class="welcome-section">
-            <div>
-                <h2>Welcome back, Admin 👋</h2>
-                <p id="adminEmail">Loading...</p>
-            </div>
-            <div class="admin-badge">
-                <i class="fa-solid fa-circle-check"></i> Active
-            </div>
-        </div>
-
-        <!-- Stats Grid -->
-        <div class="section-title">
-            <i class="fa-solid fa-chart-pie"></i> Overview
-        </div>
-
-        <div class="stats-grid">
-            <div class="stat-box orange">
-                <div class="stat-box-icon"><i class="fa-solid fa-users"></i></div>
-                <div class="stat-box-value" id="totalUsers">--</div>
-                <div class="stat-box-label">Total Users</div>
-            </div>
-
-            <div class="stat-box green">
-                <div class="stat-box-icon"><i class="fa-solid fa-dollar-sign"></i></div>
-                <div class="stat-box-value" id="totalBalance">--</div>
-                <div class="stat-box-label">Total Balance (USDT)</div>
-            </div>
-
-            <div class="stat-box blue">
-                <div class="stat-box-icon"><i class="fa-solid fa-receipt"></i></div>
-                <div class="stat-box-value" id="totalTransactions">--</div>
-                <div class="stat-box-label">Transactions</div>
-            </div>
-
-            <div class="stat-box red">
-                <div class="stat-box-icon"><i class="fa-solid fa-clock"></i></div>
-                <div class="stat-box-value" id="pendingWithdrawals">--</div>
-                <div class="stat-box-label">Pending Withdrawals</div>
-            </div>
-
-            <div class="stat-box purple">
-                <div class="stat-box-icon"><i class="fa-solid fa-user-plus"></i></div>
-                <div class="stat-box-value" id="todayUsers">--</div>
-                <div class="stat-box-label">New Today</div>
-            </div>
-
-            <div class="stat-box pink">
-                <div class="stat-box-icon"><i class="fa-solid fa-chart-line"></i></div>
-                <div class="stat-box-value" id="totalCommission">--</div>
-                <div class="stat-box-label">Total Commission</div>
-            </div>
-        </div>
-
-        <!-- Management Section -->
-        <div class="section-title">
-            <i class="fa-solid fa-sliders"></i> Management
-        </div>
-
-        <div class="admin-nav-grid">
-            <a href="admin-users.html" class="admin-nav-card">
-                <i class="fa-solid fa-users nav-icon"></i>
-                <div class="admin-nav-card-info">
-                    <h4>User Management</h4>
-                    <p>View, search & manage all users</p>
-                </div>
-                <i class="fa-solid fa-chevron-right admin-nav-card-arrow"></i>
-            </a>
-
-            <a href="admin-withdrawals.html" class="admin-nav-card">
-                <i class="fa-solid fa-money-bill-transfer nav-icon"></i>
-                <div class="admin-nav-card-info">
-                    <h4>Withdrawals</h4>
-                    <p>Approve or reject requests</p>
-                </div>
-                <i class="fa-solid fa-chevron-right admin-nav-card-arrow"></i>
-            </a>
-
-            <a href="admin-bonus.html" class="admin-nav-card">
-                <i class="fa-solid fa-gift nav-icon"></i>
-                <div class="admin-nav-card-info">
-                    <h4>Bonus & Promo</h4>
-                    <p>Send bonus to users</p>
-                </div>
-                <i class="fa-solid fa-chevron-right admin-nav-card-arrow"></i>
-            </a>
-
-            <a href="admin-transactions.html" class="admin-nav-card">
-                <i class="fa-solid fa-list nav-icon"></i>
-                <div class="admin-nav-card-info">
-                    <h4>Transactions</h4>
-                    <p>View all transaction records</p>
-                </div>
-                <i class="fa-solid fa-chevron-right admin-nav-card-arrow"></i>
-            </a>
-        </div>
-
-        <!-- Recent Activity -->
-        <div class="section-title">
-            <i class="fa-solid fa-clock-rotate-left"></i> Recent Activity
-        </div>
-
-        <div class="activity-card">
-            <div class="activity-list" id="activityList">
-                <div class="loading-state">
-                    <i class="fa-solid fa-spinner fa-spin"></i>
-                    Loading activities...
-                </div>
-            </div>
-        </div>
-
+        
+        <p class="security-note">
+            <i class="fa-solid fa-shield"></i> Restricted area. Authorized personnel only.
+        </p>
     </div>
 
-    <!-- Toast -->
-    <div class="toast" id="toast"></div>
-
-    <!-- Firebase SDK -->
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
     <script src="firebase-auth.js"></script>
 
     <script>
-        // ============================================================
-        // 🔐 Admin Authentication Check
-        // ============================================================
+        const adminEmail = document.getElementById('adminEmail');
+        const adminPassword = document.getElementById('adminPassword');
+        const adminLoginBtn = document.getElementById('adminLoginBtn');
+        const adminMessage = document.getElementById('adminMessage');
+        
+        // ✅ যদি আগে থেকেই লগইন থাকে, সরাসরি Dashboard এ যান
         auth.onAuthStateChanged(async function(user) {
-            if (!user) {
-                window.location.replace('admin-login.html');
-                return;
-            }
-
-            try {
-                // Verify admin status
-                const adminDoc = await db.collection('admins').doc(user.uid).get();
-                if (!adminDoc.exists) {
-                    await auth.signOut();
-                    window.location.replace('admin-login.html');
-                    return;
-                }
-
-                // Show admin email
-                document.getElementById('adminEmail').textContent = user.email || 'Admin';
-
-                // Load data
-                await loadDashboardStats();
-                await loadRecentActivity();
-
-            } catch (err) {
-                console.error('Auth check error:', err);
-                showToast('❌ Authentication failed', 'error');
-                setTimeout(() => {
-                    window.location.replace('admin-login.html');
-                }, 1500);
-            }
-        });
-
-        // ============================================================
-        // 📊 Load Dashboard Stats
-        // ============================================================
-        async function loadDashboardStats() {
-            try {
-                // ===== Users Data =====
-                const usersSnap = await db.collection('users').get();
-                let totalBalance = 0;
-                let totalCommission = 0;
-                let todayCount = 0;
-
-                const todayStart = new Date();
-                todayStart.setHours(0, 0, 0, 0);
-
-                usersSnap.forEach(doc => {
-                    const data = doc.data();
-                    totalBalance += data.balance || 0;
-                    totalCommission += data.totalCommission || 0;
-
-                    // Check if registered today
-                    if (data.createdAt && data.createdAt.toDate) {
-                        try {
-                            const createdDate = data.createdAt.toDate();
-                            if (createdDate >= todayStart) todayCount++;
-                        } catch (e) {}
-                    }
-                });
-
-                document.getElementById('totalUsers').textContent = usersSnap.size;
-                document.getElementById('totalBalance').textContent = totalBalance.toFixed(2);
-                document.getElementById('totalCommission').textContent = totalCommission.toFixed(2);
-                document.getElementById('todayUsers').textContent = todayCount;
-
-                // ===== Transactions Count =====
-                const txSnap = await db.collection('transactions').get();
-                document.getElementById('totalTransactions').textContent = txSnap.size;
-
-                // ===== Pending Withdrawals =====
-                const wdSnap = await db.collection('withdrawals')
-                    .where('status', '==', 'pending')
-                    .get();
-                document.getElementById('pendingWithdrawals').textContent = wdSnap.size;
-
-            } catch (err) {
-                console.error('Stats error:', err);
-                showToast('❌ Failed to load stats', 'error');
-            }
-        }
-
-        // ============================================================
-        // 🕐 Load Recent Activity
-        // ============================================================
-        async function loadRecentActivity() {
-            const listEl = document.getElementById('activityList');
-            try {
-                const snap = await db.collection('transactions')
-                    .orderBy('createdAt', 'desc')
-                    .limit(10)
-                    .get();
-
-                if (snap.empty) {
-                    listEl.innerHTML = `
-                        <div class="empty-state">
-                            <i class="fa-solid fa-inbox"></i>
-                            No recent activity
-                        </div>
-                    `;
-                    return;
-                }
-
-                let html = '';
-                snap.forEach(doc => {
-                    const tx = doc.data();
-                    const type = tx.type || 'unknown';
-                    const amount = tx.amount || 0;
-                    const note = tx.note || tx.platform || type;
-                    
-                    // Format time
-                    let timeStr = 'Recently';
-                    if (tx.createdAt && tx.createdAt.toDate) {
-                        try {
-                            const date = tx.createdAt.toDate();
-                            const now = new Date();
-                            const diffMin = Math.floor((now - date) / 60000);
-                            
-                            if (diffMin < 1) timeStr = 'Just now';
-                            else if (diffMin < 60) timeStr = diffMin + 'm ago';
-                            else if (diffMin < 1440) timeStr = Math.floor(diffMin / 60) + 'h ago';
-                            else timeStr = date.toLocaleDateString();
-                        } catch (e) {}
-                    }
-
-                    // Determine icon and class
-                    let iconClass = 'fa-receipt';
-                    let activityClass = '';
-                    let isNegative = false;
-
-                    if (type.includes('bonus')) {
-                        iconClass = 'fa-gift';
-                        activityClass = 'bonus';
-                    } else if (type.includes('withdraw')) {
-                        iconClass = 'fa-money-bill-transfer';
-                        activityClass = 'withdrawal';
-                        isNegative = true;
-                    } else if (type.includes('order') || type.includes('commission')) {
-                        iconClass = 'fa-shopping-cart';
-                        activityClass = 'order';
-                    } else if (type.includes('deposit') || type.includes('recharge')) {
-                        iconClass = 'fa-arrow-down';
-                        activityClass = 'deposit';
-                    } else if (type.includes('referral')) {
-                        iconClass = 'fa-user-plus';
-                        activityClass = 'bonus';
-                    } else if (type.includes('admin')) {
-                        iconClass = 'fa-user-shield';
-                        activityClass = type.includes('debit') ? 'withdrawal' : 'bonus';
-                        isNegative = type.includes('debit');
-                    }
-
-                    // Format title
-                    let title = note;
-                    if (title.length > 40) title = title.substring(0, 40) + '...';
-
-                    html += `
-                        <div class="activity-item ${activityClass}">
-                            <div class="activity-icon">
-                                <i class="fa-solid ${iconClass}"></i>
-                            </div>
-                            <div class="activity-info">
-                                <div class="activity-info-title">${title}</div>
-                                <div class="activity-info-time">${timeStr}</div>
-                            </div>
-                            <div class="activity-amount ${isNegative ? 'negative' : ''}">
-                                ${isNegative ? '-' : '+'}$${amount.toFixed(2)}
-                            </div>
-                        </div>
-                    `;
-                });
-
-                listEl.innerHTML = html;
-
-            } catch (err) {
-                console.error('Activity error:', err);
-                listEl.innerHTML = `
-                    <div class="empty-state">
-                        <i class="fa-solid fa-circle-exclamation"></i>
-                        Failed to load activity
-                    </div>
-                `;
-            }
-        }
-
-        // ============================================================
-        // 🚪 Logout
-        // ============================================================
-        document.getElementById('logoutBtn').addEventListener('click', async function() {
-            if (confirm('Are you sure you want to log out from admin panel?')) {
-                try {
-                    await auth.signOut();
-                    window.location.replace('admin-login.html');
-                } catch (err) {
-                    console.error('Logout error:', err);
-                }
-            }
-        });
-
-        // ============================================================
-        // 🍞 Toast
-        // ============================================================
-        function showToast(msg, type) {
-            const t = document.getElementById('toast');
-            t.textContent = msg;
-            t.className = 'toast ' + type + ' show';
-            setTimeout(() => { t.className = 'toast ' + type; }, 3000);
-        }
-
-        // Auto refresh stats every 30 seconds
-        setInterval(async () => {
-            const user = firebase.auth().currentUser;
             if (user) {
                 try {
                     const adminDoc = await db.collection('admins').doc(user.uid).get();
                     if (adminDoc.exists) {
-                        await loadDashboardStats();
-                        await loadRecentActivity();
+                        window.location.replace('admin.html');
                     }
                 } catch (e) {}
             }
-        }, 30000);
+        });
+        
+        function showMsg(text, type) {
+            adminMessage.textContent = text;
+            adminMessage.className = 'admin-message ' + type;
+            setTimeout(() => { adminMessage.className = 'admin-message'; }, 5000);
+        }
+        
+        adminLoginBtn.addEventListener('click', async function() {
+            const email = adminEmail.value.trim();
+            const password = adminPassword.value;
+            
+            if (!email || !password) {
+                showMsg('❌ Please enter email and password', 'error');
+                return;
+            }
+            
+            adminLoginBtn.disabled = true;
+            adminLoginBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Verifying...';
+            
+            try {
+                const userCredential = await auth.signInWithEmailAndPassword(email, password);
+                const user = userCredential.user;
+                
+                // Check if user is admin
+                const adminDoc = await db.collection('admins').doc(user.uid).get();
+                
+                if (!adminDoc.exists) {
+                    await auth.signOut();
+                    showMsg('❌ Access Denied. Not an admin account.', 'error');
+                    adminLoginBtn.disabled = false;
+                    adminLoginBtn.innerHTML = '<i class="fa-solid fa-lock"></i> Secure Login';
+                    return;
+                }
+                
+                showMsg('✅ Access granted. Loading...', 'success');
+                setTimeout(() => {
+                    window.location.replace('admin.html');
+                }, 1000);
+                
+            } catch (err) {
+                console.error('Admin login error:', err);
+                adminLoginBtn.disabled = false;
+                adminLoginBtn.innerHTML = '<i class="fa-solid fa-lock"></i> Secure Login';
+                
+                let msg = '❌ Login failed';
+                if (err.message.includes('user-not-found')) msg = '❌ No admin account found';
+                else if (err.message.includes('wrong-password')) msg = '❌ Incorrect password';
+                else if (err.message.includes('invalid-credential')) msg = '❌ Invalid credentials';
+                else if (err.message.includes('too-many-requests')) msg = '❌ Too many attempts. Try later';
+                
+                showMsg(msg, 'error');
+            }
+        });
+        
+        adminPassword.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') adminLoginBtn.click();
+        });
     </script>
 </body>
 </html>
