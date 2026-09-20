@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#0f172a">
+    <title>Transactions - UMALL247 Admin</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
+        body { background: #0f172a; color: #f1f5f9; min-height: 100vh; }
+        
+        .admin-header {
+            background: #1e293b; padding: 14px 20px;
+            display: flex; align-items: center; justify-content: space-between;
+            border-bottom: 1px solid #334155; position: sticky; top: 0; z-index: 100;
+        }
+        
+        .admin-header-left { display: flex; align-items: center; gap: 12px; }
+        .back-btn { color: #f59e0b; font-size: 18px; text-decoration: none; }
+        .admin-header h1 { font-size: 17px; font-weight: 800; }
+        .count-badge {
+            background: rgba(245, 158, 11, 0.15);
+            color: #f59e0b;
+            padding: 4px 10px;
+            border-radius: 8px;
+            font-size: 11px;
+            font-weight: 700;
+        }
+        
+        .admin-content { max-width: 900px; margin: 0 auto; padding: 20px; }
+        
+        .search-box {
+            background: #1e293b; border: 1px solid #334155; border-radius: 12px;
+            padding: 12px 16px; display: flex; align-items: center; gap: 10px;
+            margin-bottom: 16px;
+        }
+        
+        .search-box i { color: #64748b; }
+        .search-box input {
+            background: transparent; border: none; outline: none; color: #f1f5f9;
+            font-size: 14px; flex: 1; font-family: inherit;
+        }
+        
+        .filter-row {
+            display: grid; grid-template-columns: 1fr 1fr; gap: 10px;
+            margin-bottom: 20px;
+        }
+        
+        .filter-select {
+            background: #1e293b; border: 1px solid #334155;
+            border-radius: 10px; padding: 10px 14px;
+        }
+        
+        .filter-select select {
+            background: transparent; border: none; outline: none;
+            color: #f1f5f9; font-size: 13px; width: 100%;
+            font-family: inherit; cursor: pointer;
+        }
+        
+        .filter-select select option { background: #1e293b; }
+        
+        .tx-list { display: flex; flex-direction: column; gap: 10px; }
+        
+        .tx-item {
+            background: #1e293b; border: 1px solid #334155;
+            border-radius: 12px; padding: 14px;
+            display: flex; align-items: center; gap: 12px;
+            border-left: 4px solid #64748b;
+        }
+        
+        .tx-item.bonus { border-left-color: #10b981; }
+        .tx-item.withdrawal { border-left-color: #f59e0b; }
+        .tx-item.order { border-left-color: #3b82f6; }
+        .tx-item.deposit { border-left-color: #a855f7; }
+        .tx-item.referral { border-left-color: #ec4899; }
+        
+        .tx-icon {
+            width: 42px; height: 42px; border-radius: 10px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 16px; flex-shrink: 0;
+            background: rgba(100, 116, 139, 0.2);
+            color: #94a3b8;
+        }
+        
+        .tx-item.bonus .tx-icon { background: rgba(16, 185, 129, 0.15); color: #10b981; }
+        .tx-item.withdrawal .tx-icon { background: rgba(245, 158, 11, 0.15); color: #f59e0b; }
+        .tx-item.order .tx-icon { background: rgba(59, 130, 246, 0.15); color: #3b82f6; }
+        .tx-item.deposit .tx-icon { background: rgba(168, 85, 247, 0.15); color: #a855f7; }
+        .tx-item.referral .tx-icon { background: rgba(236, 72, 153, 0.15); color: #ec4899; }
+        
+        .tx-info { flex: 1; min-width: 0; }
+        .tx-title { font-size: 13.5px; font-weight: 700; margin-bottom: 4px; word-break: break-word; }
+        .tx-meta { font-size: 11px; color: #64748b; }
+        .tx-uid { font-size: 10px; color: #475569; font-family: monospace; margin-top: 4px; word-break: break-all; }
+        
+        .tx-amount {
+            font-weight: 800; font-size: 15px;
+            color: #10b981; flex-shrink: 0;
+            text-align: right;
+        }
+        .tx-amount.negative { color: #f59e0b; }
+        .tx-status {
+            font-size: 10px; font-weight: 700;
+            text-transform: uppercase; margin-top: 4px;
+            padding: 2px 6px; border-radius: 4px;
+            display: inline-block;
+        }
+        .tx-status.completed { background: rgba(16, 185, 129, 0.15); color: #6ee7b7; }
+        .tx-status.pending { background: rgba(245, 158, 11, 0.15); color: #fbbf24; }
+        .tx-status.failed, .tx-status.rejected { background: rgba(239, 68, 68, 0.15); color: #fca5a5; }
+        
+        .loading-state { text-align: center; padding: 40px; color: #94a3b8; }
+        .loading-state i { font-size: 32px; display: block; margin-bottom: 12px; color: #f59e0b; }
+        
+        @media (max-width: 480px) {
+            .admin-header h1 { font-size: 14px; }
+            .tx-item { padding: 11px; gap: 10px; }
+            .tx-icon { width: 36px; height: 36px; font-size: 14px; }
+            .tx-title { font-size: 12.5px; }
+            .tx-amount { font-size: 13px; }
+        }
+    </style>
+</head>
+<body>
+
+    <header class="admin-header">
+        <div class="admin-header-left">
+            <a href="admin.html" class="back-btn"><i class="fa-solid fa-arrow-left"></i></a>
+            <h1>Transactions</h1>
+        </div>
+        <span class="count-badge" id="countBadge">-- items</span>
+    </header>
+    
+    <div class="admin-content">
+        
+        <div class="search-box">
+            <i class="fa-solid fa-magnifying-glass"></i>
+            <input type="text" id="searchInput" placeholder="Search by note, UID, or type...">
+        </div>
+        
+        <div class="filter-row">
+            <div class="filter-select">
+                <select id="typeFilter">
+                    <option value="all">All Types</option>
+                    <option value="bonus">Bonus</option>
+                    <option value="withdrawal">Withdrawal</option>
+                    <option value="order">Order</option>
+                    <option value="deposit">Deposit</option>
+                    <option value="referral">Referral</option>
+                    <option value="admin">Admin</option>
+                </select>
+            </div>
+            <div class="filter-select">
+                <select id="statusFilter">
+                    <option value="all">All Status</option>
+                    <option value="completed">Completed</option>
+                    <option value="pending">Pending</option>
+                    <option value="rejected">Rejected</option>
+                </select>
+            </div>
+        </div>
+        
+        <div class="tx-list" id="txList">
+            <div class="loading-state">
+                <i class="fa-solid fa-spinner fa-spin"></i>
+                Loading transactions...
+            </div>
+        </div>
+        
+    </div>
+
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+    <script src="firebase-auth.js"></script>
+
+    <script>
+        let allTransactions = [];
+        
+        auth.onAuthStateChanged(async function(user) {
+            if (!user) { window.location.replace('admin-login.html'); return; }
+            const adminDoc = await db.collection('admins').doc(user.uid).get();
+            if (!adminDoc.exists) { await auth.signOut(); window.location.replace('admin-login.html'); return; }
+            loadTransactions();
+        });
+        
+        async function loadTransactions() {
+            const listEl = document.getElementById('txList');
+            try {
+                const snap = await db.collection('transactions')
+                    .orderBy('createdAt', 'desc')
+                    .limit(200)
+                    .get();
+                
+                allTransactions = [];
+                snap.forEach(doc => allTransactions.push({ id: doc.id, ...doc.data() }));
+                
+                document.getElementById('countBadge').textContent = allTransactions.length + ' items';
+                renderTransactions();
+            } catch (err) {
+                console.error('Load error:', err);
+                listEl.innerHTML = '<div class="loading-state"><i class="fa-solid fa-circle-exclamation"></i>Failed to load</div>';
+            }
+        }
+        
+        function renderTransactions() {
+            const listEl = document.getElementById('txList');
+            const search = document.getElementById('searchInput').value.toLowerCase().trim();
+            const typeFilter = document.getElementById('typeFilter').value;
+            const statusFilter = document.getElementById('statusFilter').value;
+            
+            let filtered = allTransactions;
+            
+            if (search) {
+                filtered = filtered.filter(tx => 
+                    (tx.note || '').toLowerCase().includes(search) ||
+                    (tx.uid || '').toLowerCase().includes(search) ||
+                    (tx.type || '').toLowerCase().includes(search)
+                );
+            }
+            
+            if (typeFilter !== 'all') {
+                filtered = filtered.filter(tx => (tx.type || '').includes(typeFilter));
+            }
+            
+            if (statusFilter !== 'all') {
+                filtered = filtered.filter(tx => tx.status === statusFilter);
+            }
+            
+            if (filtered.length === 0) {
+                listEl.innerHTML = '<div class="loading-state"><i class="fa-solid fa-inbox"></i>No transactions found</div>';
+                return;
+            }
+            
+            let html = '';
+            filtered.forEach(tx => {
+                const type = tx.type || 'unknown';
+                const amount = tx.amount || 0;
+                const note = tx.note || tx.platform || type;
+                const uid = tx.uid || '-';
+                const status = tx.status || 'completed';
+                
+                let date = 'N/A';
+                if (tx.createdAt && tx.createdAt.toDate) {
+                    try {
+                        date = tx.createdAt.toDate().toLocaleString();
+                    } catch (e) {}
+                }
+                
+                let iconClass = 'fa-receipt';
+                let itemClass = '';
+                let isNegative = false;
+                
+                if (type.includes('bonus')) { iconClass = 'fa-gift'; itemClass = 'bonus'; }
+                else if (type.includes('withdraw')) { iconClass = 'fa-money-bill-transfer'; itemClass = 'withdrawal'; isNegative = true; }
+                else if (type.includes('order') || type.includes('commission')) { iconClass = 'fa-shopping-cart'; itemClass = 'order'; }
+                else if (type.includes('deposit') || type.includes('recharge')) { iconClass = 'fa-arrow-down'; itemClass = 'deposit'; }
+                else if (type.includes('referral')) { iconClass = 'fa-user-plus'; itemClass = 'referral'; }
+                else if (type.includes('admin')) { 
+                    iconClass = 'fa-user-shield'; 
+                    itemClass = type.includes('debit') ? 'withdrawal' : 'bonus';
+                    isNegative = type.includes('debit');
+                }
+                
+                html += `
+                    <div class="tx-item ${itemClass}">
+                        <div class="tx-icon">
+                            <i class="fa-solid ${iconClass}"></i>
+                        </div>
+                        <div class="tx-info">
+                            <div class="tx-title">${note}</div>
+                            <div class="tx-meta">${date}</div>
+                            <div class="tx-uid">UID: ${uid.substring(0, 20)}...</div>
+                        </div>
+                        <div style="text-align:right;">
+                            <div class="tx-amount ${isNegative ? 'negative' : ''}">
+                                ${isNegative ? '-' : '+'}$${amount.toFixed(2)}
+                            </div>
+                            <span class="tx-status ${status}">${status}</span>
+                        </div>
+                    </div>
+                `;
+            });
+            
+            listEl.innerHTML = html;
+        }
+        
+        document.getElementById('searchInput').addEventListener('input', renderTransactions);
+        document.getElementById('typeFilter').addEventListener('change', renderTransactions);
+        document.getElementById('statusFilter').addEventListener('change', renderTransactions);
+    </script>
+</body>
+</html>
