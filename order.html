@@ -8,63 +8,483 @@
     <link rel="stylesheet" href="detail.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        .order-container { max-width: 500px; margin: 0 auto; padding: 16px 16px 30px 16px; }
-        .order-header { display: flex; align-items: center; gap: 12px; margin-bottom: 18px; }
-        .order-header .back-icon { font-size: 20px; color: var(--text); cursor: pointer; padding: 6px; }
-        .order-header h2 { font-size: 20px; font-weight: 800; color: var(--text); margin: 0; }
+        /* ================= Order Page ================= */
+        .order-container {
+            max-width: 500px;
+            margin: 0 auto;
+            padding: 16px 16px 30px 16px;
+        }
+
+        .order-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 18px;
+        }
+
+        .order-header .back-icon {
+            font-size: 20px;
+            color: var(--text);
+            cursor: pointer;
+            padding: 6px;
+        }
+
+        .order-header h2 {
+            font-size: 20px;
+            font-weight: 800;
+            color: var(--text);
+            margin: 0;
+        }
+
         .actual-balance-card {
             background: linear-gradient(135deg, #f97316 0%, #ef4444 100%);
-            border-radius: 18px; padding: 22px; color: #fff; margin-bottom: 16px;
-            position: relative; overflow: hidden;
+            border-radius: 18px;
+            padding: 22px;
+            color: #fff;
+            margin-bottom: 16px;
+            position: relative;
+            overflow: hidden;
             box-shadow: 0 10px 30px rgba(239, 68, 68, 0.35);
         }
+
         .actual-balance-card::before {
-            content: ''; position: absolute; top: -60px; right: -60px;
-            width: 180px; height: 180px; background: rgba(255, 255, 255, 0.15);
-            border-radius: 50%; pointer-events: none;
+            content: '';
+            position: absolute;
+            top: -60px; right: -60px;
+            width: 180px; height: 180px;
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: 50%;
+            pointer-events: none;
         }
+
         .actual-balance-card::after {
-            content: ''; position: absolute; bottom: -50px; left: -40px;
-            width: 140px; height: 140px; background: rgba(255, 255, 255, 0.1);
-            border-radius: 50%; pointer-events: none;
+            content: '';
+            position: absolute;
+            bottom: -50px; left: -40px;
+            width: 140px; height: 140px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            pointer-events: none;
         }
-        .actual-balance-label { font-size: 13.5px; font-weight: 600; opacity: 0.95; margin-bottom: 10px; position: relative; z-index: 2; }
-        .actual-balance-amount { display: flex; align-items: baseline; gap: 8px; position: relative; z-index: 2; }
-        .actual-balance-number { font-size: 36px; font-weight: 800; color: #fff; letter-spacing: 0.5px; text-shadow: 0 2px 8px rgba(0, 0, 0, 0.15); }
-        .actual-balance-currency { font-size: 16px; font-weight: 700; color: rgba(255, 255, 255, 0.95); }
-        .stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 18px; }
-        .stat-card { background: var(--card); border-radius: 14px; padding: 14px 16px; box-shadow: var(--shadow); border: 1px solid var(--border); }
-        .stat-label { font-size: 11.5px; color: var(--text-light); font-weight: 500; margin-bottom: 6px; line-height: 1.3; }
-        .stat-value { font-size: 17px; font-weight: 800; color: var(--text); letter-spacing: 0.2px; }
+
+        .actual-balance-label {
+            font-size: 13.5px;
+            font-weight: 600;
+            opacity: 0.95;
+            margin-bottom: 10px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .actual-balance-amount {
+            display: flex;
+            align-items: baseline;
+            gap: 8px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .actual-balance-number {
+            font-size: 36px;
+            font-weight: 800;
+            color: #fff;
+            letter-spacing: 0.5px;
+            text-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+        }
+
+        .actual-balance-currency {
+            font-size: 16px;
+            font-weight: 700;
+            color: rgba(255, 255, 255, 0.95);
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-bottom: 18px;
+        }
+
+        .stat-card {
+            background: var(--card);
+            border-radius: 14px;
+            padding: 14px 16px;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border);
+        }
+
+        .stat-label {
+            font-size: 11.5px;
+            color: var(--text-light);
+            font-weight: 500;
+            margin-bottom: 6px;
+            line-height: 1.3;
+        }
+
+        .stat-value {
+            font-size: 17px;
+            font-weight: 800;
+            color: var(--text);
+            letter-spacing: 0.2px;
+        }
+
         .grab-btn {
-            width: 100%; padding: 18px; border: none; border-radius: 14px;
+            width: 100%;
+            padding: 18px;
+            border: none;
+            border-radius: 14px;
             background: linear-gradient(90deg, #f97316, #f59e0b);
-            color: #fff; font-size: 17px; font-weight: 800;
-            cursor: pointer; font-family: inherit;
-            display: flex; align-items: center; justify-content: center; gap: 10px;
+            color: #fff;
+            font-size: 17px;
+            font-weight: 800;
+            cursor: pointer;
+            font-family: inherit;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
             box-shadow: 0 8px 20px rgba(249, 115, 22, 0.4);
-            margin-bottom: 18px; letter-spacing: 0.3px;
+            -webkit-tap-highlight-color: transparent;
+            touch-action: manipulation;
+            transition: transform 0.2s;
+            margin-bottom: 18px;
+            letter-spacing: 0.3px;
         }
-        .grab-btn:disabled { opacity: 0.6; cursor: not-allowed; }
-        .grab-btn i { font-size: 18px; }
-        .rules-card { background: #fff7ed; border: 1px solid #fed7aa; border-radius: 14px; padding: 18px; }
-        body.dark-mode .rules-card { background: rgba(249, 115, 22, 0.08); border-color: rgba(249, 115, 22, 0.25); }
-        .rules-title { display: flex; align-items: center; gap: 8px; font-size: 14.5px; font-weight: 800; color: #c2410c; margin: 0 0 12px; }
-        body.dark-mode .rules-title { color: #fb923c; }
-        .rules-list { margin: 0; padding-left: 0; list-style: none; counter-reset: rule; }
-        .rules-list li { font-size: 12.5px; color: #92400e; line-height: 1.6; padding: 8px 0 8px 22px; position: relative; counter-increment: rule; }
-        body.dark-mode .rules-list li { color: #fdba74; }
-        .rules-list li::before { content: counter(rule) '.'; position: absolute; left: 0; top: 8px; font-weight: 700; color: #ea580c; }
-        body.dark-mode .rules-list li::before { color: #fb923c; }
+
+        .grab-btn:active {
+            transform: scale(0.98);
+        }
+
+        .grab-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        .grab-btn i {
+            font-size: 18px;
+        }
+
+        .rules-card {
+            background: #fff7ed;
+            border: 1px solid #fed7aa;
+            border-radius: 14px;
+            padding: 18px;
+        }
+
+        body.dark-mode .rules-card {
+            background: rgba(249, 115, 22, 0.08);
+            border-color: rgba(249, 115, 22, 0.25);
+        }
+
+        .rules-title {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 14.5px;
+            font-weight: 800;
+            color: #c2410c;
+            margin: 0 0 12px;
+        }
+
+        body.dark-mode .rules-title {
+            color: #fb923c;
+        }
+
+        .rules-list {
+            margin: 0;
+            padding-left: 0;
+            list-style: none;
+            counter-reset: rule;
+        }
+
+        .rules-list li {
+            font-size: 12.5px;
+            color: #92400e;
+            line-height: 1.6;
+            padding: 8px 0 8px 22px;
+            position: relative;
+            counter-increment: rule;
+        }
+
+        body.dark-mode .rules-list li {
+            color: #fdba74;
+        }
+
+        .rules-list li::before {
+            content: counter(rule) '.';
+            position: absolute;
+            left: 0;
+            top: 8px;
+            font-weight: 700;
+            color: #ea580c;
+        }
+
+        body.dark-mode .rules-list li::before {
+            color: #fb923c;
+        }
+
+        /* ================= SUCCESS MODAL ================= */
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.65);
+            -webkit-backdrop-filter: blur(8px);
+            backdrop-filter: blur(8px);
+            z-index: 99999;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 16px;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .modal-overlay.show {
+            display: flex;
+        }
+
+        @keyframes fadeIn {
+            0% { opacity: 0; }
+            100% { opacity: 1; }
+        }
+
+        .success-modal {
+            background: var(--card);
+            border-radius: 20px;
+            padding: 22px 20px;
+            max-width: 420px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+            animation: slideUp 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.35);
+        }
+
+        @keyframes slideUp {
+            0% {
+                transform: translateY(30px) scale(0.95);
+                opacity: 0;
+            }
+            100% {
+                transform: translateY(0) scale(1);
+                opacity: 1;
+            }
+        }
+
+        .modal-head {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 18px;
+        }
+
+        .modal-title {
+            font-size: 18px;
+            font-weight: 800;
+            color: var(--text);
+            margin: 0;
+        }
+
+        .modal-close {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: transparent;
+            border: none;
+            color: var(--text-light);
+            cursor: pointer;
+            font-size: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-close:active {
+            background: var(--bg);
+        }
+
+        .order-no-badge {
+            background: linear-gradient(90deg, #fce7f3, #e9d5ff);
+            color: #7c3aed;
+            padding: 8px 14px;
+            border-radius: 12px;
+            font-size: 12.5px;
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 16px;
+            letter-spacing: 0.3px;
+        }
+
+        body.dark-mode .order-no-badge {
+            background: rgba(124, 58, 237, 0.15);
+            color: #c4b5fd;
+        }
+
+        .product-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-bottom: 16px;
+        }
+
+        .product-item {
+            background: var(--bg);
+            border-radius: 12px;
+            padding: 10px;
+            display: flex;
+            gap: 12px;
+            align-items: center;
+        }
+
+        .product-thumb {
+            width: 56px;
+            height: 56px;
+            border-radius: 10px;
+            overflow: hidden;
+            background: #f3f4f6;
+            flex-shrink: 0;
+        }
+
+        .product-thumb img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        .product-details {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .product-name {
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--text);
+            margin-bottom: 5px;
+            line-height: 1.3;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .product-price {
+            font-size: 13px;
+            font-weight: 800;
+            color: #e65c00;
+        }
+
+        .product-qty {
+            font-size: 11px;
+            color: var(--text-light);
+            flex-shrink: 0;
+            align-self: flex-start;
+            padding-top: 4px;
+        }
+
+        .modal-info {
+            background: var(--bg);
+            border-radius: 12px;
+            padding: 14px;
+            margin-bottom: 16px;
+        }
+
+        .info-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 6px 0;
+            font-size: 12.5px;
+        }
+
+        .info-row:not(:last-child) {
+            border-bottom: 1px solid var(--border);
+        }
+
+        .info-label {
+            color: var(--text-light);
+        }
+
+        .info-value {
+            font-weight: 700;
+            color: var(--text);
+            text-align: right;
+        }
+
+        .info-value.orange {
+            color: #e65c00;
+            font-size: 14px;
+        }
+
+        .info-value.green {
+            color: #10b981;
+        }
+
+        .expected-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: 12px;
+            border-top: 2px dashed var(--border);
+            margin-top: 8px;
+        }
+
+        .expected-label {
+            font-size: 14px;
+            font-weight: 800;
+            color: var(--text);
+        }
+
+        .expected-value {
+            font-size: 18px;
+            font-weight: 800;
+            color: #e65c00;
+        }
+
+        .submit-order-btn {
+            width: 100%;
+            padding: 16px;
+            border: none;
+            border-radius: 14px;
+            background: linear-gradient(90deg, #f97316, #f59e0b);
+            color: #fff;
+            font-size: 16px;
+            font-weight: 800;
+            cursor: pointer;
+            font-family: inherit;
+            box-shadow: 0 8px 20px rgba(249, 115, 22, 0.35);
+            letter-spacing: 0.3px;
+            transition: transform 0.2s;
+            margin-top: 6px;
+        }
+
+        .submit-order-btn:active {
+            transform: scale(0.98);
+        }
+
+        .submit-order-btn:disabled {
+            opacity: 0.6;
+        }
+
+        /* RTL */
         body.rtl .order-header { flex-direction: row-reverse; }
         body.rtl .rules-list li { padding: 8px 22px 8px 0; }
         body.rtl .rules-list li::before { left: auto; right: 0; }
+        body.rtl .info-row { flex-direction: row-reverse; }
+        body.rtl .expected-row { flex-direction: row-reverse; }
+        body.rtl .product-item { flex-direction: row-reverse; }
+
+        /* Mobile */
         @media (max-width: 360px) {
             .actual-balance-number { font-size: 30px; }
             .stat-value { font-size: 15px; }
             .stat-label { font-size: 10.5px; }
             .grab-btn { font-size: 15px; padding: 16px; }
             .rules-list li { font-size: 11.5px; }
+            .success-modal { padding: 18px 16px; }
+            .modal-title { font-size: 16px; }
+            .product-thumb { width: 48px; height: 48px; }
+            .product-name { font-size: 12px; }
         }
     </style>
 </head>
@@ -98,6 +518,7 @@
     </header>
 
     <main class="order-container">
+
         <div class="order-header">
             <i class="fa-solid fa-arrow-left back-icon" onclick="window.location.href='menu.html'"></i>
             <h2 id="platformName">Amazon</h2>
@@ -116,22 +537,27 @@
                 <div class="stat-label" data-key="todayTimes">Today's Times</div>
                 <div class="stat-value" id="todayTimes">0/25</div>
             </div>
+
             <div class="stat-card">
                 <div class="stat-label" data-key="todayCommission">Today's commission</div>
                 <div class="stat-value" id="todayCommission">0.000 USDT</div>
             </div>
+
             <div class="stat-card">
                 <div class="stat-label" data-key="cashGap">Cash gap between tasks</div>
                 <div class="stat-value" id="cashGap">0.00 USDT</div>
             </div>
+
             <div class="stat-card">
                 <div class="stat-label" data-key="yesterdayCommission">Yesterday's buy commission</div>
                 <div class="stat-value" id="yesterdayCommission">0.00 USDT</div>
             </div>
+
             <div class="stat-card">
                 <div class="stat-label" data-key="teamCommission">Yesterday's team commission</div>
                 <div class="stat-value" id="teamCommission">0.00 USDT</div>
             </div>
+
             <div class="stat-card">
                 <div class="stat-label" data-key="frozenMoney">Money frozen in accounts</div>
                 <div class="stat-value" id="frozenMoney">0.00 USDT</div>
@@ -149,11 +575,60 @@
                 <span data-key="rulesTitle">Platform Rules</span>
             </h3>
             <ul class="rules-list">
-                <li><span id="rule1Text">Commission logic. Each order yields 4% commission.</span></li>
-                <li><span data-key="rule2">System automated random matching process. Do not close app while processing.</span></li>
+                <li>
+                    <span id="rule1Text">Commission logic. Each order yields 4% commission.</span>
+                </li>
+                <li>
+                    <span data-key="rule2">System automated random matching process. Do not close app while processing.</span>
+                </li>
             </ul>
         </div>
+
     </main>
+
+    <!-- ============================================================
+         ✅ SUCCESS MODAL (Order Details)
+         ============================================================ -->
+    <div class="modal-overlay" id="successModal">
+        <div class="success-modal">
+            <div class="modal-head">
+                <h3 class="modal-title">Successful Order</h3>
+                <button class="modal-close" id="modalCloseBtn" type="button">✕</button>
+            </div>
+
+            <div class="order-no-badge">
+                Order No: <span id="orderNo">6002504493260106</span>
+            </div>
+
+            <div class="product-list" id="productList">
+                <!-- Products will be inserted here -->
+            </div>
+
+            <div class="modal-info">
+                <div class="info-row">
+                    <span class="info-label">Transaction time</span>
+                    <span class="info-value" id="txTime">-</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">Order amount</span>
+                    <span class="info-value" id="orderAmount">0.00 USDT</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">Commissions (<span id="commissionRate">4</span>%)</span>
+                    <span class="info-value green" id="commissionAmount">+0.00 USDT</span>
+                </div>
+
+                <div class="expected-row">
+                    <span class="expected-label">Expected income</span>
+                    <span class="expected-value" id="expectedIncome">0.00 USDT</span>
+                </div>
+            </div>
+
+            <button class="submit-order-btn" id="submitOrderBtn" type="button">
+                Submit order
+            </button>
+        </div>
+    </div>
 
     <nav class="bottom-nav">
         <a href="dashboard.html" class="nav-item">
@@ -179,16 +654,20 @@
     </nav>
 
     <script src="detail.js"></script>
+
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
     <script src="firebase-auth.js"></script>
 
     <script>
+        // ============================================================
+        // 🎯 Platform Config
+        // ============================================================
         const platforms = {
-            amazon: { name: 'Amazon', commission: 4, minBalance: 20, maxBalance: 498 },
-            alibaba: { name: 'Alibaba', commission: 8, minBalance: 499, maxBalance: 898 },
-            aliexpress: { name: 'AliExpress', commission: 12, minBalance: 899, maxBalance: 999999 }
+            amazon: { name: 'Amazon', commission: 4, minBalance: 20, maxBalance: 50000 },
+            alibaba: { name: 'Alibaba', commission: 8, minBalance: 499, maxBalance: 50000 },
+            aliexpress: { name: 'AliExpress', commission: 12, minBalance: 899, maxBalance: 50000 }
         };
 
         const urlParams = new URLSearchParams(window.location.search);
@@ -196,24 +675,92 @@
         const platform = platforms[platformKey] || platforms.amazon;
 
         document.getElementById('platformName').textContent = platform.name;
+        document.getElementById('commissionRate').textContent = platform.commission;
         document.getElementById('rule1Text').textContent = 
             `Commission logic. Each order yields ${platform.commission}% commission.`;
 
+        // ============================================================
+        // 🛍️ Product Pool (Random Products)
+        // ============================================================
+        const productPool = [
+            { name: 'High-Performance Blender', price: 159.86, img: 'https://images.unsplash.com/photo-1585515320310-259814833e62?w=200&q=80' },
+            { name: 'USB-C Hub Multiport Adapter', price: 28.63, img: 'https://images.unsplash.com/photo-1625842268584-8f3296236761?w=200&q=80' },
+            { name: 'Deep Tissue Massage Gun', price: 39.38, img: 'https://images.unsplash.com/photo-1609252509110-7d0e48b0e5c6?w=200&q=80' },
+            { name: 'Wireless Bluetooth Earbuds Pro', price: 89.99, img: 'https://images.unsplash.com/photo-1590658268037-6bf12165a8df?w=200&q=80' },
+            { name: 'Smart Watch Series 8', price: 249.00, img: 'https://images.unsplash.com/photo-1546868871-7041f2a55e12?w=200&q=80' },
+            { name: 'Portable Power Bank 20000mAh', price: 45.50, img: 'https://images.unsplash.com/photo-1609091839311-d5365f9ff1c5?w=200&q=80' },
+            { name: 'Mechanical Gaming Keyboard RGB', price: 129.99, img: 'https://images.unsplash.com/photo-1618384887929-16ec33fab9ef?w=200&q=80' },
+            { name: '4K Action Camera Waterproof', price: 199.00, img: 'https://images.unsplash.com/photo-1502920917128-1aa500764cbd?w=200&q=80' },
+            { name: 'Wireless Charging Pad', price: 34.99, img: 'https://images.unsplash.com/photo-1591290619762-c1c7f2e0e1e9?w=200&q=80' },
+            { name: 'Smart LED Strip Lights 5m', price: 24.99, img: 'https://images.unsplash.com/photo-1550745165-9bc0b252726f?w=200&q=80' },
+            { name: 'Noise Cancelling Headphones', price: 299.00, img: 'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=200&q=80' },
+            { name: 'Digital Kitchen Scale', price: 22.50, img: 'https://images.unsplash.com/photo-1556909212-d5b604d0c90d?w=200&q=80' },
+            { name: 'Yoga Mat Non-Slip', price: 45.00, img: 'https://images.unsplash.com/photo-1601925260368-ae2f83cf8b7f?w=200&q=80' },
+            { name: 'Stainless Steel Water Bottle', price: 28.00, img: 'https://images.unsplash.com/photo-1602143407151-7111542de6e8?w=200&q=80' },
+            { name: 'Phone Camera Lens Kit', price: 59.99, img: 'https://images.unsplash.com/photo-1516724562728-afc824a36e84?w=200&q=80' }
+        ];
+
+        // ============================================================
+        // 🔢 Random Order Generator
+        // ============================================================
+        function generateOrderNo() {
+            // 16-digit random order number
+            let orderNo = '';
+            for (let i = 0; i < 16; i++) {
+                orderNo += Math.floor(Math.random() * 10);
+            }
+            return orderNo;
+        }
+
+        function pickRandomProducts() {
+            // Pick 3 different products
+            const shuffled = [...productPool].sort(() => 0.5 - Math.random());
+            return shuffled.slice(0, 3).map(p => ({
+                ...p,
+                qty: Math.floor(Math.random() * 5) + 1
+            }));
+        }
+
+        function getCurrentTime() {
+            const now = new Date();
+            const months = ['1','2','3','4','5','6','7','8','9','10','11','12'];
+            const month = months[now.getMonth()];
+            const day = now.getDate();
+            const year = now.getFullYear();
+            
+            let hours = now.getHours();
+            const minutes = now.getMinutes().toString().padStart(2, '0');
+            const seconds = now.getSeconds().toString().padStart(2, '0');
+            const ampm = hours >= 12 ? 'PM' : 'AM';
+            hours = hours % 12 || 12;
+            
+            return `${month}/${day}/${year}, ${hours}:${minutes}:${seconds} ${ampm}`;
+        }
+
+        // ============================================================
+        // 🔥 Firebase — Load User Data
+        // ============================================================
         let currentUser = null;
         let currentUserData = null;
+        let currentOrder = null;
 
         waitForAuthReady(async function(isLoggedIn, user) {
             if (!isLoggedIn) {
                 window.location.replace('index.html');
                 return;
             }
+
             currentUser = user;
             const result = await getUserData(user.uid);
             if (result.success) {
                 currentUserData = result.data;
                 const data = currentUserData;
+
                 document.getElementById('actualBalance').textContent = (data.balance || 0).toFixed(2);
-                document.getElementById('todayTimes').textContent = (data.todayTimes || 0) + '/25';
+
+                const todayTimes = data.todayTimes || 0;
+                document.getElementById('todayTimes').textContent = todayTimes + '/25';
+
                 document.getElementById('todayCommission').textContent = (data.todayCommission || 0).toFixed(3) + ' USDT';
                 document.getElementById('cashGap').textContent = (data.cashGap || 0).toFixed(2) + ' USDT';
                 document.getElementById('yesterdayCommission').textContent = (data.yesterdayCommission || 0).toFixed(2) + ' USDT';
@@ -222,72 +769,189 @@
             }
         });
 
+        // ============================================================
+        // 🟠 Grab Order Button
+        // ============================================================
         const grabBtn = document.getElementById('grabBtn');
         if (grabBtn) {
             grabBtn.addEventListener('click', async function() {
-                if (!currentUser || !currentUserData) { alert('Please wait, loading...'); return; }
-                const balance = currentUserData.balance || 0;
-                const commission = platform.commission;
-
-                if (balance < platform.minBalance) {
-                    alert('❌ Insufficient balance!\n\nPlatform: ' + platform.name + '\nMinimum: ' + platform.minBalance + ' USDT\nYour balance: ' + balance.toFixed(2) + ' USDT');
+                if (!currentUser || !currentUserData) {
+                    alert('Please wait, loading...');
                     return;
                 }
 
+                const balance = currentUserData.balance || 0;
+                const commission = platform.commission;
+
+                // Check minimum balance
+                if (balance < platform.minBalance) {
+                    alert('❌ Insufficient balance!\n\n' +
+                          'Platform: ' + platform.name + '\n' +
+                          'Minimum balance required: ' + platform.minBalance + ' USDT\n' +
+                          'Your balance: ' + balance.toFixed(2) + ' USDT\n\n' +
+                          'Please recharge to continue.');
+                    return;
+                }
+
+                // Check daily limit
                 const todayTimes = currentUserData.todayTimes || 0;
-                if (todayTimes >= 25) { alert('❌ Daily limit reached!'); return; }
+                if (todayTimes >= 25) {
+                    alert('❌ Daily limit reached!\n\nYou have completed 25 orders today.\nCome back tomorrow.');
+                    return;
+                }
 
-                if (!confirm('Grab this order now?\n\nPlatform: ' + platform.name + '\nCommission: ' + commission + '%')) return;
-
+                // Disable button
                 grabBtn.disabled = true;
                 grabBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Processing...';
 
-                setTimeout(async () => {
-                    try {
-                        const maxAllowed = Math.min(balance, platform.maxBalance);
-                        const minAllowed = platform.minBalance;
-                        let orderAmount = maxAllowed > minAllowed 
-                            ? Math.random() * (maxAllowed - minAllowed) + minAllowed 
-                            : minAllowed;
-                        orderAmount = parseFloat(orderAmount.toFixed(2));
-                        const commissionAmount = parseFloat((orderAmount * commission / 100).toFixed(2));
+                // Simulate order processing (1.5 seconds)
+                setTimeout(() => {
+                    // Generate Order
+                    const orderNo = generateOrderNo();
+                    const products = pickRandomProducts();
+                    
+                    // Calculate Order Amount (based on product prices)
+                    let orderAmount = 0;
+                    products.forEach(p => {
+                        orderAmount += p.price * p.qty;
+                    });
+                    orderAmount = parseFloat(orderAmount.toFixed(2));
+                    
+                    // Calculate Commission
+                    const commissionAmount = parseFloat((orderAmount * commission / 100).toFixed(2));
+                    const expectedIncome = parseFloat((orderAmount + commissionAmount).toFixed(2));
+                    const txTime = getCurrentTime();
 
-                        await db.collection('users').doc(currentUser.uid).update({
-                            balance: firebase.firestore.FieldValue.increment(commissionAmount),
-                            todayTimes: firebase.firestore.FieldValue.increment(1),
-                            todayCommission: firebase.firestore.FieldValue.increment(commissionAmount),
-                            totalCommission: firebase.firestore.FieldValue.increment(commissionAmount),
-                            updatedAt: firebase.firestore.FieldValue.serverTimestamp()
-                        });
+                    // Store in currentOrder for submit
+                    currentOrder = {
+                        orderNo: orderNo,
+                        platform: platform.name,
+                        platformKey: platformKey,
+                        products: products,
+                        orderAmount: orderAmount,
+                        commissionRate: commission,
+                        commissionAmount: commissionAmount,
+                        expectedIncome: expectedIncome,
+                        txTime: txTime
+                    };
 
-                        await db.collection('transactions').add({
-                            uid: currentUser.uid,
-                            type: 'order_commission',
-                            platform: platform.name,
-                            orderAmount: orderAmount,
-                            commissionRate: commission,
-                            amount: commissionAmount,
-                            status: 'completed',
-                            note: platform.name + ' order commission',
-                            createdAt: firebase.firestore.FieldValue.serverTimestamp()
-                        });
+                    // Show Modal
+                    document.getElementById('orderNo').textContent = orderNo;
+                    document.getElementById('txTime').textContent = txTime;
+                    document.getElementById('orderAmount').textContent = orderAmount.toFixed(2) + ' USDT';
+                    document.getElementById('commissionAmount').textContent = '+' + commissionAmount.toFixed(2) + ' USDT';
+                    document.getElementById('expectedIncome').textContent = expectedIncome.toFixed(2) + ' USDT';
 
-                        grabBtn.innerHTML = '<i class="fa-solid fa-circle-check"></i> Order Completed!';
-                        grabBtn.style.background = 'linear-gradient(90deg, #10b981, #059669)';
+                    // Render Products
+                    let productsHtml = '';
+                    products.forEach(p => {
+                        productsHtml += `
+                            <div class="product-item">
+                                <div class="product-thumb">
+                                    <img src="${p.img}" alt="${p.name}">
+                                </div>
+                                <div class="product-details">
+                                    <div class="product-name">${p.name}</div>
+                                    <div class="product-price">$${p.price.toFixed(2)}</div>
+                                </div>
+                                <div class="product-qty">x${p.qty}</div>
+                            </div>
+                        `;
+                    });
+                    document.getElementById('productList').innerHTML = productsHtml;
 
-                        setTimeout(() => {
-                            alert('✅ Order Grabbed Successfully!\n\nPlatform: ' + platform.name + '\nOrder: $' + orderAmount.toFixed(2) + '\nCommission: $' + commissionAmount.toFixed(2) + ' (' + commission + '%)');
-                            window.location.reload();
-                        }, 500);
-                    } catch (err) {
-                        console.error('Order error:', err);
-                        alert('❌ Failed. Please try again.');
-                        grabBtn.disabled = false;
-                        grabBtn.innerHTML = '<i class="fa-solid fa-circle-check"></i> <span>Grab the order immediately</span>';
-                    }
-                }, 2000);
+                    // Show modal
+                    document.getElementById('successModal').classList.add('show');
+
+                    // Re-enable button
+                    grabBtn.disabled = false;
+                    grabBtn.innerHTML = '<i class="fa-solid fa-circle-check"></i> <span data-key="grabOrder">Grab the order immediately</span>';
+
+                }, 1500);
             });
         }
+
+        // ============================================================
+        // ❌ Close Modal
+        // ============================================================
+        document.getElementById('modalCloseBtn').addEventListener('click', function() {
+            document.getElementById('successModal').classList.remove('show');
+            currentOrder = null;
+        });
+
+        // Close modal on overlay click
+        document.getElementById('successModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                this.classList.remove('show');
+                currentOrder = null;
+            }
+        });
+
+        // ============================================================
+        // ✅ Submit Order
+        // ============================================================
+        document.getElementById('submitOrderBtn').addEventListener('click', async function() {
+            if (!currentOrder || !currentUser) return;
+
+            const btn = this;
+            btn.disabled = true;
+            btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Submitting...';
+
+            try {
+                // Update User Balance + Stats
+                await db.collection('users').doc(currentUser.uid).update({
+                    balance: firebase.firestore.FieldValue.increment(currentOrder.commissionAmount),
+                    todayTimes: firebase.firestore.FieldValue.increment(1),
+                    todayCommission: firebase.firestore.FieldValue.increment(currentOrder.commissionAmount),
+                    totalCommission: firebase.firestore.FieldValue.increment(currentOrder.commissionAmount),
+                    updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+                });
+
+                // Save Order to Firestore
+                await db.collection('orders').add({
+                    uid: currentUser.uid,
+                    orderNo: currentOrder.orderNo,
+                    platform: currentOrder.platform,
+                    platformKey: currentOrder.platformKey,
+                    products: currentOrder.products,
+                    orderAmount: currentOrder.orderAmount,
+                    commissionRate: currentOrder.commissionRate,
+                    commissionAmount: currentOrder.commissionAmount,
+                    expectedIncome: currentOrder.expectedIncome,
+                    status: 'completed',
+                    createdAt: firebase.firestore.FieldValue.serverTimestamp()
+                });
+
+                // Save Transaction Log
+                await db.collection('transactions').add({
+                    uid: currentUser.uid,
+                    type: 'order_commission',
+                    platform: currentOrder.platform,
+                    orderNo: currentOrder.orderNo,
+                    orderAmount: currentOrder.orderAmount,
+                    commissionRate: currentOrder.commissionRate,
+                    amount: currentOrder.commissionAmount,
+                    status: 'completed',
+                    note: `${currentOrder.platform} order commission (${currentOrder.commissionRate}%)`,
+                    createdAt: firebase.firestore.FieldValue.serverTimestamp()
+                });
+
+                // Success
+                btn.innerHTML = '<i class="fa-solid fa-circle-check"></i> Order Submitted!';
+                btn.style.background = 'linear-gradient(90deg, #10b981, #059669)';
+
+                setTimeout(() => {
+                    document.getElementById('successModal').classList.remove('show');
+                    window.location.reload();
+                }, 1500);
+
+            } catch (err) {
+                console.error('Submit order error:', err);
+                alert('❌ Failed to submit order. Please try again.');
+                btn.disabled = false;
+                btn.innerHTML = 'Submit order';
+            }
+        });
     </script>
 </body>
 </html>
