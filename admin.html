@@ -7,7 +7,12 @@
     <title>Admin Dashboard - UMALL247</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        * { 
+            margin: 0; 
+            padding: 0; 
+            box-sizing: border-box; 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
         
         body {
             background: #0f172a;
@@ -16,6 +21,7 @@
             padding-bottom: 30px;
         }
 
+        /* ================= HEADER ================= */
         .admin-header {
             background: #1e293b;
             padding: 16px 20px;
@@ -29,9 +35,16 @@
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
         }
 
-        .admin-header-left { display: flex; align-items: center; gap: 12px; }
+        .admin-header-left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
 
-        .admin-header-left i.shield-icon { font-size: 24px; color: #f59e0b; }
+        .admin-header-left i.shield-icon {
+            font-size: 24px;
+            color: #f59e0b;
+        }
 
         .admin-header-left h1 {
             font-size: 18px;
@@ -39,7 +52,9 @@
             letter-spacing: 0.3px;
         }
 
-        .admin-header-left h1 span { color: #f59e0b; }
+        .admin-header-left h1 span {
+            color: #f59e0b;
+        }
 
         .admin-logout {
             background: rgba(239, 68, 68, 0.15);
@@ -54,12 +69,21 @@
             display: flex;
             align-items: center;
             gap: 6px;
+            -webkit-tap-highlight-color: transparent;
         }
 
-        .admin-logout:active { transform: scale(0.95); }
+        .admin-logout:active {
+            transform: scale(0.95);
+        }
 
-        .admin-content { max-width: 1100px; margin: 0 auto; padding: 20px; }
+        /* ================= CONTENT ================= */
+        .admin-content {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 20px;
+        }
 
+        /* ================= WELCOME ================= */
         .welcome-section {
             margin-bottom: 24px;
             display: flex;
@@ -69,8 +93,15 @@
             gap: 10px;
         }
 
-        .welcome-section h2 { font-size: 22px; margin-bottom: 6px; }
-        .welcome-section p { color: #94a3b8; font-size: 13px; }
+        .welcome-section h2 {
+            font-size: 22px;
+            margin-bottom: 6px;
+        }
+
+        .welcome-section p {
+            color: #94a3b8;
+            font-size: 13px;
+        }
 
         .admin-badge {
             background: linear-gradient(90deg, #f59e0b, #d97706);
@@ -84,6 +115,7 @@
             gap: 6px;
         }
 
+        /* ================= STATS GRID ================= */
         .stats-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
@@ -98,12 +130,18 @@
             padding: 18px;
             position: relative;
             overflow: hidden;
+            transition: transform 0.2s;
+        }
+
+        .stat-box:active {
+            transform: scale(0.98);
         }
 
         .stat-box::before {
             content: '';
             position: absolute;
-            top: 0; left: 0;
+            top: 0;
+            left: 0;
             width: 4px;
             height: 100%;
         }
@@ -114,24 +152,38 @@
         .stat-box.purple::before { background: #a855f7; }
         .stat-box.red::before { background: #ef4444; }
         .stat-box.pink::before { background: #ec4899; }
+        .stat-box.cyan::before { background: #06b6d4; }
+        .stat-box.yellow::before { background: #eab308; }
 
-        .stat-box-icon { font-size: 22px; margin-bottom: 10px; }
+        .stat-box-icon {
+            font-size: 22px;
+            margin-bottom: 10px;
+        }
+
         .stat-box.orange .stat-box-icon { color: #f59e0b; }
         .stat-box.green .stat-box-icon { color: #10b981; }
         .stat-box.blue .stat-box-icon { color: #3b82f6; }
         .stat-box.purple .stat-box-icon { color: #a855f7; }
         .stat-box.red .stat-box-icon { color: #ef4444; }
         .stat-box.pink .stat-box-icon { color: #ec4899; }
+        .stat-box.cyan .stat-box-icon { color: #06b6d4; }
+        .stat-box.yellow .stat-box-icon { color: #eab308; }
 
         .stat-box-value {
             font-size: 24px;
             font-weight: 800;
             color: #f1f5f9;
             margin-bottom: 4px;
+            letter-spacing: 0.3px;
         }
 
-        .stat-box-label { font-size: 12px; color: #94a3b8; font-weight: 500; }
+        .stat-box-label {
+            font-size: 12px;
+            color: #94a3b8;
+            font-weight: 500;
+        }
 
+        /* ================= SECTION TITLE ================= */
         .section-title {
             font-size: 15px;
             font-weight: 800;
@@ -144,8 +196,12 @@
             letter-spacing: 0.5px;
         }
 
-        .section-title i { color: #f59e0b; font-size: 14px; }
+        .section-title i {
+            color: #f59e0b;
+            font-size: 14px;
+        }
 
+        /* ================= NAV CARDS ================= */
         .admin-nav-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
@@ -164,11 +220,18 @@
             align-items: center;
             gap: 14px;
             transition: all 0.2s;
+            cursor: pointer;
+            position: relative;
         }
 
         .admin-nav-card:hover {
             border-color: #f59e0b;
             transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(245, 158, 11, 0.15);
+        }
+
+        .admin-nav-card:active {
+            transform: scale(0.98);
         }
 
         .admin-nav-card i.nav-icon {
@@ -184,7 +247,10 @@
             flex-shrink: 0;
         }
 
-        .admin-nav-card-info { flex: 1; min-width: 0; }
+        .admin-nav-card-info {
+            flex: 1;
+            min-width: 0;
+        }
 
         .admin-nav-card-info h4 {
             font-size: 14.5px;
@@ -193,10 +259,34 @@
             color: #f1f5f9;
         }
 
-        .admin-nav-card-info p { font-size: 11.5px; color: #94a3b8; line-height: 1.3; }
+        .admin-nav-card-info p {
+            font-size: 11.5px;
+            color: #94a3b8;
+            line-height: 1.3;
+        }
 
-        .admin-nav-card-arrow { color: #64748b; font-size: 14px; flex-shrink: 0; }
+        .admin-nav-card-arrow {
+            color: #64748b;
+            font-size: 14px;
+            flex-shrink: 0;
+        }
 
+        /* Badge for pending items */
+        .nav-badge {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: #ef4444;
+            color: #fff;
+            padding: 2px 8px;
+            border-radius: 10px;
+            font-size: 10px;
+            font-weight: 800;
+            min-width: 20px;
+            text-align: center;
+        }
+
+        /* ================= RECENT ACTIVITY ================= */
         .activity-card {
             background: #1e293b;
             border: 1px solid #334155;
@@ -205,7 +295,11 @@
             margin-bottom: 20px;
         }
 
-        .activity-list { display: flex; flex-direction: column; gap: 10px; }
+        .activity-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
 
         .activity-item {
             display: flex;
@@ -222,6 +316,7 @@
         .activity-item.withdrawal { border-left-color: #f59e0b; }
         .activity-item.order { border-left-color: #3b82f6; }
         .activity-item.deposit { border-left-color: #a855f7; }
+        .activity-item.referral { border-left-color: #ec4899; }
 
         .activity-icon {
             width: 32px;
@@ -240,8 +335,12 @@
         .activity-item.withdrawal .activity-icon { background: rgba(245, 158, 11, 0.15); color: #f59e0b; }
         .activity-item.order .activity-icon { background: rgba(59, 130, 246, 0.15); color: #3b82f6; }
         .activity-item.deposit .activity-icon { background: rgba(168, 85, 247, 0.15); color: #a855f7; }
+        .activity-item.referral .activity-icon { background: rgba(236, 72, 153, 0.15); color: #ec4899; }
 
-        .activity-info { flex: 1; min-width: 0; }
+        .activity-info {
+            flex: 1;
+            min-width: 0;
+        }
 
         .activity-info-title {
             font-weight: 700;
@@ -252,7 +351,10 @@
             white-space: nowrap;
         }
 
-        .activity-info-time { font-size: 11px; color: #64748b; }
+        .activity-info-time {
+            font-size: 11px;
+            color: #64748b;
+        }
 
         .activity-amount {
             font-weight: 800;
@@ -261,8 +363,11 @@
             flex-shrink: 0;
         }
 
-        .activity-amount.negative { color: #f59e0b; }
+        .activity-amount.negative {
+            color: #f59e0b;
+        }
 
+        /* ================= LOADING ================= */
         .loading-state {
             text-align: center;
             padding: 40px 20px;
@@ -291,6 +396,7 @@
             opacity: 0.5;
         }
 
+        /* ================= TOAST ================= */
         .toast {
             position: fixed;
             top: 20px;
@@ -305,25 +411,48 @@
             z-index: 99999;
             display: none;
             border: 1px solid #334155;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            max-width: 90%;
+            text-align: center;
         }
 
         .toast.success { border-color: #10b981; color: #6ee7b7; }
         .toast.error { border-color: #ef4444; color: #fca5a5; }
-        .toast.show { display: block; }
+        .toast.show { display: block; animation: toastIn 0.3s ease; }
 
+        @keyframes toastIn {
+            0% { top: -60px; opacity: 0; }
+            100% { top: 20px; opacity: 1; }
+        }
+
+        /* ================= MOBILE ================= */
         @media (max-width: 480px) {
-            .stats-grid { grid-template-columns: 1fr 1fr; gap: 10px; }
+            .stats-grid {
+                grid-template-columns: 1fr 1fr;
+                gap: 10px;
+            }
             .stat-box { padding: 14px; }
             .stat-box-value { font-size: 19px; }
             .stat-box-label { font-size: 10.5px; }
+            .stat-box-icon { font-size: 18px; margin-bottom: 8px; }
             .admin-header-left h1 { font-size: 15px; }
+            .admin-logout { padding: 6px 10px; font-size: 11px; }
             .admin-nav-grid { grid-template-columns: 1fr; }
+            .admin-nav-card { padding: 14px; }
+            .admin-nav-card i.nav-icon { width: 42px; height: 42px; font-size: 18px; }
             .welcome-section h2 { font-size: 18px; }
+            .welcome-section p { font-size: 12px; }
+        }
+
+        @media (max-width: 360px) {
+            .stat-box-value { font-size: 17px; }
+            .section-title { font-size: 13px; }
         }
     </style>
 </head>
 <body>
 
+    <!-- ================= HEADER ================= -->
     <header class="admin-header">
         <div class="admin-header-left">
             <i class="fa-solid fa-shield-halved shield-icon"></i>
@@ -334,8 +463,10 @@
         </button>
     </header>
 
+    <!-- ================= CONTENT ================= -->
     <div class="admin-content">
 
+        <!-- Welcome Section -->
         <div class="welcome-section">
             <div>
                 <h2>Welcome back, Admin 👋</h2>
@@ -346,6 +477,7 @@
             </div>
         </div>
 
+        <!-- Stats Grid -->
         <div class="section-title">
             <i class="fa-solid fa-chart-pie"></i> Overview
         </div>
@@ -387,13 +519,15 @@
                 <div class="stat-box-label">Total Commission</div>
             </div>
 
-            <div class="stat-box orange">
+            <!-- 🆕 NEW: Pending Deposits -->
+            <div class="stat-box cyan">
                 <div class="stat-box-icon"><i class="fa-solid fa-arrow-down"></i></div>
                 <div class="stat-box-value" id="pendingDeposits">--</div>
                 <div class="stat-box-label">Pending Deposits</div>
             </div>
         </div>
 
+        <!-- Management Section -->
         <div class="section-title">
             <i class="fa-solid fa-sliders"></i> Management
         </div>
@@ -415,6 +549,17 @@
                     <p>Approve or reject requests</p>
                 </div>
                 <i class="fa-solid fa-chevron-right admin-nav-card-arrow"></i>
+                <span class="nav-badge" id="withdrawalsBadge" style="display:none;">0</span>
+            </a>
+
+            <a href="admin-deposits.html" class="admin-nav-card">
+                <i class="fa-solid fa-arrow-down nav-icon"></i>
+                <div class="admin-nav-card-info">
+                    <h4>Deposit Requests</h4>
+                    <p>Approve user deposits</p>
+                </div>
+                <i class="fa-solid fa-chevron-right admin-nav-card-arrow"></i>
+                <span class="nav-badge" id="depositsBadge" style="display:none;">0</span>
             </a>
 
             <a href="admin-bonus.html" class="admin-nav-card">
@@ -434,8 +579,18 @@
                 </div>
                 <i class="fa-solid fa-chevron-right admin-nav-card-arrow"></i>
             </a>
+
+            <a href="admin-settings.html" class="admin-nav-card">
+                <i class="fa-solid fa-gear nav-icon"></i>
+                <div class="admin-nav-card-info">
+                    <h4>Payment Settings</h4>
+                    <p>Set QR & wallet addresses</p>
+                </div>
+                <i class="fa-solid fa-chevron-right admin-nav-card-arrow"></i>
+            </a>
         </div>
 
+        <!-- Recent Activity -->
         <div class="section-title">
             <i class="fa-solid fa-clock-rotate-left"></i> Recent Activity
         </div>
@@ -451,8 +606,10 @@
 
     </div>
 
+    <!-- Toast -->
     <div class="toast" id="toast"></div>
 
+    <!-- Firebase SDK -->
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
@@ -460,7 +617,7 @@
 
     <script>
         // ============================================================
-        // 🔐 Admin Auth Check (Fixed with delay)
+        // 🔐 Admin Auth Check (with delay)
         // ============================================================
         let authChecked = false;
 
@@ -468,7 +625,6 @@
             if (authChecked) return;
             authChecked = true;
 
-            // Small delay to let Firebase load
             setTimeout(async () => {
                 const currentUser = auth.currentUser;
                 
@@ -503,6 +659,7 @@
         // ============================================================
         async function loadDashboardStats() {
             try {
+                // ===== Users =====
                 const usersSnap = await db.collection('users').get();
                 let totalBalance = 0;
                 let totalCommission = 0;
@@ -529,13 +686,51 @@
                 document.getElementById('totalCommission').textContent = totalCommission.toFixed(2);
                 document.getElementById('todayUsers').textContent = todayCount;
 
+                // ===== Transactions =====
                 const txSnap = await db.collection('transactions').get();
                 document.getElementById('totalTransactions').textContent = txSnap.size;
 
+                // ===== Pending Withdrawals =====
                 const wdSnap = await db.collection('withdrawals')
                     .where('status', '==', 'pending')
                     .get();
-                document.getElementById('pendingWithdrawals').textContent = wdSnap.size;
+                const pendingWdCount = wdSnap.size;
+                document.getElementById('pendingWithdrawals').textContent = pendingWdCount;
+
+                const wdBadge = document.getElementById('withdrawalsBadge');
+                if (wdBadge) {
+                    if (pendingWdCount > 0) {
+                        wdBadge.textContent = pendingWdCount;
+                        wdBadge.style.display = 'block';
+                    } else {
+                        wdBadge.style.display = 'none';
+                    }
+                }
+
+                // ===== Pending Deposits =====
+                try {
+                    const depSnap = await db.collection('deposits')
+                        .where('status', '==', 'pending')
+                        .get();
+                    const depCount = depSnap.size;
+                    
+                    const pendingDepEl = document.getElementById('pendingDeposits');
+                    if (pendingDepEl) pendingDepEl.textContent = depCount;
+                    
+                    const depBadge = document.getElementById('depositsBadge');
+                    if (depBadge) {
+                        if (depCount > 0) {
+                            depBadge.textContent = depCount;
+                            depBadge.style.display = 'block';
+                        } else {
+                            depBadge.style.display = 'none';
+                        }
+                    }
+                } catch (e) {
+                    console.log('Deposits collection not available:', e);
+                    const pendingDepEl = document.getElementById('pendingDeposits');
+                    if (pendingDepEl) pendingDepEl.textContent = '0';
+                }
 
             } catch (err) {
                 console.error('Stats error:', err);
@@ -570,6 +765,7 @@
                     const amount = tx.amount || 0;
                     const note = tx.note || tx.platform || type;
                     
+                    // Format time
                     let timeStr = 'Recently';
                     if (tx.createdAt && tx.createdAt.toDate) {
                         try {
@@ -584,6 +780,7 @@
                         } catch (e) {}
                     }
 
+                    // Determine icon and class
                     let iconClass = 'fa-receipt';
                     let activityClass = '';
                     let isNegative = false;
@@ -603,13 +800,14 @@
                         activityClass = 'deposit';
                     } else if (type.includes('referral')) {
                         iconClass = 'fa-user-plus';
-                        activityClass = 'bonus';
+                        activityClass = 'referral';
                     } else if (type.includes('admin')) {
                         iconClass = 'fa-user-shield';
                         activityClass = type.includes('debit') ? 'withdrawal' : 'bonus';
                         isNegative = type.includes('debit');
                     }
 
+                    // Format title
                     let title = note;
                     if (title.length > 40) title = title.substring(0, 40) + '...';
 
@@ -647,8 +845,12 @@
         // ============================================================
         document.getElementById('logoutBtn').addEventListener('click', async function() {
             if (confirm('Are you sure you want to log out from admin panel?')) {
-                await auth.signOut();
-                window.location.replace('admin-login.html');
+                try {
+                    await auth.signOut();
+                    window.location.replace('admin-login.html');
+                } catch (err) {
+                    console.error('Logout error:', err);
+                }
             }
         });
 
@@ -662,7 +864,9 @@
             setTimeout(() => { t.className = 'toast ' + type; }, 3000);
         }
 
-        // Auto refresh stats every 30 seconds
+        // ============================================================
+        // 🔄 Auto Refresh Every 30 Seconds
+        // ============================================================
         setInterval(async () => {
             const user = firebase.auth().currentUser;
             if (user) {
