@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bonus - UMALL247 Admin</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
+        body { background: #0f172a; color: #f1f5f9; min-height: 100vh; }
+        
+        .admin-header {
+            background: #1e293b; padding: 14px 20px;
+            display: flex; align-items: center; gap: 12px;
+            border-bottom: 1px solid #334155;
+        }
+        
+        .back-btn { color: #f59e0b; font-size: 18px; text-decoration: none; }
+        .admin-header h1 { font-size: 17px; font-weight: 800; }
+        
+        .admin-content { max-width: 600px; margin: 0 auto; padding: 20px; }
+        
+        .bonus-card {
+            background: #1e293b; border: 1px solid #334155;
+            border-radius: 18px; padding: 26px;
+        }
+        
+        .bonus-card h2 { font-size: 20px; margin-bottom: 6px; }
+        .bonus-card .subtitle { color: #94a3b8; font-size: 13px; margin-bottom: 24px; }
+        
+        .form-group { margin-bottom: 18px; }
+        .form-group label {
+            font-size: 12.5px; color: #94a3b8; font-weight: 600;
+            display: block; margin-bottom: 8px;
+        }
+        
+        .form-group input, .form-group textarea {
+            width: 100%; padding: 14px;
+            background: #0f172a; border: 1px solid #334155;
+            border-radius: 12px; color: #f1f5f9;
+            font-size: 14px; font-family: inherit; outline: none;
+        }
+        
+        .form-group input:focus, .form-group textarea:focus { border-color: #f59e0b; }
+        
+        .radio-group { display: flex; gap: 10px; margin-bottom: 20px; }
+        
+        .radio-option {
+            flex: 1; padding: 14px;
+            background: #0f172a; border: 2px solid #334155;
+            border-radius: 12px; cursor: pointer;
+            text-align: center; font-size: 13px;
+            font-weight: 700; color: #94a3b8;
+        }
+        
+        .radio-option.active { border-color: #f59e0b; color: #f59e0b; background: rgba(245, 158, 11, 0.1); }
+        
+        .send-btn {
+            width: 100%; padding: 16px; border: none;
+            border-radius: 12px;
+            background: linear-gradient(90deg, #f59e0b, #d97706);
+            color: #fff; font-size: 16px;
+            font-weight: 800; cursor: pointer;
+            font-family: inherit;
+        }
+        
+        .send-btn:active { transform: scale(0.98); }
+        .send-btn:disabled { opacity: 0.6; }
+        
+        .toast {
+            position: fixed; top: 20px; left: 50%; transform: translateX(-50%);
+            padding: 14px 22px; border-radius: 12px;
+            background: #1e293b; color: #f1f5f9;
+            font-weight: 600; z-index: 99999;
+            display: none; border: 1px solid #334155;
+        }
+        .toast.success { border-color: #10b981; color: #6ee7b7; }
+        .toast.error { border-color: #ef4444; color: #fca5a5; }
+        .toast.show { display: block; }
+    </style>
+</head>
+<body>
+
+    <header class="admin-header">
+        <a href="admin.html" class="back-btn"><i class="fa-solid fa-arrow-left"></i></a>
+        <h1>Bonus & Promo</h1>
+    </header>
+    
+    <div class="admin-content">
+        
+        <div class="bonus-card">
+            <h2>🎁 Send Bonus</h2>
+            <p class="subtitle">Send bonus to all users or a specific user</p>
+            
+            <div class="radio-group">
+                <div class="radio-option active" data-target="all">All Users</div>
+                <div class="radio-option" data-target="specific">Specific Email</div>
+            </div>
+            
+            <div class="form-group" id="emailGroup" style="display:none;">
+                <label>User Email</label>
+                <input type="email" id="targetEmail" placeholder="user@example.com">
+            </div>
+            
+            <div class="form-group">
+                <label>Bonus Amount (USDT)</label>
+                <input type="number" id="bonusAmount" placeholder="10.00" min="0.01" step="0.01">
+            </div>
+            
+            <div class="form-group">
+                <label>Note (Optional)</label>
+                <textarea id="bonusNote" rows="3" placeholder="Reason for bonus..."></textarea>
+            </div>
+            
+            <button class="send-btn" id="sendBonusBtn">
+                <i class="fa-solid fa-gift"></i> Send Bonus
+            </button>
+        </div>
+        
+    </div>
+    
+    <div class="toast" id="toast"></div>
+
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+    <script src="firebase-auth.js"></script>
+
+    <script>
+        let targetType = 'all';
+        
+        auth.onAuthStateChanged(async function(user) {
+            if (!user) { window.location.replace('admin-login.html'); return; }
+            const adminDoc = await db.collection('admins').doc(user.uid).get();
+            if (!adminDoc.exists) { await auth.signOut(); window.location.replace('admin-login.html'); return; }
+        });
+        
+        document.querySelectorAll('.radio-option').forEach(opt => {
+            opt.addEventListener('click', function() {
+                document.querySelectorAll('.radio-option').forEach(o => o.classList.remove('active'));
+                this.classList.add('active');
+                targetType = this.getAttribute('data-target');
+                document.getElementById('emailGroup').style.display = targetType === 'specific' ? 'block' : 'none';
+            });
+        });
+        
+        document.getElementById('sendBonusBtn').addEventListener('click', async function() {
+            const amount = parseFloat(document.getElementById('bonusAmount').value);
+            const note = document.getElementById('bonusNote').value.trim() || 'Bonus from admin';
+            const email = document.getElementById('targetEmail').value.trim();
+            
+            if (!amount || amount <= 0) { showToast('❌ Enter valid amount', 'error'); return; }
+            if (targetType === 'specific' && !email) { showToast('❌ Enter email', 'error'); return; }
+            
+            const btn = this;
+            btn.disabled = true;
+            btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Sending...';
+            
+            try {
+                let usersToBonus = [];
+                
+                if (targetType === 'all') {
+                    const snap = await db.collection('users').get();
+                    snap.forEach(doc => usersToBonus.push({ id: doc.id, ...doc.data() }));
+                } else {
+                    const snap = await db.collection('users').where('email', '==', email).limit(1).get();
+                    if (snap.empty) {
+                        showToast('❌ User not found', 'error');
+                        btn.disabled = false;
+                        btn.innerHTML = '<i class="fa-solid fa-gift"></i> Send Bonus';
+                        return;
+                    }
+                    snap.forEach(doc => usersToBonus.push({ id: doc.id, ...doc.data() }));
+                }
+                
+                if (usersToBonus.length === 0) {
+                    showToast('❌ No users found', 'error');
+                    btn.disabled = false;
+                    btn.innerHTML = '<i class="fa-solid fa-gift"></i> Send Bonus';
+                    return;
+                }
+                
+                const promises = [];
+                for (const u of usersToBonus) {
+                    promises.push(db.collection('users').doc(u.id).update({
+                        balance: firebase.firestore.FieldValue.increment(amount),
+                        totalBonus: firebase.firestore.FieldValue.increment(amount)
+                    }));
+                    
+                    promises.push(db.collection('transactions').add({
+                        uid: u.id,
+                        type: 'bonus',
+                        amount: amount,
+                        status: 'completed',
+                        note: note,
+                        createdAt: firebase.firestore.FieldValue.serverTimestamp()
+                    }));
+                }
+                
+                await Promise.all(promises);
+                
+                showToast(`✅ Bonus sent to ${usersToBonus.length} user(s)!`, 'success');
+                document.getElementById('bonusAmount').value = '';
+                document.getElementById('bonusNote').value = '';
+                document.getElementById('targetEmail').value = '';
+                
+            } catch (err) {
+                console.error('Bonus error:', err);
+                showToast('❌ Failed. Try again.', 'error');
+            }
+            
+            btn.disabled = false;
+            btn.innerHTML = '<i class="fa-solid fa-gift"></i> Send Bonus';
+        });
+        
+        function showToast(msg, type) {
+            const t = document.getElementById('toast');
+            t.textContent = msg;
+            t.className = 'toast ' + type + ' show';
+            setTimeout(() => t.className = 'toast ' + type, 3000);
+        }
+    </script>
+</body>
+</html>
