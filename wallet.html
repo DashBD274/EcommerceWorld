@@ -1133,15 +1133,17 @@
         const rechargeNowBtn = document.getElementById('rechargeNowBtn');
         if (rechargeNowBtn) {
             rechargeNowBtn.addEventListener('click', function() {
-                const amount = document.getElementById('rechargeAmount').value;
-                const protocol = document.querySelector('.protocol-btn.active')?.getAttribute('data-protocol') || 'TRC20';
+    const amount = document.getElementById('rechargeAmount').value;
+    const protocol = document.querySelector('.protocol-btn.active')?.getAttribute('data-protocol') || 'TRC20';
 
-                if (!amount || parseFloat(amount) <= 0) {
-                    alert('Please enter a valid amount');
-                    return;
-                }
-                alert('Recharge request:\nAmount: ' + amount + ' USDT\nNetwork: ' + protocol + '\n\n(Payment gateway will open here)');
-            });
+    if (!amount || parseFloat(amount) <= 0) {
+        alert('Please enter a valid amount');
+        return;
+    }
+    
+    // Deposit পেজে যান
+    window.location.href = `deposit.html?amount=${amount}&network=${protocol}`;
+});
         }
 
         // ============================================================
