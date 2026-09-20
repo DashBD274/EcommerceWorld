@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#0f172a">
+    <title>User Management - UMALL247 Admin</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
+        body { background: #0f172a; color: #f1f5f9; min-height: 100vh; padding-bottom: 30px; }
+        
+        .admin-header {
+            background: #1e293b; padding: 14px 20px; display: flex; align-items: center;
+            justify-content: space-between; border-bottom: 1px solid #334155;
+            position: sticky; top: 0; z-index: 100;
+        }
+        
+        .admin-header-left { display: flex; align-items: center; gap: 12px; }
+        .back-btn { color: #f59e0b; font-size: 18px; cursor: pointer; text-decoration: none; }
+        .admin-header h1 { font-size: 17px; font-weight: 800; }
+        
+        .admin-content { max-width: 1200px; margin: 0 auto; padding: 20px; }
+        
+        .search-box {
+            background: #1e293b; border: 1px solid #334155; border-radius: 12px;
+            padding: 12px 16px; display: flex; align-items: center; gap: 10px;
+            margin-bottom: 20px;
+        }
+        
+        .search-box i { color: #64748b; }
+        .search-box input {
+            background: transparent; border: none; outline: none; color: #f1f5f9;
+            font-size: 14px; flex: 1; font-family: inherit;
+        }
+        
+        .users-list { display: flex; flex-direction: column; gap: 12px; }
+        
+        .user-card {
+            background: #1e293b; border: 1px solid #334155; border-radius: 14px;
+            padding: 16px; display: flex; align-items: center; gap: 14px;
+            cursor: pointer; transition: all 0.2s;
+        }
+        
+        .user-card:hover { border-color: #f59e0b; }
+        .user-card:active { transform: scale(0.98); }
+        
+        .user-avatar {
+            width: 50px; height: 50px; border-radius: 50%;
+            background: linear-gradient(135deg, #6366f1, #a855f7);
+            display: flex; align-items: center; justify-content: center;
+            font-size: 20px; font-weight: 800; color: #fff;
+            flex-shrink: 0;
+        }
+        
+        .user-info { flex: 1; min-width: 0; }
+        .user-info h3 { font-size: 14.5px; font-weight: 700; margin-bottom: 4px; }
+        .user-info p { font-size: 12px; color: #94a3b8; overflow: hidden; text-overflow: ellipsis; }
+        .user-info .user-meta { font-size: 11.5px; color: #64748b; margin-top: 4px; }
+        
+        .user-balance { text-align: right; flex-shrink: 0; }
+        .user-balance-value { font-size: 16px; font-weight: 800; color: #10b981; }
+        .user-balance-label { font-size: 10.5px; color: #64748b; }
+        
+        .modal {
+            position: fixed; inset: 0; background: rgba(0, 0, 0, 0.8);
+            display: none; align-items: center; justify-content: center;
+            z-index: 9999; padding: 20px;
+            -webkit-backdrop-filter: blur(8px);
+            backdrop-filter: blur(8px);
+        }
+        
+        .modal.show { display: flex; }
+        
+        .modal-content {
+            background: #1e293b; border: 1px solid #334155;
+            border-radius: 18px; padding: 26px;
+            max-width: 440px; width: 100%;
+            max-height: 90vh; overflow-y: auto;
+            animation: popIn 0.3s ease;
+        }
+        
+        @keyframes popIn {
+            0% { transform: scale(0.9); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+        
+        .modal-header {
+            display: flex; justify-content: space-between; align-items: center;
+            margin-bottom: 20px;
+        }
+        
+        .modal-header h2 { font-size: 18px; font-weight: 800; }
+        .modal-close {
+            width: 32px; height: 32px; border-radius: 50%;
+            background: rgba(239, 68, 68, 0.15); color: #fca5a5;
+            border: none; cursor: pointer; font-size: 14px;
+        }
+        
+        .modal-user-info {
+            background: #0f172a; border-radius: 12px; padding: 16px;
+            margin-bottom: 18px;
+        }
+        
+        .modal-user-row {
+            display: flex; justify-content: space-between;
+            padding: 6px 0; font-size: 13px;
+            gap: 10px;
+        }
+        
+        .modal-user-row span:first-child { color: #94a3b8; flex-shrink: 0; }
+        .modal-user-row span:last-child {
+            font-weight: 700; word-break: break-all;
+            text-align: right; font-size: 12px;
+        }
+        
+        .balance-form-group { margin-bottom: 14px; }
+        .balance-form-group label {
+            font-size: 12.5px; color: #94a3b8; font-weight: 600;
+            display: block; margin-bottom: 6px;
+        }
+        
+        .balance-form-group input {
+            width: 100%; padding: 12px 14px;
+            background: #0f172a; border: 1px solid #334155;
+            border-radius: 10px; color: #f1f5f9;
+            font-size: 14px; font-family: inherit; outline: none;
+        }
+        
+        .balance-form-group input:focus { border-color: #f59e0b; }
+        
+        .balance-btns { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 6px; }
+        
+        .btn {
+            padding: 13px; border-radius: 10px; border: none;
+            font-size: 14px; font-weight: 700; cursor: pointer;
+            font-family: inherit;
+        }
+        
+        .btn:active { transform: scale(0.98); }
+        .btn:disabled { opacity: 0.5; }
+        
+        .btn-add { background: linear-gradient(90deg, #10b981, #059669); color: #fff; }
+        .btn-subtract { background: linear-gradient(90deg, #ef4444, #dc2626); color: #fff; }
+        
+        .quick-amounts { display: flex; gap: 6px; margin-bottom: 14px; flex-wrap: wrap; }
+        
+        .quick-amount {
+            flex: 1; min-width: 55px; padding: 8px;
+            background: #0f172a; border: 1px solid #334155;
+            border-radius: 8px; color: #94a3b8;
+            font-size: 12px; cursor: pointer; font-family: inherit;
+            font-weight: 600;
+        }
+        
+        .quick-amount:hover { border-color: #f59e0b; color: #f59e0b; }
+        
+        .toast {
+            position: fixed; top: 20px; left: 50%;
+            transform: translateX(-50%);
+            background: #1e293b; color: #f1f5f9;
+            padding: 14px 22px; border-radius: 12px;
+            font-size: 14px; font-weight: 600;
+            z-index: 99999; display: none;
+            border: 1px solid #334155;
+        }
+        
+        .toast.success { border-color: #10b981; color: #6ee7b7; }
+        .toast.error { border-color: #ef4444; color: #fca5a5; }
+        .toast.show { display: block; animation: toastIn 0.3s ease; }
+        
+        @keyframes toastIn {
+            0% { top: -60px; opacity: 0; }
+            100% { top: 20px; opacity: 1; }
+        }
+        
+        .loading-state { text-align: center; padding: 40px; color: #94a3b8; }
+        .loading-state i { font-size: 32px; display: block; margin-bottom: 12px; color: #f59e0b; }
+        
+        @media (max-width: 480px) {
+            .admin-header h1 { font-size: 14px; }
+            .user-card { padding: 12px; gap: 10px; }
+            .user-avatar { width: 44px; height: 44px; font-size: 17px; }
+            .user-info h3 { font-size: 13px; }
+            .user-balance-value { font-size: 14px; }
+        }
+    </style>
+</head>
+<body>
+
+    <header class="admin-header">
+        <div class="admin-header-left">
+            <a href="admin.html" class="back-btn"><i class="fa-solid fa-arrow-left"></i></a>
+            <h1>User Management</h1>
+        </div>
+        <span id="totalUsersLabel" style="font-size:12px; color:#94a3b8;">-- Users</span>
+    </header>
+    
+    <div class="admin-content">
+        
+        <div class="search-box">
+            <i class="fa-solid fa-magnifying-glass"></i>
+            <input type="text" id="searchInput" placeholder="Search by name, email, or refer code...">
+        </div>
+        
+        <div class="users-list" id="usersList">
+            <div class="loading-state">
+                <i class="fa-solid fa-spinner fa-spin"></i>
+                Loading users...
+            </div>
+        </div>
+        
+    </div>
+    
+    <div class="modal" id="balanceModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Adjust Balance</h2>
+                <button class="modal-close" onclick="closeBalanceModal()">✕</button>
+            </div>
+            
+            <div class="modal-user-info">
+                <div class="modal-user-row">
+                    <span>Name:</span>
+                    <span id="modalName">-</span>
+                </div>
+                <div class="modal-user-row">
+                    <span>Email:</span>
+                    <span id="modalEmail">-</span>
+                </div>
+                <div class="modal-user-row">
+                    <span>UID:</span>
+                    <span id="modalUid">-</span>
+                </div>
+                <div class="modal-user-row">
+                    <span>Current Balance:</span>
+                    <span id="modalBalance" style="color:#10b981;">0.00 USDT</span>
+                </div>
+            </div>
+            
+            <div class="balance-form-group">
+                <label>Amount (USDT)</label>
+                <input type="number" id="adjustAmount" placeholder="Enter amount" min="0" step="0.01">
+            </div>
+            
+            <div class="quick-amounts">
+                <button class="quick-amount" data-amt="5">+5</button>
+                <button class="quick-amount" data-amt="10">+10</button>
+                <button class="quick-amount" data-amt="50">+50</button>
+                <button class="quick-amount" data-amt="100">+100</button>
+                <button class="quick-amount" data-amt="500">+500</button>
+            </div>
+            
+            <div class="balance-btns">
+                <button class="btn btn-add" id="btnAdd">+ Add</button>
+                <button class="btn btn-subtract" id="btnSubtract">- Subtract</button>
+            </div>
+        </div>
+    </div>
+    
+    <div class="toast" id="toast"></div>
+
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+    <script src="firebase-auth.js"></script>
+
+    <script>
+        let allUsers = [];
+        let selectedUser = null;
+        
+        auth.onAuthStateChanged(async function(user) {
+            if (!user) {
+                window.location.replace('admin-login.html');
+                return;
+            }
+            const adminDoc = await db.collection('admins').doc(user.uid).get();
+            if (!adminDoc.exists) {
+                await auth.signOut();
+                window.location.replace('admin-login.html');
+                return;
+            }
+            loadUsers();
+        });
+        
+        async function loadUsers() {
+            const listEl = document.getElementById('usersList');
+            try {
+                const snap = await db.collection('users').get();
+                allUsers = [];
+                snap.forEach(doc => {
+                    allUsers.push({ id: doc.id, ...doc.data() });
+                });
+                
+                document.getElementById('totalUsersLabel').textContent = allUsers.length + ' Users';
+                renderUsers(allUsers);
+            } catch (err) {
+                console.error('Load users error:', err);
+                listEl.innerHTML = '<div class="loading-state"><i class="fa-solid fa-circle-exclamation"></i>Failed to load users</div>';
+            }
+        }
+        
+        function renderUsers(users) {
+            const listEl = document.getElementById('usersList');
+            
+            if (users.length === 0) {
+                listEl.innerHTML = '<div class="loading-state"><i class="fa-solid fa-users-slash"></i>No users found</div>';
+                return;
+            }
+            
+            let html = '';
+            users.forEach(u => {
+                const initial = (u.fullName || 'U').charAt(0).toUpperCase();
+                const balance = (u.balance || 0).toFixed(2);
+                const referCode = u.myReferCode || '------';
+                const vip = u.vip || 0;
+                
+                html += `
+                    <div class="user-card" onclick="openBalanceModal('${u.id}')">
+                        <div class="user-avatar">${initial}</div>
+                        <div class="user-info">
+                            <h3>${u.fullName || 'Unknown'}</h3>
+                            <p>${u.email || '-'}</p>
+                            <div class="user-meta">
+                                <i class="fa-solid fa-hashtag"></i> ${referCode} · 
+                                <i class="fa-solid fa-crown"></i> VIP ${vip}
+                            </div>
+                        </div>
+                        <div class="user-balance">
+                            <div class="user-balance-value">${balance}</div>
+                            <div class="user-balance-label">USDT</div>
+                        </div>
+                    </div>
+                `;
+            });
+            
+            listEl.innerHTML = html;
+        }
+        
+        document.getElementById('searchInput').addEventListener('input', function() {
+            const q = this.value.toLowerCase().trim();
+            if (!q) { renderUsers(allUsers); return; }
+            
+            const filtered = allUsers.filter(u => 
+                (u.fullName || '').toLowerCase().includes(q) ||
+                (u.email || '').toLowerCase().includes(q) ||
+                (u.myReferCode || '').toLowerCase().includes(q)
+            );
+            renderUsers(filtered);
+        });
+        
+        function openBalanceModal(uid) {
+            selectedUser = allUsers.find(u => u.id === uid);
+            if (!selectedUser) return;
+            
+            document.getElementById('modalName').textContent = selectedUser.fullName || 'Unknown';
+            document.getElementById('modalEmail').textContent = selectedUser.email || '-';
+            document.getElementById('modalUid').textContent = selectedUser.id;
+            document.getElementById('modalBalance').textContent = (selectedUser.balance || 0).toFixed(2) + ' USDT';
+            document.getElementById('adjustAmount').value = '';
+            
+            document.getElementById('balanceModal').classList.add('show');
+        }
+        
+        function closeBalanceModal() {
+            document.getElementById('balanceModal').classList.remove('show');
+            selectedUser = null;
+        }
+        
+        document.querySelectorAll('.quick-amount').forEach(btn => {
+            btn.addEventListener('click', function() {
+                const amt = this.getAttribute('data-amt');
+                document.getElementById('adjustAmount').value = amt;
+            });
+        });
+        
+        async function adjustBalance(isAdd) {
+            if (!selectedUser) return;
+            
+            const amountStr = document.getElementById('adjustAmount').value;
+            const amount = parseFloat(amountStr);
+            
+            if (!amountStr || isNaN(amount) || amount <= 0) {
+                showToast('❌ Enter a valid amount', 'error');
+                return;
+            }
+            
+            const finalAmount = isAdd ? amount : -amount;
+            
+            try {
+                await db.collection('users').doc(selectedUser.id).update({
+                    balance: firebase.firestore.FieldValue.increment(finalAmount),
+                    updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+                });
+                
+                await db.collection('transactions').add({
+                    uid: selectedUser.id,
+                    type: isAdd ? 'admin_credit' : 'admin_debit',
+                    amount: Math.abs(amount),
+                    status: 'completed',
+                    note: `Admin ${isAdd ? 'added' : 'subtracted'} ${amount} USDT`,
+                    createdAt: firebase.firestore.FieldValue.serverTimestamp()
+                });
+                
+                showToast(`✅ ${isAdd ? 'Added' : 'Subtracted'} ${amount} USDT`, 'success');
+                closeBalanceModal();
+                
+                setTimeout(() => loadUsers(), 500);
+            } catch (err) {
+                console.error('Adjust error:', err);
+                showToast('❌ Failed. Try again.', 'error');
+            }
+        }
+        
+        document.getElementById('btnAdd').addEventListener('click', () => adjustBalance(true));
+        document.getElementById('btnSubtract').addEventListener('click', () => adjustBalance(false));
+        
+        function showToast(msg, type) {
+            const t = document.getElementById('toast');
+            t.textContent = msg;
+            t.className = 'toast ' + type + ' show';
+            setTimeout(() => t.className = 'toast ' + type, 3000);
+        }
+    </script>
+</body>
+</html>
