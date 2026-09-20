@@ -1,0 +1,712 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="theme-color" content="#f5f5f5">
+    <title>Deposit - UMALL247</title>
+    <link rel="stylesheet" href="detail.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .deposit-container {
+            max-width: 500px;
+            margin: 0 auto;
+            padding: 16px 16px 30px 16px;
+        }
+
+        .deposit-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 18px;
+        }
+
+        .back-icon {
+            font-size: 20px;
+            color: var(--text);
+            cursor: pointer;
+            padding: 6px;
+        }
+
+        .deposit-title {
+            font-size: 18px;
+            font-weight: 800;
+            color: var(--text);
+            margin: 0;
+        }
+
+        .sub-tabs {
+            display: flex;
+            background: var(--card);
+            border-radius: 12px;
+            padding: 4px;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border);
+            margin-bottom: 20px;
+        }
+
+        .sub-tab {
+            flex: 1;
+            padding: 10px;
+            text-align: center;
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text-light);
+            border-radius: 8px;
+            cursor: pointer;
+            background: transparent;
+            border: none;
+            font-family: inherit;
+        }
+
+        .sub-tab.active {
+            background: #fde4d0;
+            color: #e65c00;
+        }
+
+        body.dark-mode .sub-tab.active {
+            background: rgba(230, 92, 0, 0.2);
+            color: #ff8c42;
+        }
+
+        .payment-card {
+            background: var(--card);
+            border-radius: 16px;
+            padding: 24px 20px;
+            margin-bottom: 16px;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border);
+            text-align: center;
+        }
+
+        .payment-label {
+            font-size: 12.5px;
+            color: var(--text-light);
+            margin-bottom: 8px;
+        }
+
+        .payment-amount {
+            font-size: 36px;
+            font-weight: 800;
+            color: #e65c00;
+            margin-bottom: 6px;
+            letter-spacing: 0.5px;
+        }
+
+        .payment-amount span {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--text);
+        }
+
+        .network-badge {
+            display: inline-block;
+            background: #fde4d0;
+            color: #e65c00;
+            padding: 4px 14px;
+            border-radius: 12px;
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            margin-bottom: 20px;
+        }
+
+        body.dark-mode .network-badge {
+            background: rgba(230, 92, 0, 0.2);
+        }
+
+        .qr-wrap {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+
+        .qr-code {
+            width: 220px;
+            height: 220px;
+            background: #fff;
+            border-radius: 16px;
+            padding: 16px;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+            border: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .qr-code img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            display: block;
+        }
+
+        .address-label {
+            font-size: 12px;
+            color: var(--text-light);
+            margin-bottom: 8px;
+        }
+
+        .address-box {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: var(--bg);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 12px 14px;
+            margin-bottom: 6px;
+        }
+
+        .address-text {
+            flex: 1;
+            font-size: 11.5px;
+            font-family: 'Courier New', monospace;
+            color: var(--text);
+            word-break: break-all;
+            text-align: left;
+            line-height: 1.3;
+        }
+
+        .copy-btn {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            border: none;
+            background: linear-gradient(90deg, #f97316, #f59e0b);
+            color: #fff;
+            cursor: pointer;
+            font-size: 15px;
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .copy-btn:active {
+            transform: scale(0.95);
+        }
+
+        .copy-btn.copied {
+            background: linear-gradient(90deg, #10b981, #059669);
+        }
+
+        .warning-note {
+            background: #fff7ed;
+            border: 1px solid #fed7aa;
+            border-radius: 12px;
+            padding: 14px 16px;
+            display: flex;
+            gap: 10px;
+            margin-bottom: 16px;
+            font-size: 12px;
+            color: #92400e;
+            line-height: 1.5;
+        }
+
+        .warning-note i {
+            color: #ea580c;
+            font-size: 15px;
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+
+        body.dark-mode .warning-note {
+            background: rgba(249, 115, 22, 0.08);
+            border-color: rgba(249, 115, 22, 0.25);
+            color: #fdba74;
+        }
+
+        .mark-paid-btn {
+            width: 100%;
+            padding: 16px;
+            border: none;
+            border-radius: 14px;
+            background: linear-gradient(90deg, #f97316, #f59e0b);
+            color: #fff;
+            font-size: 16px;
+            font-weight: 800;
+            cursor: pointer;
+            font-family: inherit;
+            box-shadow: 0 8px 20px rgba(249, 115, 22, 0.35);
+            letter-spacing: 0.3px;
+        }
+
+        .mark-paid-btn:active {
+            transform: scale(0.98);
+        }
+
+        .mark-paid-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        /* History Section */
+        .history-section {
+            display: none;
+        }
+
+        .history-section.active {
+            display: block;
+        }
+
+        .payment-section.hidden {
+            display: none;
+        }
+
+        .history-empty {
+            background: var(--card);
+            border-radius: 14px;
+            padding: 40px 20px;
+            text-align: center;
+            border: 1px solid var(--border);
+        }
+
+        .history-empty i {
+            font-size: 40px;
+            color: var(--text-light);
+            opacity: 0.4;
+            margin-bottom: 12px;
+            display: block;
+        }
+
+        .history-empty p {
+            color: var(--text-light);
+            font-size: 14px;
+            margin: 0;
+        }
+
+        .history-item {
+            background: var(--card);
+            border-radius: 14px;
+            padding: 14px 16px;
+            margin-bottom: 10px;
+            border: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .history-item-info {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .history-item-amount {
+            font-size: 15px;
+            font-weight: 800;
+            color: #e65c00;
+            margin-bottom: 4px;
+        }
+
+        .history-item-date {
+            font-size: 11px;
+            color: var(--text-light);
+        }
+
+        .history-item-status {
+            padding: 4px 10px;
+            border-radius: 8px;
+            font-size: 10.5px;
+            font-weight: 700;
+            text-transform: uppercase;
+            flex-shrink: 0;
+        }
+
+        .status-pending {
+            background: rgba(245, 158, 11, 0.15);
+            color: #f59e0b;
+        }
+
+        .status-approved, .status-completed {
+            background: rgba(16, 185, 129, 0.15);
+            color: #10b981;
+        }
+
+        .status-rejected {
+            background: rgba(239, 68, 68, 0.15);
+            color: #ef4444;
+        }
+
+        .toast {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            padding: 14px 22px;
+            border-radius: 12px;
+            background: var(--card);
+            color: var(--text);
+            font-weight: 600;
+            font-size: 13.5px;
+            z-index: 99999;
+            display: none;
+            border: 1px solid var(--border);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+        }
+
+        .toast.success { border-color: #10b981; color: #10b981; }
+        .toast.error { border-color: #ef4444; color: #ef4444; }
+        .toast.show { display: block; }
+
+        @media (max-width: 360px) {
+            .payment-amount { font-size: 30px; }
+            .qr-code { width: 180px; height: 180px; padding: 12px; }
+            .address-text { font-size: 10px; }
+        }
+    </style>
+</head>
+<body>
+
+    <header class="dash-header">
+        <div class="brand-logo">
+            <span class="logo-icon">U<span class="fire-flame"></span></span>
+            <span class="logo-text">UMALL<span class="logo-24">247</span></span>
+        </div>
+        <div class="header-controls">
+            <button id="dashThemeToggle" class="theme-toggle-sm" type="button">
+                <i class="fa-solid fa-moon"></i>
+            </button>
+        </div>
+    </header>
+
+    <main class="deposit-container">
+
+        <div class="deposit-header">
+            <i class="fa-solid fa-arrow-left back-icon" onclick="window.location.href='wallet.html?tab=recharge'"></i>
+            <h2 class="deposit-title">Recharge Account</h2>
+        </div>
+
+        <!-- Sub Tabs -->
+        <div class="sub-tabs">
+            <button class="sub-tab active" data-tab="payment">
+                <i class="fa-solid fa-circle-plus"></i> Recharge
+            </button>
+            <button class="sub-tab" data-tab="history">
+                <i class="fa-solid fa-list"></i> History
+            </button>
+        </div>
+
+        <!-- Payment Section -->
+        <div class="payment-section" id="paymentSection">
+
+            <div class="payment-card">
+                <div class="payment-label">Payment Amount</div>
+                <div class="payment-amount">
+                    <span id="displayAmount">0</span> <span>USDT</span>
+                </div>
+                <div class="network-badge" id="displayNetwork">TRC-20</div>
+
+                <div class="qr-wrap">
+                    <div class="qr-code">
+                        <img id="qrImage" src="" alt="QR Code">
+                    </div>
+                </div>
+
+                <div class="address-label">Deposit Address</div>
+                <div class="address-box">
+                    <div class="address-text" id="displayAddress">Loading...</div>
+                    <button class="copy-btn" id="copyAddressBtn" type="button">
+                        <i class="fa-solid fa-copy"></i>
+                    </button>
+                </div>
+            </div>
+
+            <div class="warning-note">
+                <i class="fa-solid fa-triangle-exclamation"></i>
+                <div>
+                    Send exactly the amount shown above to the deposit address. After sending, click <strong>"Mark Paid"</strong>. Your balance will be updated within 24 hours after admin verification.
+                </div>
+            </div>
+
+            <button class="mark-paid-btn" id="markPaidBtn" type="button">
+                <i class="fa-solid fa-circle-check"></i> Mark Paid
+            </button>
+        </div>
+
+        <!-- History Section -->
+        <div class="history-section" id="historySection">
+            <div id="historyList">
+                <div class="history-empty">
+                    <i class="fa-solid fa-receipt"></i>
+                    <p>No deposit history yet</p>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <nav class="bottom-nav">
+        <a href="dashboard.html" class="nav-item">
+            <i class="fa-solid fa-house"></i>
+            <span data-key="navHome">Home</span>
+        </a>
+        <a href="service.html" class="nav-item">
+            <i class="fa-solid fa-headset"></i>
+            <span data-key="navService">Service</span>
+        </a>
+        <a href="menu.html" class="nav-item">
+            <i class="fa-solid fa-grip"></i>
+            <span data-key="navMenu">Menu</span>
+        </a>
+        <a href="record.html" class="nav-item">
+            <i class="fa-solid fa-clipboard"></i>
+            <span data-key="navRecord">Record</span>
+        </a>
+        <a href="mine.html" class="nav-item">
+            <i class="fa-solid fa-user"></i>
+            <span data-key="navMine">Mine</span>
+        </a>
+    </nav>
+
+    <div class="toast" id="toast"></div>
+
+    <script src="detail.js"></script>
+
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+    <script src="firebase-auth.js"></script>
+
+    <script>
+        // ============================================================
+        // 🎯 URL থেকে Amount এবং Network নিন
+        // ============================================================
+        const urlParams = new URLSearchParams(window.location.search);
+        const depositAmount = urlParams.get('amount') || '0';
+        const depositNetwork = urlParams.get('network') || 'TRC20';
+
+        document.getElementById('displayAmount').textContent = depositAmount;
+        document.getElementById('displayNetwork').textContent = 
+            depositNetwork === 'TRC20' ? 'TRC-20' : 
+            depositNetwork === 'BEP20' ? 'BEP-20' : 
+            depositNetwork === 'ERC20' ? 'ERC-20' : depositNetwork;
+
+        // ============================================================
+        // 🔥 Firebase Auth Check + Load Admin Settings
+        // ============================================================
+        let currentUser = null;
+
+        waitForAuthReady(async function(isLoggedIn, user) {
+            if (!isLoggedIn) {
+                window.location.replace('index.html');
+                return;
+            }
+            currentUser = user;
+            await loadAdminSettings();
+            await loadDepositHistory();
+        });
+
+        // ============================================================
+        // 📥 Admin Settings থেকে QR + Address লোড
+        // ============================================================
+        async function loadAdminSettings() {
+            try {
+                // Firestore এ settings নামে একটি collection থাকবে
+                const settingsDoc = await db.collection('settings').doc('payment').get();
+                
+                if (settingsDoc.exists) {
+                    const data = settingsDoc.data();
+                    
+                    // Network অনুযায়ী Address এবং QR লোড
+                    let address = '';
+                    let qrUrl = '';
+                    
+                    if (depositNetwork === 'TRC20') {
+                        address = data.trc20Address || 'Address not set';
+                        qrUrl = data.trc20Qr || '';
+                    } else if (depositNetwork === 'BEP20') {
+                        address = data.bep20Address || 'Address not set';
+                        qrUrl = data.bep20Qr || '';
+                    } else if (depositNetwork === 'ERC20') {
+                        address = data.erc20Address || 'Address not set';
+                        qrUrl = data.erc20Qr || '';
+                    }
+                    
+                    document.getElementById('displayAddress').textContent = address;
+                    
+                    // QR Image
+                    const qrImg = document.getElementById('qrImage');
+                    if (qrUrl) {
+                        qrImg.src = qrUrl;
+                    } else {
+                        // Auto-generate QR from address
+                        qrImg.src = 'https://api.qrserver.com/v1/create-qr-code/?size=220x220&data=' + encodeURIComponent(address);
+                    }
+                } else {
+                    // Settings নেই — default দেখান
+                    document.getElementById('displayAddress').textContent = 'Admin has not set deposit address yet.';
+                    document.getElementById('qrImage').src = 'https://api.qrserver.com/v1/create-qr-code/?size=220x220&data=NotSet';
+                }
+            } catch (err) {
+                console.error('Load settings error:', err);
+                document.getElementById('displayAddress').textContent = 'Failed to load address';
+            }
+        }
+
+        // ============================================================
+        // 📋 Copy Address
+        // ============================================================
+        const copyBtn = document.getElementById('copyAddressBtn');
+        copyBtn.addEventListener('click', async function() {
+            const address = document.getElementById('displayAddress').textContent;
+            if (!address || address.includes('not set') || address.includes('Failed')) return;
+            
+            try {
+                await navigator.clipboard.writeText(address);
+                this.classList.add('copied');
+                this.innerHTML = '<i class="fa-solid fa-check"></i>';
+                
+                setTimeout(() => {
+                    this.classList.remove('copied');
+                    this.innerHTML = '<i class="fa-solid fa-copy"></i>';
+                }, 1500);
+                
+                showToast('✅ Address copied!', 'success');
+            } catch (e) {
+                showToast('Copy failed. Long-press to copy.', 'error');
+            }
+        });
+
+        // ============================================================
+        // ✅ Mark Paid
+        // ============================================================
+        const markPaidBtn = document.getElementById('markPaidBtn');
+        markPaidBtn.addEventListener('click', async function() {
+            if (!currentUser) return;
+            
+            if (!confirm('Have you sent ' + depositAmount + ' USDT to the address?\n\nYour request will be reviewed by admin.')) {
+                return;
+            }
+            
+            markPaidBtn.disabled = true;
+            markPaidBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Submitting...';
+            
+            try {
+                const userData = await getUserData(currentUser.uid);
+                const userInfo = userData.success ? userData.data : {};
+                
+                // Save deposit request to Firestore
+                await db.collection('deposits').add({
+                    uid: currentUser.uid,
+                    userName: userInfo.fullName || 'User',
+                    userEmail: userInfo.email || currentUser.email,
+                    amount: parseFloat(depositAmount),
+                    network: depositNetwork,
+                    address: document.getElementById('displayAddress').textContent,
+                    status: 'pending',
+                    createdAt: firebase.firestore.FieldValue.serverTimestamp()
+                });
+                
+                // Also add to transactions for record
+                await db.collection('transactions').add({
+                    uid: currentUser.uid,
+                    type: 'deposit_request',
+                    amount: parseFloat(depositAmount),
+                    status: 'pending',
+                    note: `Deposit request (${depositNetwork})`,
+                    createdAt: firebase.firestore.FieldValue.serverTimestamp()
+                });
+                
+                showToast('✅ Request submitted! Awaiting admin approval.', 'success');
+                
+                setTimeout(() => {
+                    window.location.href = 'wallet.html?tab=recharge';
+                }, 2000);
+                
+            } catch (err) {
+                console.error('Mark paid error:', err);
+                showToast('❌ Failed. Please try again.', 'error');
+                markPaidBtn.disabled = false;
+                markPaidBtn.innerHTML = '<i class="fa-solid fa-circle-check"></i> Mark Paid';
+            }
+        });
+
+        // ============================================================
+        // 📋 Sub Tabs (Payment / History)
+        // ============================================================
+        document.querySelectorAll('.sub-tab').forEach(tab => {
+            tab.addEventListener('click', function() {
+                const target = this.getAttribute('data-tab');
+                document.querySelectorAll('.sub-tab').forEach(t => t.classList.remove('active'));
+                this.classList.add('active');
+                
+                if (target === 'payment') {
+                    document.getElementById('paymentSection').classList.remove('hidden');
+                    document.getElementById('historySection').classList.remove('active');
+                } else {
+                    document.getElementById('paymentSection').classList.add('hidden');
+                    document.getElementById('historySection').classList.add('active');
+                    loadDepositHistory();
+                }
+            });
+        });
+
+        // ============================================================
+        // 📋 Load Deposit History
+        // ============================================================
+        async function loadDepositHistory() {
+            if (!currentUser) return;
+            
+            const listEl = document.getElementById('historyList');
+            
+            try {
+                const snap = await db.collection('deposits')
+                    .where('uid', '==', currentUser.uid)
+                    .orderBy('createdAt', 'desc')
+                    .limit(20)
+                    .get();
+                
+                if (snap.empty) {
+                    listEl.innerHTML = `
+                        <div class="history-empty">
+                            <i class="fa-solid fa-receipt"></i>
+                            <p>No deposit history yet</p>
+                        </div>
+                    `;
+                    return;
+                }
+                
+                let html = '';
+                snap.forEach(doc => {
+                    const d = doc.data();
+                    let date = 'N/A';
+                    if (d.createdAt && d.createdAt.toDate) {
+                        try {
+                            date = d.createdAt.toDate().toLocaleString();
+                        } catch (e) {}
+                    }
+                    
+                    html += `
+                        <div class="history-item">
+                            <div class="history-item-info">
+                                <div class="history-item-amount">${(d.amount || 0).toFixed(2)} USDT</div>
+                                <div class="history-item-date">${d.network || '-'} · ${date}</div>
+                            </div>
+                            <span class="history-item-status status-${d.status || 'pending'}">
+                                ${d.status || 'pending'}
+                            </span>
+                        </div>
+                    `;
+                });
+                
+                listEl.innerHTML = html;
+            } catch (err) {
+                console.error('History error:', err);
+            }
+        }
+
+        // ============================================================
+        // 🍞 Toast
+        // ============================================================
+        function showToast(msg, type) {
+            const t = document.getElementById('toast');
+            t.textContent = msg;
+            t.className = 'toast ' + type + ' show';
+            setTimeout(() => t.className = 'toast ' + type, 3000);
+        }
+    </script>
+</body>
+</html>
