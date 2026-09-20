@@ -128,8 +128,35 @@
             letter-spacing: 0.2px;
         }
 
+        .stat-value.limit-warning {
+            color: #f59e0b;
+        }
+
         .stat-value.limit-reached {
             color: #ef4444;
+        }
+
+        .progress-bar-wrap {
+            margin-top: 6px;
+            height: 5px;
+            background: var(--border);
+            border-radius: 3px;
+            overflow: hidden;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, #10b981, #059669);
+            border-radius: 3px;
+            transition: width 0.5s ease;
+        }
+
+        .progress-bar.warning {
+            background: linear-gradient(90deg, #f59e0b, #d97706);
+        }
+
+        .progress-bar.danger {
+            background: linear-gradient(90deg, #ef4444, #dc2626);
         }
 
         .grab-btn {
@@ -164,11 +191,7 @@
             cursor: not-allowed;
         }
 
-        .grab-btn i {
-            font-size: 18px;
-        }
-
-        /* Limit Reached Banner */
+        /* Limit Banner */
         .limit-banner {
             background: linear-gradient(90deg, #fee2e2, #fecaca);
             border: 1px solid #fca5a5;
@@ -228,9 +251,7 @@
             margin: 0 0 12px;
         }
 
-        body.dark-mode .rules-title {
-            color: #fb923c;
-        }
+        body.dark-mode .rules-title { color: #fb923c; }
 
         .rules-list {
             margin: 0;
@@ -248,9 +269,7 @@
             counter-increment: rule;
         }
 
-        body.dark-mode .rules-list li {
-            color: #fdba74;
-        }
+        body.dark-mode .rules-list li { color: #fdba74; }
 
         .rules-list li::before {
             content: counter(rule) '.';
@@ -261,11 +280,9 @@
             color: #ea580c;
         }
 
-        body.dark-mode .rules-list li::before {
-            color: #fb923c;
-        }
+        body.dark-mode .rules-list li::before { color: #fb923c; }
 
-        /* ================= SUCCESS MODAL ================= */
+        /* MODAL */
         .modal-overlay {
             position: fixed;
             inset: 0;
@@ -280,9 +297,7 @@
             animation: fadeIn 0.3s ease;
         }
 
-        .modal-overlay.show {
-            display: flex;
-        }
+        .modal-overlay.show { display: flex; }
 
         @keyframes fadeIn {
             0% { opacity: 0; }
@@ -302,14 +317,8 @@
         }
 
         @keyframes slideUp {
-            0% {
-                transform: translateY(30px) scale(0.95);
-                opacity: 0;
-            }
-            100% {
-                transform: translateY(0) scale(1);
-                opacity: 1;
-            }
+            0% { transform: translateY(30px) scale(0.95); opacity: 0; }
+            100% { transform: translateY(0) scale(1); opacity: 1; }
         }
 
         .modal-head {
@@ -338,10 +347,6 @@
             display: flex;
             align-items: center;
             justify-content: center;
-        }
-
-        .modal-close:active {
-            background: var(--bg);
         }
 
         .order-no-badge {
@@ -393,10 +398,7 @@
             display: block;
         }
 
-        .product-details {
-            flex: 1;
-            min-width: 0;
-        }
+        .product-details { flex: 1; min-width: 0; }
 
         .product-name {
             font-size: 13px;
@@ -439,13 +441,9 @@
             font-size: 12.5px;
         }
 
-        .info-row:not(:last-child) {
-            border-bottom: 1px solid var(--border);
-        }
+        .info-row:not(:last-child) { border-bottom: 1px solid var(--border); }
 
-        .info-label {
-            color: var(--text-light);
-        }
+        .info-label { color: var(--text-light); }
 
         .info-value {
             font-weight: 700;
@@ -453,14 +451,7 @@
             text-align: right;
         }
 
-        .info-value.orange {
-            color: #e65c00;
-            font-size: 14px;
-        }
-
-        .info-value.green {
-            color: #10b981;
-        }
+        .info-value.green { color: #10b981; }
 
         .expected-row {
             display: flex;
@@ -500,13 +491,8 @@
             margin-top: 6px;
         }
 
-        .submit-order-btn:active {
-            transform: scale(0.98);
-        }
-
-        .submit-order-btn:disabled {
-            opacity: 0.6;
-        }
+        .submit-order-btn:active { transform: scale(0.98); }
+        .submit-order-btn:disabled { opacity: 0.6; }
 
         /* RTL */
         body.rtl .order-header { flex-direction: row-reverse; }
@@ -516,7 +502,6 @@
         body.rtl .expected-row { flex-direction: row-reverse; }
         body.rtl .product-item { flex-direction: row-reverse; }
 
-        /* Mobile */
         @media (max-width: 360px) {
             .actual-balance-number { font-size: 30px; }
             .stat-value { font-size: 15px; }
@@ -577,17 +562,28 @@
         <div class="stats-grid">
             <div class="stat-card">
                 <div class="stat-label" data-key="todayTimes">Today's Times</div>
-                <div class="stat-value" id="todayTimes">0/25</div>
+                <div class="stat-value" id="todayTimes">0/5</div>
+                <div class="progress-bar-wrap">
+                    <div class="progress-bar" id="timesProgress" style="width: 0%;"></div>
+                </div>
             </div>
 
             <div class="stat-card">
-                <div class="stat-label" data-key="todayCommission">Today's commission</div>
-                <div class="stat-value" id="todayCommission">0.000 USDT</div>
+                <div class="stat-label">Commission Progress</div>
+                <div class="stat-value" id="commissionProgress">0 / 0</div>
+                <div class="progress-bar-wrap">
+                    <div class="progress-bar" id="commissionBar" style="width: 0%;"></div>
+                </div>
             </div>
 
             <div class="stat-card">
                 <div class="stat-label" data-key="cashGap">Cash gap between tasks</div>
                 <div class="stat-value" id="cashGap">0.00 USDT</div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-label" data-key="todayCommission">Today's commission</div>
+                <div class="stat-value" id="todayCommission">0.00 USDT</div>
             </div>
 
             <div class="stat-card">
@@ -599,18 +595,13 @@
                 <div class="stat-label" data-key="teamCommission">Yesterday's team commission</div>
                 <div class="stat-value" id="teamCommission">0.00 USDT</div>
             </div>
-
-            <div class="stat-card">
-                <div class="stat-label" data-key="frozenMoney">Money frozen in accounts</div>
-                <div class="stat-value" id="frozenMoney">0.00 USDT</div>
-            </div>
         </div>
 
-        <!-- 🆕 Limit Reached Banner -->
+        <!-- Limit Banner -->
         <div class="limit-banner" id="limitBanner">
             <i class="fa-solid fa-circle-exclamation"></i>
             <div>
-                <strong>Commission Limit Reached!</strong><br>
+                <strong id="limitTitle">Limit Reached!</strong><br>
                 <span id="limitBannerText">Your commission has reached the limit. Please deposit more funds to continue ordering.</span>
                 <br>
                 <a href="wallet.html?tab=recharge" class="deposit-link">
@@ -641,9 +632,7 @@
 
     </main>
 
-    <!-- ============================================================
-         ✅ SUCCESS MODAL
-         ============================================================ -->
+    <!-- SUCCESS MODAL -->
     <div class="modal-overlay" id="successModal">
         <div class="success-modal">
             <div class="modal-head">
@@ -655,9 +644,7 @@
                 Order No: <span id="orderNo">0000000000000000</span>
             </div>
 
-            <div class="product-list" id="productList">
-                <!-- Products inserted here -->
-            </div>
+            <div class="product-list" id="productList"></div>
 
             <div class="modal-info">
                 <div class="info-row">
@@ -720,9 +707,9 @@
         // 🎯 Platform Config
         // ============================================================
         const platforms = {
-            amazon: { name: 'Amazon', commission: 4, minBalance: 20, maxBalance: 50000 },
-            alibaba: { name: 'Alibaba', commission: 8, minBalance: 499, maxBalance: 50000 },
-            aliexpress: { name: 'AliExpress', commission: 12, minBalance: 899, maxBalance: 50000 }
+            amazon: { name: 'Amazon', commission: 4, minBalance: 20 },
+            alibaba: { name: 'Alibaba', commission: 8, minBalance: 499 },
+            aliexpress: { name: 'AliExpress', commission: 12, minBalance: 899 }
         };
 
         const urlParams = new URLSearchParams(window.location.search);
@@ -747,12 +734,7 @@
             { name: 'Mechanical Gaming Keyboard RGB', price: 129.99, img: 'https://images.unsplash.com/photo-1618384887929-16ec33fab9ef?w=200&q=80' },
             { name: '4K Action Camera Waterproof', price: 199.00, img: 'https://images.unsplash.com/photo-1502920917128-1aa500764cbd?w=200&q=80' },
             { name: 'Wireless Charging Pad', price: 34.99, img: 'https://images.unsplash.com/photo-1591290619762-c1c7f2e0e1e9?w=200&q=80' },
-            { name: 'Smart LED Strip Lights 5m', price: 24.99, img: 'https://images.unsplash.com/photo-1550745165-9bc0b252726f?w=200&q=80' },
-            { name: 'Noise Cancelling Headphones', price: 299.00, img: 'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=200&q=80' },
-            { name: 'Digital Kitchen Scale', price: 22.50, img: 'https://images.unsplash.com/photo-1556909212-d5b604d0c90d?w=200&q=80' },
-            { name: 'Yoga Mat Non-Slip', price: 45.00, img: 'https://images.unsplash.com/photo-1601925260368-ae2f83cf8b7f?w=200&q=80' },
-            { name: 'Stainless Steel Water Bottle', price: 28.00, img: 'https://images.unsplash.com/photo-1602143407151-7111542de6e8?w=200&q=80' },
-            { name: 'Phone Camera Lens Kit', price: 59.99, img: 'https://images.unsplash.com/photo-1516724562728-afc824a36e84?w=200&q=80' }
+            { name: 'Smart LED Strip Lights 5m', price: 24.99, img: 'https://images.unsplash.com/photo-1550745165-9bc0b252726f?w=200&q=80' }
         ];
 
         // ============================================================
@@ -760,9 +742,7 @@
         // ============================================================
         function generateOrderNo() {
             let orderNo = '';
-            for (let i = 0; i < 16; i++) {
-                orderNo += Math.floor(Math.random() * 10);
-            }
+            for (let i = 0; i < 16; i++) orderNo += Math.floor(Math.random() * 10);
             return orderNo;
         }
 
@@ -780,18 +760,55 @@
             const month = months[now.getMonth()];
             const day = now.getDate();
             const year = now.getFullYear();
-            
             let hours = now.getHours();
             const minutes = now.getMinutes().toString().padStart(2, '0');
             const seconds = now.getSeconds().toString().padStart(2, '0');
             const ampm = hours >= 12 ? 'PM' : 'AM';
             hours = hours % 12 || 12;
-            
             return `${month}/${day}/${year}, ${hours}:${minutes}:${seconds} ${ampm}`;
         }
 
         // ============================================================
-        // 🔥 Firebase — Load User Data
+        // 🎯 NEW: Calculate Commission for this order
+        // ============================================================
+        function calculateCommission(userData) {
+            const totalCommission = userData.totalCommission || 0;
+            const commissionLimit = userData.commissionLimit || 0;
+            const todayTimes = userData.todayTimes || 0;
+            const dailyTimes = userData.dailyTimes || 5;
+            
+            // কতগুলো Order বাকি আছে
+            const ordersRemaining = Math.max(1, dailyTimes - todayTimes);
+            
+            // Limit থেকে Remaining Commission
+            const commissionRemaining = Math.max(0, commissionLimit - totalCommission);
+            
+            // Ideal Commission per order
+            const idealCommission = commissionRemaining / ordersRemaining;
+            
+            let commissionAmount;
+            
+            if (ordersRemaining === 1) {
+                // Last order — পুরো remaining commission দিয়ে দাও
+                commissionAmount = commissionRemaining;
+            } else {
+                // Random with ±15% variance
+                const variance = 0.15;
+                const min = idealCommission * (1 - variance);
+                const max = idealCommission * (1 + variance);
+                commissionAmount = Math.random() * (max - min) + min;
+                
+                // Cap at remaining
+                if (commissionAmount > commissionRemaining) {
+                    commissionAmount = commissionRemaining;
+                }
+            }
+            
+            return parseFloat(commissionAmount.toFixed(2));
+        }
+
+        // ============================================================
+        // 🔥 Firebase — Load User
         // ============================================================
         let currentUser = null;
         let currentUserData = null;
@@ -802,7 +819,6 @@
                 window.location.replace('index.html');
                 return;
             }
-
             currentUser = user;
             const result = await getUserData(user.uid);
             if (result.success) {
@@ -821,46 +837,80 @@
             // Balance
             document.getElementById('actualBalance').textContent = (data.balance || 0).toFixed(2);
 
-            // Today's Times
+            // ============ Today's Times ============
             const todayTimes = data.todayTimes || 0;
-            const dailyTimes = data.dailyTimes || 25;
+            const dailyTimes = data.dailyTimes || 5;
             document.getElementById('todayTimes').textContent = todayTimes + '/' + dailyTimes;
+            
+            const timesPercent = (todayTimes / dailyTimes) * 100;
+            const timesBar = document.getElementById('timesProgress');
+            timesBar.style.width = Math.min(timesPercent, 100) + '%';
+            
+            if (timesPercent >= 80) {
+                timesBar.classList.add('danger');
+            } else if (timesPercent >= 50) {
+                timesBar.classList.add('warning');
+            }
 
-            // Today's Commission
-            document.getElementById('todayCommission').textContent = (data.todayCommission || 0).toFixed(3) + ' USDT';
-
-            // Cash Gap
-            document.getElementById('cashGap').textContent = (data.cashGap || 0).toFixed(2) + ' USDT';
-
-            // Yesterday Commission
-            document.getElementById('yesterdayCommission').textContent = (data.yesterdayCommission || 0).toFixed(2) + ' USDT';
-
-            // Team Commission
-            document.getElementById('teamCommission').textContent = (data.teamCommission || 0).toFixed(2) + ' USDT';
-
-            // Frozen Money
-            document.getElementById('frozenMoney').textContent = (data.frozenMoney || 0).toFixed(2) + ' USDT';
-
-            // ============================================================
-            // 🆕 Check Commission Limit
-            // ============================================================
+            // ============ Commission Progress ============
             const totalCommission = data.totalCommission || 0;
             const commissionLimit = data.commissionLimit || 0;
+            
+            if (commissionLimit > 0) {
+                document.getElementById('commissionProgress').textContent = 
+                    totalCommission.toFixed(2) + ' / ' + commissionLimit.toFixed(2);
+                
+                const commPercent = (totalCommission / commissionLimit) * 100;
+                const commBar = document.getElementById('commissionBar');
+                commBar.style.width = Math.min(commPercent, 100) + '%';
+                
+                if (commPercent >= 100) {
+                    commBar.classList.add('danger');
+                } else if (commPercent >= 70) {
+                    commBar.classList.add('warning');
+                }
+            } else {
+                document.getElementById('commissionProgress').textContent = 
+                    totalCommission.toFixed(2) + ' / ∞';
+                document.getElementById('commissionBar').style.width = '0%';
+            }
+
+            // Other Stats
+            document.getElementById('todayCommission').textContent = (data.todayCommission || 0).toFixed(2) + ' USDT';
+            document.getElementById('cashGap').textContent = (data.cashGap || 0).toFixed(2) + ' USDT';
+            document.getElementById('yesterdayCommission').textContent = (data.yesterdayCommission || 0).toFixed(2) + ' USDT';
+            document.getElementById('teamCommission').textContent = (data.teamCommission || 0).toFixed(2) + ' USDT';
+
+            // ============ Check Limits ============
             const limitBanner = document.getElementById('limitBanner');
             const grabBtn = document.getElementById('grabBtn');
 
+            // Check 1: Commission Limit
             if (commissionLimit > 0 && totalCommission >= commissionLimit) {
-                // Limit reached — show banner, disable button
                 limitBanner.classList.add('show');
+                document.getElementById('limitTitle').textContent = '💰 Commission Limit Reached!';
                 document.getElementById('limitBannerText').innerHTML = 
                     `Your commission: <strong>${totalCommission.toFixed(2)} USDT</strong> / Limit: <strong>${commissionLimit.toFixed(2)} USDT</strong>.<br>Please deposit more funds to continue.`;
                 grabBtn.disabled = true;
                 grabBtn.style.opacity = '0.5';
-            } else {
-                limitBanner.classList.remove('show');
-                grabBtn.disabled = false;
-                grabBtn.style.opacity = '1';
+                return;
             }
+
+            // Check 2: Daily Times Limit
+            if (todayTimes >= dailyTimes) {
+                limitBanner.classList.add('show');
+                document.getElementById('limitTitle').textContent = '📅 Daily Order Limit Reached!';
+                document.getElementById('limitBannerText').innerHTML = 
+                    `You have completed <strong>${todayTimes}/${dailyTimes}</strong> orders today.<br>Come back tomorrow.`;
+                grabBtn.disabled = true;
+                grabBtn.style.opacity = '0.5';
+                return;
+            }
+
+            // All good
+            limitBanner.classList.remove('show');
+            grabBtn.disabled = false;
+            grabBtn.style.opacity = '1';
         }
 
         // ============================================================
@@ -875,67 +925,62 @@
                 }
 
                 const balance = currentUserData.balance || 0;
-                const commission = platform.commission;
                 const todayTimes = currentUserData.todayTimes || 0;
                 const totalCommission = currentUserData.totalCommission || 0;
-                const dailyTimes = currentUserData.dailyTimes || 25;
+                const dailyTimes = currentUserData.dailyTimes || 5;
                 const commissionLimit = currentUserData.commissionLimit || 0;
 
-                // ============ Check 1: Minimum Balance ============
+                // Check 1: Balance
                 if (balance < platform.minBalance) {
                     alert('❌ Insufficient balance!\n\n' +
                           'Platform: ' + platform.name + '\n' +
-                          'Minimum balance required: ' + platform.minBalance + ' USDT\n' +
+                          'Minimum: ' + platform.minBalance + ' USDT\n' +
                           'Your balance: ' + balance.toFixed(2) + ' USDT\n\n' +
-                          'Please recharge to continue.');
+                          'Please recharge.');
                     return;
                 }
 
-                // ============ Check 2: Daily Times ============
+                // Check 2: Daily Times
                 if (todayTimes >= dailyTimes) {
-                    alert('❌ Daily limit reached!\n\n' +
+                    alert('❌ Daily Order Limit Reached!\n\n' +
                           'You have completed ' + todayTimes + '/' + dailyTimes + ' orders today.\n' +
                           'Come back tomorrow.');
                     return;
                 }
 
-                // ============ Check 3: Commission Limit ============
+                // Check 3: Commission Limit
                 if (commissionLimit > 0 && totalCommission >= commissionLimit) {
                     alert('💰 Commission Limit Reached!\n\n' +
-                          'Your Commission Limit: ' + commissionLimit.toFixed(2) + ' USDT\n' +
-                          'Your Earned Commission: ' + totalCommission.toFixed(2) + ' USDT\n\n' +
-                          '👉 Please deposit more funds to continue ordering.\n\n' +
-                          'Go to: Wallet → Recharge');
+                          'Your Commission: ' + totalCommission.toFixed(2) + ' USDT\n' +
+                          'Limit: ' + commissionLimit.toFixed(2) + ' USDT\n\n' +
+                          '👉 Please deposit more funds to continue.');
                     return;
                 }
 
-                // Disable button
                 grabBtn.disabled = true;
                 grabBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Processing...';
 
-                // Simulate processing
                 setTimeout(() => {
                     const orderNo = generateOrderNo();
                     const products = pickRandomProducts();
                     
                     let orderAmount = 0;
-                    products.forEach(p => {
-                        orderAmount += p.price * p.qty;
-                    });
+                    products.forEach(p => { orderAmount += p.price * p.qty; });
                     orderAmount = parseFloat(orderAmount.toFixed(2));
                     
-                    const commissionAmount = parseFloat((orderAmount * commission / 100).toFixed(2));
+                    // ⭐ NEW: Smart Commission Calculation
+                    const commissionAmount = calculateCommission(currentUserData);
                     const expectedIncome = parseFloat((orderAmount + commissionAmount).toFixed(2));
                     const txTime = getCurrentTime();
 
                     currentOrder = {
                         orderNo, platform: platform.name, platformKey,
                         products, orderAmount,
-                        commissionRate: commission,
+                        commissionRate: platform.commission,
                         commissionAmount, expectedIncome, txTime
                     };
 
-                    // Show Modal
+                    // Update Modal
                     document.getElementById('orderNo').textContent = orderNo;
                     document.getElementById('txTime').textContent = txTime;
                     document.getElementById('orderAmount').textContent = orderAmount.toFixed(2) + ' USDT';
@@ -961,7 +1006,6 @@
 
                     document.getElementById('successModal').classList.add('show');
 
-                    // Re-enable button
                     grabBtn.disabled = false;
                     grabBtn.innerHTML = '<i class="fa-solid fa-circle-check"></i> <span data-key="grabOrder">Grab the order immediately</span>';
 
@@ -995,7 +1039,7 @@
             btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Submitting...';
 
             try {
-                // Update User Data
+                // Update User
                 await db.collection('users').doc(currentUser.uid).update({
                     balance: firebase.firestore.FieldValue.increment(currentOrder.commissionAmount),
                     todayTimes: firebase.firestore.FieldValue.increment(1),
@@ -1029,7 +1073,7 @@
                     commissionRate: currentOrder.commissionRate,
                     amount: currentOrder.commissionAmount,
                     status: 'completed',
-                    note: `${currentOrder.platform} order commission (${currentOrder.commissionRate}%)`,
+                    note: `${currentOrder.platform} order commission`,
                     createdAt: firebase.firestore.FieldValue.serverTimestamp()
                 });
 
@@ -1042,8 +1086,8 @@
                 }, 1500);
 
             } catch (err) {
-                console.error('Submit order error:', err);
-                alert('❌ Failed to submit order. Please try again.');
+                console.error('Submit error:', err);
+                alert('❌ Failed. Please try again.');
                 btn.disabled = false;
                 btn.innerHTML = 'Submit order';
             }
