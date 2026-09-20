@@ -128,6 +128,10 @@
             letter-spacing: 0.2px;
         }
 
+        .stat-value.limit-reached {
+            color: #ef4444;
+        }
+
         .grab-btn {
             width: 100%;
             padding: 18px;
@@ -162,6 +166,44 @@
 
         .grab-btn i {
             font-size: 18px;
+        }
+
+        /* Limit Reached Banner */
+        .limit-banner {
+            background: linear-gradient(90deg, #fee2e2, #fecaca);
+            border: 1px solid #fca5a5;
+            border-radius: 12px;
+            padding: 14px 16px;
+            display: none;
+            gap: 10px;
+            margin-bottom: 16px;
+            font-size: 13px;
+            color: #991b1b;
+            line-height: 1.5;
+            align-items: flex-start;
+        }
+
+        .limit-banner.show {
+            display: flex;
+        }
+
+        .limit-banner i {
+            color: #dc2626;
+            font-size: 18px;
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+
+        .limit-banner .deposit-link {
+            display: inline-block;
+            margin-top: 8px;
+            padding: 8px 14px;
+            background: linear-gradient(90deg, #f97316, #f59e0b);
+            color: #fff;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 12px;
         }
 
         .rules-card {
@@ -564,6 +606,19 @@
             </div>
         </div>
 
+        <!-- 🆕 Limit Reached Banner -->
+        <div class="limit-banner" id="limitBanner">
+            <i class="fa-solid fa-circle-exclamation"></i>
+            <div>
+                <strong>Commission Limit Reached!</strong><br>
+                <span id="limitBannerText">Your commission has reached the limit. Please deposit more funds to continue ordering.</span>
+                <br>
+                <a href="wallet.html?tab=recharge" class="deposit-link">
+                    <i class="fa-solid fa-plus"></i> Deposit Now
+                </a>
+            </div>
+        </div>
+
         <button class="grab-btn" id="grabBtn" type="button">
             <i class="fa-solid fa-circle-check"></i>
             <span data-key="grabOrder">Grab the order immediately</span>
@@ -587,7 +642,7 @@
     </main>
 
     <!-- ============================================================
-         ✅ SUCCESS MODAL (Order Details)
+         ✅ SUCCESS MODAL
          ============================================================ -->
     <div class="modal-overlay" id="successModal">
         <div class="success-modal">
@@ -597,11 +652,11 @@
             </div>
 
             <div class="order-no-badge">
-                Order No: <span id="orderNo">6002504493260106</span>
+                Order No: <span id="orderNo">0000000000000000</span>
             </div>
 
             <div class="product-list" id="productList">
-                <!-- Products will be inserted here -->
+                <!-- Products inserted here -->
             </div>
 
             <div class="modal-info">
@@ -680,7 +735,7 @@
             `Commission logic. Each order yields ${platform.commission}% commission.`;
 
         // ============================================================
-        // 🛍️ Product Pool (Random Products)
+        // 🛍️ Product Pool
         // ============================================================
         const productPool = [
             { name: 'High-Performance Blender', price: 159.86, img: 'https://images.unsplash.com/photo-1585515320310-259814833e62?w=200&q=80' },
@@ -701,10 +756,9 @@
         ];
 
         // ============================================================
-        // 🔢 Random Order Generator
+        // 🔢 Helpers
         // ============================================================
         function generateOrderNo() {
-            // 16-digit random order number
             let orderNo = '';
             for (let i = 0; i < 16; i++) {
                 orderNo += Math.floor(Math.random() * 10);
@@ -713,7 +767,6 @@
         }
 
         function pickRandomProducts() {
-            // Pick 3 different products
             const shuffled = [...productPool].sort(() => 0.5 - Math.random());
             return shuffled.slice(0, 3).map(p => ({
                 ...p,
@@ -754,20 +807,61 @@
             const result = await getUserData(user.uid);
             if (result.success) {
                 currentUserData = result.data;
-                const data = currentUserData;
-
-                document.getElementById('actualBalance').textContent = (data.balance || 0).toFixed(2);
-
-                const todayTimes = data.todayTimes || 0;
-                document.getElementById('todayTimes').textContent = todayTimes + '/25';
-
-                document.getElementById('todayCommission').textContent = (data.todayCommission || 0).toFixed(3) + ' USDT';
-                document.getElementById('cashGap').textContent = (data.cashGap || 0).toFixed(2) + ' USDT';
-                document.getElementById('yesterdayCommission').textContent = (data.yesterdayCommission || 0).toFixed(2) + ' USDT';
-                document.getElementById('teamCommission').textContent = (data.teamCommission || 0).toFixed(2) + ' USDT';
-                document.getElementById('frozenMoney').textContent = (data.frozenMoney || 0).toFixed(2) + ' USDT';
+                updateUI();
             }
         });
+
+        // ============================================================
+        // 🎨 Update UI
+        // ============================================================
+        function updateUI() {
+            if (!currentUserData) return;
+            const data = currentUserData;
+
+            // Balance
+            document.getElementById('actualBalance').textContent = (data.balance || 0).toFixed(2);
+
+            // Today's Times
+            const todayTimes = data.todayTimes || 0;
+            const dailyTimes = data.dailyTimes || 25;
+            document.getElementById('todayTimes').textContent = todayTimes + '/' + dailyTimes;
+
+            // Today's Commission
+            document.getElementById('todayCommission').textContent = (data.todayCommission || 0).toFixed(3) + ' USDT';
+
+            // Cash Gap
+            document.getElementById('cashGap').textContent = (data.cashGap || 0).toFixed(2) + ' USDT';
+
+            // Yesterday Commission
+            document.getElementById('yesterdayCommission').textContent = (data.yesterdayCommission || 0).toFixed(2) + ' USDT';
+
+            // Team Commission
+            document.getElementById('teamCommission').textContent = (data.teamCommission || 0).toFixed(2) + ' USDT';
+
+            // Frozen Money
+            document.getElementById('frozenMoney').textContent = (data.frozenMoney || 0).toFixed(2) + ' USDT';
+
+            // ============================================================
+            // 🆕 Check Commission Limit
+            // ============================================================
+            const totalCommission = data.totalCommission || 0;
+            const commissionLimit = data.commissionLimit || 0;
+            const limitBanner = document.getElementById('limitBanner');
+            const grabBtn = document.getElementById('grabBtn');
+
+            if (commissionLimit > 0 && totalCommission >= commissionLimit) {
+                // Limit reached — show banner, disable button
+                limitBanner.classList.add('show');
+                document.getElementById('limitBannerText').innerHTML = 
+                    `Your commission: <strong>${totalCommission.toFixed(2)} USDT</strong> / Limit: <strong>${commissionLimit.toFixed(2)} USDT</strong>.<br>Please deposit more funds to continue.`;
+                grabBtn.disabled = true;
+                grabBtn.style.opacity = '0.5';
+            } else {
+                limitBanner.classList.remove('show');
+                grabBtn.disabled = false;
+                grabBtn.style.opacity = '1';
+            }
+        }
 
         // ============================================================
         // 🟠 Grab Order Button
@@ -782,8 +876,12 @@
 
                 const balance = currentUserData.balance || 0;
                 const commission = platform.commission;
+                const todayTimes = currentUserData.todayTimes || 0;
+                const totalCommission = currentUserData.totalCommission || 0;
+                const dailyTimes = currentUserData.dailyTimes || 25;
+                const commissionLimit = currentUserData.commissionLimit || 0;
 
-                // Check minimum balance
+                // ============ Check 1: Minimum Balance ============
                 if (balance < platform.minBalance) {
                     alert('❌ Insufficient balance!\n\n' +
                           'Platform: ' + platform.name + '\n' +
@@ -793,10 +891,21 @@
                     return;
                 }
 
-                // Check daily limit
-                const todayTimes = currentUserData.todayTimes || 0;
-                if (todayTimes >= 25) {
-                    alert('❌ Daily limit reached!\n\nYou have completed 25 orders today.\nCome back tomorrow.');
+                // ============ Check 2: Daily Times ============
+                if (todayTimes >= dailyTimes) {
+                    alert('❌ Daily limit reached!\n\n' +
+                          'You have completed ' + todayTimes + '/' + dailyTimes + ' orders today.\n' +
+                          'Come back tomorrow.');
+                    return;
+                }
+
+                // ============ Check 3: Commission Limit ============
+                if (commissionLimit > 0 && totalCommission >= commissionLimit) {
+                    alert('💰 Commission Limit Reached!\n\n' +
+                          'Your Commission Limit: ' + commissionLimit.toFixed(2) + ' USDT\n' +
+                          'Your Earned Commission: ' + totalCommission.toFixed(2) + ' USDT\n\n' +
+                          '👉 Please deposit more funds to continue ordering.\n\n' +
+                          'Go to: Wallet → Recharge');
                     return;
                 }
 
@@ -804,35 +913,26 @@
                 grabBtn.disabled = true;
                 grabBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Processing...';
 
-                // Simulate order processing (1.5 seconds)
+                // Simulate processing
                 setTimeout(() => {
-                    // Generate Order
                     const orderNo = generateOrderNo();
                     const products = pickRandomProducts();
                     
-                    // Calculate Order Amount (based on product prices)
                     let orderAmount = 0;
                     products.forEach(p => {
                         orderAmount += p.price * p.qty;
                     });
                     orderAmount = parseFloat(orderAmount.toFixed(2));
                     
-                    // Calculate Commission
                     const commissionAmount = parseFloat((orderAmount * commission / 100).toFixed(2));
                     const expectedIncome = parseFloat((orderAmount + commissionAmount).toFixed(2));
                     const txTime = getCurrentTime();
 
-                    // Store in currentOrder for submit
                     currentOrder = {
-                        orderNo: orderNo,
-                        platform: platform.name,
-                        platformKey: platformKey,
-                        products: products,
-                        orderAmount: orderAmount,
+                        orderNo, platform: platform.name, platformKey,
+                        products, orderAmount,
                         commissionRate: commission,
-                        commissionAmount: commissionAmount,
-                        expectedIncome: expectedIncome,
-                        txTime: txTime
+                        commissionAmount, expectedIncome, txTime
                     };
 
                     // Show Modal
@@ -842,7 +942,6 @@
                     document.getElementById('commissionAmount').textContent = '+' + commissionAmount.toFixed(2) + ' USDT';
                     document.getElementById('expectedIncome').textContent = expectedIncome.toFixed(2) + ' USDT';
 
-                    // Render Products
                     let productsHtml = '';
                     products.forEach(p => {
                         productsHtml += `
@@ -860,7 +959,6 @@
                     });
                     document.getElementById('productList').innerHTML = productsHtml;
 
-                    // Show modal
                     document.getElementById('successModal').classList.add('show');
 
                     // Re-enable button
@@ -879,7 +977,6 @@
             currentOrder = null;
         });
 
-        // Close modal on overlay click
         document.getElementById('successModal').addEventListener('click', function(e) {
             if (e.target === this) {
                 this.classList.remove('show');
@@ -898,7 +995,7 @@
             btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Submitting...';
 
             try {
-                // Update User Balance + Stats
+                // Update User Data
                 await db.collection('users').doc(currentUser.uid).update({
                     balance: firebase.firestore.FieldValue.increment(currentOrder.commissionAmount),
                     todayTimes: firebase.firestore.FieldValue.increment(1),
@@ -907,7 +1004,7 @@
                     updatedAt: firebase.firestore.FieldValue.serverTimestamp()
                 });
 
-                // Save Order to Firestore
+                // Save Order
                 await db.collection('orders').add({
                     uid: currentUser.uid,
                     orderNo: currentOrder.orderNo,
@@ -922,7 +1019,7 @@
                     createdAt: firebase.firestore.FieldValue.serverTimestamp()
                 });
 
-                // Save Transaction Log
+                // Transaction Log
                 await db.collection('transactions').add({
                     uid: currentUser.uid,
                     type: 'order_commission',
@@ -936,7 +1033,6 @@
                     createdAt: firebase.firestore.FieldValue.serverTimestamp()
                 });
 
-                // Success
                 btn.innerHTML = '<i class="fa-solid fa-circle-check"></i> Order Submitted!';
                 btn.style.background = 'linear-gradient(90deg, #10b981, #059669)';
 
