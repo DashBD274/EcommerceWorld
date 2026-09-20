@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#0f172a">
+    <title>Payment Settings - UMALL247 Admin</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
+        body { background: #0f172a; color: #f1f5f9; min-height: 100vh; }
+        
+        .admin-header {
+            background: #1e293b; padding: 14px 20px;
+            display: flex; align-items: center; gap: 12px;
+            border-bottom: 1px solid #334155;
+        }
+        
+        .back-btn { color: #f59e0b; font-size: 18px; text-decoration: none; }
+        .admin-header h1 { font-size: 17px; font-weight: 800; }
+        
+        .admin-content { max-width: 700px; margin: 0 auto; padding: 20px; }
+        
+        .network-card {
+            background: #1e293b; border: 1px solid #334155;
+            border-radius: 16px; padding: 20px; margin-bottom: 16px;
+        }
+        
+        .network-title {
+            display: flex; align-items: center; gap: 10px;
+            font-size: 15px; font-weight: 800;
+            color: #f59e0b; margin-bottom: 18px;
+        }
+        
+        .network-title i { font-size: 18px; }
+        
+        .form-group { margin-bottom: 16px; }
+        .form-group label {
+            font-size: 12.5px; color: #94a3b8; font-weight: 600;
+            display: block; margin-bottom: 8px;
+        }
+        
+        .form-group input {
+            width: 100%; padding: 14px;
+            background: #0f172a; border: 1px solid #334155;
+            border-radius: 10px; color: #f1f5f9;
+            font-size: 13px; font-family: inherit; outline: none;
+        }
+        
+        .form-group input:focus { border-color: #f59e0b; }
+        
+        .qr-preview {
+            display: flex; align-items: center; gap: 14px;
+            padding: 12px; background: #0f172a;
+            border-radius: 12px; margin-bottom: 14px;
+        }
+        
+        .qr-preview-img {
+            width: 80px; height: 80px;
+            background: #fff; border-radius: 8px;
+            padding: 6px; display: flex;
+            align-items: center; justify-content: center;
+            flex-shrink: 0;
+        }
+        
+        .qr-preview-img img {
+            width: 100%; height: 100%;
+            object-fit: contain;
+        }
+        
+        .qr-preview-info {
+            flex: 1; min-width: 0;
+            font-size: 11px; color: #94a3b8;
+            word-break: break-all;
+        }
+        
+        .save-btn {
+            width: 100%; padding: 15px;
+            border: none; border-radius: 12px;
+            background: linear-gradient(90deg, #f59e0b, #d97706);
+            color: #fff; font-size: 15px;
+            font-weight: 800; cursor: pointer;
+            font-family: inherit;
+            margin-top: 10px;
+        }
+        
+        .save-btn:active { transform: scale(0.98); }
+        .save-btn:disabled { opacity: 0.6; }
+        
+        .toast {
+            position: fixed; top: 20px; left: 50%; transform: translateX(-50%);
+            background: #1e293b; color: #f1f5f9; padding: 14px 22px;
+            border-radius: 12px; font-size: 13.5px; font-weight: 600;
+            z-index: 99999; display: none;
+            border: 1px solid #334155;
+        }
+        .toast.success { border-color: #10b981; color: #6ee7b7; }
+        .toast.error { border-color: #ef4444; color: #fca5a5; }
+        .toast.show { display: block; }
+        
+        .info-note {
+            background: rgba(59, 130, 246, 0.1);
+            border: 1px solid rgba(59, 130, 246, 0.3);
+            border-radius: 12px; padding: 14px 16px;
+            margin-bottom: 20px; font-size: 12.5px;
+            color: #93c5fd; line-height: 1.5;
+            display: flex; gap: 10px;
+        }
+        
+        .info-note i { color: #3b82f6; font-size: 16px; flex-shrink: 0; margin-top: 2px; }
+    </style>
+</head>
+<body>
+
+    <header class="admin-header">
+        <a href="admin.html" class="back-btn"><i class="fa-solid fa-arrow-left"></i></a>
+        <h1>Payment Settings</h1>
+    </header>
+    
+    <div class="admin-content">
+        
+        <div class="info-note">
+            <i class="fa-solid fa-circle-info"></i>
+            <div>Set your deposit addresses for each network. Users will see these addresses when they try to recharge. QR codes will be auto-generated if you leave the QR field empty.</div>
+        </div>
+        
+        <!-- TRC20 -->
+        <div class="network-card">
+            <div class="network-title">
+                <i class="fa-solid fa-coins"></i> TRON (TRC-20)
+            </div>
+            
+            <div class="form-group">
+                <label>USDT Wallet Address</label>
+                <input type="text" id="trc20Address" placeholder="T...">
+            </div>
+            
+            <div class="form-group">
+                <label>QR Code Image URL (Optional)</label>
+                <input type="text" id="trc20Qr" placeholder="https://... (leave empty to auto-generate)">
+            </div>
+            
+            <div class="qr-preview">
+                <div class="qr-preview-img">
+                    <img id="trc20QrPreview" src="https://api.qrserver.com/v1/create-qr-code/?size=80x80&data=NotSet" alt="QR">
+                </div>
+                <div class="qr-preview-info" id="trc20PreviewText">Address preview...</div>
+            </div>
+        </div>
+        
+        <!-- BEP20 -->
+        <div class="network-card">
+            <div class="network-title">
+                <i class="fa-solid fa-coins"></i> BSC (BEP-20)
+            </div>
+            
+            <div class="form-group">
+                <label>USDT Wallet Address</label>
+                <input type="text" id="bep20Address" placeholder="0x...">
+            </div>
+            
+            <div class="form-group">
+                <label>QR Code Image URL (Optional)</label>
+                <input type="text" id="bep20Qr" placeholder="https://...">
+            </div>
+            
+            <div class="qr-preview">
+                <div class="qr-preview-img">
+                    <img id="bep20QrPreview" src="https://api.qrserver.com/v1/create-qr-code/?size=80x80&data=NotSet" alt="QR">
+                </div>
+                <div class="qr-preview-info" id="bep20PreviewText">Address preview...</div>
+            </div>
+        </div>
+        
+        <!-- ERC20 -->
+        <div class="network-card">
+            <div class="network-title">
+                <i class="fa-solid fa-coins"></i> ETH (ERC-20)
+            </div>
+            
+            <div class="form-group">
+                <label>USDT Wallet Address</label>
+                <input type="text" id="erc20Address" placeholder="0x...">
+            </div>
+            
+            <div class="form-group">
+                <label>QR Code Image URL (Optional)</label>
+                <input type="text" id="erc20Qr" placeholder="https://...">
+            </div>
+            
+            <div class="qr-preview">
+                <div class="qr-preview-img">
+                    <img id="erc20QrPreview" src="https://api.qrserver.com/v1/create-qr-code/?size=80x80&data=NotSet" alt="QR">
+                </div>
+                <div class="qr-preview-info" id="erc20PreviewText">Address preview...</div>
+            </div>
+        </div>
+        
+        <button class="save-btn" id="saveBtn" type="button">
+            <i class="fa-solid fa-save"></i> Save Settings
+        </button>
+        
+    </div>
+    
+    <div class="toast" id="toast"></div>
+
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+    <script src="firebase-auth.js"></script>
+
+    <script>
+        // ============================================================
+        // 🔐 Admin Check
+        // ============================================================
+        auth.onAuthStateChanged(async function(user) {
+            if (!user) { window.location.replace('admin-login.html'); return; }
+            const adminDoc = await db.collection('admins').doc(user.uid).get();
+            if (!adminDoc.exists) { await auth.signOut(); window.location.replace('admin-login.html'); return; }
+            loadSettings();
+        });
+
+        // ============================================================
+        // 📥 Load Existing Settings
+        // ============================================================
+        async function loadSettings() {
+            try {
+                const doc = await db.collection('settings').doc('payment').get();
+                if (doc.exists) {
+                    const data = doc.data();
+                    
+                    document.getElementById('trc20Address').value = data.trc20Address || '';
+                    document.getElementById('trc20Qr').value = data.trc20Qr || '';
+                    document.getElementById('bep20Address').value = data.bep20Address || '';
+                    document.getElementById('bep20Qr').value = data.bep20Qr || '';
+                    document.getElementById('erc20Address').value = data.erc20Address || '';
+                    document.getElementById('erc20Qr').value = data.erc20Qr || '';
+                    
+                    updatePreviews();
+                }
+            } catch (err) {
+                console.error('Load error:', err);
+            }
+        }
+
+        // ============================================================
+        // 🖼️ Update QR Previews
+        // ============================================================
+        function updatePreviews() {
+            ['trc20', 'bep20', 'erc20'].forEach(net => {
+                const addr = document.getElementById(net + 'Address').value.trim();
+                const qr = document.getElementById(net + 'Qr').value.trim();
+                const preview = document.getElementById(net + 'QrPreview');
+                const previewText = document.getElementById(net + 'PreviewText');
+                
+                const qrUrl = qr || ('https://api.qrserver.com/v1/create-qr-code/?size=80x80&data=' + encodeURIComponent(addr || 'NotSet'));
+                preview.src = qrUrl;
+                previewText.textContent = addr || 'Address preview...';
+            });
+        }
+
+        // Live preview update
+        ['trc20Address', 'trc20Qr', 'bep20Address', 'bep20Qr', 'erc20Address', 'erc20Qr'].forEach(id => {
+            document.getElementById(id).addEventListener('input', updatePreviews);
+        });
+
+        // ============================================================
+        // 💾 Save Settings
+        // ============================================================
+        document.getElementById('saveBtn').addEventListener('click', async function() {
+            const btn = this;
+            btn.disabled = true;
+            btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Saving...';
+            
+            try {
+                await db.collection('settings').doc('payment').set({
+                    trc20Address: document.getElementById('trc20Address').value.trim(),
+                    trc20Qr: document.getElementById('trc20Qr').value.trim(),
+                    bep20Address: document.getElementById('bep20Address').value.trim(),
+                    bep20Qr: document.getElementById('bep20Qr').value.trim(),
+                    erc20Address: document.getElementById('erc20Address').value.trim(),
+                    erc20Qr: document.getElementById('erc20Qr').value.trim(),
+                    updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+                }, { merge: true });
+                
+                showToast('✅ Settings saved!', 'success');
+            } catch (err) {
+                console.error('Save error:', err);
+                showToast('❌ Save failed. Try again.', 'error');
+            }
+            
+            btn.disabled = false;
+            btn.innerHTML = '<i class="fa-solid fa-save"></i> Save Settings';
+        });
+
+        function showToast(msg, type) {
+            const t = document.getElementById('toast');
+            t.textContent = msg;
+            t.className = 'toast ' + type + ' show';
+            setTimeout(() => t.className = 'toast ' + type, 3000);
+        }
+    </script>
+</body>
+</html>
