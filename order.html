@@ -3,16 +3,127 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <meta name="theme-color" content="#f5f5f5">
+    <meta name="theme-color" content="#0b0e11">
     <title>Order - UMALL247</title>
-    <link rel="stylesheet" href="detail.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        /* ================= Order Page ================= */
+        /* ================= গ্লোবাল ও ডার্ক থিম ================= */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        :root {
+            --bg: #0b0e11;
+            --card: #161a1e;
+            --text: #eaecef;
+            --text-light: #848e9c;
+            --border: #2b3139;
+            --orange-gradient: linear-gradient(90deg, #f97316, #ef4444);
+            --btn-gradient: linear-gradient(90deg, #f59e0b, #f97316);
+            --shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        }
+
+        body {
+            background: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+            min-height: 100dvh;
+            padding-bottom: 80px;
+            overflow-x: hidden;
+            overflow-y: auto;
+            -webkit-user-select: none;
+            user-select: none;
+        }
+
+        /* ================= হেডার ================= */
+        .dash-header {
+            position: sticky;
+            top: 0;
+            background: var(--card);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 12px 16px;
+            border-bottom: 1px solid var(--border);
+            z-index: 100;
+            padding-top: max(12px, env(safe-area-inset-top));
+        }
+
+        .brand-logo {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        /* 🔥 U লোগো */
+        .logo-icon {
+            position: relative;
+            width: 34px;
+            height: 34px;
+            border-radius: 8px;
+            background: #1a1a1a;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 900;
+            font-size: 18px;
+            font-style: italic;
+            color: #fff;
+            box-shadow: 0 0 10px rgba(255, 107, 53, 0.6);
+        }
+
+        .logo-text {
+            font-size: 18px;
+            font-weight: 800;
+            color: var(--text);
+            letter-spacing: 0.5px;
+        }
+        .logo-24 { color: #dc2626; }
+
+        .header-controls {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .lang-selector-sm {
+            background: var(--bg);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 6px 12px;
+        }
+
+        .lang-selector-sm select {
+            border: none;
+            background: transparent;
+            font-size: 12px;
+            color: var(--text);
+            outline: none;
+            font-family: inherit;
+        }
+
+        .theme-toggle-sm {
+            width: 34px;
+            height: 34px;
+            border-radius: 50%;
+            border: 1px solid var(--border);
+            background: var(--bg);
+            color: var(--text);
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* ================= মূল কনটেন্ট ================= */
         .order-container {
             max-width: 500px;
             margin: 0 auto;
-            padding: 16px 16px 30px 16px;
+            padding: 16px;
         }
 
         .order-header {
@@ -22,56 +133,44 @@
             margin-bottom: 18px;
         }
 
-        .order-header .back-icon {
+        .back-icon {
             font-size: 20px;
             color: var(--text);
             cursor: pointer;
-            padding: 6px;
         }
 
         .order-header h2 {
             font-size: 20px;
             font-weight: 800;
             color: var(--text);
-            margin: 0;
         }
 
+        /* ব্যালেন্স কার্ড */
         .actual-balance-card {
-            background: linear-gradient(135deg, #f97316 0%, #ef4444 100%);
-            border-radius: 18px;
-            padding: 22px;
+            background: var(--orange-gradient);
+            border-radius: 16px;
+            padding: 20px;
             color: #fff;
             margin-bottom: 16px;
             position: relative;
             overflow: hidden;
-            box-shadow: 0 10px 30px rgba(239, 68, 68, 0.35);
+            box-shadow: 0 8px 24px rgba(239, 68, 68, 0.4);
         }
 
         .actual-balance-card::before {
             content: '';
             position: absolute;
-            top: -60px; right: -60px;
-            width: 180px; height: 180px;
+            top: -40px; right: -40px;
+            width: 150px; height: 150px;
             background: rgba(255, 255, 255, 0.15);
             border-radius: 50%;
-            pointer-events: none;
-        }
-
-        .actual-balance-card::after {
-            content: '';
-            position: absolute;
-            bottom: -50px; left: -40px;
-            width: 140px; height: 140px;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 50%;
-            pointer-events: none;
         }
 
         .actual-balance-label {
-            font-size: 13.5px;
+            font-size: 13px;
             font-weight: 600;
             opacity: 0.95;
-            margin-bottom: 10px;
+            margin-bottom: 8px;
             position: relative;
             z-index: 2;
         }
@@ -79,149 +178,150 @@
         .actual-balance-amount {
             display: flex;
             align-items: baseline;
-            gap: 8px;
+            gap: 6px;
             position: relative;
             z-index: 2;
         }
 
         .actual-balance-number {
-            font-size: 36px;
+            font-size: 34px;
             font-weight: 800;
-            color: #fff;
-            letter-spacing: 0.5px;
-            text-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
         }
 
         .actual-balance-currency {
-            font-size: 16px;
+            font-size: 15px;
             font-weight: 700;
-            color: rgba(255, 255, 255, 0.95);
         }
 
+        /* Stats Grid */
         .stats-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 10px;
-            margin-bottom: 18px;
+            margin-bottom: 20px;
         }
 
         .stat-card {
             background: var(--card);
-            border-radius: 14px;
-            padding: 14px 16px;
-            box-shadow: var(--shadow);
+            border-radius: 12px;
+            padding: 14px;
             border: 1px solid var(--border);
         }
 
         .stat-label {
             font-size: 11.5px;
             color: var(--text-light);
-            font-weight: 500;
             margin-bottom: 6px;
-            line-height: 1.3;
         }
 
         .stat-value {
-            font-size: 17px;
+            font-size: 16px;
             font-weight: 800;
             color: var(--text);
-            letter-spacing: 0.2px;
-        }
-
-        .stat-value.limit-warning {
-            color: #f59e0b;
-        }
-
-        .stat-value.limit-reached {
-            color: #ef4444;
         }
 
         .progress-bar-wrap {
-            margin-top: 6px;
-            height: 5px;
+            margin-top: 8px;
+            height: 4px;
             background: var(--border);
-            border-radius: 3px;
+            border-radius: 2px;
             overflow: hidden;
         }
 
         .progress-bar {
             height: 100%;
-            background: linear-gradient(90deg, #10b981, #059669);
-            border-radius: 3px;
+            background: #f59e0b;
+            border-radius: 2px;
             transition: width 0.5s ease;
         }
 
-        .progress-bar.warning {
-            background: linear-gradient(90deg, #f59e0b, #d97706);
-        }
-
-        .progress-bar.danger {
-            background: linear-gradient(90deg, #ef4444, #dc2626);
-        }
-
+        /* Grab Button */
         .grab-btn {
             width: 100%;
             padding: 18px;
             border: none;
-            border-radius: 14px;
-            background: linear-gradient(90deg, #f97316, #f59e0b);
+            border-radius: 12px;
+            background: var(--btn-gradient);
             color: #fff;
             font-size: 17px;
             font-weight: 800;
-            cursor: pointer;
-            font-family: inherit;
             display: flex;
             align-items: center;
             justify-content: center;
             gap: 10px;
-            box-shadow: 0 8px 20px rgba(249, 115, 22, 0.4);
-            -webkit-tap-highlight-color: transparent;
-            touch-action: manipulation;
+            box-shadow: 0 6px 20px rgba(249, 115, 22, 0.5);
+            margin-bottom: 20px;
+            cursor: pointer;
             transition: transform 0.2s;
-            margin-bottom: 18px;
-            letter-spacing: 0.3px;
         }
 
-        .grab-btn:active {
-            transform: scale(0.98);
+        .grab-btn:active { transform: scale(0.98); }
+        .grab-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+
+        /* Rules Card */
+        .rules-card {
+            background: #1a1510;
+            border: 1px solid #3d2b1f;
+            border-radius: 12px;
+            padding: 16px;
         }
 
-        .grab-btn:disabled {
-            opacity: 0.6;
-            cursor: not-allowed;
+        .rules-title {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 14px;
+            font-weight: 800;
+            color: #f59e0b;
+            margin-bottom: 12px;
+        }
+
+        .rules-list {
+            list-style: none;
+            counter-reset: rule;
+        }
+
+        .rules-list li {
+            font-size: 12px;
+            color: #d4c4b7;
+            line-height: 1.6;
+            padding: 6px 0 6px 20px;
+            position: relative;
+            counter-increment: rule;
+        }
+
+        .rules-list li::before {
+            content: counter(rule) '.';
+            position: absolute;
+            left: 0;
+            top: 6px;
+            font-weight: 700;
+            color: #f59e0b;
         }
 
         /* Limit Banner */
         .limit-banner {
-            background: linear-gradient(90deg, #fee2e2, #fecaca);
-            border: 1px solid #fca5a5;
+            background: rgba(239, 68, 68, 0.1);
+            border: 1px solid rgba(239, 68, 68, 0.3);
             border-radius: 12px;
-            padding: 14px 16px;
+            padding: 14px;
             display: none;
             gap: 10px;
             margin-bottom: 16px;
             font-size: 13px;
-            color: #991b1b;
+            color: #fca5a5;
             line-height: 1.5;
-            align-items: flex-start;
         }
 
-        .limit-banner.show {
-            display: flex;
-        }
-
-        .limit-banner i {
-            color: #dc2626;
-            font-size: 18px;
-            flex-shrink: 0;
-            margin-top: 2px;
-        }
-
-        .limit-banner .deposit-link {
+        .limit-banner.show { display: flex; }
+        .limit-banner i { color: #ef4444; font-size: 18px; margin-top: 2px; }
+        .limit-banner strong { color: #ef4444; }
+        
+        .deposit-link {
             display: inline-block;
             margin-top: 8px;
             padding: 8px 14px;
-            background: linear-gradient(90deg, #f97316, #f59e0b);
+            background: var(--btn-gradient);
             color: #fff;
             border-radius: 8px;
             text-decoration: none;
@@ -229,153 +329,58 @@
             font-size: 12px;
         }
 
-        .rules-card {
-            background: #fff7ed;
-            border: 1px solid #fed7aa;
-            border-radius: 14px;
-            padding: 18px;
-        }
-
-        body.dark-mode .rules-card {
-            background: rgba(249, 115, 22, 0.08);
-            border-color: rgba(249, 115, 22, 0.25);
-        }
-
-        .rules-title {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            font-size: 14.5px;
-            font-weight: 800;
-            color: #c2410c;
-            margin: 0 0 12px;
-        }
-
-        body.dark-mode .rules-title { color: #fb923c; }
-
-        .rules-list {
-            margin: 0;
-            padding-left: 0;
-            list-style: none;
-            counter-reset: rule;
-        }
-
-        .rules-list li {
-            font-size: 12.5px;
-            color: #92400e;
-            line-height: 1.6;
-            padding: 8px 0 8px 22px;
-            position: relative;
-            counter-increment: rule;
-        }
-
-        body.dark-mode .rules-list li { color: #fdba74; }
-
-        .rules-list li::before {
-            content: counter(rule) '.';
-            position: absolute;
-            left: 0;
-            top: 8px;
-            font-weight: 700;
-            color: #ea580c;
-        }
-
-        body.dark-mode .rules-list li::before { color: #fb923c; }
-
-        /* MODAL */
+        /* ================= Modal ================= */
         .modal-overlay {
             position: fixed;
             inset: 0;
-            background: rgba(0, 0, 0, 0.65);
-            -webkit-backdrop-filter: blur(8px);
+            background: rgba(0, 0, 0, 0.8);
             backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
             z-index: 99999;
             display: none;
             align-items: center;
             justify-content: center;
             padding: 16px;
-            animation: fadeIn 0.3s ease;
         }
 
         .modal-overlay.show { display: flex; }
 
-        @keyframes fadeIn {
-            0% { opacity: 0; }
-            100% { opacity: 1; }
-        }
-
         .success-modal {
             background: var(--card);
-            border-radius: 20px;
-            padding: 22px 20px;
-            max-width: 420px;
+            border-radius: 16px;
+            padding: 20px;
             width: 100%;
+            max-width: 400px;
+            border: 1px solid var(--border);
             max-height: 90vh;
             overflow-y: auto;
-            animation: slideUp 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.35);
-        }
-
-        @keyframes slideUp {
-            0% { transform: translateY(30px) scale(0.95); opacity: 0; }
-            100% { transform: translateY(0) scale(1); opacity: 1; }
         }
 
         .modal-head {
             display: flex;
             justify-content: space-between;
-            align-items: center;
-            margin-bottom: 18px;
+            margin-bottom: 16px;
         }
 
-        .modal-title {
-            font-size: 18px;
-            font-weight: 800;
-            color: var(--text);
-            margin: 0;
-        }
-
-        .modal-close {
-            width: 32px;
-            height: 32px;
-            border-radius: 50%;
-            background: transparent;
-            border: none;
-            color: var(--text-light);
-            cursor: pointer;
-            font-size: 20px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
+        .modal-title { font-size: 18px; font-weight: 800; }
+        .modal-close { background: none; border: none; color: var(--text-light); font-size: 20px; cursor: pointer; }
 
         .order-no-badge {
-            background: linear-gradient(90deg, #fce7f3, #e9d5ff);
-            color: #7c3aed;
+            background: rgba(124, 58, 237, 0.15);
+            color: #c4b5fd;
             padding: 8px 14px;
-            border-radius: 12px;
-            font-size: 12.5px;
+            border-radius: 10px;
+            font-size: 12px;
             font-weight: 700;
             text-align: center;
             margin-bottom: 16px;
-            letter-spacing: 0.3px;
         }
 
-        body.dark-mode .order-no-badge {
-            background: rgba(124, 58, 237, 0.15);
-            color: #c4b5fd;
-        }
-
-        .product-list {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-            margin-bottom: 16px;
-        }
+        .product-list { display: flex; flex-direction: column; gap: 10px; margin-bottom: 16px; }
 
         .product-item {
             background: var(--bg);
-            border-radius: 12px;
+            border-radius: 10px;
             padding: 10px;
             display: flex;
             gap: 12px;
@@ -383,52 +388,21 @@
         }
 
         .product-thumb {
-            width: 56px;
-            height: 56px;
-            border-radius: 10px;
+            width: 50px; height: 50px;
+            border-radius: 8px;
             overflow: hidden;
-            background: #f3f4f6;
-            flex-shrink: 0;
+            background: #2b3139;
         }
 
-        .product-thumb img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            display: block;
-        }
-
-        .product-details { flex: 1; min-width: 0; }
-
-        .product-name {
-            font-size: 13px;
-            font-weight: 700;
-            color: var(--text);
-            margin-bottom: 5px;
-            line-height: 1.3;
-            display: -webkit-box;
-            -webkit-line-clamp: 2;
-            -webkit-box-orient: vertical;
-            overflow: hidden;
-        }
-
-        .product-price {
-            font-size: 13px;
-            font-weight: 800;
-            color: #e65c00;
-        }
-
-        .product-qty {
-            font-size: 11px;
-            color: var(--text-light);
-            flex-shrink: 0;
-            align-self: flex-start;
-            padding-top: 4px;
-        }
+        .product-thumb img { width: 100%; height: 100%; object-fit: cover; }
+        .product-details { flex: 1; }
+        .product-name { font-size: 12.5px; font-weight: 700; margin-bottom: 4px; }
+        .product-price { font-size: 12px; font-weight: 800; color: #f59e0b; }
+        .product-qty { font-size: 11px; color: var(--text-light); }
 
         .modal-info {
             background: var(--bg);
-            border-radius: 12px;
+            border-radius: 10px;
             padding: 14px;
             margin-bottom: 16px;
         }
@@ -436,110 +410,81 @@
         .info-row {
             display: flex;
             justify-content: space-between;
-            align-items: center;
             padding: 6px 0;
-            font-size: 12.5px;
+            font-size: 12px;
         }
 
         .info-row:not(:last-child) { border-bottom: 1px solid var(--border); }
-
         .info-label { color: var(--text-light); }
-
-        .info-value {
-            font-weight: 700;
-            color: var(--text);
-            text-align: right;
-        }
-
+        .info-value { font-weight: 700; }
         .info-value.green { color: #10b981; }
 
         .expected-row {
             display: flex;
             justify-content: space-between;
-            align-items: center;
-            padding-top: 12px;
-            border-top: 2px dashed var(--border);
+            padding-top: 10px;
+            border-top: 1px dashed var(--border);
             margin-top: 8px;
         }
 
-        .expected-label {
-            font-size: 14px;
-            font-weight: 800;
-            color: var(--text);
-        }
-
-        .expected-value {
-            font-size: 18px;
-            font-weight: 800;
-            color: #e65c00;
-        }
+        .expected-label { font-size: 13px; font-weight: 800; }
+        .expected-value { font-size: 16px; font-weight: 800; color: #f59e0b; }
 
         .submit-order-btn {
             width: 100%;
-            padding: 16px;
+            padding: 14px;
             border: none;
-            border-radius: 14px;
-            background: linear-gradient(90deg, #f97316, #f59e0b);
+            border-radius: 10px;
+            background: var(--btn-gradient);
             color: #fff;
-            font-size: 16px;
+            font-size: 15px;
             font-weight: 800;
             cursor: pointer;
-            font-family: inherit;
-            box-shadow: 0 8px 20px rgba(249, 115, 22, 0.35);
-            letter-spacing: 0.3px;
-            transition: transform 0.2s;
-            margin-top: 6px;
         }
 
-        .submit-order-btn:active { transform: scale(0.98); }
-        .submit-order-btn:disabled { opacity: 0.6; }
-
-        /* RTL */
-        body.rtl .order-header { flex-direction: row-reverse; }
-        body.rtl .rules-list li { padding: 8px 22px 8px 0; }
-        body.rtl .rules-list li::before { left: auto; right: 0; }
-        body.rtl .info-row { flex-direction: row-reverse; }
-        body.rtl .expected-row { flex-direction: row-reverse; }
-        body.rtl .product-item { flex-direction: row-reverse; }
-
-        @media (max-width: 360px) {
-            .actual-balance-number { font-size: 30px; }
-            .stat-value { font-size: 15px; }
-            .stat-label { font-size: 10.5px; }
-            .grab-btn { font-size: 15px; padding: 16px; }
-            .rules-list li { font-size: 11.5px; }
-            .success-modal { padding: 18px 16px; }
-            .modal-title { font-size: 16px; }
-            .product-thumb { width: 48px; height: 48px; }
-            .product-name { font-size: 12px; }
+        /* ================= Bottom Nav ================= */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0; left: 0; right: 0;
+            background: var(--card);
+            display: flex;
+            justify-content: space-around;
+            padding: 10px 0;
+            padding-bottom: max(10px, env(safe-area-inset-bottom));
+            border-top: 1px solid var(--border);
+            z-index: 100;
         }
+
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+            text-decoration: none;
+            color: var(--text-light);
+            font-size: 11px;
+            font-weight: 500;
+        }
+
+        .nav-item i { font-size: 18px; }
+        .nav-item.active { color: #f59e0b; }
     </style>
 </head>
 <body>
 
     <header class="dash-header">
         <div class="brand-logo">
-            <span class="logo-icon">U<span class="fire-flame"></span></span>
+            <span class="logo-icon">U</span>
             <span class="logo-text">UMALL<span class="logo-24">247</span></span>
         </div>
         <div class="header-controls">
             <div class="lang-selector-sm">
                 <select id="dashLanguageSelect">
                     <option value="en">US English</option>
-                    <option value="es">Español</option>
-                    <option value="fr">Français</option>
-                    <option value="de">Deutsch</option>
-                    <option value="it">Italiano</option>
-                    <option value="pt">Português</option>
-                    <option value="nl">Nederlands</option>
-                    <option value="ru">Русский</option>
-                    <option value="tr">Türkçe</option>
-                    <option value="ar">العربية</option>
-                    <option value="fa">فارسی</option>
                 </select>
             </div>
             <button id="dashThemeToggle" class="theme-toggle-sm" type="button">
-                <i class="fa-solid fa-moon"></i>
+                <i class="fa-solid fa-sun"></i> <!-- ডার্ক থিমে সূর্য দেখাবে -->
             </button>
         </div>
     </header>
@@ -552,7 +497,7 @@
         </div>
 
         <div class="actual-balance-card">
-            <div class="actual-balance-label" data-key="actualBalance">Actual Account Balance</div>
+            <div class="actual-balance-label">Actual Account Balance</div>
             <div class="actual-balance-amount">
                 <span class="actual-balance-number" id="actualBalance">0.00</span>
                 <span class="actual-balance-currency">USDT</span>
@@ -561,141 +506,85 @@
 
         <div class="stats-grid">
             <div class="stat-card">
-                <div class="stat-label" data-key="todayTimes">Today's Times</div>
+                <div class="stat-label">Today's Times</div>
                 <div class="stat-value" id="todayTimes">0/5</div>
-                <div class="progress-bar-wrap">
-                    <div class="progress-bar" id="timesProgress" style="width: 0%;"></div>
-                </div>
+                <div class="progress-bar-wrap"><div class="progress-bar" id="timesProgress" style="width: 0%;"></div></div>
             </div>
-
             <div class="stat-card">
-                <div class="stat-label">Commission Progress</div>
-                <div class="stat-value" id="commissionProgress">0 / 0</div>
-                <div class="progress-bar-wrap">
-                    <div class="progress-bar" id="commissionBar" style="width: 0%;"></div>
-                </div>
+                <div class="stat-label">Today's Commission</div>
+                <div class="stat-value" id="todayCommission">0.000 USDT</div>
             </div>
-
             <div class="stat-card">
-                <div class="stat-label" data-key="cashGap">Cash gap between tasks</div>
+                <div class="stat-label">Cash gap between tasks</div>
                 <div class="stat-value" id="cashGap">0.00 USDT</div>
             </div>
-
             <div class="stat-card">
-                <div class="stat-label" data-key="todayCommission">Today's commission</div>
-                <div class="stat-value" id="todayCommission">0.00 USDT</div>
-            </div>
-
-            <div class="stat-card">
-                <div class="stat-label" data-key="yesterdayCommission">Yesterday's buy commission</div>
+                <div class="stat-label">Yesterday's buy commission</div>
                 <div class="stat-value" id="yesterdayCommission">0.00 USDT</div>
             </div>
-
             <div class="stat-card">
-                <div class="stat-label" data-key="teamCommission">Yesterday's team commission</div>
+                <div class="stat-label">Yesterday's team commission</div>
                 <div class="stat-value" id="teamCommission">0.00 USDT</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label">Money frozen in accounts</div>
+                <div class="stat-value" id="frozenMoney">0.00 USDT</div>
             </div>
         </div>
 
-        <!-- Limit Banner -->
         <div class="limit-banner" id="limitBanner">
             <i class="fa-solid fa-circle-exclamation"></i>
             <div>
                 <strong id="limitTitle">Limit Reached!</strong><br>
                 <span id="limitBannerText">Your commission has reached the limit. Please deposit more funds to continue ordering.</span>
                 <br>
-                <a href="wallet.html?tab=recharge" class="deposit-link">
-                    <i class="fa-solid fa-plus"></i> Deposit Now
-                </a>
+                <a href="wallet.html?tab=recharge" class="deposit-link"><i class="fa-solid fa-plus"></i> Deposit Now</a>
             </div>
         </div>
 
         <button class="grab-btn" id="grabBtn" type="button">
             <i class="fa-solid fa-circle-check"></i>
-            <span data-key="grabOrder">Grab the order immediately</span>
+            <span>Grab the order immediately</span>
         </button>
 
         <div class="rules-card">
             <h3 class="rules-title">
                 <i class="fa-solid fa-circle-exclamation"></i>
-                <span data-key="rulesTitle">Platform Rules</span>
+                <span>Rules & Description</span>
             </h3>
             <ul class="rules-list">
-                <li>
-                    <span id="rule1Text">Commission logic. Each order yields 4% commission.</span>
-                </li>
-                <li>
-                    <span data-key="rule2">System automated random matching process. Do not close app while processing.</span>
-                </li>
+                <li><span id="rule1Text">Commission logic runtime execution details mapping. Each order yields 4% commission.</span></li>
+                <li><span>System algorithmic structural automated random matching process criteria alerts instruction manual text alignment. Do not close app while processing.</span></li>
             </ul>
         </div>
 
     </main>
 
-    <!-- SUCCESS MODAL -->
     <div class="modal-overlay" id="successModal">
         <div class="success-modal">
             <div class="modal-head">
                 <h3 class="modal-title">Successful Order</h3>
                 <button class="modal-close" id="modalCloseBtn" type="button">✕</button>
             </div>
-
-            <div class="order-no-badge">
-                Order No: <span id="orderNo">0000000000000000</span>
-            </div>
-
+            <div class="order-no-badge">Order No: <span id="orderNo">0000000000000000</span></div>
             <div class="product-list" id="productList"></div>
-
             <div class="modal-info">
-                <div class="info-row">
-                    <span class="info-label">Transaction time</span>
-                    <span class="info-value" id="txTime">-</span>
-                </div>
-                <div class="info-row">
-                    <span class="info-label">Order amount</span>
-                    <span class="info-value" id="orderAmount">0.00 USDT</span>
-                </div>
-                <div class="info-row">
-                    <span class="info-label">Commissions (<span id="commissionRate">4</span>%)</span>
-                    <span class="info-value green" id="commissionAmount">+0.00 USDT</span>
-                </div>
-
-                <div class="expected-row">
-                    <span class="expected-label">Expected income</span>
-                    <span class="expected-value" id="expectedIncome">0.00 USDT</span>
-                </div>
+                <div class="info-row"><span class="info-label">Transaction time</span><span class="info-value" id="txTime">-</span></div>
+                <div class="info-row"><span class="info-label">Order amount</span><span class="info-value" id="orderAmount">0.00 USDT</span></div>
+                <div class="info-row"><span class="info-label">Commissions (<span id="commissionRate">4</span>%)</span><span class="info-value green" id="commissionAmount">+0.00 USDT</span></div>
+                <div class="expected-row"><span class="expected-label">Expected income</span><span class="expected-value" id="expectedIncome">0.00 USDT</span></div>
             </div>
-
-            <button class="submit-order-btn" id="submitOrderBtn" type="button">
-                Submit order
-            </button>
+            <button class="submit-order-btn" id="submitOrderBtn" type="button">Submit order</button>
         </div>
     </div>
 
     <nav class="bottom-nav">
-        <a href="dashboard.html" class="nav-item">
-            <i class="fa-solid fa-house"></i>
-            <span data-key="navHome">Home</span>
-        </a>
-        <a href="service.html" class="nav-item">
-            <i class="fa-solid fa-headset"></i>
-            <span data-key="navService">Service</span>
-        </a>
-        <a href="menu.html" class="nav-item active">
-            <i class="fa-solid fa-grip"></i>
-            <span data-key="navMenu">Menu</span>
-        </a>
-        <a href="record.html" class="nav-item">
-            <i class="fa-solid fa-clipboard"></i>
-            <span data-key="navRecord">Record</span>
-        </a>
-        <a href="mine.html" class="nav-item">
-            <i class="fa-solid fa-user"></i>
-            <span data-key="navMine">Mine</span>
-        </a>
+        <a href="dashboard.html" class="nav-item"><i class="fa-solid fa-house"></i><span>Home</span></a>
+        <a href="service.html" class="nav-item"><i class="fa-solid fa-headset"></i><span>Service</span></a>
+        <a href="menu.html" class="nav-item active"><i class="fa-solid fa-grip"></i><span>Menu</span></a>
+        <a href="record.html" class="nav-item"><i class="fa-solid fa-clipboard"></i><span>Record</span></a>
+        <a href="mine.html" class="nav-item"><i class="fa-solid fa-user"></i><span>Mine</span></a>
     </nav>
-
-    <script src="detail.js"></script>
 
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
@@ -718,8 +607,7 @@
 
         document.getElementById('platformName').textContent = platform.name;
         document.getElementById('commissionRate').textContent = platform.commission;
-        document.getElementById('rule1Text').textContent = 
-            `Commission logic. Each order yields ${platform.commission}% commission.`;
+        document.getElementById('rule1Text').textContent = `Commission logic. Each order yields ${platform.commission}% commission.`;
 
         // ============================================================
         // 🛍️ Product Pool
@@ -730,16 +618,9 @@
             { name: 'Deep Tissue Massage Gun', price: 39.38, img: 'https://images.unsplash.com/photo-1609252509110-7d0e48b0e5c6?w=200&q=80' },
             { name: 'Wireless Bluetooth Earbuds Pro', price: 89.99, img: 'https://images.unsplash.com/photo-1590658268037-6bf12165a8df?w=200&q=80' },
             { name: 'Smart Watch Series 8', price: 249.00, img: 'https://images.unsplash.com/photo-1546868871-7041f2a55e12?w=200&q=80' },
-            { name: 'Portable Power Bank 20000mAh', price: 45.50, img: 'https://images.unsplash.com/photo-1609091839311-d5365f9ff1c5?w=200&q=80' },
-            { name: 'Mechanical Gaming Keyboard RGB', price: 129.99, img: 'https://images.unsplash.com/photo-1618384887929-16ec33fab9ef?w=200&q=80' },
-            { name: '4K Action Camera Waterproof', price: 199.00, img: 'https://images.unsplash.com/photo-1502920917128-1aa500764cbd?w=200&q=80' },
-            { name: 'Wireless Charging Pad', price: 34.99, img: 'https://images.unsplash.com/photo-1591290619762-c1c7f2e0e1e9?w=200&q=80' },
-            { name: 'Smart LED Strip Lights 5m', price: 24.99, img: 'https://images.unsplash.com/photo-1550745165-9bc0b252726f?w=200&q=80' }
+            { name: 'Portable Power Bank 20000mAh', price: 45.50, img: 'https://images.unsplash.com/photo-1609091839311-d5365f9ff1c5?w=200&q=80' }
         ];
 
-        // ============================================================
-        // 🔢 Helpers
-        // ============================================================
         function generateOrderNo() {
             let orderNo = '';
             for (let i = 0; i < 16; i++) orderNo += Math.floor(Math.random() * 10);
@@ -748,67 +629,40 @@
 
         function pickRandomProducts() {
             const shuffled = [...productPool].sort(() => 0.5 - Math.random());
-            return shuffled.slice(0, 3).map(p => ({
-                ...p,
-                qty: Math.floor(Math.random() * 5) + 1
-            }));
+            return shuffled.slice(0, 3).map(p => ({ ...p, qty: Math.floor(Math.random() * 5) + 1 }));
         }
 
         function getCurrentTime() {
             const now = new Date();
-            const months = ['1','2','3','4','5','6','7','8','9','10','11','12'];
-            const month = months[now.getMonth()];
-            const day = now.getDate();
-            const year = now.getFullYear();
             let hours = now.getHours();
-            const minutes = now.getMinutes().toString().padStart(2, '0');
-            const seconds = now.getSeconds().toString().padStart(2, '0');
             const ampm = hours >= 12 ? 'PM' : 'AM';
             hours = hours % 12 || 12;
-            return `${month}/${day}/${year}, ${hours}:${minutes}:${seconds} ${ampm}`;
+            return `${now.getMonth()+1}/${now.getDate()}/${now.getFullYear()}, ${hours}:${now.getMinutes().toString().padStart(2,'0')} ${ampm}`;
         }
 
-        // ============================================================
-        // 🎯 NEW: Calculate Commission for this order
-        // ============================================================
         function calculateCommission(userData) {
             const totalCommission = userData.totalCommission || 0;
             const commissionLimit = userData.commissionLimit || 0;
             const todayTimes = userData.todayTimes || 0;
             const dailyTimes = userData.dailyTimes || 5;
             
-            // কতগুলো Order বাকি আছে
             const ordersRemaining = Math.max(1, dailyTimes - todayTimes);
-            
-            // Limit থেকে Remaining Commission
             const commissionRemaining = Math.max(0, commissionLimit - totalCommission);
-            
-            // Ideal Commission per order
             const idealCommission = commissionRemaining / ordersRemaining;
             
             let commissionAmount;
-            
             if (ordersRemaining === 1) {
-                // Last order — পুরো remaining commission দিয়ে দাও
                 commissionAmount = commissionRemaining;
             } else {
-                // Random with ±15% variance
                 const variance = 0.15;
-                const min = idealCommission * (1 - variance);
-                const max = idealCommission * (1 + variance);
-                commissionAmount = Math.random() * (max - min) + min;
-                
-                // Cap at remaining
-                if (commissionAmount > commissionRemaining) {
-                    commissionAmount = commissionRemaining;
-                }
+                commissionAmount = Math.random() * (idealCommission * 2 * variance) + (idealCommission * (1 - variance));
+                if (commissionAmount > commissionRemaining) commissionAmount = commissionRemaining;
             }
-            
             return parseFloat(commissionAmount.toFixed(2));
         }
 
         // ============================================================
-        // 🔥 Firebase — Load User
+        // 🔥 Firebase
         // ============================================================
         let currentUser = null;
         let currentUserData = null;
@@ -827,90 +681,49 @@
             }
         });
 
-        // ============================================================
-        // 🎨 Update UI
-        // ============================================================
         function updateUI() {
             if (!currentUserData) return;
             const data = currentUserData;
 
-            // Balance
             document.getElementById('actualBalance').textContent = (data.balance || 0).toFixed(2);
 
-            // ============ Today's Times ============
             const todayTimes = data.todayTimes || 0;
             const dailyTimes = data.dailyTimes || 5;
             document.getElementById('todayTimes').textContent = todayTimes + '/' + dailyTimes;
             
             const timesPercent = (todayTimes / dailyTimes) * 100;
-            const timesBar = document.getElementById('timesProgress');
-            timesBar.style.width = Math.min(timesPercent, 100) + '%';
-            
-            if (timesPercent >= 80) {
-                timesBar.classList.add('danger');
-            } else if (timesPercent >= 50) {
-                timesBar.classList.add('warning');
-            }
+            document.getElementById('timesProgress').style.width = Math.min(timesPercent, 100) + '%';
 
-            // ============ Commission Progress ============
-            const totalCommission = data.totalCommission || 0;
-            const commissionLimit = data.commissionLimit || 0;
-            
-            if (commissionLimit > 0) {
-                document.getElementById('commissionProgress').textContent = 
-                    totalCommission.toFixed(2) + ' / ' + commissionLimit.toFixed(2);
-                
-                const commPercent = (totalCommission / commissionLimit) * 100;
-                const commBar = document.getElementById('commissionBar');
-                commBar.style.width = Math.min(commPercent, 100) + '%';
-                
-                if (commPercent >= 100) {
-                    commBar.classList.add('danger');
-                } else if (commPercent >= 70) {
-                    commBar.classList.add('warning');
-                }
-            } else {
-                document.getElementById('commissionProgress').textContent = 
-                    totalCommission.toFixed(2) + ' / ∞';
-                document.getElementById('commissionBar').style.width = '0%';
-            }
-
-            // Other Stats
-            document.getElementById('todayCommission').textContent = (data.todayCommission || 0).toFixed(2) + ' USDT';
+            document.getElementById('todayCommission').textContent = (data.todayCommission || 0).toFixed(3) + ' USDT';
             document.getElementById('cashGap').textContent = (data.cashGap || 0).toFixed(2) + ' USDT';
             document.getElementById('yesterdayCommission').textContent = (data.yesterdayCommission || 0).toFixed(2) + ' USDT';
             document.getElementById('teamCommission').textContent = (data.teamCommission || 0).toFixed(2) + ' USDT';
+            document.getElementById('frozenMoney').textContent = (data.frozenMoney || 0).toFixed(2) + ' USDT';
 
-            // ============ Check Limits ============
+            // Limits Check
             const limitBanner = document.getElementById('limitBanner');
             const grabBtn = document.getElementById('grabBtn');
+            const totalCommission = data.totalCommission || 0;
+            const commissionLimit = data.commissionLimit || 0;
 
-            // Check 1: Commission Limit
             if (commissionLimit > 0 && totalCommission >= commissionLimit) {
                 limitBanner.classList.add('show');
                 document.getElementById('limitTitle').textContent = '💰 Commission Limit Reached!';
-                document.getElementById('limitBannerText').innerHTML = 
-                    `Your commission: <strong>${totalCommission.toFixed(2)} USDT</strong> / Limit: <strong>${commissionLimit.toFixed(2)} USDT</strong>.<br>Please deposit more funds to continue.`;
+                document.getElementById('limitBannerText').innerHTML = `Your commission: <strong>${totalCommission.toFixed(2)} USDT</strong> / Limit: <strong>${commissionLimit.toFixed(2)} USDT</strong>.<br>Please deposit more funds to continue.`;
                 grabBtn.disabled = true;
-                grabBtn.style.opacity = '0.5';
                 return;
             }
 
-            // Check 2: Daily Times Limit
             if (todayTimes >= dailyTimes) {
                 limitBanner.classList.add('show');
                 document.getElementById('limitTitle').textContent = '📅 Daily Order Limit Reached!';
-                document.getElementById('limitBannerText').innerHTML = 
-                    `You have completed <strong>${todayTimes}/${dailyTimes}</strong> orders today.<br>Come back tomorrow.`;
+                document.getElementById('limitBannerText').innerHTML = `You have completed <strong>${todayTimes}/${dailyTimes}</strong> orders today.<br>Come back tomorrow.`;
                 grabBtn.disabled = true;
-                grabBtn.style.opacity = '0.5';
                 return;
             }
 
-            // All good
             limitBanner.classList.remove('show');
             grabBtn.disabled = false;
-            grabBtn.style.opacity = '1';
         }
 
         // ============================================================
@@ -919,10 +732,7 @@
         const grabBtn = document.getElementById('grabBtn');
         if (grabBtn) {
             grabBtn.addEventListener('click', async function() {
-                if (!currentUser || !currentUserData) {
-                    alert('Please wait, loading...');
-                    return;
-                }
+                if (!currentUser || !currentUserData) return;
 
                 const balance = currentUserData.balance || 0;
                 const todayTimes = currentUserData.todayTimes || 0;
@@ -930,30 +740,16 @@
                 const dailyTimes = currentUserData.dailyTimes || 5;
                 const commissionLimit = currentUserData.commissionLimit || 0;
 
-                // Check 1: Balance
                 if (balance < platform.minBalance) {
-                    alert('❌ Insufficient balance!\n\n' +
-                          'Platform: ' + platform.name + '\n' +
-                          'Minimum: ' + platform.minBalance + ' USDT\n' +
-                          'Your balance: ' + balance.toFixed(2) + ' USDT\n\n' +
-                          'Please recharge.');
+                    alert(`❌ Insufficient balance!\n\nMinimum: ${platform.minBalance} USDT\nYour balance: ${balance.toFixed(2)} USDT\n\nPlease recharge.`);
                     return;
                 }
-
-                // Check 2: Daily Times
                 if (todayTimes >= dailyTimes) {
-                    alert('❌ Daily Order Limit Reached!\n\n' +
-                          'You have completed ' + todayTimes + '/' + dailyTimes + ' orders today.\n' +
-                          'Come back tomorrow.');
+                    alert(`❌ Daily Order Limit Reached!\n\nYou have completed ${todayTimes}/${dailyTimes} orders today.`);
                     return;
                 }
-
-                // Check 3: Commission Limit
                 if (commissionLimit > 0 && totalCommission >= commissionLimit) {
-                    alert('💰 Commission Limit Reached!\n\n' +
-                          'Your Commission: ' + totalCommission.toFixed(2) + ' USDT\n' +
-                          'Limit: ' + commissionLimit.toFixed(2) + ' USDT\n\n' +
-                          '👉 Please deposit more funds to continue.');
+                    alert(`💰 Commission Limit Reached!\n\nPlease deposit more funds to continue.`);
                     return;
                 }
 
@@ -968,7 +764,6 @@
                     products.forEach(p => { orderAmount += p.price * p.qty; });
                     orderAmount = parseFloat(orderAmount.toFixed(2));
                     
-                    // ⭐ NEW: Smart Commission Calculation
                     const commissionAmount = calculateCommission(currentUserData);
                     const expectedIncome = parseFloat((orderAmount + commissionAmount).toFixed(2));
                     const txTime = getCurrentTime();
@@ -980,7 +775,6 @@
                         commissionAmount, expectedIncome, txTime
                     };
 
-                    // Update Modal
                     document.getElementById('orderNo').textContent = orderNo;
                     document.getElementById('txTime').textContent = txTime;
                     document.getElementById('orderAmount').textContent = orderAmount.toFixed(2) + ' USDT';
@@ -991,9 +785,7 @@
                     products.forEach(p => {
                         productsHtml += `
                             <div class="product-item">
-                                <div class="product-thumb">
-                                    <img src="${p.img}" alt="${p.name}">
-                                </div>
+                                <div class="product-thumb"><img src="${p.img}" alt="${p.name}"></div>
                                 <div class="product-details">
                                     <div class="product-name">${p.name}</div>
                                     <div class="product-price">$${p.price.toFixed(2)}</div>
@@ -1007,25 +799,14 @@
                     document.getElementById('successModal').classList.add('show');
 
                     grabBtn.disabled = false;
-                    grabBtn.innerHTML = '<i class="fa-solid fa-circle-check"></i> <span data-key="grabOrder">Grab the order immediately</span>';
-
+                    grabBtn.innerHTML = '<i class="fa-solid fa-circle-check"></i> <span>Grab the order immediately</span>';
                 }, 1500);
             });
         }
 
-        // ============================================================
-        // ❌ Close Modal
-        // ============================================================
         document.getElementById('modalCloseBtn').addEventListener('click', function() {
             document.getElementById('successModal').classList.remove('show');
             currentOrder = null;
-        });
-
-        document.getElementById('successModal').addEventListener('click', function(e) {
-            if (e.target === this) {
-                this.classList.remove('show');
-                currentOrder = null;
-            }
         });
 
         // ============================================================
@@ -1039,7 +820,6 @@
             btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Submitting...';
 
             try {
-                // Update User
                 await db.collection('users').doc(currentUser.uid).update({
                     balance: firebase.firestore.FieldValue.increment(currentOrder.commissionAmount),
                     todayTimes: firebase.firestore.FieldValue.increment(1),
@@ -1048,7 +828,6 @@
                     updatedAt: firebase.firestore.FieldValue.serverTimestamp()
                 });
 
-                // Save Order
                 await db.collection('orders').add({
                     uid: currentUser.uid,
                     orderNo: currentOrder.orderNo,
@@ -1063,7 +842,6 @@
                     createdAt: firebase.firestore.FieldValue.serverTimestamp()
                 });
 
-                // Transaction Log
                 await db.collection('transactions').add({
                     uid: currentUser.uid,
                     type: 'order_commission',
@@ -1086,7 +864,6 @@
                 }, 1500);
 
             } catch (err) {
-                console.error('Submit error:', err);
                 alert('❌ Failed. Please try again.');
                 btn.disabled = false;
                 btn.innerHTML = 'Submit order';
