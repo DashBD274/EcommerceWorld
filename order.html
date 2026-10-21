@@ -7,24 +7,41 @@
     <title>Order - UMALL247</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        /* ================= গ্লোবাল ও ডার্ক থিম ================= */
+        /* ================= থিম ভেরিয়েবল ================= */
+        :root {
+            --bg: #f5f5f5;
+            --card: #ffffff;
+            --text: #333333;
+            --text-light: #666666;
+            --border: #e0e0e0;
+            --shadow: 0 4px 12px rgba(0,0,0,0.05);
+            --rules-bg: #fff7ed;
+            --rules-text: #92400e;
+            --rules-border: #fed7aa;
+            --rules-title: #c2410c;
+        }
+
+        body.dark-mode {
+            --bg: #0b0e11;
+            --card: #161a1e;
+            --text: #eaecef;
+            --text-light: #848e9c;
+            --border: #2b3139;
+            --shadow: 0 4px 12px rgba(0,0,0,0.3);
+            --rules-bg: #1a1510;
+            --rules-text: #d4c4b7;
+            --rules-border: #3d2b1f;
+            --rules-title: #f59e0b;
+        }
+
+        /* ================= গ্লোবাল ================= */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             -webkit-tap-highlight-color: transparent;
-        }
-
-        :root {
-            --bg: #0b0e11;
-            --card: #161a1e;
-            --text: #eaecef;
-            --text-light: #848e9c;
-            --border: #2b3139;
-            --orange-gradient: linear-gradient(90deg, #f97316, #ef4444);
-            --btn-gradient: linear-gradient(90deg, #f59e0b, #f97316);
-            --shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+            transition: background-color 0.3s, color 0.3s;
         }
 
         body {
@@ -50,73 +67,35 @@
             padding: 12px 16px;
             border-bottom: 1px solid var(--border);
             z-index: 100;
-            padding-top: max(12px, env(safe-area-inset-top));
         }
 
-        .brand-logo {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        /* 🔥 U লোগো */
+        .brand-logo { display: flex; align-items: center; gap: 8px; }
         .logo-icon {
-            position: relative;
-            width: 34px;
-            height: 34px;
-            border-radius: 8px;
-            background: #1a1a1a;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 900;
-            font-size: 18px;
-            font-style: italic;
-            color: #fff;
+            width: 34px; height: 34px; border-radius: 8px;
+            background: #1a1a1a; color: #fff;
+            display: flex; align-items: center; justify-content: center;
+            font-weight: 900; font-size: 18px; font-style: italic;
             box-shadow: 0 0 10px rgba(255, 107, 53, 0.6);
         }
-
-        .logo-text {
-            font-size: 18px;
-            font-weight: 800;
-            color: var(--text);
-            letter-spacing: 0.5px;
-        }
+        .logo-text { font-size: 18px; font-weight: 800; color: var(--text); }
         .logo-24 { color: #dc2626; }
 
-        .header-controls {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
+        .header-controls { display: flex; align-items: center; gap: 8px; }
 
         .lang-selector-sm {
-            background: var(--bg);
-            border: 1px solid var(--border);
-            border-radius: 20px;
-            padding: 6px 12px;
+            background: var(--bg); border: 1px solid var(--border);
+            border-radius: 20px; padding: 6px 12px;
         }
-
         .lang-selector-sm select {
-            border: none;
-            background: transparent;
-            font-size: 12px;
-            color: var(--text);
-            outline: none;
-            font-family: inherit;
+            border: none; background: transparent; font-size: 12px;
+            color: var(--text); outline: none; font-family: inherit;
         }
 
         .theme-toggle-sm {
-            width: 34px;
-            height: 34px;
-            border-radius: 50%;
-            border: 1px solid var(--border);
-            background: var(--bg);
-            color: var(--text);
-            font-size: 14px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            width: 34px; height: 34px; border-radius: 50%;
+            border: 1px solid var(--border); background: var(--bg);
+            color: var(--text); font-size: 14px; cursor: pointer;
+            display: flex; align-items: center; justify-content: center;
         }
 
         /* ================= মূল কনটেন্ট ================= */
@@ -127,345 +106,145 @@
         }
 
         .order-header {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            margin-bottom: 18px;
+            display: flex; align-items: center; gap: 12px; margin-bottom: 18px;
         }
-
-        .back-icon {
-            font-size: 20px;
-            color: var(--text);
-            cursor: pointer;
-        }
-
-        .order-header h2 {
-            font-size: 20px;
-            font-weight: 800;
-            color: var(--text);
-        }
+        .back-icon { font-size: 20px; color: var(--text); cursor: pointer; }
+        .order-header h2 { font-size: 20px; font-weight: 800; color: var(--text); }
 
         /* ব্যালেন্স কার্ড */
         .actual-balance-card {
-            background: var(--orange-gradient);
-            border-radius: 16px;
-            padding: 20px;
-            color: #fff;
-            margin-bottom: 16px;
-            position: relative;
-            overflow: hidden;
+            background: linear-gradient(135deg, #f97316 0%, #ef4444 100%);
+            border-radius: 16px; padding: 20px; color: #fff;
+            margin-bottom: 16px; position: relative; overflow: hidden;
             box-shadow: 0 8px 24px rgba(239, 68, 68, 0.4);
         }
-
         .actual-balance-card::before {
-            content: '';
-            position: absolute;
-            top: -40px; right: -40px;
-            width: 150px; height: 150px;
-            background: rgba(255, 255, 255, 0.15);
+            content: ''; position: absolute; top: -40px; right: -40px;
+            width: 150px; height: 150px; background: rgba(255, 255, 255, 0.15);
             border-radius: 50%;
         }
-
-        .actual-balance-label {
-            font-size: 13px;
-            font-weight: 600;
-            opacity: 0.95;
-            margin-bottom: 8px;
-            position: relative;
-            z-index: 2;
-        }
-
-        .actual-balance-amount {
-            display: flex;
-            align-items: baseline;
-            gap: 6px;
-            position: relative;
-            z-index: 2;
-        }
-
-        .actual-balance-number {
-            font-size: 34px;
-            font-weight: 800;
-        }
-
-        .actual-balance-currency {
-            font-size: 15px;
-            font-weight: 700;
-        }
+        .actual-balance-label { font-size: 13px; font-weight: 600; opacity: 0.95; margin-bottom: 8px; position: relative; z-index: 2; }
+        .actual-balance-amount { display: flex; align-items: baseline; gap: 6px; position: relative; z-index: 2; }
+        .actual-balance-number { font-size: 34px; font-weight: 800; }
+        .actual-balance-currency { font-size: 15px; font-weight: 700; }
 
         /* Stats Grid */
         .stats-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 10px;
-            margin-bottom: 20px;
+            display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 20px;
         }
-
         .stat-card {
-            background: var(--card);
-            border-radius: 12px;
-            padding: 14px;
-            border: 1px solid var(--border);
+            background: var(--card); border-radius: 12px; padding: 14px;
+            border: 1px solid var(--border); box-shadow: var(--shadow);
         }
-
-        .stat-label {
-            font-size: 11.5px;
-            color: var(--text-light);
-            margin-bottom: 6px;
-        }
-
-        .stat-value {
-            font-size: 16px;
-            font-weight: 800;
-            color: var(--text);
-        }
-
-        .progress-bar-wrap {
-            margin-top: 8px;
-            height: 4px;
-            background: var(--border);
-            border-radius: 2px;
-            overflow: hidden;
-        }
-
-        .progress-bar {
-            height: 100%;
-            background: #f59e0b;
-            border-radius: 2px;
-            transition: width 0.5s ease;
-        }
+        .stat-label { font-size: 11.5px; color: var(--text-light); margin-bottom: 6px; }
+        .stat-value { font-size: 16px; font-weight: 800; color: var(--text); }
+        .progress-bar-wrap { margin-top: 8px; height: 4px; background: var(--border); border-radius: 2px; overflow: hidden; }
+        .progress-bar { height: 100%; background: #f59e0b; border-radius: 2px; transition: width 0.5s ease; }
 
         /* Grab Button */
         .grab-btn {
-            width: 100%;
-            padding: 18px;
-            border: none;
-            border-radius: 12px;
-            background: var(--btn-gradient);
-            color: #fff;
-            font-size: 17px;
-            font-weight: 800;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
+            width: 100%; padding: 18px; border: none; border-radius: 12px;
+            background: linear-gradient(90deg, #f59e0b, #f97316); color: #fff;
+            font-size: 17px; font-weight: 800;
+            display: flex; align-items: center; justify-content: center; gap: 10px;
             box-shadow: 0 6px 20px rgba(249, 115, 22, 0.5);
-            margin-bottom: 20px;
-            cursor: pointer;
-            transition: transform 0.2s;
+            margin-bottom: 20px; cursor: pointer; transition: transform 0.2s;
         }
-
         .grab-btn:active { transform: scale(0.98); }
         .grab-btn:disabled { opacity: 0.5; cursor: not-allowed; }
 
         /* Rules Card */
         .rules-card {
-            background: #1a1510;
-            border: 1px solid #3d2b1f;
-            border-radius: 12px;
-            padding: 16px;
+            background: var(--rules-bg);
+            border: 1px solid var(--rules-border);
+            border-radius: 12px; padding: 16px;
         }
-
         .rules-title {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            font-size: 14px;
-            font-weight: 800;
-            color: #f59e0b;
-            margin-bottom: 12px;
+            display: flex; align-items: center; gap: 8px;
+            font-size: 14px; font-weight: 800; color: var(--rules-title); margin-bottom: 12px;
         }
-
-        .rules-list {
-            list-style: none;
-            counter-reset: rule;
-        }
-
+        .rules-list { list-style: none; counter-reset: rule; }
         .rules-list li {
-            font-size: 12px;
-            color: #d4c4b7;
-            line-height: 1.6;
-            padding: 6px 0 6px 20px;
-            position: relative;
-            counter-increment: rule;
+            font-size: 12px; color: var(--rules-text); line-height: 1.6;
+            padding: 6px 0 6px 20px; position: relative; counter-increment: rule;
         }
-
         .rules-list li::before {
-            content: counter(rule) '.';
-            position: absolute;
-            left: 0;
-            top: 6px;
-            font-weight: 700;
-            color: #f59e0b;
+            content: counter(rule) '.'; position: absolute;
+            left: 0; top: 6px; font-weight: 700; color: var(--rules-title);
         }
 
         /* Limit Banner */
         .limit-banner {
-            background: rgba(239, 68, 68, 0.1);
-            border: 1px solid rgba(239, 68, 68, 0.3);
-            border-radius: 12px;
-            padding: 14px;
-            display: none;
-            gap: 10px;
-            margin-bottom: 16px;
-            font-size: 13px;
-            color: #fca5a5;
-            line-height: 1.5;
+            background: rgba(239, 68, 68, 0.1); border: 1px solid rgba(239, 68, 68, 0.3);
+            border-radius: 12px; padding: 14px; display: none; gap: 10px;
+            margin-bottom: 16px; font-size: 13px; color: #fca5a5; line-height: 1.5;
         }
-
         .limit-banner.show { display: flex; }
         .limit-banner i { color: #ef4444; font-size: 18px; margin-top: 2px; }
         .limit-banner strong { color: #ef4444; }
-        
         .deposit-link {
-            display: inline-block;
-            margin-top: 8px;
-            padding: 8px 14px;
-            background: var(--btn-gradient);
-            color: #fff;
-            border-radius: 8px;
-            text-decoration: none;
-            font-weight: 700;
-            font-size: 12px;
+            display: inline-block; margin-top: 8px; padding: 8px 14px;
+            background: linear-gradient(90deg, #f59e0b, #f97316); color: #fff;
+            border-radius: 8px; text-decoration: none; font-weight: 700; font-size: 12px;
         }
 
         /* ================= Modal ================= */
         .modal-overlay {
-            position: fixed;
-            inset: 0;
-            background: rgba(0, 0, 0, 0.8);
-            backdrop-filter: blur(8px);
-            -webkit-backdrop-filter: blur(8px);
-            z-index: 99999;
-            display: none;
-            align-items: center;
-            justify-content: center;
-            padding: 16px;
+            position: fixed; inset: 0; background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+            z-index: 99999; display: none; align-items: center; justify-content: center; padding: 16px;
         }
-
         .modal-overlay.show { display: flex; }
-
         .success-modal {
-            background: var(--card);
-            border-radius: 16px;
-            padding: 20px;
-            width: 100%;
-            max-width: 400px;
-            border: 1px solid var(--border);
-            max-height: 90vh;
-            overflow-y: auto;
+            background: var(--card); border-radius: 16px; padding: 20px;
+            width: 100%; max-width: 400px; border: 1px solid var(--border);
+            max-height: 90vh; overflow-y: auto;
         }
-
-        .modal-head {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 16px;
-        }
-
-        .modal-title { font-size: 18px; font-weight: 800; }
+        .modal-head { display: flex; justify-content: space-between; margin-bottom: 16px; }
+        .modal-title { font-size: 18px; font-weight: 800; color: var(--text); }
         .modal-close { background: none; border: none; color: var(--text-light); font-size: 20px; cursor: pointer; }
-
         .order-no-badge {
-            background: rgba(124, 58, 237, 0.15);
-            color: #c4b5fd;
-            padding: 8px 14px;
-            border-radius: 10px;
-            font-size: 12px;
-            font-weight: 700;
-            text-align: center;
-            margin-bottom: 16px;
+            background: rgba(124, 58, 237, 0.15); color: #c4b5fd;
+            padding: 8px 14px; border-radius: 10px; font-size: 12px;
+            font-weight: 700; text-align: center; margin-bottom: 16px;
         }
-
         .product-list { display: flex; flex-direction: column; gap: 10px; margin-bottom: 16px; }
-
         .product-item {
-            background: var(--bg);
-            border-radius: 10px;
-            padding: 10px;
-            display: flex;
-            gap: 12px;
-            align-items: center;
+            background: var(--bg); border-radius: 10px; padding: 10px;
+            display: flex; gap: 12px; align-items: center;
         }
-
-        .product-thumb {
-            width: 50px; height: 50px;
-            border-radius: 8px;
-            overflow: hidden;
-            background: #2b3139;
-        }
-
+        .product-thumb { width: 50px; height: 50px; border-radius: 8px; overflow: hidden; background: var(--border); }
         .product-thumb img { width: 100%; height: 100%; object-fit: cover; }
         .product-details { flex: 1; }
-        .product-name { font-size: 12.5px; font-weight: 700; margin-bottom: 4px; }
+        .product-name { font-size: 12.5px; font-weight: 700; margin-bottom: 4px; color: var(--text); }
         .product-price { font-size: 12px; font-weight: 800; color: #f59e0b; }
         .product-qty { font-size: 11px; color: var(--text-light); }
-
-        .modal-info {
-            background: var(--bg);
-            border-radius: 10px;
-            padding: 14px;
-            margin-bottom: 16px;
-        }
-
-        .info-row {
-            display: flex;
-            justify-content: space-between;
-            padding: 6px 0;
-            font-size: 12px;
-        }
-
+        .modal-info { background: var(--bg); border-radius: 10px; padding: 14px; margin-bottom: 16px; }
+        .info-row { display: flex; justify-content: space-between; padding: 6px 0; font-size: 12px; color: var(--text); }
         .info-row:not(:last-child) { border-bottom: 1px solid var(--border); }
         .info-label { color: var(--text-light); }
         .info-value { font-weight: 700; }
         .info-value.green { color: #10b981; }
-
-        .expected-row {
-            display: flex;
-            justify-content: space-between;
-            padding-top: 10px;
-            border-top: 1px dashed var(--border);
-            margin-top: 8px;
-        }
-
-        .expected-label { font-size: 13px; font-weight: 800; }
+        .expected-row { display: flex; justify-content: space-between; padding-top: 10px; border-top: 1px dashed var(--border); margin-top: 8px; }
+        .expected-label { font-size: 13px; font-weight: 800; color: var(--text); }
         .expected-value { font-size: 16px; font-weight: 800; color: #f59e0b; }
-
         .submit-order-btn {
-            width: 100%;
-            padding: 14px;
-            border: none;
-            border-radius: 10px;
-            background: var(--btn-gradient);
-            color: #fff;
-            font-size: 15px;
-            font-weight: 800;
-            cursor: pointer;
+            width: 100%; padding: 14px; border: none; border-radius: 10px;
+            background: linear-gradient(90deg, #f59e0b, #f97316); color: #fff;
+            font-size: 15px; font-weight: 800; cursor: pointer;
         }
 
         /* ================= Bottom Nav ================= */
         .bottom-nav {
-            position: fixed;
-            bottom: 0; left: 0; right: 0;
-            background: var(--card);
-            display: flex;
-            justify-content: space-around;
-            padding: 10px 0;
+            position: fixed; bottom: 0; left: 0; right: 0; background: var(--card);
+            display: flex; justify-content: space-around; padding: 10px 0;
             padding-bottom: max(10px, env(safe-area-inset-bottom));
-            border-top: 1px solid var(--border);
-            z-index: 100;
+            border-top: 1px solid var(--border); z-index: 100;
         }
-
         .nav-item {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 4px;
-            text-decoration: none;
-            color: var(--text-light);
-            font-size: 11px;
-            font-weight: 500;
+            display: flex; flex-direction: column; align-items: center; gap: 4px;
+            text-decoration: none; color: var(--text-light); font-size: 11px; font-weight: 500;
         }
-
         .nav-item i { font-size: 18px; }
         .nav-item.active { color: #f59e0b; }
     </style>
@@ -483,8 +262,8 @@
                     <option value="en">US English</option>
                 </select>
             </div>
-            <button id="dashThemeToggle" class="theme-toggle-sm" type="button">
-                <i class="fa-solid fa-sun"></i> <!-- ডার্ক থিমে সূর্য দেখাবে -->
+            <button id="themeToggleBtn" class="theme-toggle-sm" type="button">
+                <i class="fa-solid fa-moon" id="themeIcon"></i>
             </button>
         </div>
     </header>
@@ -507,7 +286,7 @@
         <div class="stats-grid">
             <div class="stat-card">
                 <div class="stat-label">Today's Times</div>
-                <div class="stat-value" id="todayTimes">0/5</div>
+                <div class="stat-value" id="todayTimes">0/25</div> <!-- ✅ ফিক্সড 25 -->
                 <div class="progress-bar-wrap"><div class="progress-bar" id="timesProgress" style="width: 0%;"></div></div>
             </div>
             <div class="stat-card">
@@ -536,7 +315,7 @@
             <i class="fa-solid fa-circle-exclamation"></i>
             <div>
                 <strong id="limitTitle">Limit Reached!</strong><br>
-                <span id="limitBannerText">Your commission has reached the limit. Please deposit more funds to continue ordering.</span>
+                <span id="limitBannerText">Your commission has reached the limit.</span>
                 <br>
                 <a href="wallet.html?tab=recharge" class="deposit-link"><i class="fa-solid fa-plus"></i> Deposit Now</a>
             </div>
@@ -560,6 +339,7 @@
 
     </main>
 
+    <!-- Modal -->
     <div class="modal-overlay" id="successModal">
         <div class="success-modal">
             <div class="modal-head">
@@ -586,12 +366,42 @@
         <a href="mine.html" class="nav-item"><i class="fa-solid fa-user"></i><span>Mine</span></a>
     </nav>
 
+    <!-- Firebase SDK -->
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
     <script src="firebase-auth.js"></script>
 
     <script>
+        // ============================================================
+        // 🎨 থিম টগল (আলাদা করে এখানে দেওয়া হলো)
+        // ============================================================
+        const themeBtn = document.getElementById('themeToggleBtn');
+        const themeIcon = document.getElementById('themeIcon');
+        
+        // পেজ লোডে চেক করা
+        const savedTheme = localStorage.getItem('theme');
+        if (savedTheme === 'dark') {
+            document.body.classList.add('dark-mode');
+            themeIcon.classList.remove('fa-moon');
+            themeIcon.classList.add('fa-sun');
+        }
+
+        // ক্লিক ইভেন্ট
+        themeBtn.addEventListener('click', () => {
+            document.body.classList.toggle('dark-mode');
+            if (document.body.classList.contains('dark-mode')) {
+                themeIcon.classList.remove('fa-moon');
+                themeIcon.classList.add('fa-sun');
+                localStorage.setItem('theme', 'dark');
+            } else {
+                themeIcon.classList.remove('fa-sun');
+                themeIcon.classList.add('fa-moon');
+                localStorage.setItem('theme', 'light');
+            }
+        });
+
+
         // ============================================================
         // 🎯 Platform Config
         // ============================================================
@@ -607,7 +417,7 @@
 
         document.getElementById('platformName').textContent = platform.name;
         document.getElementById('commissionRate').textContent = platform.commission;
-        document.getElementById('rule1Text').textContent = `Commission logic. Each order yields ${platform.commission}% commission.`;
+        document.getElementById('rule1Text').textContent = `Commission logic runtime execution details mapping. Each order yields ${platform.commission}% commission.`;
 
         // ============================================================
         // 🛍️ Product Pool
@@ -644,7 +454,7 @@
             const totalCommission = userData.totalCommission || 0;
             const commissionLimit = userData.commissionLimit || 0;
             const todayTimes = userData.todayTimes || 0;
-            const dailyTimes = userData.dailyTimes || 5;
+            const dailyTimes = userData.dailyTimes || 25; // ✅ ডিফল্ট 25
             
             const ordersRemaining = Math.max(1, dailyTimes - todayTimes);
             const commissionRemaining = Math.max(0, commissionLimit - totalCommission);
@@ -688,7 +498,7 @@
             document.getElementById('actualBalance').textContent = (data.balance || 0).toFixed(2);
 
             const todayTimes = data.todayTimes || 0;
-            const dailyTimes = data.dailyTimes || 5;
+            const dailyTimes = data.dailyTimes || 25; // ✅ ডিফল্ট 25
             document.getElementById('todayTimes').textContent = todayTimes + '/' + dailyTimes;
             
             const timesPercent = (todayTimes / dailyTimes) * 100;
@@ -737,7 +547,7 @@
                 const balance = currentUserData.balance || 0;
                 const todayTimes = currentUserData.todayTimes || 0;
                 const totalCommission = currentUserData.totalCommission || 0;
-                const dailyTimes = currentUserData.dailyTimes || 5;
+                const dailyTimes = currentUserData.dailyTimes || 25; // ✅ ডিফল্ট 25
                 const commissionLimit = currentUserData.commissionLimit || 0;
 
                 if (balance < platform.minBalance) {
