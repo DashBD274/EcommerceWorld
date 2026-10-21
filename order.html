@@ -88,7 +88,7 @@
         }
         .lang-selector-sm select {
             border: none; background: transparent; font-size: 12px;
-            color: var(--text); outline: none; font-family: inherit;
+            color: var(--text); outline: none; font-family: inherit; cursor: pointer;
         }
 
         .theme-toggle-sm {
@@ -260,6 +260,16 @@
             <div class="lang-selector-sm">
                 <select id="dashLanguageSelect">
                     <option value="en">US English</option>
+                    <option value="es">Español</option>
+                    <option value="fr">Français</option>
+                    <option value="de">Deutsch</option>
+                    <option value="it">Italiano</option>
+                    <option value="pt">Português</option>
+                    <option value="nl">Nederlands</option>
+                    <option value="ru">Русский</option>
+                    <option value="tr">Türkçe</option>
+                    <option value="ar">العربية</option>
+                    <option value="fa">فارسی</option>
                 </select>
             </div>
             <button id="themeToggleBtn" class="theme-toggle-sm" type="button">
@@ -276,7 +286,7 @@
         </div>
 
         <div class="actual-balance-card">
-            <div class="actual-balance-label">Actual Account Balance</div>
+            <div class="actual-balance-label" data-key="actualBalance">Actual Account Balance</div>
             <div class="actual-balance-amount">
                 <span class="actual-balance-number" id="actualBalance">0.00</span>
                 <span class="actual-balance-currency">USDT</span>
@@ -285,28 +295,28 @@
 
         <div class="stats-grid">
             <div class="stat-card">
-                <div class="stat-label">Today's Times</div>
-                <div class="stat-value" id="todayTimes">0/25</div> <!-- ✅ ফিক্সড 25 -->
+                <div class="stat-label" data-key="todayTimes">Today's Times</div>
+                <div class="stat-value" id="todayTimes">0/25</div>
                 <div class="progress-bar-wrap"><div class="progress-bar" id="timesProgress" style="width: 0%;"></div></div>
             </div>
             <div class="stat-card">
-                <div class="stat-label">Today's Commission</div>
+                <div class="stat-label" data-key="todayCommission">Today's commission</div>
                 <div class="stat-value" id="todayCommission">0.000 USDT</div>
             </div>
             <div class="stat-card">
-                <div class="stat-label">Cash gap between tasks</div>
+                <div class="stat-label" data-key="cashGap">Cash gap between tasks</div>
                 <div class="stat-value" id="cashGap">0.00 USDT</div>
             </div>
             <div class="stat-card">
-                <div class="stat-label">Yesterday's buy commission</div>
+                <div class="stat-label" data-key="yesterdayCommission">Yesterday's buy commission</div>
                 <div class="stat-value" id="yesterdayCommission">0.00 USDT</div>
             </div>
             <div class="stat-card">
-                <div class="stat-label">Yesterday's team commission</div>
+                <div class="stat-label" data-key="teamCommission">Yesterday's team commission</div>
                 <div class="stat-value" id="teamCommission">0.00 USDT</div>
             </div>
             <div class="stat-card">
-                <div class="stat-label">Money frozen in accounts</div>
+                <div class="stat-label" data-key="frozenMoney">Money frozen in accounts</div>
                 <div class="stat-value" id="frozenMoney">0.00 USDT</div>
             </div>
         </div>
@@ -317,23 +327,23 @@
                 <strong id="limitTitle">Limit Reached!</strong><br>
                 <span id="limitBannerText">Your commission has reached the limit.</span>
                 <br>
-                <a href="wallet.html?tab=recharge" class="deposit-link"><i class="fa-solid fa-plus"></i> Deposit Now</a>
+                <a href="wallet.html?tab=recharge" class="deposit-link" data-key="depositNow"><i class="fa-solid fa-plus"></i> Deposit Now</a>
             </div>
         </div>
 
         <button class="grab-btn" id="grabBtn" type="button">
             <i class="fa-solid fa-circle-check"></i>
-            <span>Grab the order immediately</span>
+            <span data-key="grabOrder">Grab the order immediately</span>
         </button>
 
         <div class="rules-card">
             <h3 class="rules-title">
                 <i class="fa-solid fa-circle-exclamation"></i>
-                <span>Rules & Description</span>
+                <span data-key="rulesTitle">Rules & Description</span>
             </h3>
             <ul class="rules-list">
-                <li><span id="rule1Text">Commission logic runtime execution details mapping. Each order yields 4% commission.</span></li>
-                <li><span>System algorithmic structural automated random matching process criteria alerts instruction manual text alignment. Do not close app while processing.</span></li>
+                <li><span id="rule1Text">Commission logic. Each order yields 4% commission.</span></li>
+                <li><span data-key="rule2">System automated random matching process. Do not close app while processing.</span></li>
             </ul>
         </div>
 
@@ -343,27 +353,27 @@
     <div class="modal-overlay" id="successModal">
         <div class="success-modal">
             <div class="modal-head">
-                <h3 class="modal-title">Successful Order</h3>
+                <h3 class="modal-title" data-key="successfulOrder">Successful Order</h3>
                 <button class="modal-close" id="modalCloseBtn" type="button">✕</button>
             </div>
             <div class="order-no-badge">Order No: <span id="orderNo">0000000000000000</span></div>
             <div class="product-list" id="productList"></div>
             <div class="modal-info">
-                <div class="info-row"><span class="info-label">Transaction time</span><span class="info-value" id="txTime">-</span></div>
-                <div class="info-row"><span class="info-label">Order amount</span><span class="info-value" id="orderAmount">0.00 USDT</span></div>
-                <div class="info-row"><span class="info-label">Commissions (<span id="commissionRate">4</span>%)</span><span class="info-value green" id="commissionAmount">+0.00 USDT</span></div>
-                <div class="expected-row"><span class="expected-label">Expected income</span><span class="expected-value" id="expectedIncome">0.00 USDT</span></div>
+                <div class="info-row"><span class="info-label" data-key="txTime">Transaction time</span><span class="info-value" id="txTime">-</span></div>
+                <div class="info-row"><span class="info-label" data-key="orderAmount">Order amount</span><span class="info-value" id="orderAmount">0.00 USDT</span></div>
+                <div class="info-row"><span class="info-label" data-key="commissions">Commissions</span> (<span id="commissionRate">4</span>%)<span class="info-value green" id="commissionAmount">+0.00 USDT</span></div>
+                <div class="expected-row"><span class="expected-label" data-key="expectedIncome">Expected income</span><span class="expected-value" id="expectedIncome">0.00 USDT</span></div>
             </div>
-            <button class="submit-order-btn" id="submitOrderBtn" type="button">Submit order</button>
+            <button class="submit-order-btn" id="submitOrderBtn" type="button" data-key="submitOrder">Submit order</button>
         </div>
     </div>
 
     <nav class="bottom-nav">
-        <a href="dashboard.html" class="nav-item"><i class="fa-solid fa-house"></i><span>Home</span></a>
-        <a href="service.html" class="nav-item"><i class="fa-solid fa-headset"></i><span>Service</span></a>
-        <a href="menu.html" class="nav-item active"><i class="fa-solid fa-grip"></i><span>Menu</span></a>
-        <a href="record.html" class="nav-item"><i class="fa-solid fa-clipboard"></i><span>Record</span></a>
-        <a href="mine.html" class="nav-item"><i class="fa-solid fa-user"></i><span>Mine</span></a>
+        <a href="dashboard.html" class="nav-item"><i class="fa-solid fa-house"></i><span data-key="navHome">Home</span></a>
+        <a href="service.html" class="nav-item"><i class="fa-solid fa-headset"></i><span data-key="navService">Service</span></a>
+        <a href="menu.html" class="nav-item active"><i class="fa-solid fa-grip"></i><span data-key="navMenu">Menu</span></a>
+        <a href="record.html" class="nav-item"><i class="fa-solid fa-clipboard"></i><span data-key="navRecord">Record</span></a>
+        <a href="mine.html" class="nav-item"><i class="fa-solid fa-user"></i><span data-key="navMine">Mine</span></a>
     </nav>
 
     <!-- Firebase SDK -->
@@ -371,15 +381,15 @@
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
     <script src="firebase-auth.js"></script>
+    <script src="detail.js"></script> <!-- ✅ detail.js ফিরিয়ে আনা হলো -->
 
     <script>
         // ============================================================
-        // 🎨 থিম টগল (আলাদা করে এখানে দেওয়া হলো)
+        // 🎨 থিম টগল
         // ============================================================
         const themeBtn = document.getElementById('themeToggleBtn');
         const themeIcon = document.getElementById('themeIcon');
         
-        // পেজ লোডে চেক করা
         const savedTheme = localStorage.getItem('theme');
         if (savedTheme === 'dark') {
             document.body.classList.add('dark-mode');
@@ -387,7 +397,6 @@
             themeIcon.classList.add('fa-sun');
         }
 
-        // ক্লিক ইভেন্ট
         themeBtn.addEventListener('click', () => {
             document.body.classList.toggle('dark-mode');
             if (document.body.classList.contains('dark-mode')) {
@@ -401,6 +410,54 @@
             }
         });
 
+        // ============================================================
+        // 🌐 ভাষা পরিবর্তনের লজিক (detail.js এর translations ব্যবহার করে)
+        // ============================================================
+        const langSelect = document.getElementById('dashLanguageSelect');
+        
+        // order.html এর জন্য কিছু এক্সট্রা অনুবাদ (যেহেতু detail.js এ এগুলো নাও থাকতে পারে)
+        const orderTranslations = {
+            en: { successfulOrder: "Successful Order", txTime: "Transaction time", orderAmount: "Order amount", commissions: "Commissions", expectedIncome: "Expected income", submitOrder: "Submit order", depositNow: "Deposit Now" },
+            es: { successfulOrder: "Pedido Exitoso", txTime: "Hora de la transacción", orderAmount: "Monto del pedido", commissions: "Comisiones", expectedIncome: "Ingreso esperado", submitOrder: "Enviar pedido", depositNow: "Depositar Ahora" },
+            fr: { successfulOrder: "Commande Réussie", txTime: "Heure de la transaction", orderAmount: "Montant de la commande", commissions: "Commissions", expectedIncome: "Revenu attendu", submitOrder: "Soumettre la commande", depositNow: "Déposer Maintenant" },
+            ar: { successfulOrder: "طلب ناجح", txTime: "وقت المعاملة", orderAmount: "مبلغ الطلب", commissions: "العمولات", expectedIncome: "الدخل المتوقع", submitOrder: "إرسال الطلب", depositNow: "إيداع الآن" }
+        };
+
+        function applyLanguage(lang) {
+            // ১. detail.js এর ফাংশন কল করা (যদি থাকে)
+            if (typeof changeLanguage === 'function') {
+                changeLanguage(lang);
+            }
+
+            // ২. order.html এর নিজস্ব ট্রান্সলেশন
+            const tr = orderTranslations[lang] || orderTranslations.en;
+            document.querySelectorAll('[data-key]').forEach(el => {
+                const key = el.getAttribute('data-key');
+                if (tr[key]) {
+                    if (el.tagName === 'INPUT') el.placeholder = tr[key];
+                    else el.textContent = tr[key];
+                }
+            });
+
+            // ৩. RTL চেক (আরবি ও ফারসির জন্য)
+            if (lang === 'ar' || lang === 'fa') {
+                document.body.setAttribute('dir', 'rtl');
+            } else {
+                document.body.setAttribute('dir', 'ltr');
+            }
+        }
+
+        if (langSelect) {
+            const savedLang = localStorage.getItem('language') || 'en';
+            langSelect.value = savedLang;
+            applyLanguage(savedLang);
+
+            langSelect.addEventListener('change', function() {
+                const newLang = this.value;
+                localStorage.setItem('language', newLang);
+                applyLanguage(newLang);
+            });
+        }
 
         // ============================================================
         // 🎯 Platform Config
@@ -426,9 +483,7 @@
             { name: 'High-Performance Blender', price: 159.86, img: 'https://images.unsplash.com/photo-1585515320310-259814833e62?w=200&q=80' },
             { name: 'USB-C Hub Multiport Adapter', price: 28.63, img: 'https://images.unsplash.com/photo-1625842268584-8f3296236761?w=200&q=80' },
             { name: 'Deep Tissue Massage Gun', price: 39.38, img: 'https://images.unsplash.com/photo-1609252509110-7d0e48b0e5c6?w=200&q=80' },
-            { name: 'Wireless Bluetooth Earbuds Pro', price: 89.99, img: 'https://images.unsplash.com/photo-1590658268037-6bf12165a8df?w=200&q=80' },
-            { name: 'Smart Watch Series 8', price: 249.00, img: 'https://images.unsplash.com/photo-1546868871-7041f2a55e12?w=200&q=80' },
-            { name: 'Portable Power Bank 20000mAh', price: 45.50, img: 'https://images.unsplash.com/photo-1609091839311-d5365f9ff1c5?w=200&q=80' }
+            { name: 'Wireless Bluetooth Earbuds Pro', price: 89.99, img: 'https://images.unsplash.com/photo-1590658268037-6bf12165a8df?w=200&q=80' }
         ];
 
         function generateOrderNo() {
@@ -454,7 +509,7 @@
             const totalCommission = userData.totalCommission || 0;
             const commissionLimit = userData.commissionLimit || 0;
             const todayTimes = userData.todayTimes || 0;
-            const dailyTimes = userData.dailyTimes || 25; // ✅ ডিফল্ট 25
+            const dailyTimes = userData.dailyTimes || 25;
             
             const ordersRemaining = Math.max(1, dailyTimes - todayTimes);
             const commissionRemaining = Math.max(0, commissionLimit - totalCommission);
@@ -498,7 +553,7 @@
             document.getElementById('actualBalance').textContent = (data.balance || 0).toFixed(2);
 
             const todayTimes = data.todayTimes || 0;
-            const dailyTimes = data.dailyTimes || 25; // ✅ ডিফল্ট 25
+            const dailyTimes = data.dailyTimes || 25;
             document.getElementById('todayTimes').textContent = todayTimes + '/' + dailyTimes;
             
             const timesPercent = (todayTimes / dailyTimes) * 100;
@@ -547,7 +602,7 @@
                 const balance = currentUserData.balance || 0;
                 const todayTimes = currentUserData.todayTimes || 0;
                 const totalCommission = currentUserData.totalCommission || 0;
-                const dailyTimes = currentUserData.dailyTimes || 25; // ✅ ডিফল্ট 25
+                const dailyTimes = currentUserData.dailyTimes || 25;
                 const commissionLimit = currentUserData.commissionLimit || 0;
 
                 if (balance < platform.minBalance) {
@@ -609,7 +664,7 @@
                     document.getElementById('successModal').classList.add('show');
 
                     grabBtn.disabled = false;
-                    grabBtn.innerHTML = '<i class="fa-solid fa-circle-check"></i> <span>Grab the order immediately</span>';
+                    grabBtn.innerHTML = '<i class="fa-solid fa-circle-check"></i> <span data-key="grabOrder">Grab the order immediately</span>';
                 }, 1500);
             });
         }
@@ -627,7 +682,7 @@
 
             const btn = this;
             btn.disabled = true;
-            btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Submitting...';
+            btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i>...';
 
             try {
                 await db.collection('users').doc(currentUser.uid).update({
@@ -665,7 +720,7 @@
                     createdAt: firebase.firestore.FieldValue.serverTimestamp()
                 });
 
-                btn.innerHTML = '<i class="fa-solid fa-circle-check"></i> Order Submitted!';
+                btn.innerHTML = '<i class="fa-solid fa-circle-check"></i> Done!';
                 btn.style.background = 'linear-gradient(90deg, #10b981, #059669)';
 
                 setTimeout(() => {
